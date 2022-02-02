@@ -1,0 +1,71 @@
+{
+  "name": "homehospital-backend",
+  "version": "1.0.0",
+  "description": "Backend for HomeHospital management application",
+  "main": "index.js",
+  "scripts": {
+    "ts:build": "rm -rf ./dist && tsc",
+    "dev": "nodemon ./src/app.ts",
+    "start": "node ./dist/src/app.js"
+  },
+  "keywords": [],
+
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/liamandaidan/HomeHospital"
+  },
+  "author": {
+    "name": "Mike Cann",
+    "email": "michael.cann@edu.sait.ca",
+    "url": "https://github.com/Mikepcann"
+  },
+  "contributors": [
+    {
+      "name": "Benson Davis",
+      "email": "",
+      "url": ""
+    },
+    {
+      "name": "Ridge Banez",
+      "email": "",
+      "url": ""
+    },
+    {
+      "name": "Lance Gee",
+      "email": "",
+      "url": ""
+    },
+    {
+      "name": "Robyn Balanag",
+      "email": "",
+      "url": ""
+    },
+    {
+      "name": "Liam McLaughlin",
+      "email": "",
+      "url": ""
+    },
+    {
+      "name": "Brett Semmler",
+      "email": "",
+      "url": ""
+    },
+    {
+      "name": "Bushra Osman",
+      "email": "",
+      "url": ""
+    }
+  ],
+  "license": "ISC",
+  "dependencies": {
+    "dotenv": "^15.0.0",
+    "express": "^4.17.2",
+    "express-validator": "^6.14.0"
+  },
+  "devDependencies": {
+    "@types/express": "^4.17.13",
+    "@types/node": "^17.0.14",
+    "nodemon": "^2.0.15",
+    "typescript": "^4.5.5"
+  }
+}
