@@ -10,4 +10,19 @@ npm install
 ```
 This will install the dependencies required by the application.
 <br >
+### Run the application
+* Build the project
+* Run the project
 
+Transpile the TS
+```
+npm run ts:build
+```
+Run program with nodemon for development
+```
+npm run dev
+```
+Start the application
+```
+npm run start
+```
