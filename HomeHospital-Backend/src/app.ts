@@ -1,13 +1,14 @@
-import './configure/configure'
 import express from 'express'
+import ENV from './configure/configure'
+import { RunApp } from './loaders/loaders'
 
-const app = express()
-const SERVER_PORT = process.env.port || 3000
+// Create Express App Instance
+const app: express.Application = express()
 
-app.get('/', (req, res)=> {
-    res.send({data: "app is live!"})
-})
+// Run the application
+new RunApp(app)
 
-app.listen(SERVER_PORT, ()=> {
-    console.log(`App is live on http://localhost:${SERVER_PORT}`)
+// Set the app to listen on environment Port
+app.listen(ENV.APP_PORT, () => {
+	console.log(`🚀 Server is running on http://localhost:${ENV.APP_PORT}`)
 })
