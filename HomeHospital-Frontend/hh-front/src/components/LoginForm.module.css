@@ -1,0 +1,23 @@
+.noBorder {
+  outline: 0;
+  border-width: 0 0 2px;
+  border-color: white;
+}
+
+input:focus {
+  outline: none;
+}
+
+.registerButton {
+  background-color: #67d8c6;
+  border-color: #67d8c6;
+}
+
+.registerButton:hover {
+  background-color: #50a395;
+}
+
+.registerButton:disabled {
+  background-color: #50a395;
+  border-color: #50a395;
+}
