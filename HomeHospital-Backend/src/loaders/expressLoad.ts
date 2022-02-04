@@ -14,22 +14,19 @@ class ExpressLoader {
 		// Use API router
 		app.use('/api', routes)
 
+		// Catches errors or something?
 		app.use(
-			(
-				err: unknown,
-				req: Request,
-				res: Response,
-				next: NextFunction
-			) => {
-				if (err){
+			(err: unknown, req: Request, res: Response, next: NextFunction) => {
+				if (err) {
 					console.log('error was caught!')
 					res.status(404).send()
 				}
 			}
 		)
 
+		// Handle all unregistered HTTP request routes
 		app.all('*', (req: Request, res: Response) => {
-			res.status(404).send({message: 'Invalid route'})
+			res.status(404).send({ message: 'Invalid route' })
 		})
 	}
 }
