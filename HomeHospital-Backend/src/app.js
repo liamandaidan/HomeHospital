@@ -1,9 +1,9 @@
 import express from 'express'
-import ENV from './configure/configure'
-import { RunApp } from './loaders/loaders'
+import ENV from './configure/configure.js'
+import { RunApp } from './loaders/loaders.js'
 
 // Create Express App Instance
-const app: express.Application = express()
+const app = express()
 
 // Run the application
 new RunApp(app)

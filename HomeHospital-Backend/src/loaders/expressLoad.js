@@ -1,10 +1,11 @@
-import express, { Router, Request, Response, NextFunction } from 'express'
-import ENV from '../configure/configure'
+import express from 'express'
+import ENV from '../configure/configure.js'
 import cors from 'cors'
-import routes from '../api/API'
+import routes from '../api/API.js'
+
 
 class ExpressLoader {
-	constructor(app: express.Application) {
+	constructor(app) {
 		// use cors
 		app.use(cors())
 
@@ -16,7 +17,7 @@ class ExpressLoader {
 
 		// Catches errors or something?
 		app.use(
-			(err: unknown, req: Request, res: Response, next: NextFunction) => {
+			(err, req, res, next) => {
 				if (err) {
 					console.log('error was caught!')
 					res.status(404).send()
@@ -25,7 +26,7 @@ class ExpressLoader {
 		)
 
 		// Handle all unregistered HTTP request routes
-		app.all('*', (req: Request, res: Response) => {
+		app.all('*', (req, res) => {
 			res.status(404).send({ message: 'Invalid route' })
 		})
 	}

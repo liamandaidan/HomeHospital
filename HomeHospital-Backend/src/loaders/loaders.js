@@ -1,5 +1,5 @@
-import { ExpressLoader } from './expressLoad'
-import DBConnect from './database'
+import { ExpressLoader } from './expressLoad.js'
+import DBConnect from './database.js'
 import express from 'express'
 //import ENV from '../configure/configure'
 
@@ -9,8 +9,8 @@ import express from 'express'
  * connects to the Mongodb Cloud database
  */
 class RunApp {
-	constructor(app: express.Application) {
-		const eLoader: ExpressLoader = new ExpressLoader(app)
+	constructor(app) {
+		const eLoader = new ExpressLoader(app)
 		DBConnect()
 	}
 }
