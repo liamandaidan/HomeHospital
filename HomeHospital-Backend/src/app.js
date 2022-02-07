@@ -6,7 +6,7 @@ import { RunApp } from './loaders/loaders.js'
 const app = express()
 
 // Run the application
-new RunApp(app)
+await RunApp(app)
 
 // Set the app to listen on environment Port
 app.listen(ENV.APP_PORT, () => {
