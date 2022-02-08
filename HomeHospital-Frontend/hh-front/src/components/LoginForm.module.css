@@ -1,23 +1,15 @@
-.noBorder {
-  outline: 0;
-  border-width: 0 0 2px;
-  border-color: white;
+.loginBox {
+  width: 400px;
+  height: 500px;
+  margin: auto;
+  background-color: #394b63;
+  text-align: center;
+  border-radius: 25px;
+  color: white;
+  box-shadow: 10px 5px 5px rgb(83, 83, 83);
+  text-shadow: 2px 2px rgb(3, 3, 3);
 }
 
-input:focus {
-  outline: none;
-}
-
-.registerButton {
-  background-color: #67d8c6;
-  border-color: #67d8c6;
-}
-
-.registerButton:hover {
-  background-color: #50a395;
-}
-
-.registerButton:disabled {
-  background-color: #50a395;
-  border-color: #50a395;
+.header {
+  padding-top: 50px;
 }
