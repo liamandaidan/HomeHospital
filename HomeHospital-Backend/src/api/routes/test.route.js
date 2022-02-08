@@ -4,7 +4,7 @@ import express from 'express'
 const route = express.Router()
 
 // Get route for test request
-route.get('/', (req, res) => {
+route.get('/', async (req, res) => {
 	console.log('received a request!')
 	res.send({ data: 'This was a success!' })
 })
