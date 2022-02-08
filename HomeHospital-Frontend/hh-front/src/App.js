@@ -2,7 +2,8 @@
 function App() {
   return (
     <div>
-<p>Home Hospital</p>
+<p>Home Hospital!</p>
+<button>Test</button>
     </div>
   );
 }
