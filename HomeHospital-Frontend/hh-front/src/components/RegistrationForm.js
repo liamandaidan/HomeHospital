@@ -205,6 +205,21 @@ function RegistrationForm() {
     }
   }
 
+  const createUser = () => {
+    Axios.post("http://localhost:4000/api/register", {
+      firstName: firstNameValue,
+      lastName: lastNameValue,
+      address: addressValue,
+      postal: postalCodeValue,
+      phoneNumber: phoneValue,
+      email: emailValue,
+      age: ageValue,
+      password: passwordValue,
+    }).then((response) => {
+      alert("USER CREATED!");
+    });
+  };
+
   return (
     <Container>
       <form id="clientForm" action="">
@@ -273,8 +288,8 @@ function RegistrationForm() {
             Age
           </label>
           <input
-            onBlur={validateAge}
-            type="text"
+            // onBlur={validateAge}
+            type="number"
             className={`form-control bg-transparent text-white shadow-none ${classes.noBorder}`}
             id="age"
             name="age"
@@ -284,7 +299,7 @@ function RegistrationForm() {
             required
           />
           <div className="valid-feedback">Looks good!</div>
-          <div className="invalid-feedback">Please enter a valid Address</div>
+          <div className="invalid-feedback">Please enter a valid Age</div>
         </div>
         <div>
           <label htmlFor="postalCode" className="form-label mt-3 text-white">
@@ -395,6 +410,7 @@ function RegistrationForm() {
             type="submit"
             disabled={!validClientFormValue}
             className={classes.registerButton}
+            onClick={createUser}
           >
             Register
           </Button>

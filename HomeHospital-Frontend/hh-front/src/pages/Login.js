@@ -5,7 +5,7 @@ import LoginForm from "../components/LoginForm";
 
 function Login() {
   return (
-    <React.Fragment>
+    <div>
       <Row
         className="align-items-center"
         style={{
@@ -14,13 +14,14 @@ function Login() {
           backgroundRepeat: "repeat",
           backgroundSize: "cover",
           height: "100vh",
+          width: "100vw",
         }}
       >
         <Col className="align-self-center">
           <LoginForm />
         </Col>
       </Row>
-    </React.Fragment>
+    </div>
   );
 }
 

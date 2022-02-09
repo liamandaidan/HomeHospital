@@ -14,6 +14,7 @@ function Register() {
         backgroundRepeat: "repeat",
         backgroundSize: "cover",
         height: "100vh",
+        width: "100vw",
       }}
     >
       <Row>
