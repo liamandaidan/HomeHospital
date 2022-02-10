@@ -6,17 +6,13 @@ import routes from '../api/API.js'
 class ExpressLoader {
 	constructor(app) {
 		// use cors
-		app.use(cors({origin: 'http://localhost:3000', credentials: true}))
+		app.use(cors())
 
 		// Accept Json
 		app.use(express.json())
-		
-		// Supports URL encoded bodies
-		app.use(express.urlencoded({ extended: true }))
-		
+
 		// Use API router
 		app.use('/api', routes)
-
 
 		// Catches errors or something?
 		app.use((err, req, res, next) => {
