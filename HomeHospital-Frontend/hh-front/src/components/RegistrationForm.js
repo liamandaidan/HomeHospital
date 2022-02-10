@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Button, Container } from "react-bootstrap";
+import { Button, Container, Modal } from "react-bootstrap";
 import classes from "./RegistrationForm.module.css";
 import { useNavigate } from "react-router-dom";
 import Axios from "axios";
@@ -22,9 +22,11 @@ function RegistrationForm() {
   const [validPostalValue, setValidPostalValue] = useState(false);
   const [validPhoneValue, setValidPhoneValue] = useState(false);
   const [validEmailValue, setValidEmailValue] = useState(false);
+  const [validAgeValue, setValidAgeValue] = useState(false);
   const [validPasswordValue, setValidPasswordValue] = useState(false);
   const [validClientFormValue, setValidClientFormValue] = useState(false);
   const [resetAllFormValue, setResetAllFormValue] = useState(false);
+  const [modalShow, setModalShow] = useState(false);
 
   // check if the form is valid
   useEffect(() => {
@@ -34,7 +36,8 @@ function RegistrationForm() {
       validPostalValue &&
       validPhoneValue &&
       validEmailValue &&
-      validPasswordValue
+      validPasswordValue &&
+      validAgeValue
     ) {
       setValidClientFormValue(true);
     } else {
@@ -49,6 +52,7 @@ function RegistrationForm() {
     setValidClientFormValue,
     validClientFormValue,
     validPasswordValue,
+    validAgeValue,
   ]);
 
   //   Reset Form function
@@ -61,12 +65,14 @@ function RegistrationForm() {
       setPostalCodeValue("");
       setPhoneValue("");
       setEmailValue("");
+      setAgeValue(0);
 
       document.getElementById("clientName").classList.remove("is-valid");
       document.getElementById("address").classList.remove("is-valid");
       document.getElementById("postalCode").classList.remove("is-valid");
       document.getElementById("telephone").classList.remove("is-valid");
       document.getElementById("email").classList.remove("is-valid");
+      document.getElementById("age").classList.remove("is-valid");
     }
   }, [resetAllFormValue]);
 
@@ -196,12 +202,14 @@ function RegistrationForm() {
   }
 
   function validateAge() {
-    if (ageValue < 0 || ageValue > 100) {
-      document.getElementById("age").classList.add("is-valid");
-      document.getElementById("age").classList.remove("is-invalid");
-    } else {
-      document.getElementById("age").classList.add("is-invalid");
+    if (ageValue <= 17 || ageValue > 100) {
       document.getElementById("age").classList.remove("is-valid");
+      document.getElementById("age").classList.add("is-invalid");
+      setValidAgeValue(false);
+    } else {
+      document.getElementById("age").classList.remove("is-invalid");
+      document.getElementById("age").classList.add("is-valid");
+      setValidAgeValue(true);
     }
   }
 
@@ -216,7 +224,7 @@ function RegistrationForm() {
       age: ageValue,
       password: passwordValue,
     }).then((response) => {
-      alert("USER CREATED!");
+      navigate("/login");
     });
   };
 
@@ -288,7 +296,7 @@ function RegistrationForm() {
             Age
           </label>
           <input
-            // onBlur={validateAge}
+            onBlur={validateAge}
             type="number"
             className={`form-control bg-transparent text-white shadow-none ${classes.noBorder}`}
             id="age"
@@ -299,7 +307,7 @@ function RegistrationForm() {
             required
           />
           <div className="valid-feedback">Looks good!</div>
-          <div className="invalid-feedback">Please enter a valid Age</div>
+          <div className="invalid-feedback">Must Be 18 years or Older</div>
         </div>
         <div>
           <label htmlFor="postalCode" className="form-label mt-3 text-white">
