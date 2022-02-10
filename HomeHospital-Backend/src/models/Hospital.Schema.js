@@ -22,16 +22,7 @@ const hospitalSchema = new mongoose.Schema({
     practitioners:{
         type: ListOf(String),
         default: null
-    },
-	createdAt: {
-		type: Date,
-		immutable: true,
-		default: () => Date.now(),
-	},
-	updatedAt: {
-		type: Date,
-		default: () => Date.now(),
-	}
+    }
 })
 
 export default mongoose.model('Hospital', hospitalSchema)
