@@ -19,6 +19,10 @@ const hospitalSchema = new mongoose.Schema({
 		type: String,
 		default: null
 	},
+    practitioners:{
+        type: ListOf(String),
+        default: null
+    },
 	createdAt: {
 		type: Date,
 		immutable: true,
