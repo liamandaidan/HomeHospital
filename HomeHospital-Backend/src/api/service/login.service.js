@@ -6,13 +6,10 @@ const { compare } = bcrypt
 export async function logUserIn(req) {
 	const { email, password } = req.body
 
-	const storedPassword = await UserSchema.findOne(
-		{ email: email },
-		'password'
-	)
-   
+	const user = await UserSchema.findOne({ email: email })
+	// console.log(`from the login service: ${user}`)
 	// Compare the password with one in the DB
-	const isAuthorized = await compare(password, storedPassword.password)
+	const isAuthorized = await compare(password, user.password)
 
-	return isAuthorized
+	return { status: isAuthorized, user: user }
 }
