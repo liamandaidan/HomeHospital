@@ -19,6 +19,15 @@ const hospitalSchema = new mongoose.Schema({
 		type: String,
 		default: null
 	},
+    
+    waitList:{
+        type: Waitlist,
+        default: null
+    },
+    waitTime:{
+        type: int,
+        default: null
+    },
     practitioners:{
         type: ListOf(String),
         default: null
