@@ -9,7 +9,8 @@ const vitalsSchema = {
     HeartRate: Number,
     RespRate: Number,
     Height: Number,
-    Weight: Number
+    Weight: Number,
+    _id: false,
 }
 
-export default mongoose.model('Vitals', vitalsSchema)
+export default vitalsSchema

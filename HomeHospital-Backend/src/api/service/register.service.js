@@ -1,4 +1,4 @@
-import UserSchema from '../../models/User.Schema.js'
+import PatientModel from '../../models/patient.Model.js'
 import bcrypt from 'bcryptjs'
 
 const regStatus = {
@@ -20,7 +20,7 @@ export async function registerUser(req) {
 	} = req.body
 
 	// check if user exists
-	const result = await UserSchema.exists({ email: email })
+	const result = await PatientModel.exists({ email: email })
 	console.log('user ID: ' + result?._id)
 	// If they exist return an error status code
 	if (result) {
@@ -36,7 +36,7 @@ export async function registerUser(req) {
 	const hashedPassword = await hash(password, salt)
 
 	// verify user object
-	const newUser = await UserSchema.create({
+	const newUser = await PatientModel.create({
 		firstName: firstName,
 		lastName: lastName,
 		password: hashedPassword,
@@ -47,7 +47,7 @@ export async function registerUser(req) {
 		postal: postal,
 	})
 	newUser.save()
-    // Set Registration status and attach the user
+	// Set Registration status and attach the user
 	regStatus.status = true
 	regStatus.user = newUser
 

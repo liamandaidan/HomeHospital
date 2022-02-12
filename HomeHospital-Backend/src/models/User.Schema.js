@@ -12,13 +12,13 @@ const userSchema = new mongoose.Schema({
 	password: {
 		type: String,
 		required: true,
-        minlength:10
+		minlength: 10,
 	},
 	age: {
 		type: Number,
 		min: 1,
 		max: 100,
-		required: true
+		required: true,
 	},
 	email: {
 		type: String,
@@ -28,17 +28,17 @@ const userSchema = new mongoose.Schema({
 	},
 	address: {
 		type: String,
-		required: true
+		required: true,
 	},
 	postal: {
 		type: String,
-		minlength:	6,
+		minlength: 6,
 		maxlength: 6,
-		default: null
+		default: null,
 	},
 	phoneNumber: {
 		type: String,
-		default: null
+		default: null,
 	},
 	createdAt: {
 		type: Date,
@@ -48,7 +48,8 @@ const userSchema = new mongoose.Schema({
 	updatedAt: {
 		type: Date,
 		default: () => Date.now(),
-	}
+	},
+	_id: false,
 })
 
-export default mongoose.model('User', userSchema)
+export default userSchema
