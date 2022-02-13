@@ -1,11 +1,13 @@
+import Login from "./components/Login";
+import { useState } from "react";
+function App(props) {
+  const [formState, setForms] = useState([]);
+  const addForms = (log) => {
+    let logs = [...formState, log];
+    setForms(logs);
+  };
 
-function App() {
-  return (
-    <div>
-<p>Home Hospital!</p>
-<button>Test</button>
-    </div>
-  );
+  return <Login addForms={addForms} />;
 }
 
 export default App;
