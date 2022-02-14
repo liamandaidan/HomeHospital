@@ -12,6 +12,7 @@ const administratorSchema = new mongoose.Schema({
 	user: {
 		type: UserSchema
 	}
+    
 })
 
 export default mongoose.model('Administrator', administratorSchema)
