@@ -1,5 +1,5 @@
 import express from 'express'
-import { logUserIn } from '../service/login.service.js'
+import { logUserIn }  from '../service/login.service.js'
 // import UserSchema from '../../models/User.Schema.js'
 import { generateToken } from '../service/generateToken.service.js'
 import bcrypt from 'bcryptjs'
