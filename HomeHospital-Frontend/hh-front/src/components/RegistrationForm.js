@@ -224,6 +224,7 @@ function RegistrationForm() {
       age: ageValue,
       password: passwordValue,
     }).then((response) => {
+      console.log("Registration Successful");
       navigate("/login");
     });
   };
@@ -415,7 +416,7 @@ function RegistrationForm() {
         <br />
         <div className="d-grid gap-2">
           <Button
-            type="submit"
+            type="button"
             disabled={!validClientFormValue}
             className={classes.registerButton}
             onClick={createUser}
