@@ -2,26 +2,32 @@ import mongoose from 'mongoose'
 import UserSchema from './user.Schema.js'
 
 const patientSchema = new mongoose.Schema({
-	HCnumber: {
+	email: {
 		type: String,
-		required: true
+		minlength: 8,
+		required: true,
+		lowercase: true,
 	},
-	phoneNumber: {
+	password: {
 		type: String,
 		required: true,
-		minlength: 7
+		minlength: 10,
 	},
-    gender:{
-        type: String,
-        required: true
-    },
-    dateOfBirth:{
-        type: Date,
-        required: true
-    },
+	HCnumber: {
+		type: String,
+		required: true,
+	},
+	gender: {
+		type: String,
+		required: true,
+	},
+	dateOfBirth: {
+		type: Date,
+		required: true,
+	},
 	user: {
-		type: UserSchema
-	}
+		type: UserSchema,
+	},
 })
 
 export default mongoose.model('Patient', patientSchema)

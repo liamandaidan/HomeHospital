@@ -23,7 +23,9 @@ const addressSchema = new mongoose.Schema({
 	},
 	provName: {
 		type: String,
+		maxlength: 3,
 		required: true,
+		uppercase: true
 	},
 	postalCode: {
 		type: String,
@@ -32,8 +34,9 @@ const addressSchema = new mongoose.Schema({
 		maxlength: 6,
 	},
 	country: {
-		required: true,
-		default: 'Canada'
+		type: String,
+		default: 'Canada',
+		required: true
 	}, 
 	_id: false
 })
