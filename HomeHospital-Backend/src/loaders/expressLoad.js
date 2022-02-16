@@ -26,6 +26,7 @@ class ExpressLoader {
 		app.use((err, req, res, next) => {
 			if (err) {
 				console.log('error was caught!')
+				console.log(err);
 				res.status(404).send()
 			}
 		})
