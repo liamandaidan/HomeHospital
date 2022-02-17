@@ -51,40 +51,38 @@ modified, or is expired, it will fail. On failure, we attempt to refresh it usin
 new accessToken is passed to the response, along with the refreshToken, and the next() method is invoked. Otherwise, error 
 401 is returned. 
  */
-export async function checkAccessToken(req, res, next) {
+export function checkAccessToken(req, res, next) {
 	const authHeader = req.headers['accesstoken'];//get the whole authorization header, which is 'Bearer token'
 	const token = authHeader && authHeader.split(" ")[1];//get only the actual token string, if there is one. If not, return undefined
 	const refToken = req.headers['refreshtoken'];
 	const user = req.headers['uemail'];
 	const email = user;//need to find a way to get the email from the decoded token
 
-	console.log(token);
-	console.log(req.headers);
 	if(token && refToken){
 		console.log("Line 62 Token is: " + token);
-		jwt.verify(token, ACCESSTOKEN_TEST_SECRET, async (err, tokenstring) => {
-			console.log("Line 64 reached");
-			if(err){
-				console.error('before the refresh access token')
-				const newAccessToken = await refreshAccessToken(refToken, email);
-				console.log(newAccessToken)
-					if(newAccessToken){
-						console.log("Line 67 NewAccessToken: " + newAccessToken);
-						res.locals.accessT = newAccessToken;//res.locals is an object that carries on through all middleware
-						res.locals.refreshT = refToken;
-						console.log("Line 70 The access token was refreshed: " + newAccessToken);
-						next();
-					} else{
-						console.log("Line 74 New Access Token is: " + newAccessToken);
-						return res.status(401).json({message: 'Authorization1 Failed'});
-					}
-				//try to refresh the access token
-			} else{
-				res.locals.accessT = token;
-				res.locals.refreshT = refToken;
-				next();//token is still valid, we can proceed
-			}
-		})
+		try{
+			const valid = jwt.verify(token, ACCESSTOKEN_TEST_SECRET);
+			console.log("Line 65 access token still valid");
+			res.locals.accessT = token;
+			res.locals.refreshT = refToken;
+			next();
+		} catch (err){
+			console.log("Line 70 access token invalid, time to check refresh token");
+			refreshAccessToken(refToken, email)
+			.then(newAccessToken => {
+				console.log("Line 73 returned access token is: " + newAccessToken);
+				if(newAccessToken){
+					console.log("Line 75 NewAccessToken: " + newAccessToken);
+					res.locals.accessT = newAccessToken;//res.locals is an object that carries on through all middleware
+					res.locals.refreshT = refToken;
+					console.log("Line 78 The access token was refreshed: " + newAccessToken);
+					next();
+				} else{
+					console.log("Line 81 New Access Token is: " + newAccessToken);
+					return res.status(401).json({message: 'Authorization1 Failed'}); 
+				}
+			})
+		}
 	} else{
 		return res.status(401).json({message: 'Authorization Failed'});
 	}
@@ -95,69 +93,39 @@ check to see if the refresh token exists in the list of valid refresh tokens. If
 to ensure there has been no tampering. If that succeeds, we generate a new accessToken using the same payload, secret, and 
 expiration time, and return it. Any failures return null. 
 */
-async function refreshAccessToken(refreshToken, email) {
-	console.log("Line 95 RefToken in refreshAccessToken method: " + refreshToken);
-	console.log("Line 96 email: " + email);
-	//const savedRefToken = RefToken.findOne({ token: refreshToken })
-	const savedRefToken = await RefToken.findOne({token: refreshToken}, function (err, token){
-		if(err){
-			console.log("Line 100 Error in RefToken.findOne()");
-			console.log(err);
-			return null;
-		}
-		if(token){
-			console.log("Line 105 Arrray contains refresh token");
-			console.log("Line 106 Token: " + token);
-			jwt.verify(refreshToken, REFRESHTOKEN_TEST_SECRET, (err, result) => {
-				if(err) {
-					console.log("Line 109 Something happened in jwt.verify. refreshToken: " + refreshToken);
-					return null;
-				} else {
-					console.log("Line 112 Token verified");
-					console.log(`Result: ${result}`)
-					const newAccessToken = jwt.sign({email: email}, ACCESSTOKEN_TEST_SECRET, {expiresIn: "2m"});
-					console.log("Line 114 New Access Token from refreshAccessToken: " + newAccessToken);
-					return newAccessToken;
-				}
-			
-		});
-		}
-		
-	})
-	return savedRefToken
-}
-
-/*
 function refreshAccessToken(refreshToken, email) {
-	console.log("RefToken in refreshAccessToken method: " + refreshToken);
-	console.log("email: " + email);
-	//const savedRefToken = RefToken.findOne({ token: refreshToken })
-	const savedRefToken = RefToken.findOne({token: refreshToken}, function (err, token){
-		
+	console.log("Line 97 RefToken in refreshAccessToken method: " + refreshToken);
+	console.log("Line 98 email: " + email);
+	return new Promise((resolve, reject) => {
+		const thing = RefToken.findOne({token: refreshToken})
+		.exec()
+		.then(token=>{
+			console.log("Line 103 Arrray contains refresh token");
+				console.log("Line 104 Token: " + token);
+				jwt.verify(refreshToken, REFRESHTOKEN_TEST_SECRET, (err, result) => {
+					if(err) {
+						console.log("Line 107 Something happened in jwt.verify. refreshToken: " + refreshToken);
+						reject();
+					} else {
+						console.log("Line 110 Token verified");
+						console.log(`Result: ${result}`)
+						const newAccessToken = jwt.sign({email: email}, ACCESSTOKEN_TEST_SECRET, {expiresIn: "2m"});
+						console.log("Line 113 New Access Token from refreshAccessToken: " + newAccessToken);
+						resolve(newAccessToken);
+					}
+				
+				});
+		})
+		.catch(err=>{
+			console.log("Line 120 Error in RefToken.findOne()");
+			console.log(err);
+			reject();
+		})
 	})
-	console.log("Result from DB: " + savedRefToken);
-	if(savedRefToken) {
-		console.log("Arrray contains refresh token");
-		jwt.verify(refreshToken, REFRESHTOKEN_TEST_SECRET, (err, result) => {
-			if(err) {
-				console.log("Something happened in jwt.verify. refreshToken: " + refreshToken);
-				return null;
-			} else {
-				console.log("Token verified");
-				const newAccessToken = jwt.sign({email: email}, ACCESSTOKEN_TEST_SECRET, {expiresIn: "2m"});
-				console.log("New Access Token from refreshAccessToken: " + newAccessToken);
-				return newAccessToken;
-			}
-			
-		});
-	} else{
-		console.log("DB doesn't contain token. RefreshToken: " + refreshToken);
-		return null;
-	}
-
-
+	
 }
- */
+
+
 
 export function logoutUser(req, res, next) {
 
