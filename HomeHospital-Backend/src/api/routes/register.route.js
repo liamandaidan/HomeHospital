@@ -1,32 +1,31 @@
 import express from 'express'
-import { registerUser } from '../../controllers/register.controller.js'
-import UserSchema from '../../models/User.Schema.js'
+import { registerUser } from '../service/register.service.js'
 
 // Creates Router
 const route = express.Router()
 
+// Register Route
 route.post('/', async (req, res) => {
 	try {
-		// verify user object
-		const newUser = await UserSchema.create({
-			firstName: req.body.firstName,
-			lastName: req.body.lastName,
-			password: req.body.password,
-		})
-		newUser.save()
-		console.log(newUser)
-		res.send(newUser)
+		const result = await registerUser(req)
+
+		if (!result.status) {
+			console.log('Error: User already exists')
+			res.status(422).send({
+				status: 'Error',
+				message: 'User already exists',
+			})
+			return
+		}
+
+		if (result?.user) {
+			console.log('Registration Successful')
+			res.send(result.user)
+		}
 	} catch (e) {
 		console.error(e.message)
 		res.status(406).send('Request Failed')
 	}
-
-	// check if user already exists
-	// if yes, response
-	// const result = await registerUser(req.body.email, req.body.password)
-	// if no, encrypt password and enter user in database
-	// console.log('from reg route: ' + result)
-	// res.send({"Registration Status": result})
 })
 
 export default route
