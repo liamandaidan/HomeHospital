@@ -34,7 +34,7 @@ export function generateAccessToken(req, res, next) {
 	const accessToken = jwt.sign({email: user.email}, ACCESSTOKEN_TEST_SECRET, {expiresIn: "2m"});//create token, expires in 30 seconds
 
 	const refreshToken = generateRefreshToken(user.email);//create non-expiring token with same user email
-	const savedRefToken = new RefToken({email: user.email, token: refreshToken});
+	const savedRefToken = new RefToken({email: user.email, token: refreshToken});//have expiry on refresh token?
 	savedRefToken.save();
 	req.tokens = {accessT: accessToken, refreshT: refreshToken};
 	next();
@@ -57,13 +57,14 @@ export function checkAccessToken(req, res, next) {
 	const token = authHeader && authHeader.split(" ")[1];//get only the actual token string, if there is one. If not, return undefined
 	const refToken = req.headers['refreshtoken'];
 	const user = req.headers['uemail'];
-	const email = user;//need to find a way to get the email from the decoded token
+	const email = user;//this value can be acquired from the token using jwt.verify
 
 	if(token && refToken){
 		console.log("Line 63 Token is: " + token);
 		try{
-			const valid = jwt.verify(token, ACCESSTOKEN_TEST_SECRET);
+			const valid = jwt.verify(token, ACCESSTOKEN_TEST_SECRET);//jwt.verify returns the entire token. By accessing valid.email, we get only the payload of the token, the user's email
 			console.log("Line 66 access token still valid");
+			console.log("Token payload is: " + valid.email);
 			res.locals.accessT = token;
 			res.locals.refreshT = refToken;
 			next();
