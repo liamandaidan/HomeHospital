@@ -1,4 +1,5 @@
 import express from 'express'
+
 //import { logUserIn } from '../service/login.service.js'
 // import UserSchema from '../../models/User.Schema.js'
 //import { generateToken } from '../service/generateToken.service.js'
@@ -41,9 +42,6 @@ route.post('/', logUserIn, generateAccessToken, (req, res) => {
     console.log("refreshT: " + refreshT);
     res.status(201).json({message: "Login successful", user: req.authUser, accessT: accessT, refreshT: refreshT});
 });
-
-
-
 
 
 export default route
