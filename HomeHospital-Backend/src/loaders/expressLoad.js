@@ -4,6 +4,8 @@ import cors from 'cors'
 import routes from '../api/API.js'
 import cookieParser from 'cookie-parser'
 
+import { checkAccessToken } from '../api/service/token.service.js'
+
 class ExpressLoader {
 	constructor(app) {
 		// use cors
@@ -26,6 +28,7 @@ class ExpressLoader {
 		app.use((err, req, res, next) => {
 			if (err) {
 				console.log('error was caught!')
+				console.log(err);
 				res.status(404).send()
 			}
 		})

@@ -7,6 +7,7 @@ const patientSchema = new mongoose.Schema({
 		minlength: 8,
 		required: true,
 		lowercase: true,
+		unique: true,
 	},
 	password: {
 		type: String,
