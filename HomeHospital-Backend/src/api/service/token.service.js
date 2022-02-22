@@ -3,25 +3,10 @@ import ENV from '../../configure/configure.js'
 import RefToken from '../../models/refreshTokens.Schema.js'
 import { accessOptions, refreshOptions } from '../../configure/cookie.configure.js'
 
-const JWT_KEY = ENV.JWT_KEY
 const ACCESSTOKEN_TEST_SECRET = ENV.ACCESSTOKEN_TEST_SECRET;
 const REFRESHTOKEN_TEST_SECRET = ENV.REFRESHTOKEN_TEST_SECRET;
 
 
-// function generateToken(userID) {
-// 	//route to get a token
-// 	let id = Math.random().toString(36).substring(2, 8)
-// 	let limit = 60 * 3 // 180 seconds
-// 	let expires = Math.floor(Date.now() / 1000) + limit
-// 	const payload = {
-// 		_id: userID,
-// 		exp: expires,
-// 		name: 'Mike Cann!'
-// 	}
-// 	const token = jwt.sign(payload, JWT_KEY)
-
-// 	return token
-// }
 
 /*This method generates an access token. It is called as middleware whenever a user attempts to log in. It calls the method 
 to generate a refresh token as well, so there should always be both together. For the moment, the refresh token is added to a
@@ -49,6 +34,8 @@ function generateRefreshToken(email) {
 /*
 IMPORTANT: THIS MIDDLEWARE IS THE PRIMARY ACCESS VALIDATOR FOR ALL PAGES. ANY PAGE THAT REQUIRES A USER TO BE LOGGED IN
 MUST BE ROUTED THROUGH THIS MIDDLEWARE BEFORE BEING ALLOWED TO PROCEED
+
+
 This middleware is used to check the validity of an access token. First we collect the access and refresh tokens from both 
 the header and from cookies. If any are missing, we return a 401 error. If all exist, we check to make sure that both sets of 
 tokens match each other (access token from cookie matches access token from header, etc). Next, we attempt to verify the access 

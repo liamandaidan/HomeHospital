@@ -8,6 +8,8 @@ Create a file in the folder <mark style="background-color: purple;color: white">
 ```
 APP_PORT= // port for application to run on
 MONGO_URI= // connection string to connect to the MongoDB database
+ACCESSTOKEN_TEST_SECRET= // secret value needed to sign the access key
+REFRESHTOKEN_TEST_SECRET= // secret value needed to sign the access key
 ```
 Run the following commands to install and run the node dependencies
 ```

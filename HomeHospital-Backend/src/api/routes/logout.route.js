@@ -1,6 +1,5 @@
-import express, { application } from 'express'
-import jwt from 'jsonwebtoken'
-import {invalidateRefToken} from '../service/generateToken.service.js';
+import express from 'express'
+import {invalidateRefToken} from '../service/token.service.js';
 
 const options = {
 	maxAge: 1000 * 60 * 2, // valid for 2 minutes,

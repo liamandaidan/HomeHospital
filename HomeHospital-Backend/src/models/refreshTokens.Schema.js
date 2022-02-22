@@ -6,7 +6,12 @@ const refreshSchema = new mongoose.Schema({
 	},
 	token: {
 		type: String,
-	}
+	},
+	createdTime: {
+		type: Date,
+		immutable: true,
+		default: () => Date.now(),
+	},
 })
 
 export default mongoose.model('RefToken', refreshSchema)
