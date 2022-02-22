@@ -10,12 +10,24 @@ async function webscrape() {
 
 
   // Store array of names and wait times of elements which are apart of a class.
-  const Hospitals = {
-    name: await page.locator('.hospitalName').allInnerTexts(),
-    time: await page.locator('.wt-times').allInnerTexts()
+
+  // just checking Calgary hospitals for now
+  const hospitals = {
+		name: await page
+			.locator('.cityContent-calgary .hospitalName')
+			.allInnerTexts(),
+		time: await page
+			.locator('.cityContent-calgary .wt-times')
+			.allInnerTexts(),
   }
-  
-  console.log(Hospitals);
+
+  const fullList = []
+
+  for (let i = 0; i < hospitals.name.length; i++) {
+		fullList.push({ name: hospitals.name[i], waitTime: hospitals.time[i] })
+  }
+
+  console.log(fullList)
 
   await browser.close();
 };

@@ -3,7 +3,7 @@ import test from './routes/test.route.js'
 import register from './routes/register.route.js'
 import login from './routes/login.route.js'
 import logout from './routes/logout.route.js'
-import createFacility from './routes/medicalFacility.route'
+import createFacility from './routes/medicalFacility.route.js'
 import { checkAccessToken } from './service/token.service.js'
 
 // Create the Router App
