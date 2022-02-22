@@ -25,4 +25,4 @@ const medicalFacility = new mongoose.Schema({
     }
 })
 
-export default mongoose.model('MedicalFacility', medicalFacility)
+export default mongoose.model('MedicalFacility', medicalFacility);
