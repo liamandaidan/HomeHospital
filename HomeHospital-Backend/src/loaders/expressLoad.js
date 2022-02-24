@@ -2,6 +2,9 @@ import express from 'express'
 import ENV from '../configure/configure.js'
 import cors from 'cors'
 import routes from '../api/API.js'
+import cookieParser from 'cookie-parser'
+
+import { checkAccessToken } from '../api/service/token.service.js'
 
 class ExpressLoader {
 	constructor(app) {
@@ -10,6 +13,9 @@ class ExpressLoader {
 
 		// Accept Json
 		app.use(express.json())
+
+		// Cookie parser
+		app.use(cookieParser())
 		
 		// Supports URL encoded bodies
 		app.use(express.urlencoded({ extended: true }))
@@ -22,6 +28,7 @@ class ExpressLoader {
 		app.use((err, req, res, next) => {
 			if (err) {
 				console.log('error was caught!')
+				console.log(err);
 				res.status(404).send()
 			}
 		})

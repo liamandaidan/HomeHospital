@@ -12,7 +12,7 @@ export default async function DBConnect() {
 		)
 		await mongoose.connection.close()
 		process.exit(1)
-
+//muahahaha
 		// throw an error
 	}
 }
