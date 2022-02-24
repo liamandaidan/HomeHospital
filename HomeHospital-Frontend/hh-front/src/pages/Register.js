@@ -39,7 +39,7 @@ function Register() {
               ></div>
               <div className={classes.title}>
                 <h1>Home Hospital</h1>
-                <h3>Login Form</h3>
+                <h3>Registration Form</h3>
               </div>
             </Col>
             <Col className={classes.rightSide}>

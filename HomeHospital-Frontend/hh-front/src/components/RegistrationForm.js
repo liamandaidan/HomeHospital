@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Button, Container, Modal } from "react-bootstrap";
+import { Button, Container, Row, Col, Form } from "react-bootstrap";
 import classes from "./RegistrationForm.module.css";
 import { useNavigate } from "react-router-dom";
 import Axios from "axios";
@@ -11,6 +11,11 @@ function RegistrationForm() {
   const [firstNameValue, setFirstNameValue] = useState("");
   const [lastNameValue, setLastNameValue] = useState("");
   const [addressValue, setAddressValue] = useState("");
+  const [cityValue, setCityValue] = useState("");
+  const [provinceValue, setProvinceValue] = useState("AB");
+  const [genderValue, setGenderValue] = useState("male");
+  const [dobValue, setDOBValue] = useState("");
+  const [hcValue, setHCValue] = useState("");
   const [postalCodeValue, setPostalCodeValue] = useState("");
   const [ageValue, setAgeValue] = useState(0);
   const [phoneValue, setPhoneValue] = useState("");
@@ -19,10 +24,12 @@ function RegistrationForm() {
   const [confirmPasswordValue, setConfirmPasswordValue] = useState("");
   const [validNameValue, setValidNameValue] = useState(false);
   const [validAddressValue, setValidAddressValue] = useState(false);
+  const [validCityValue, setValidCityValue] = useState(false);
   const [validPostalValue, setValidPostalValue] = useState(false);
   const [validPhoneValue, setValidPhoneValue] = useState(false);
   const [validEmailValue, setValidEmailValue] = useState(false);
   const [validAgeValue, setValidAgeValue] = useState(false);
+  const [validHCValue, setValidHCValue] = useState(false);
   const [validPasswordValue, setValidPasswordValue] = useState(false);
   const [validClientFormValue, setValidClientFormValue] = useState(false);
   const [resetAllFormValue, setResetAllFormValue] = useState(false);
@@ -33,10 +40,12 @@ function RegistrationForm() {
     if (
       validNameValue &&
       validAddressValue &&
+      validCityValue &&
       validPostalValue &&
       validPhoneValue &&
       validEmailValue &&
       validPasswordValue &&
+      validHCValue &&
       validAgeValue
     ) {
       setValidClientFormValue(true);
@@ -45,7 +54,9 @@ function RegistrationForm() {
     }
   }, [
     validNameValue,
+    validHCValue,
     validAddressValue,
+    validCityValue,
     validPostalValue,
     validPhoneValue,
     validEmailValue,
@@ -139,6 +150,23 @@ function RegistrationForm() {
     }
   }
 
+  function validateCity() {
+    const pattern = new RegExp("^[a-zA-Z0-9- ]+$");
+    if (cityValue === "" || cityValue === undefined) {
+      document.getElementById("city").classList.add("is-invalid");
+      document.getElementById("city").classList.remove("is-valid");
+      setValidCityValue(false);
+    } else if (pattern.test(cityValue)) {
+      document.getElementById("city").classList.add("is-valid");
+      document.getElementById("city").classList.remove("is-invalid");
+      setValidCityValue(true);
+    } else {
+      document.getElementById("city").classList.add("is-invalid");
+      document.getElementById("city").classList.remove("is-valid");
+      setValidCityValue(false);
+    }
+  }
+
   function validatePostalCode() {
     const pattern = new RegExp("^[a-zA-Z][0-9][a-zA-Z][0-9][a-zA-Z][0-9]$");
     if (pattern.test(postalCodeValue)) {
@@ -163,6 +191,19 @@ function RegistrationForm() {
       document.getElementById("telephone").classList.add("is-invalid");
       document.getElementById("telephone").classList.remove("is-valid");
       setValidPhoneValue(false);
+    }
+  }
+
+  function validateHCnumber() {
+    const pattern = new RegExp("^[0-9]{4}-[0-9]{5}$");
+    if (pattern.test(hcValue)) {
+      document.getElementById("hcNumber").classList.add("is-valid");
+      document.getElementById("hcNumber").classList.remove("is-invalid");
+      setValidHCValue(true);
+    } else {
+      document.getElementById("hcNumber").classList.add("is-invalid");
+      document.getElementById("hcNumber").classList.remove("is-valid");
+      setValidHCValue(false);
     }
   }
 
@@ -217,11 +258,16 @@ function RegistrationForm() {
     Axios.post("http://localhost:4000/api/register", {
       firstName: firstNameValue,
       lastName: lastNameValue,
-      address: addressValue,
-      postal: postalCodeValue,
+      streetAddress: addressValue,
+      cityName: cityValue,
+      provName: provinceValue,
+      postalCode: postalCodeValue,
       phoneNumber: phoneValue,
       email: emailValue,
       age: ageValue,
+      HCnumber: hcValue,
+      gender: genderValue,
+      dateOfBirth: dobValue,
       password: passwordValue,
     }).then((response) => {
       console.log("Registration Successful");
@@ -232,126 +278,294 @@ function RegistrationForm() {
   return (
     <Container>
       <form id="clientForm" action="">
-        <div>
-          <label htmlFor="firstName" className="form-label mt-3 text-white">
-            Patient First Name
-          </label>
-          <input
-            onBlur={validateFirstName}
-            type="text"
-            className={`form-control bg-transparent text-white shadow-none ${classes.noBorder}`}
-            id="clientFirstName"
-            name="clientFirstName"
-            value={firstNameValue}
-            onChange={(e) => setFirstNameValue(e.target.value)}
-            pattern="[A-Za-z- ]+"
-            required
-            placeholder="Enter First Your Name"
-            autoFocus
-          />
-          <div className="valid-feedback">Looks good!</div>
-          <div className="invalid-feedback">
-            Please enter a valid First Name
-          </div>
-        </div>
-        <div>
-          <label htmlFor="lastName" className="form-label mt-3 text-white">
-            Patient Last Name
-          </label>
-          <input
-            onBlur={validateLastName}
-            type="text"
-            className={`form-control bg-transparent text-white shadow-none ${classes.noBorder}`}
-            id="clientLastName"
-            name="clientLastName"
-            value={lastNameValue}
-            onChange={(e) => setLastNameValue(e.target.value)}
-            pattern="[A-Za-z- ]+"
-            required
-            placeholder="Enter Your Last Name"
-          />
-          <div className="valid-feedback">Looks good!</div>
-          <div className="invalid-feedback">Please enter a valid Last Name</div>
-        </div>
-        <div>
-          <label htmlFor="address" className="form-label mt-3 text-white">
-            Address
-          </label>
-          <input
-            onBlur={validateAddress}
-            type="text"
-            className={`form-control bg-transparent text-white shadow-none ${classes.noBorder}`}
-            id="address"
-            name="address"
-            value={addressValue}
-            onChange={(e) => setAddressValue(e.target.value)}
-            pattern="^[a-zA-Z0-9- ]+$"
-            placeholder="Enter Address"
-            required
-          />
-          <div className="valid-feedback">Looks good!</div>
-          <div className="invalid-feedback">Please enter a valid Address</div>
-        </div>
-        <div>
-          <label htmlFor="age" className="form-label mt-3 text-white">
-            Age
-          </label>
-          <input
-            onBlur={validateAge}
-            type="number"
-            className={`form-control bg-transparent text-white shadow-none ${classes.noBorder}`}
-            id="age"
-            name="age"
-            value={ageValue}
-            onChange={(e) => setAgeValue(e.target.value)}
-            placeholder="Enter age"
-            required
-          />
-          <div className="valid-feedback">Looks good!</div>
-          <div className="invalid-feedback">Must Be 18 years or Older</div>
-        </div>
-        <div>
-          <label htmlFor="postalCode" className="form-label mt-3 text-white">
-            Postal Code
-          </label>
-          <input
-            onBlur={validatePostalCode}
-            type="text"
-            className={`form-control bg-transparent text-white shadow-none ${classes.noBorder}`}
-            id="postalCode"
-            name="postalCode"
-            value={postalCodeValue}
-            onChange={(e) => setPostalCodeValue(e.target.value)}
-            placeholder="L9L9L9"
-            pattern="[a-zA-Z][0-9][a-zA-Z][0-9][a-zA-Z][0-9]"
-            required
-          />
-          <div className="valid-feedback">Looks good!</div>
-          <div className="invalid-feedback">
-            Please enter a valid Postal Code eg. T5T5T5
-          </div>
-        </div>
-        <div>
-          <label htmlFor="telephone" className="form-label mt-3 text-white">
-            Telephone
-          </label>
-          <input
-            onBlur={validatePhone}
-            type="text"
-            className={`form-control bg-transparent text-white shadow-none ${classes.noBorder}`}
-            id="telephone"
-            name="phone"
-            value={phoneValue}
-            onChange={(e) => setPhoneValue(e.target.value)}
-            placeholder="xxx-xxx-xxxx"
-            pattern="\d{3}[\-]\d{3}[\-]\d{4}"
-            required
-          />
-          <div className="valid-feedback">Looks good!</div>
-          <div className="invalid-feedback">
-            Please enter a valid Phone number eg. xxx-xxx-xxxx
-          </div>
-        </div>
+        <Row>
+          <Col>
+            <div>
+              <label htmlFor="firstName" className="form-label mt-3 text-white">
+                Patient First Name
+              </label>
+              <input
+                onBlur={validateFirstName}
+                type="text"
+                className={`form-control bg-transparent text-white shadow-none ${classes.noBorder}`}
+                id="clientFirstName"
+                name="clientFirstName"
+                value={firstNameValue}
+                onChange={(e) => setFirstNameValue(e.target.value)}
+                pattern="[A-Za-z- ]+"
+                required
+                placeholder="Enter First Your Name"
+                autoFocus
+              />
+              <div className="valid-feedback">Looks good!</div>
+              <div className="invalid-feedback">
+                Please enter a valid First Name
+              </div>
+            </div>
+          </Col>
+          <Col>
+            <div>
+              <label htmlFor="lastName" className="form-label mt-3 text-white">
+                Patient Last Name
+              </label>
+              <input
+                onBlur={validateLastName}
+                type="text"
+                className={`form-control bg-transparent text-white shadow-none ${classes.noBorder}`}
+                id="clientLastName"
+                name="clientLastName"
+                value={lastNameValue}
+                onChange={(e) => setLastNameValue(e.target.value)}
+                pattern="[A-Za-z- ]+"
+                required
+                placeholder="Enter Your Last Name"
+              />
+              <div className="valid-feedback">Looks good!</div>
+              <div className="invalid-feedback">
+                Please enter a valid Last Name
+              </div>
+            </div>
+          </Col>
+        </Row>
+        <Row>
+          <Col>
+            <div>
+              <label htmlFor="address" className="form-label mt-3 text-white">
+                House/Apartment# and Street Address
+              </label>
+              <input
+                onBlur={validateAddress}
+                type="text"
+                className={`form-control bg-transparent text-white shadow-none ${classes.noBorder}`}
+                id="address"
+                name="address"
+                value={addressValue}
+                onChange={(e) => setAddressValue(e.target.value)}
+                pattern="^[a-zA-Z0-9- ]+$"
+                placeholder="Enter Address"
+                required
+              />
+              <div className="valid-feedback">Looks good!</div>
+              <div className="invalid-feedback">
+                Please enter a valid Address
+              </div>
+            </div>
+          </Col>
+        </Row>
+        <Row>
+          <Col md={5}>
+            <div>
+              <label htmlFor="City" className="form-label mt-3 text-white">
+                City
+              </label>
+              <input
+                onBlur={validateCity}
+                type="text"
+                className={`form-control bg-transparent text-white shadow-none ${classes.noBorder}`}
+                id="city"
+                name="City"
+                value={cityValue}
+                onChange={(e) => setCityValue(e.target.value)}
+                pattern="^[a-zA-Z]+$"
+                placeholder="Enter City"
+                required
+              />
+              <div className="valid-feedback">Looks good!</div>
+              <div className="invalid-feedback">Please enter a valid City</div>
+            </div>
+          </Col>
+          <Col md={3}>
+            <div>
+              <label htmlFor="Province" className="form-label mt-3 text-white">
+                Province
+              </label>
+              <Form.Select
+                aria-label="select province"
+                id="province"
+                name="province"
+                value={provinceValue}
+                onChange={(e) => setProvinceValue(e.target.value)}
+                required
+                className={`bg-transparent text-white shadow-none ${classes.noBorder}`}
+              >
+                <option style={{ color: "black" }} value="AB" defaultChecked>
+                  AB
+                </option>
+                <option style={{ color: "black" }} value="BC">
+                  BC
+                </option>
+                <option style={{ color: "black" }} value="NB">
+                  NB
+                </option>
+                <option style={{ color: "black" }} value="NL">
+                  NL
+                </option>
+                <option style={{ color: "black" }} value="NT">
+                  NT
+                </option>
+                <option style={{ color: "black" }} value="NS">
+                  NS
+                </option>
+                <option style={{ color: "black" }} value="NU">
+                  NU
+                </option>
+                <option style={{ color: "black" }} value="ON">
+                  ON
+                </option>
+                <option style={{ color: "black" }} value="PE">
+                  PE
+                </option>
+                <option style={{ color: "black" }} value="QC">
+                  QC
+                </option>
+                <option style={{ color: "black" }} value="SK">
+                  SK
+                </option>
+                <option style={{ color: "black" }} value="YT">
+                  YT
+                </option>
+              </Form.Select>
+            </div>
+          </Col>
+          <Col md={4}>
+            <div>
+              <label
+                htmlFor="postalCode"
+                className="form-label mt-3 text-white"
+              >
+                Postal Code
+              </label>
+              <input
+                onBlur={validatePostalCode}
+                type="text"
+                className={`form-control bg-transparent text-white shadow-none ${classes.noBorder}`}
+                id="postalCode"
+                name="postalCode"
+                value={postalCodeValue}
+                onChange={(e) => setPostalCodeValue(e.target.value)}
+                placeholder="L9L9L9"
+                pattern="[a-zA-Z][0-9][a-zA-Z][0-9][a-zA-Z][0-9]"
+                required
+              />
+              <div className="valid-feedback">Looks good!</div>
+              <div className="invalid-feedback">
+                Please enter a valid Postal Code eg. T5T5T5
+              </div>
+            </div>
+          </Col>
+        </Row>
+        <Row>
+          <Col md={4}>
+            <div>
+              <label htmlFor="gender" className="form-label mt-3 text-white">
+                Gender
+              </label>
+              <Form.Select
+                aria-label="select gender"
+                id="gender"
+                name="gender"
+                onChange={(e) => setGenderValue(e.target.value)}
+                required
+                value={genderValue}
+                className={`bg-transparent text-white shadow-none ${classes.noBorder}`}
+              >
+                <option style={{ color: "black" }} value="male" defaultChecked>
+                  Male
+                </option>
+                <option style={{ color: "black" }} value="female">
+                  Female
+                </option>
+                <option style={{ color: "black" }} value="other">
+                  Other
+                </option>
+              </Form.Select>
+            </div>
+          </Col>
+          <Col md={3}>
+            <div>
+              <label htmlFor="age" className="form-label mt-3 text-white">
+                Age
+              </label>
+              <input
+                onBlur={validateAge}
+                type="number"
+                className={`form-control bg-transparent text-white shadow-none ${classes.noBorder}`}
+                id="age"
+                name="age"
+                value={ageValue}
+                onChange={(e) => setAgeValue(e.target.value)}
+                placeholder="Enter age"
+                required
+              />
+              <div className="valid-feedback">Looks good!</div>
+              <div className="invalid-feedback">Must Be 18 years or Older</div>
+            </div>
+          </Col>
+          <Col md={5}>
+            <div>
+              <label htmlFor="dob" className="form-label mt-3 text-white">
+                Date of Birth
+              </label>
+              <Form.Control
+                id="dob"
+                name="dob"
+                onChange={(e) => setDOBValue(e.target.value)}
+                required
+                className={`bg-transparent text-white shadow-none ${classes.noBorder}`}
+                type="date"
+                placeholder="Date of Birth"
+              />
+            </div>
+          </Col>
+        </Row>
+        <Row>
+          <Col>
+            <div>
+              <label htmlFor="telephone" className="form-label mt-3 text-white">
+                Telephone
+              </label>
+              <input
+                onBlur={validatePhone}
+                type="text"
+                className={`form-control bg-transparent text-white shadow-none ${classes.noBorder}`}
+                id="telephone"
+                name="phone"
+                value={phoneValue}
+                onChange={(e) => setPhoneValue(e.target.value)}
+                placeholder="xxx-xxx-xxxx"
+                pattern="\d{3}[\-]\d{3}[\-]\d{4}"
+                required
+              />
+              <div className="valid-feedback">Looks good!</div>
+              <div className="invalid-feedback">
+                Please enter a valid Phone number eg. xxx-xxx-xxxx
+              </div>
+            </div>
+          </Col>
+          <Col>
+            <div>
+              <label htmlFor="hcNumber" className="form-label mt-3 text-white">
+                Healthcare Number
+              </label>
+              <input
+                onBlur={validateHCnumber}
+                type="text"
+                className={`form-control bg-transparent text-white shadow-none ${classes.noBorder}`}
+                id="hcNumber"
+                name="HC"
+                value={hcValue}
+                onChange={(e) => setHCValue(e.target.value)}
+                placeholder="xxxx-xxxxx"
+                pattern="\d{4}[\-]\d{5}"
+                required
+              />
+              <div className="valid-feedback">Looks good!</div>
+              <div className="invalid-feedback">
+                Please enter a valid Healthcare number eg. xxxx-xxxxx
+              </div>
+            </div>
+          </Col>
+        </Row>
         <div>
           <label htmlFor="email" className="form-label mt-3 text-white">
             Email
@@ -386,12 +600,12 @@ function RegistrationForm() {
             value={passwordValue}
             onChange={(e) => setPasswordValue(e.target.value)}
             placeholder="Password"
-            minLength={6}
+            minLength={10}
             required
           />
           <div className="valid-feedback">Looks good!</div>
           <div className="invalid-feedback">
-            Password must be minimum of 6 characters
+            Password must be minimum of 10 characters
           </div>
         </div>
         <div>
@@ -407,7 +621,7 @@ function RegistrationForm() {
             value={confirmPasswordValue}
             onChange={(e) => setConfirmPasswordValue(e.target.value)}
             placeholder="Confirm Password"
-            minLength={5}
+            minLength={10}
             required
           />
           <div className="valid-feedback">Password Match!</div>
