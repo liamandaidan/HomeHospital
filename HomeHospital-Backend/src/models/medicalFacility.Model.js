@@ -19,10 +19,15 @@ const medicalFacility = new mongoose.Schema({
 		type: Number,
 		default: null,
 	},
+	hospitalDesc: {
+		type: String,
+		maxlength: 100,
+		defult: null,
+	},
 	practitioners: {
 		type: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Practitioner' }],
 		default: null,
 	},
 })
 
-export default mongoose.model('MedicalFacility', medicalFacility);
+export default mongoose.model('MedicalFacility', medicalFacility)
