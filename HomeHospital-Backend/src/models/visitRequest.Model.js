@@ -1,6 +1,7 @@
 import  mongoose from 'mongoose'
 import addressSchema from './address.Schema.js'
 import vitalsSchema from './vitals.Schema.js'
+import symptomSchema from './symptom.Schema.js'
 
 const visitRequestSchema = new mongoose.Schema({
 	patient: Patient,
@@ -8,7 +9,11 @@ const visitRequestSchema = new mongoose.Schema({
 	position: Number,
 	startAddress: addressSchema,
 	vitals: vitalsSchema,
-	symptoms: ListOf(Array),
+	symptoms: [symptomSchema],
+	additionalInfo: {
+		type: String,
+		maxlength: 200,
+	},
 	dateTime:  {
 		type: Date,
 		default: () => Date.now(),

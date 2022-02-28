@@ -20,7 +20,7 @@ export async function logUserIn(req, res, next) {
 			return
 		}
 	} else {
-		res.status(403).send({ message: 'Login Failed!!!'})
+		res.status(403).send({ message: 'Login Failed!!!' })
 		console.log('No User found')
 		return
 	}
