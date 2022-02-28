@@ -1,7 +1,7 @@
 import React from "react";
 import ProgressBar from 'react-bootstrap/ProgressBar';
 
-function Progress() {
+function ProgressNav() {
 
   return (
     
@@ -10,4 +10,4 @@ function Progress() {
   );
 }
 
-export default Progress;
+export default ProgressNav;
