@@ -21,7 +21,6 @@ function SymptomsForm() {
     },
   ]);
 
-
   console.log(symptomsList);
 
   const handleSymptomsAdd = () => {
@@ -54,7 +53,7 @@ function SymptomsForm() {
   };
 
   return (
-    <Container>
+    <Container className="main-container">
       <Row>
         <h2>Enter Symtoms</h2>
       </Row>
@@ -107,12 +106,13 @@ function SymptomsForm() {
                 )}
               </>
             ))}
-            <Form.Group className="mb-3" size="fixed">
+            <div className="additional-info">
               <Form.Label>Additional Information</Form.Label>
               <Form.Control as="textarea" rows={3} />
-            </Form.Group>
+            </div>
           </Form>
         </Col>
+
         <Col>
           <div className="patientInfo">
             <div>This is where the client information will be displayed</div>
