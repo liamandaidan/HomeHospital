@@ -4,19 +4,50 @@
 
 .add-btn {
     color: #7878AB;
-    border-radius: 10px;
+    border-radius: 1rem;
     background-color: #F5F5FA;
 
+}
+
+
+.symptomGroup {
+    margin-bottom: 1rem;
+}
+
+.additional-info {
+    margin-top: 2rem;
 }
 
 textarea {
     resize: none;
 }
 
-.symptomGroup {
-    margin-bottom: 10px;
+.heartbeat-logo {
+    width: 13rem;
+    height: 12rem;
 }
 
-.additional-info {
-    margin-top: 20px;
+.profilepic {
+    width: 6rem;
+    height: 6rem;
+    border-radius: 11rem;
+ 
+}
+
+.patient-info-requestDetails {
+    margin-top: 0.5rem;
+    align-content: left;
+    font-size: small;
+    line-height: 0.1em;
+}
+
+.patient-info-personalDetails {
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+}
+
+.patient-contactDetails {
+    font-size: medium;
+    line-height: 1rem;
+    margin-left: 1.5rem;
 }
