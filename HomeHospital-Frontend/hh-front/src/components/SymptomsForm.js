@@ -12,15 +12,6 @@ import "../styles/SymptomForm.css";
 import DropdownMenu from "react-bootstrap/esm/DropdownMenu";
 
 function SymptomsForm() {
-  const [symptom, setSymptom] = useState("");
-  const [severity, setSeverity] = useState();
-
-  const severityOptions = [
-    { key: 1, text: '1', value: 1 },
-    { key: 2, text: '2', value: 2 },
-    { key: 3, text: '3', value: 3 },
-  ];
-
   const [symptomsList, setSymptomsList] = useState([
     {
       symptom: "",
@@ -29,8 +20,6 @@ function SymptomsForm() {
   ]);
 
   console.log(symptomsList);
-  // console.log(severity);
-
 
   const handleSymptomsAdd = () => {
     setSymptomsList([
@@ -51,18 +40,16 @@ function SymptomsForm() {
   const handleSymptomsChange = (e, index) => {
     const { name, value } = e.target;
 
-    console.log(name, value);
     const list = [...symptomsList];
     list[index][name] = value;
     setSymptomsList(list);
   };
 
   const handleSeverityChange = (e, index) => {
-    console.log(index);
-    console.log(e);
+    const { name, value } = e.target;
 
     const list = [...symptomsList];
-    list[index][e.name] = e;
+    list[index][name] = value;
     setSymptomsList(list);
   };
 
@@ -88,22 +75,27 @@ function SymptomsForm() {
                     type="text"
                     name="symptom"
                     placeholder="Enter Symptom"
-                    value={singleSymptom.symptom.service}
+                    value={singleSymptom.service}
                     onChange={(e) => handleSymptomsChange(e, index)}
                   />
-                  <DropdownButton
+                  <Form.Select name="severity" onChange={(e) => handleSeverityChange(e, index)}>
+                    <option defaultChecked>Severity</option>
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                  </Form.Select>
+                  {/* <DropdownButton
                     className="severityDrop"
                     variant="outline-secondary"
                     title="Severity"
                     id="input-group-dropdown-2"
-                    align="end"
                     name="severity"
                     onSelect={(e) => handleSeverityChange(e, index)}
                   >
                     <Dropdown.Item eventKey="1">1</Dropdown.Item>
                     <Dropdown.Item eventKey="2">2</Dropdown.Item>
                     <Dropdown.Item eventKey="3">3</Dropdown.Item>
-                  </DropdownButton>
+                  </DropdownButton> */}
 
                   {symptomsList.length > 1 && (
                     <Button
