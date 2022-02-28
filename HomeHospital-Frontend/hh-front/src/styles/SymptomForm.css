@@ -1,0 +1,14 @@
+.add-btn {
+    color: #7878AB;
+    border-radius: 10px;
+    background-color: #F5F5FA;
+
+}
+
+textarea {
+    resize: none;
+}
+
+.symptomGroup {
+    margin-bottom: 10px;
+}
