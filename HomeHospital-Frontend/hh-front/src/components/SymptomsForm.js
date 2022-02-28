@@ -16,6 +16,7 @@ function SymptomsForm() {
     {
       symptom: "",
       severity: "",
+
     },
   ]);
 
@@ -53,6 +54,8 @@ function SymptomsForm() {
     setSymptomsList(list);
   };
 
+
+
   return (
     <Container className="symptoms-container">
       <Row>
@@ -78,24 +81,15 @@ function SymptomsForm() {
                     value={singleSymptom.service}
                     onChange={(e) => handleSymptomsChange(e, index)}
                   />
-                  <Form.Select name="severity" onChange={(e) => handleSeverityChange(e, index)}>
+                  <Form.Select
+                    name="severity"
+                    onChange={(e) => handleSeverityChange(e, index)}
+                  >
                     <option defaultChecked>Severity</option>
                     <option value="1">1</option>
                     <option value="2">2</option>
                     <option value="3">3</option>
                   </Form.Select>
-                  {/* <DropdownButton
-                    className="severityDrop"
-                    variant="outline-secondary"
-                    title="Severity"
-                    id="input-group-dropdown-2"
-                    name="severity"
-                    onSelect={(e) => handleSeverityChange(e, index)}
-                  >
-                    <Dropdown.Item eventKey="1">1</Dropdown.Item>
-                    <Dropdown.Item eventKey="2">2</Dropdown.Item>
-                    <Dropdown.Item eventKey="3">3</Dropdown.Item>
-                  </DropdownButton> */}
 
                   {symptomsList.length > 1 && (
                     <Button
