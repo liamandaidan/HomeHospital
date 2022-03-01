@@ -4,8 +4,8 @@ import vitalsSchema from './vitals.Schema.js'
 import symptomSchema from './symptom.Schema.js'
 
 const visitRequestSchema = new mongoose.Schema({
-	patient: Patient,
-	requestHospitalID: mongoose.Schema.Types.ObjectId,
+	patient: { type: mongoose.Schema.Types.ObjectId, ref: 'Patient' },
+	requestHospitalID: { type: mongoose.Schema.Types.ObjectId, ref: 'MedicalFacility' },
 	position: Number,
 	startAddress: addressSchema,
 	vitals: vitalsSchema,

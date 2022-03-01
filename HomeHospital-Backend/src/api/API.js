@@ -4,6 +4,7 @@ import register from './routes/register.route.js'
 import login from './routes/login.route.js'
 import logout from './routes/logout.route.js'
 import createFacility from './routes/medicalFacility.route.js'
+import add from './routes/symptoms.route.js'
 import { checkAccessToken } from './service/token.service.js'
 import updateWaitTimesTemp from './routes/updateWaitTimeTemp.route.js'
 
@@ -22,6 +23,6 @@ app.use('/login', login)
 app.use('/logout', logout)
 app.use('/medicalFacility', createFacility)
 app.use('/updateWaitTimesTemp', updateWaitTimesTemp)
-
+app.use('/symptoms', add)
 // exports the router application
 export default app

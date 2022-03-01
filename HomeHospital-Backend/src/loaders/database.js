@@ -12,6 +12,7 @@ export default async function DBConnect() {
 		console.error(
 			'THE DB FAILED 🤯 :\n.\n..\n...\n....\n.....\nPlease Check Your DB Connection... '
 		)
+		console.log(error.message)
 		await mongoose.connection.close()
 		process.exit(1)
 		// throw an error
