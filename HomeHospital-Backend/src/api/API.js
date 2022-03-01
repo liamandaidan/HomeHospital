@@ -3,6 +3,7 @@ import test from './routes/test.route.js'
 import register from './routes/register.route.js'
 import login from './routes/login.route.js'
 import logout from './routes/logout.route.js'
+import reset from './routes/passReset.route.js'
 import { checkAccessToken } from './service/token.service.js'
 
 // Create the Router App
@@ -18,6 +19,7 @@ app.use('/test', test)
 app.use('/register',register)
 app.use('/login', login)
 app.use('/logout', logout)
+app.use('/reset', reset)
 
 // exports the router application
 export default app
