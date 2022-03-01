@@ -21,4 +21,4 @@ const visitRequestSchema = new mongoose.Schema({
 	isEmergency: Boolean,
 })
 
-export default mongoose.model('VisitRequest', visitRequestSchema)
+export default mongoose.model('VisitRequest', visitRequestSchema);
