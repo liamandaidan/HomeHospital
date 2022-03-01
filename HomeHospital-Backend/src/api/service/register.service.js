@@ -27,7 +27,7 @@ export async function registerUser(req) {
 	// check if user exists
 	const result = await PatientModel.exists({ email: email })
 	// If they exist return an error status code
-	if(result?._id){
+	if (result?._id) {
 		console.log('user ID: ' + result?._id)
 		return (regStatus.status = false)
 	}
@@ -42,13 +42,13 @@ export async function registerUser(req) {
 
 	// verify user object
 	const newUser = await PatientModel.create({
-		HCnumber:HCnumber,
+		HCnumber: HCnumber,
 		gender: gender,
 		dateOfBirth: new Date(dateOfBirth),
 		email: email,
 		password: hashedPassword,
 		user: {
-			firstName:firstName,
+			firstName: firstName,
 			lastName: lastName,
 			age: age,
 			address: {
@@ -57,9 +57,8 @@ export async function registerUser(req) {
 				provName: provName,
 				postalCode: postalCode,
 			},
-			phoneNumber: phoneNumber
-		}, 
-
+			phoneNumber: phoneNumber,
+		},
 	})
 	newUser.save()
 	// Set Registration status and attach the user

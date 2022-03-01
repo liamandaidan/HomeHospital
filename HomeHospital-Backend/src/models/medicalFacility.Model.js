@@ -16,7 +16,7 @@ const medicalFacility = new mongoose.Schema({
 		default: null,
 	},
 	waitTime: {
-		type: Number,
+		type: String,
 		default: null,
 	},
 	hospitalDesc: {

@@ -1,9 +1,9 @@
-const mongoose = require('mongoose');
-
+import mongoose from 'mongoose'
 
 const symptomSchema = {
-    Severity: Number,
-    Description: String
+	Severity: Number,
+	Description: String,
+    _id: false
 }
 
 export default symptomSchema
