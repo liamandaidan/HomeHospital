@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Button, Col, Container, Form, Modal, Row } from "react-bootstrap";
 import { Link, useNavigate } from "react-router-dom";
+import logo from "../images/heartbeat_logo_long.png";
 import classes from "./LoginForm.module.css";
 import Axios from "axios";
 
@@ -90,14 +91,26 @@ function LoginForm() {
         <div className={classes.loginBox}>
           <div className={classes.innerBox}>
             <div>
-              <h1 className={classes.header}>Login</h1>
-              <label htmlFor="firstName" className="form-label mt-3 text-white">
+              <div
+                style={{
+                  backgroundImage: `url(${logo})`,
+                  backgroundSize: "cover",
+                  width: "240px",
+                  height: "200px",
+                  marginLeft: "35px",
+                }}
+              >
+                <h1 className={classes.header}>LOGIN</h1>
+              </div>
+            </div>
+            <div style={{ marginTop: "-25px" }}>
+              <label htmlFor="firstName" className="form-label">
                 Email
               </label>
               <input
                 onBlur={validateEmail}
                 type="text"
-                className={`form-control bg-transparent text-white shadow-none ${classes.noBorder}`}
+                className={`form-control shadow-none `}
                 id="email"
                 name="email"
                 value={email}
@@ -110,37 +123,37 @@ function LoginForm() {
               />
               <div className="valid-feedback"></div>
               <div className="invalid-feedback">Please enter a valid Email</div>
-            </div>
-            <div className={classes.container}>
-              <label htmlFor="password" className="form-label mt-3 text-white">
-                Password
-              </label>
-              <input
-                onBlur={validatePassword}
-                type="password"
-                className={`form-control bg-transparent text-white shadow-none ${classes.noBorder}`}
-                id="password"
-                name="password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                placeholder="Password"
-                minLength={10}
-                required
-              />
-              <div className="valid-feedback"></div>
-              <div className="invalid-feedback">
-                Password must be minimum of 10 characters
+              <div className={classes.container}>
+                <label htmlFor="password" className="form-label mt-3 ">
+                  Password
+                </label>
+                <input
+                  onBlur={validatePassword}
+                  type="password"
+                  className={`form-control bg-transparent  shadow-none `}
+                  id="password"
+                  name="password"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  placeholder="Password"
+                  minLength={10}
+                  required
+                />
+                <div className="valid-feedback"></div>
+                <div className="invalid-feedback">
+                  Password must be minimum of 10 characters
+                </div>
               </div>
-            </div>
-            <div className="d-grid gap-2 mt-4">
-              <Button
-                type="button"
-                disabled={!validForm}
-                variant="warning"
-                onClick={loginUser}
-              >
-                Login
-              </Button>
+              <div className="d-grid gap-2 mt-4">
+                <Button
+                  type="button"
+                  disabled={!validForm}
+                  variant="warning"
+                  onClick={loginUser}
+                >
+                  Login
+                </Button>
+              </div>
             </div>
             <Row>
               <Col>

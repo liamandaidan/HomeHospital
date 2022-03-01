@@ -1,24 +1,17 @@
 .loginBox {
   width: 400px;
-  height: 500px;
+  height: 520px;
   margin: auto;
-  background-color: #394b63;
+  padding-bottom: 25px;
+  background-color: white;
   border-radius: 25px;
-  color: white;
   box-shadow: 10px 5px 5px rgb(83, 83, 83);
-  text-shadow: 2px 2px rgb(3, 3, 3);
 }
 
 .header {
   text-align: center;
-  padding-top: 25px;
-  text-decoration: underline;
-}
-
-.noBorder {
-  outline: 0;
-  border-width: 0 0 2px;
-  border-color: white;
+  padding-top: 60px;
+  margin-left: 115px;
 }
 
 .smallFont {
@@ -27,7 +20,7 @@
 
 .teal {
   margin-left: 25px;
-  color: #67d8c6;
+  color: #202020;
 }
 
 .innerBox {
