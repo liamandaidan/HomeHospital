@@ -1,8 +1,10 @@
+import React, {Component} from 'react';
+import ErrorPage404 from './component/ErrorPage404';
 
 function App() {
   return (
     <div>
-<p>Home Hospital</p>
+		<ErrorPage404/>
     </div>
   );
 }
