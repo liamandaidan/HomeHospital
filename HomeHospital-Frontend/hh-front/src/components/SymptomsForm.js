@@ -1,6 +1,5 @@
 import React, { useState } from "react";
-import DropdownButton from "react-bootstrap/DropdownButton";
-import Dropdown from "react-bootstrap/Dropdown";
+
 import Form from "react-bootstrap/Form";
 import Col from "react-bootstrap/Col";
 import Row from "react-bootstrap/Row";
@@ -9,7 +8,7 @@ import Container from "react-bootstrap/Container";
 import InputGroup from "react-bootstrap/InputGroup";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "../styles/SymptomForm.css";
-import DropdownMenu from "react-bootstrap/esm/DropdownMenu";
+
 
 function SymptomsForm() {
   const [symptomsList, setSymptomsList] = useState([
@@ -54,26 +53,25 @@ function SymptomsForm() {
     setSymptomsList(list);
   };
 
-
-
   return (
-    <Container className="symptoms-container">
-      <Row>
+    <>
+     <Container className="symptoms-container">
+       <Row>
         <div className="title-div">
           <h2>Enter Symtoms</h2>
         </div>
-      </Row>
-      <Row>
+       </Row>
+       <Row>
         <div className="details-div">
           Please enter current symptoms along with severity of 1-5
         </div>
-      </Row>
-      <Row>
-        <Col>
+       </Row>
+       <Row>
+         <Col> 
           <Form>
             {symptomsList.map((singleSymptom, index) => (
-              <>
-                <InputGroup key={index} className="symptomGroup">
+                <div key={index} className="group">
+                <InputGroup className="symptomGroup">
                   <Form.Control
                     type="text"
                     name="symptom"
@@ -109,7 +107,7 @@ function SymptomsForm() {
                     <span>Add Symptom</span>
                   </Button>
                 )}
-              </>
+                </div>
             ))}
             <div className="additional-info">
               <Form.Label>Additional Information</Form.Label>
@@ -121,9 +119,10 @@ function SymptomsForm() {
               </Button>
             </div>
           </Form>
-        </Col>
-      </Row>
-    </Container>
+         </Col>
+       </Row>
+     </Container>
+     </>
   );
 }
 
