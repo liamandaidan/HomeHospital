@@ -1,9 +1,9 @@
 import mongoose from 'mongoose'
 
-const symptomSchema = {
-	Severity: Number,
+const symptomSchema = new mongoose.Schema({
 	Description: String,
+	Severity: Number,
     _id: false
-}
+})
 
 export default symptomSchema
