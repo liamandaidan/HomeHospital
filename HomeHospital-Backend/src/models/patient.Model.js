@@ -29,6 +29,20 @@ const patientSchema = new mongoose.Schema({
 	user: {
 		type: UserSchema,
 	},
+	emergencyContact: {
+		firstName: {
+			type: String,
+			default: null,
+		},
+		lastName: {
+			type: String,
+			default: null,
+		},
+		phoneNumber: {
+			type: String,
+			default: null,
+		},
+	},
 })
 
 export default mongoose.model('Patient', patientSchema)

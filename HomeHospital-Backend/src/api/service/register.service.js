@@ -22,6 +22,9 @@ export async function registerUser(req) {
 		gender,
 		dateOfBirth,
 		phoneNumber,
+		contactFirstName,
+		contactLastName,
+		contactPhoneNumber,
 	} = req.body
 
 	// check if user exists
@@ -58,6 +61,11 @@ export async function registerUser(req) {
 				postalCode: postalCode,
 			},
 			phoneNumber: phoneNumber,
+		},
+		emergencyContact: {
+			firstName: contactFirstName,
+			lastName: contactLastName,
+			phoneNumber: contactPhoneNumber,
 		},
 	})
 	newUser.save()
