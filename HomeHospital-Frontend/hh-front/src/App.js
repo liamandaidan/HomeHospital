@@ -1,4 +1,5 @@
 import Login from "./components/Login";
+import Forgot from "./components/ForgotPass"
 import { useState } from "react";
 function App(props) {
   const [formState, setForms] = useState([]);
@@ -7,7 +8,10 @@ function App(props) {
     setForms(logs);
   };
 
-  return <Login addForms={addForms} />;
+  return (
+   <Forgot/>
+  );
+  // <Login addForms={addForms} />
 }
 
 export default App;
