@@ -1,51 +1,51 @@
 .logo1 {
   position: absolute;
-  width: 510px;
-  height: 500px;
-  background: url("./img/hb1.png");
+  width: 20rem;
+  height: 20rem;
+  left: 100px;
 }
 
 .logo2 {
   position: absolute;
   width: 617px;
   height: 56px;
-  left: 100px;
-  top: 60px;
-  background: url("./img/hb2.png");
-  transform: matrix(1, 0, 0, -1, 0, 0);
+  left: -50px;
+  top: 72px;
+  /* transform: matrix(1, 0, 0, -1, 0, 0); */
 }
 .right {
-  position: absolute;
-  width: 609px;
-  height: 757px;
-  left: 583px;
-  background: rgba(244, 110, 253, 0.68);
-  border-radius: 0px 50px 50px 0px;
-}
-.med {
-  position: absolute;
-  width: 609px;
-  height: 687px;
-  background: url("./img/med.png");
-  border-radius: 0px 0px 50px 0px;
-  left: 583px;
-  top: 70px;
-}
-.content {
-  position: absolute;
-
-  height: 757px;
-  width: 1192px;
-  border-radius: 50px;
-  top: 96px;
-  left: 120px;
-  background: #fffefe;
-  box-shadow: 5px 5px 4px rgba(0, 0, 0, 0.3);
-}
-
-.bgdiv {
-  position: absolute;
-  width: 1440px;
-  height: 950px;
-  background: url("./img/bg.png");
-}
+    position: absolute;
+    width: 609px;
+    height: 757px;
+    left: 583px;
+    background: rgba(244, 110, 253, 0.68);
+    border-radius: 0px 50px 50px 0px;
+  }
+  .med {
+    position: absolute;
+    width: 609px;
+    height: 687px;
+    background: url("./img/med.png");
+    border-radius: 0px 0px 50px 0px;
+    left: 583px;
+    top: 70px;
+  }
+  .content {
+    position: absolute;
+  
+    height: 757px;
+    width: 1192px;
+    border-radius: 50px;
+    top: 96px;
+    left: 120px;
+    background: #fffefe;
+    box-shadow: 5px 5px 4px rgba(0, 0, 0, 0.3);
+  }
+  
+  .bgdiv {
+    position: absolute;
+    width: 1440px;
+    height: 950px;
+    background: url("./img/bg.png");
+  }
+  
