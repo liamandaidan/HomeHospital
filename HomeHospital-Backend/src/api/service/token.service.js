@@ -46,6 +46,12 @@ then new cookies are generated with the access and refresh tokens, and both toke
 allowed to proceed. 
  */
 export function checkAccessToken(req, res, next) {
+
+	if(ENV.DEV_ENV ==='prod'){
+		console.log('its a prod env!')
+	} else if (ENV.DEV_ENV === 'dev'){
+		console.log('its a dev env!')
+	}
 	// For dev purposes, we only want to get tokens from cookies, for ease of use. In production, we want to get tokens
 	//from both cookies and headers, and compare them
 	const token = req.cookies['accessTokenCookie'];
