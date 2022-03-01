@@ -14,7 +14,7 @@ body {
 }
 
 img {
-	width: 900px; /* you can use % */
+	width: 900px;
     height: auto;
 }
 
@@ -26,6 +26,12 @@ img {
 	align-items: center;
 	justify-content: center;
 }
+
+.container h1 {
+	font-size: 110px;
+}
+
+
 
 
 

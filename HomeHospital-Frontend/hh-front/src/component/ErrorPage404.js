@@ -8,13 +8,13 @@ export class ErrorPage404 extends Component {
 		return (
 			<div className="container">
 				<div className="row align-items-center">
-					<div className="col">
+					<div className="col-4">
 							<h1>404</h1>
 							<h3>Oops! Page Not Found</h3>
 							<p>Sorry, the page you are looking for doesn't exist.</p>
-							<a href="*" className="btn">Return To Homepage</a>
+							<a href="*" className="btn btn-primary">Return To Homepage</a>
 					</div>
-					<div className="col">
+					<div className="col-6">
 						<img src={errorpageimg} alt="Error page Image" />
 					</div>
 				</div>
