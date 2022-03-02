@@ -4,7 +4,7 @@ import bcrypt from 'bcryptjs'
 const regStatus = {
 	status: false,
 }
-export async function registerUser(req) {
+export const registerUser = async (req) => {
 	const { genSalt, hash } = bcrypt
 
 	// Destructure vales from client request
@@ -67,6 +67,7 @@ export async function registerUser(req) {
 		},
 	})
 	newUser.save()
+
 	// Set Registration status and attach the user
 	regStatus.status = true
 	regStatus.user = newUser

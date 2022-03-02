@@ -3,7 +3,7 @@ import ENV from '../configure/configure.js'
 import { webScraper } from '../webScraper/webScraper.js'
 
 // Function used to connect to the Database
-export default async function DBConnect() {
+const DBConnect = async () => {
 	try {
 		// Connect to the database with the connection string from the .env file
 		await mongoose.connect(ENV.MONGO_URI)
@@ -22,3 +22,5 @@ export default async function DBConnect() {
 		process.exit(1)
 	}
 }
+
+export default DBConnect

@@ -1,7 +1,7 @@
 import { chromium } from 'playwright'
 import MedicalFacility from '../models/medicalFacility.Model.js'
 
-export async function webScraper() {
+export const webScraper = async () => {
 	console.log('About to WebScrape')
 	// Launch browser;
 	const browser = await chromium.launch()
@@ -57,5 +57,3 @@ export async function webScraper() {
 
 	console.log('🔪 Web was scraped')
 }
-
-//setInterval(webscrape, 120000);
