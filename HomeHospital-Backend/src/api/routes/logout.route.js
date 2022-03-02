@@ -1,16 +1,17 @@
 import express from 'express'
 import { invalidateRefToken } from '../service/token.service.js'
-
-const options = {
-	maxAge: 1000 * 60 * 2, // valid for 2 minutes,
-	httpOnly: true,
-}
+import {
+	accessOptions,
+	refreshOptions,
+} from '../../configure/cookie.configure.js'
 
 const route = express.Router()
 
+// Logs out the user byu hitting the invalidate service by remove the toke from the DB
+// And then clearing the cookies
 route.post('/', invalidateRefToken, (req, res) => {
-	res.clearCookie('accessTokenCookie', options)
-	res.clearCookie('refreshTokenCookie', options)
+	res.clearCookie('accessTokenCookie', accessOptions)
+	res.clearCookie('refreshTokenCookie', refreshOptions)
 	res.status(200).json({ message: 'User successfully logged out.' })
 })
 

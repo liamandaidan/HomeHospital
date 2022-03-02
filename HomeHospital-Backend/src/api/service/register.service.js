@@ -13,7 +13,6 @@ export async function registerUser(req) {
 		lastName,
 		email,
 		password,
-		age,
 		streetAddress,
 		cityName,
 		provName,
@@ -53,7 +52,6 @@ export async function registerUser(req) {
 		user: {
 			firstName: firstName,
 			lastName: lastName,
-			age: age,
 			address: {
 				streetAddress: streetAddress,
 				cityName: cityName,

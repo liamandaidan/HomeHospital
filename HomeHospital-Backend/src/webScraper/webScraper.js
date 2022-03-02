@@ -58,5 +58,4 @@ export async function webScraper() {
 	console.log('🔪 Web was scraped')
 }
 
-//webscrape();
 //setInterval(webscrape, 120000);

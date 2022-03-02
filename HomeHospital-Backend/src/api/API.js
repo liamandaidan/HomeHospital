@@ -20,8 +20,11 @@ app.use('/test', test)
 app.use('/register', register)
 app.use('/login', login)
 app.use('/logout', logout)
+
+// Add a facility, view list of all facilities
 app.use('/medicalFacility', createFacility)
 app.use('/updateWaitTimesTemp', updateWaitTimesTemp)
+
 
 // exports the router application
 export default app

@@ -1,6 +1,6 @@
 import mongoose from 'mongoose'
 import ENV from '../configure/configure.js'
-import { webScraper } from '../webscaper/webScraper.js'
+import { webScraper } from '../webScraper/webScraper.js'
 
 // Function used to connect to the Database
 export default async function DBConnect() {
