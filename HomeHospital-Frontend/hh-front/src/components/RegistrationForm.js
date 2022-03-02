@@ -31,7 +31,6 @@ function RegistrationForm() {
   const [validPostalValue, setValidPostalValue] = useState(false);
   const [validPhoneValue, setValidPhoneValue] = useState(false);
   const [validEmailValue, setValidEmailValue] = useState(false);
-  const [validAgeValue, setValidAgeValue] = useState(false);
   const [validHCValue, setValidHCValue] = useState(false);
   const [validPasswordValue, setValidPasswordValue] = useState(false);
   const [validClientFormValue, setValidClientFormValue] = useState(false);
@@ -48,8 +47,7 @@ function RegistrationForm() {
       validPhoneValue &&
       validEmailValue &&
       validPasswordValue &&
-      validHCValue &&
-      validAgeValue
+      validHCValue
     ) {
       setValidClientFormValue(true);
     } else {
@@ -66,7 +64,6 @@ function RegistrationForm() {
     setValidClientFormValue,
     validClientFormValue,
     validPasswordValue,
-    validAgeValue,
   ]);
 
   //   Reset Form function
@@ -255,16 +252,15 @@ function RegistrationForm() {
       postalCode: postalCodeValue,
       phoneNumber: phoneValue,
       email: emailValue,
-      age: ageValue,
       HCnumber: hcValue,
       gender: genderValue,
       dateOfBirth: dobValue,
       password: passwordValue,
-      emergencyContact: {
-        firstName: emFirstNameValue,
-        lastName: emLastNameValue,
-        phoneNumber: emPhoneValue,
-      },
+      // emergencyContact: {
+      //   firstName: emFirstNameValue,
+      //   lastName: emLastNameValue,
+      //   phoneNumber: emPhoneValue,
+      // },
     }).then((response) => {
       console.log("Registration Successful");
       navigate("/login");
