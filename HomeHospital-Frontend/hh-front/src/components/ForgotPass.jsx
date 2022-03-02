@@ -8,11 +8,17 @@ export default function ForgotPass() {
     <Container>
       <div className="bgdiv">
         <div className="content">
-          <div className="med"/>
+          <div className="med" />
+          <div className="forgot">
+            <p className="fp">Forgot Password?</p>
+          </div>
           <div className="logo1">
             <img src={logo1} className="logo1"></img>
           </div>
           <div className="right">
+            <div className="title">
+              <p>Home Hospital</p>
+            </div>
             <div className="logo2">
               <img src={logo2} className="logo2"></img>
             </div>
