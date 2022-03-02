@@ -43,6 +43,10 @@ const patientSchema = new mongoose.Schema({
 			default: null,
 		},
 	},
+	requests: {
+		type: [{ type: mongoose.Schema.Types.ObjectId, ref: 'VisitRequest' }],
+		default: null,
+	},
 })
 
 export default mongoose.model('Patient', patientSchema)

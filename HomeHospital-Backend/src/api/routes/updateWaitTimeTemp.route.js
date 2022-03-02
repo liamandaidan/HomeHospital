@@ -1,5 +1,5 @@
 import express from 'express'
-import { webScraper } from '../../webscaper/webScraper.js'
+import { webScraper } from '../../webScraper/webScraper.js'
 
 // Creates Router
 const route = express.Router()

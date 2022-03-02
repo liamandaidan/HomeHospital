@@ -10,12 +10,6 @@ const userSchema = new mongoose.Schema({
 		type: String,
 		required: true,
 	},
-	age: {
-		type: Number,
-		min: 1,
-		max: 100,
-		required: true
-	},
 	address: {
 		type: addressSchema,
 		required: true

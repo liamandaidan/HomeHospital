@@ -1,5 +1,4 @@
 import express from 'express'
-
 import { logUserIn } from '../service/login.service.js'
 import { generateAccessToken } from '../service/token.service.js'
 

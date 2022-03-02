@@ -3,7 +3,7 @@ import PatientModel from '../../models/patient.Model.js'
 
 const { compare } = bcrypt
 
-export async function logUserIn(req, res, next) {
+export const logUserIn = async (req, res, next) => {
 	const { email, password } = req.body
 
 	const patient = await PatientModel.findOne({ email: email })
