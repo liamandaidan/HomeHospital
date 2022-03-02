@@ -1,7 +1,6 @@
 import mongoose from 'mongoose'
 
-const vitalsSchema = {
-	vitalsId: mongoose.Schema.Types.ObjectId,
+const vitalsSchema = new mongoose.Schema({
 	BloodPressure: Number,
 	Temperature: Number,
 	BloodO2: Number,
@@ -10,6 +9,6 @@ const vitalsSchema = {
 	Height: Number,
 	Weight: Number,
 	_id: false,
-}
+})
 
 export default vitalsSchema

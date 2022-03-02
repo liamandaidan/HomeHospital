@@ -13,7 +13,7 @@ route.post('/', async (req, res) => {
 			console.log('Error: User already exists')
 			res.status(422).send({
 				status: 'Error',
-				message: 'User already exists',
+				message: 'Something went wrong with the registration, please try again.',
 			})
 			return
 		}
