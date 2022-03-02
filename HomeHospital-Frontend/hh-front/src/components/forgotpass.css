@@ -65,16 +65,15 @@
   color: #616060;
 }
 .fp {
-  position: absolute;
+  /* position: absolute;
   width: 1000px;
-  height: 44px;
-  top: 300px;
-  left: 75px;
+  height: 44px; */
+  /* top: 300px;
+  left: 75px; */
   font-family: Inter;
   font-style: normal;
   font-weight: 500;
   font-size: 36px;
-  line-height: 44px;
   /* identical to box height */
 
   letter-spacing: 0.25em;
@@ -87,4 +86,13 @@
   position: absolute;
   width: 420px;
   height: 38px;
+}
+
+.leftBtm{
+  position: absolute;
+  width: 540px;
+  height: 400px;
+  top: 290px;
+  left: 21px;
+  /* background: rgba(244, 110, 253, 0.68); */
 }

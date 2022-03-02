@@ -1,5 +1,5 @@
 import React from "react";
-import { Container } from "react-bootstrap";
+import { Form, Container, Button, Row, Col } from "react-bootstrap";
 import "./forgotpass.css";
 import logo1 from "./img/hb1.png";
 import logo2 from "./img/hb2.png";
@@ -9,9 +9,31 @@ export default function ForgotPass() {
       <div className="bgdiv">
         <div className="content">
           <div className="med" />
-          <div className="forgot">
-            <p className="fp">Forgot Password?</p>
+
+          <div className="leftBtm">
+            <Row>
+              <Col>
+                {/* <p className="fp">Forgot Password?</p> */}
+              </Col>
+            </Row>
+
+            <Form>
+              <Form.Group className="mb-3" controlId="formBasicEmail">
+                <Row>
+                  <Col>
+                  <Form.Label className="fp">Forgot Password?</Form.Label>
+                  </Col>
+                </Row>
+                <Row>
+                  <Form.Control type="email" placeholder="Enter email" />
+                </Row>
+              </Form.Group>
+              <Button variant="primary" type="submit">
+                Submit
+              </Button>
+            </Form>
           </div>
+
           <div className="logo1">
             <img src={logo1} className="logo1"></img>
           </div>
