@@ -3,7 +3,15 @@ import { Form, Container, Button, Row, Col } from "react-bootstrap";
 import "./forgotpass.css";
 import logo1 from "./img/hb1.png";
 import logo2 from "./img/hb2.png";
+
 export default function ForgotPass() {
+  /*
+  Here we will create the redirection 
+  */
+  function handleSubmit(e){
+    e.preventDefault();
+    console.log('You clicked submit!');
+  }
   return (
     <Container>
       <div className="bgdiv">
@@ -24,12 +32,11 @@ export default function ForgotPass() {
                   <Form.Control type="email" placeholder="Enter email" />
                 </Row>
               </Form.Group>
-
               <Button class="col-xs-3" variant="secondary" type="back">
                 Back
               </Button>
               &nbsp;
-              <Button class="btnSpace" variant="primary" type="submit">
+              <Button class="btnSpace" variant="primary" type="submit" onSubmit={handleSubmit}>
                 Submit
               </Button>
             </Form>
