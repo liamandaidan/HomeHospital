@@ -23,13 +23,12 @@ route.post('/', async (req, res, next) => {
         const patient = await PatientModel.findOne({ email: email })
         console.log("Return from DB is: " + patient);
         if(patient != null) {
-            const resettoken = jwt.sign({email: email}, resetKey, {expiresIn: "24h"});
+            const resettoken = jwt.sign({email: email}, resetKey, {expiresIn: "24h"});//verify should return the email
             console.log("Token is: " + resettoken);
             const link = `${clientURL}?uemail=${email}&tokenstring=${resettoken}`;
             console.log("Link is: " + link);
             console.log("Name is: " + patient.user.firstName);
             sendEmailAlt(email, "Password Reset Request", {name: patient.user.firstName, link: link});
-            //sendEmailAlt(email, "Password Reset Request", {name: patient.user.firstName, link: link});
             res.status(201).send({ message: "Send mail complete" })
         }
     } catch(e) {
