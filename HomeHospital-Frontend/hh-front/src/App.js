@@ -6,6 +6,7 @@ import Home from "./pages/Home";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
 import User from "./pages/User";
+import Forget from "./components/ForgotPass";
 
 function App() {
   useEffect(() => {
@@ -19,6 +20,7 @@ function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/user" element={<User />} />
         <Route path="*" element={<Error />} />
+        <Route path="/forget" element={<Forget />} />
         <Route
           path="/register"
           element={<Register className="full-height" />}
