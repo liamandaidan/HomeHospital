@@ -13,7 +13,10 @@ import AlertModal from "./AlertModal";
 import { render } from "react-dom";
 
 function SymptomsForm() {
+
   const [additionalInfo, setAdditionalInfo] = useState("");
+  const [modalState, setModalState] = useState(false);
+
   const [symptomsList, setSymptomsList] = useState([
     {
       symptom: "",
@@ -63,6 +66,14 @@ function SymptomsForm() {
 
     
   };
+
+  const showModal = () => {
+    this.setModalState( true );
+  }
+
+  const hideModal = () => {
+    this.setModalState( false );
+  }
 
   return (
     <>

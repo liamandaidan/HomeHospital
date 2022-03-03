@@ -1,6 +1,6 @@
 import React from 'react';
-import logo from '../img/heartbeat.png';
-import profile from '../img/profilepicture.png';
+import logo from '../images/heartbeat.png';
+import profile from '../images/profilepicture.png';
 
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
