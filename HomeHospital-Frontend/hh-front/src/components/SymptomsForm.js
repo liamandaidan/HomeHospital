@@ -29,7 +29,7 @@ function SymptomsForm() {
 
   console.log(symptomsList);
   console.log(additionalInfo);
-  console.log
+  console.log(modalState);
 
   const handleSymptomsAdd = () => {
     setSymptomsList([
