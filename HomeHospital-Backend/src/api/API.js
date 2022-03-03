@@ -6,6 +6,7 @@ import logout from './routes/logout.route.js'
 import createFacility from './routes/medicalFacility.route.js'
 import { checkAccessToken } from './service/token.service.js'
 import updateWaitTimesTemp from './routes/updateWaitTimeTemp.route.js'
+import users from './routes/users.route.js'
 
 // Create the Router App
 const app = Router()
@@ -25,6 +26,7 @@ app.use('/logout', logout)
 app.use('/medicalFacility', createFacility)
 app.use('/updateWaitTimesTemp', updateWaitTimesTemp)
 
+app.use('/users', users)
 
 // exports the router application
 export default app
