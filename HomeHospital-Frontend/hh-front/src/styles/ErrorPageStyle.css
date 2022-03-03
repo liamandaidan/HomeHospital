@@ -5,23 +5,24 @@
 	text-decoration: none;
 	font-family: 'Inter', sans-serif;
 }
-
+/* 
 body {
 	height: 90vh;
 	display:flex;
 	justify-content:center;
 	align-items: center;
-}
+} */
 
-img {
+.col-6 {
 	width: 900px;
     height: auto;
 }
 
 .container {
+	height: 90vh;
 	max-width: 700px;
 	margin: auto;
-	height:50vh;
+	/* height:50vh; */
 	display:flex;
 	align-items: center;
 	justify-content: center;

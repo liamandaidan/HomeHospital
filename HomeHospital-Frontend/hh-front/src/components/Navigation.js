@@ -7,7 +7,7 @@ import NavDropdown from "react-bootstrap/NavDropdown";
 import Container from "react-bootstrap/Container";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "../styles/main.css";
-import icon from "../img/heartbeat.png";
+import icon from "../images/heartbeat.png";
 
 function Navigation() {
   return (
