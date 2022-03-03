@@ -32,7 +32,6 @@ export default function ForgotPass() {
                 className="col-xs-3"
                 variant="secondary"
                 type="back"
-                onSubmit={handleBack}
               >
                 Back
               </Button>
@@ -41,7 +40,6 @@ export default function ForgotPass() {
                 className="btnSpace"
                 variant="primary"
                 type="submit"
-                onSubmit={handleSubmit}
               >
                 Submit
               </Button>
