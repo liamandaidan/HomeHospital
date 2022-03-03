@@ -2,17 +2,31 @@
   "name": "homehospital-backend",
   "version": "1.0.0",
   "description": "Backend for HomeHospital management application",
-  "main": "index.js",
+  "main": "app.js",
+  "type": "module",
   "scripts": {
-    "ts:build": "rm -rf ./dist && tsc",
-    "dev": "nodemon ./src/app.ts",
-    "start": "node ./dist/src/app.js"
+    "dev": "nodemon ./src/app.js",
+    "start": "node ./src/app.js"
   },
   "keywords": [],
-
   "repository": {
     "type": "git",
     "url": "https://github.com/liamandaidan/HomeHospital"
+  },
+  "license": "ISC",
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "cookie-parser": "^1.4.6",
+    "cors": "^2.8.5",
+    "dotenv": "^15.0.0",
+    "express": "^4.17.2",
+    "express-validator": "^6.14.0",
+    "jsonwebtoken": "^8.5.1",
+    "mongoose": "^6.2.0",
+    "playwright": "^1.19.1"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.15"
   },
   "author": {
     "name": "Mike Cann",
@@ -55,17 +69,5 @@
       "email": "",
       "url": ""
     }
-  ],
-  "license": "ISC",
-  "dependencies": {
-    "dotenv": "^15.0.0",
-    "express": "^4.17.2",
-    "express-validator": "^6.14.0"
-  },
-  "devDependencies": {
-    "@types/express": "^4.17.13",
-    "@types/node": "^17.0.14",
-    "nodemon": "^2.0.15",
-    "typescript": "^4.5.5"
-  }
+  ]
 }
