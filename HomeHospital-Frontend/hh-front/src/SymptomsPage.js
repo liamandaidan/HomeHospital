@@ -13,7 +13,7 @@ import Row from "react-bootstrap/Row";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./styles/main.css";
 
-function App() {
+function SymptomsPage() {
   return (
     <>
       <Navigation />
@@ -47,4 +47,4 @@ function App() {
   );
 }
 
-export default App;
+export default SymptomsPage;

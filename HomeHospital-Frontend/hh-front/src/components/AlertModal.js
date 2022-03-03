@@ -30,7 +30,7 @@ function AlertModal() {
         <Modal.Body className="modal-content modal-dialog-centered">
           <p>
             This will be a disclaimer stating that the information entered is up
-            tp patient discretion. If they feel this is an emergency that is in
+            to patient discretion. If they feel this is an emergency that is in
             need of urgent care, call 911.
           </p>
         </Modal.Body>
@@ -40,7 +40,7 @@ function AlertModal() {
               I Acknowledge
             </Button>
             <div>
-              <a onClick={handleClose}>cancel request</a>
+              <a className="cancel-lnk" onClick={handleClose}>cancel request</a>
             </div>
           </div>
         </Modal.Footer>
