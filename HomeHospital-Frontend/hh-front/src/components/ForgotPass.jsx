@@ -12,23 +12,24 @@ export default function ForgotPass() {
 
           <div className="leftBtm">
             <Row>
-              <Col>
-                {/* <p className="fp">Forgot Password?</p> */}
-              </Col>
+              <Col>{/* <p className="fp">Forgot Password?</p> */}</Col>
             </Row>
 
             <Form>
               <Form.Group className="mb-3" controlId="formBasicEmail">
                 <Row>
-                  <Col>
                   <Form.Label className="fp">Forgot Password?</Form.Label>
-                  </Col>
                 </Row>
                 <Row>
                   <Form.Control type="email" placeholder="Enter email" />
                 </Row>
               </Form.Group>
-              <Button variant="primary" type="submit">
+
+              <Button class="col-xs-3" variant="secondary" type="back">
+                Back
+              </Button>
+              &nbsp;
+              <Button class="btnSpace" variant="primary" type="submit">
                 Submit
               </Button>
             </Form>
