@@ -11,7 +11,7 @@ import Col from "react-bootstrap/Col";
 import Row from "react-bootstrap/Row";
 
 import "bootstrap/dist/css/bootstrap.min.css";
-import "./styles/main.css";
+import "../styles/main.css";
 
 function SymptomsPage() {
   return (
@@ -39,7 +39,6 @@ function SymptomsPage() {
           </Col>
           <Col>
             <PatientInfo />
-            <AlertModal />
           </Col>
         </Row>
       </Container>
