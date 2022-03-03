@@ -7,6 +7,7 @@ import Login from "./pages/Login";
 import Register from "./pages/Register";
 import User from "./pages/User";
 import Forget from "./components/ForgotPass";
+import ErrorPage404 from "./components/ErrorPage404";
 
 function App() {
   useEffect(() => {
@@ -21,6 +22,7 @@ function App() {
         <Route path="/user" element={<User />} />
         <Route path="*" element={<Error />} />
         <Route path="/forget" element={<Forget />} />
+        <Route path="/Error" element={<ErrorPage404 />} />
         <Route
           path="/register"
           element={<Register className="full-height" />}
