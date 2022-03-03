@@ -1,12 +1,21 @@
 import express from 'express'
+import { checkAccessToken } from '../service/token.service.js'
 
 // Creates Router
 const route = express.Router()
 
-// Get route for test request
 route.get('/', (req, res) => {
-	console.log('received a request!')
-	res.send({ data: 'This was a success!' })
+	const accessT = res.locals.accessT
+	const refreshT = res.locals.refreshT
+	console.log('User made it to the test route!')
+	// console.log("accessT: " + accessT);
+	// console.log("refreshT: " + refreshT);
+	res.status(201).json({
+		message: 'You are authorized to reach this page!',
+		user: req.authUser,
+		accessT: accessT,
+		refreshT: refreshT,
+	})
 })
 
 // export this route
