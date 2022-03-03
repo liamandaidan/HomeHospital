@@ -15,7 +15,9 @@ import { render } from "react-dom";
 function SymptomsForm() {
 
   const [additionalInfo, setAdditionalInfo] = useState("");
-  const [modalState, setModalState] = useState(false);
+  const [modalState, setModalState] = useState({
+    show: false,
+  });
 
   const [symptomsList, setSymptomsList] = useState([
     {
@@ -27,6 +29,7 @@ function SymptomsForm() {
 
   console.log(symptomsList);
   console.log(additionalInfo);
+  console.log(modalState);
 
   const handleSymptomsAdd = () => {
     setSymptomsList([
@@ -68,11 +71,11 @@ function SymptomsForm() {
   };
 
   const showModal = () => {
-    this.setModalState( true );
+    setModalState({ show: true });
   }
 
   const hideModal = () => {
-    this.setModalState( false );
+    this.setModalState({ show: false } );
   }
 
   return (
@@ -109,6 +112,8 @@ function SymptomsForm() {
                       <option value="1">1</option>
                       <option value="2">2</option>
                       <option value="3">3</option>
+                      <option value="4">4</option>
+                      <option value="5">5</option>
                     </Form.Select>
 
                     {symptomsList.length > 1 && (
@@ -137,7 +142,7 @@ function SymptomsForm() {
                 <Form.Control as="textarea" rows={3} onChange={(e) => setAdditionalInfo(e.target.value)} />
               </div>
               <div>
-                <Button className="submit-btn btn-light" onClick={displayAlert}>
+                <Button className="submit-btn btn-light" onClick={showModal}>
                   <span>Submit Symptoms</span>
                 </Button>
               </div>
