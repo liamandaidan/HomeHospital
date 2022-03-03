@@ -1,15 +1,15 @@
 import express from "express"; // Creates Router
 import SymptomSchema from "../../models/symptom.Schema.js";
+/*
 import visitRequestModel from "../../models/visitRequest.Model.js";
 import addressSchema from "./address.Schema.js";
-import vitalsSchema from "./vitals.Schema.js";
-import symptomSchema from "./symptom.Schema.js";
+import vitalsSchema from "./vitals.Schema.js";*/
+
 
 const app = express.Router();
 
 app.post("/newSymptom", async (req, res) => {
   const { symptomList, generalDescription } = req.body;
-
 
   try {
     // Loop over symptom list and add
