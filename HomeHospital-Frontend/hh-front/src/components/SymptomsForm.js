@@ -6,6 +6,7 @@ import Row from "react-bootstrap/Row";
 import Button from "react-bootstrap/Button";
 import Container from "react-bootstrap/Container";
 import InputGroup from "react-bootstrap/InputGroup";
+import Modal from "react-bootstrap/Modal";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "../styles/SymptomForm.css";
 
@@ -72,6 +73,7 @@ function SymptomsForm() {
 
   const showModal = () => {
     setModalState({ show: true });
+
   }
 
   const hideModal = () => {
@@ -150,6 +152,9 @@ function SymptomsForm() {
           </Col>
         </Row>
       </Container>
+      <Modal show={modalState.show}>
+        <AlertModal />
+      </Modal>
     </>
   );
 }

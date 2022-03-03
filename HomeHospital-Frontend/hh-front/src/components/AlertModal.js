@@ -4,25 +4,21 @@ import Button from "react-bootstrap/Button";
 import "../styles/modal.css";
 
 function AlertModal() {
-  const [show, setShow] = useState(false);
+  const [show, setShow] = useState(true);
 
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
 
   return (
     <>
-      <Button variant="primary" onClick={handleShow}>
-        Launch static backdrop modal
-      </Button>
-
       <Modal
         show={show}
         onHide={handleClose}
-        backdrop="static"
-        keyboard={false}
+        // backdrop="static"
+        // keyboard={false}
         className="modal-alert"
       >
-        <Modal.Header closeButton>
+        <Modal.Header>
           <Modal.Title className="modal-title modal-dialog-centered">
             Attention!
           </Modal.Title>
