@@ -3,18 +3,8 @@ import { Form, Container, Button, Row, Col } from "react-bootstrap";
 import "./forgotpass.css";
 import logo1 from "./img/hb1.png";
 import logo2 from "./img/hb2.png";
-import Axios from "axios";
+
 export default function ForgotPass() {
-  /*
-  Here we will create the redirection 
-  */
-  const handleSubmit = (e) => {
-    Axios.post("http://localhost:3001/test", {
-    
-    }).then((response) => {
-      alert("lets go");
-    });
-  };
 
   const handleBack = () => {};
 
