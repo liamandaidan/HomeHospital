@@ -1,6 +1,6 @@
 import React from "react";
 import { Form, Container, Button, Row, Col } from "react-bootstrap";
-import "./forgotpass.css";
+import "../styles/forgotpass.css";
 import logo1 from "../images/hb1.png";
 import logo2 from "../images/hb2.png";
 import { useNavigate } from "react-router-dom";
