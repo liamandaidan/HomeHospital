@@ -1,8 +1,8 @@
 import React from "react";
 import { Form, Container, Button, Row, Col } from "react-bootstrap";
 import "./forgotpass.css";
-import logo1 from "./img/hb1.png";
-import logo2 from "./img/hb2.png";
+import logo1 from "../images/hb1.png";
+import logo2 from "../images/hb2.png";
 
 export default function ForgotPass() {
 

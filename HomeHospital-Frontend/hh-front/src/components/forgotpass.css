@@ -25,7 +25,7 @@
   position: absolute;
   width: 609px;
   height: 687px;
-  background: url("./img/med.png");
+  background: url("../images/med.png");
   border-radius: 0px 0px 50px 0px;
   left: 583px;
   top: 70px;
@@ -46,7 +46,7 @@
   position: absolute;
   width: 1440px;
   height: 950px;
-  background: url("./img/bg.png");
+  background: url("../images/bg.png");
 }
 
 .title {
