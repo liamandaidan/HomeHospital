@@ -3,6 +3,8 @@ import MedicalFacility from '../../models/medicalFacility.Model.js'
 
 const app = express.Router()
 
+// Used to created a new medical facility
+// This was just used to manually enter a new facility
 app.post('/newFacility', async (req, res) => {
 	const {
 		hospitalName,
@@ -45,8 +47,27 @@ app.post('/newFacility', async (req, res) => {
 	}
 })
 
-app.get('/test', (req, res) => {
-	res.send('test')
+// Get a list of all of the hospitals with their wait times
+app.get('/viewFacilities', async (req, res) => {
+	try {
+		// Fetch the list of hospitals from the database without the list of practitioners or V number
+		const hospitalList = await MedicalFacility.find()
+			.select({
+				practitioners: 0,
+				__v: 0,
+			})
+			.exec()
+
+		// console.log(hospitalList)
+		// Sent the user an array of objects containing the hospitals and info
+		res.status(200).send({
+			message: 'Successful Request',
+			hospitalList: hospitalList,
+		})
+	} catch (error) {
+		console.log(error)
+		res.status(400).send({ message: 'Error in the request' })
+	}
 })
 
 // export this route
