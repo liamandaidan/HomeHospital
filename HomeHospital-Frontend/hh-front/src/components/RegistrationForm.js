@@ -256,11 +256,9 @@ function RegistrationForm() {
       gender: genderValue,
       dateOfBirth: dobValue,
       password: passwordValue,
-      // emergencyContact: {
-      //   firstName: emFirstNameValue,
-      //   lastName: emLastNameValue,
-      //   phoneNumber: emPhoneValue,
-      // },
+      contactFirstName: emFirstNameValue,
+      contactLastName: emLastNameValue,
+      contactPhoneNumber: emPhoneValue,
     }).then((response) => {
       console.log("Registration Successful");
       navigate("/login");
