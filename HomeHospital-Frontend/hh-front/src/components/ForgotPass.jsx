@@ -3,15 +3,21 @@ import { Form, Container, Button, Row, Col } from "react-bootstrap";
 import "./forgotpass.css";
 import logo1 from "./img/hb1.png";
 import logo2 from "./img/hb2.png";
-
+import Axios from "axios";
 export default function ForgotPass() {
   /*
   Here we will create the redirection 
   */
-  function handleSubmit(e){
-    e.preventDefault();
-    console.log('You clicked submit!');
-  }
+  const handleSubmit = (e) => {
+    Axios.post("http://localhost:3001/test", {
+    
+    }).then((response) => {
+      alert("lets go");
+    });
+  };
+
+  const handleBack = () => {};
+
   return (
     <Container>
       <div className="bgdiv">
@@ -32,11 +38,21 @@ export default function ForgotPass() {
                   <Form.Control type="email" placeholder="Enter email" />
                 </Row>
               </Form.Group>
-              <Button class="col-xs-3" variant="secondary" type="back">
+              <Button
+                className="col-xs-3"
+                variant="secondary"
+                type="back"
+                onSubmit={handleBack}
+              >
                 Back
               </Button>
               &nbsp;
-              <Button class="btnSpace" variant="primary" type="submit" onSubmit={handleSubmit}>
+              <Button
+                className="btnSpace"
+                variant="primary"
+                type="submit"
+                onSubmit={handleSubmit}
+              >
                 Submit
               </Button>
             </Form>
