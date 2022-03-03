@@ -3,11 +3,10 @@ import { Form, Container, Button, Row, Col } from "react-bootstrap";
 import "./forgotpass.css";
 import logo1 from "../images/hb1.png";
 import logo2 from "../images/hb2.png";
+import { useNavigate } from "react-router-dom";
 
 export default function ForgotPass() {
-
-  const handleBack = () => {};
-
+  let navigate = useNavigate();
   return (
     <Container>
       <div className="bgdiv">
@@ -32,6 +31,9 @@ export default function ForgotPass() {
                 className="col-xs-3"
                 variant="secondary"
                 type="back"
+                onClick={()=>{
+                  navigate("/login");
+                }}
               >
                 Back
               </Button>
@@ -40,6 +42,9 @@ export default function ForgotPass() {
                 className="btnSpace"
                 variant="primary"
                 type="submit"
+                onClick={()=>{
+                  navigate("/*");
+                }}
               >
                 Submit
               </Button>
