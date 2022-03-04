@@ -1,17 +1,17 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@700&display=swap');
+/* @import url('https://fonts.googleapis.com/css2?family=Inter:wght@700&display=swap');
 * {
 	margin: 0;
 	padding: 0;
 	text-decoration: none;
 	font-family: 'Inter', sans-serif;
 }
-/* 
+
 body {
 	height: 90vh;
 	display:flex;
 	justify-content:center;
 	align-items: center;
-} */
+} 
 
 .col-6 {
 	width: 900px;
@@ -22,7 +22,6 @@ body {
 	height: 90vh;
 	max-width: 700px;
 	margin: auto;
-	/* height:50vh; */
 	display:flex;
 	align-items: center;
 	justify-content: center;
@@ -39,4 +38,4 @@ body {
 
 
 
-
+ */
