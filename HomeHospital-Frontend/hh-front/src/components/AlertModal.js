@@ -3,27 +3,19 @@ import Modal from "react-bootstrap/Modal";
 import Button from "react-bootstrap/Button";
 import "../styles/modal.css";
 
-function AlertModal() {
-  const [show, setShow] = useState(true);
-
-  const handleClose = () => setShow(false);
-  const handleShow = () => setShow(true);
-
+function AlertModal(props) {
   return (
     <>
       <Modal
-        show={show}
-        onHide={handleClose}
-        // backdrop="static"
-        // keyboard={false}
-        className="modal-alert"
+        {...props}
+        centered
       >
-        <Modal.Header>
-          <Modal.Title className="modal-title modal-dialog-centered">
+        <Modal.Header className="modal-title">
+          <Modal.Title>
             Attention!
           </Modal.Title>
         </Modal.Header>
-        <Modal.Body className="modal-content modal-dialog-centered">
+        <Modal.Body className="modal-content">
           <p>
             This will be a disclaimer stating that the information entered is up
             to patient discretion. If they feel this is an emergency that is in
@@ -31,13 +23,13 @@ function AlertModal() {
           </p>
         </Modal.Body>
         <Modal.Footer className="modal-footer">
-          <div className="div-footer">
-            <Button className="ack-btn" variant="primary">
-              I Acknowledge
-            </Button>
-            <div>
-              <a className="cancel-lnk" onClick={handleClose}>cancel request</a>
-            </div>
+          <Button className="ack-btn" onClick={props.onHide} variant="primary">
+            I Acknowledge
+          </Button>
+          <div>
+            <a className="cancel-lnk" onClick={props.onHide}>
+              cancel request
+            </a>
           </div>
         </Modal.Footer>
       </Modal>
