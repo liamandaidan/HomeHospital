@@ -1,0 +1,89 @@
+.symptoms-container {
+    margin-top: 5%;
+}
+
+
+.title-div{
+    margin-bottom: 0.3rem;
+}
+
+.details-div{
+    margin-bottom: 2rem;
+}
+
+.user-nav {
+    margin-right: 40px;
+}
+
+.add-btn {
+    color: #7878AB;
+    border-radius: 1rem;
+    background-color: #F5F5FA;
+    
+}
+
+.submit-btn {
+    color: #7878AB;
+    border-radius: 1rem;
+    background-color: #F5F5FA;
+    margin-top: 1rem;
+}
+
+.remove-btn {
+    border: 0rem;
+}
+
+.add-btn:hover {
+    color: #F5F5FA;
+    border-radius: 1rem;
+    background-color: #7878AB;
+}
+
+.submit-btn:hover {
+    color: #F5F5FA;
+    border-radius: 1rem;
+    background-color: #7878AB;
+}
+
+
+.symptomGroup {
+    margin-bottom: 1rem;
+}
+
+.additional-info {
+    margin-top: 2rem;
+}
+
+textarea {
+    resize: none;
+}
+
+.heartbeat-logo {
+    width: 13rem;
+    height: 12rem;
+}
+
+.profilepic {
+    width: 6rem;
+    height: 6rem;
+    border-radius: 11rem;
+ 
+}
+
+.patient-info-requestDetails {
+    margin-top: 0.5rem;
+    align-content: left;
+    font-size: small;
+    line-height: 0.1em;
+}
+
+.patient-info-personalDetails {
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+}
+
+.patient-contactDetails {
+    font-size: medium;
+    line-height: 1rem;
+    margin-left: 1.5rem;
+}
