@@ -1,9 +1,5 @@
 import express from "express"; // Creates Router
 import SymptomSchema from "../../models/symptom.Schema.js";
-/*
-import visitRequestModel from "../../models/visitRequest.Model.js";
-import addressSchema from "./address.Schema.js";
-import vitalsSchema from "./vitals.Schema.js";*/
 
 
 const app = express.Router();
