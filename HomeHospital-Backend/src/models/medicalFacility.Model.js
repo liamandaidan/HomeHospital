@@ -25,7 +25,8 @@ const medicalFacility = new mongoose.Schema({
 		defult: null,
 	},
 	practitioners: {
-		type: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Practitioner' }],
+		type: [mongoose.Schema.Types.ObjectId],
+		ref: 'Practitioner',
 		default: null,
 	},
 })
