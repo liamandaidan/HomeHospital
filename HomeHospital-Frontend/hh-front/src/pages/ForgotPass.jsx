@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Form, Button, Row } from "react-bootstrap";
+import { Form, Button, Row, Alert } from "react-bootstrap";
 import "../styles/forgotpass.css";
 import logo1 from "../images/hb1.png";
 import logo2 from "../images/hb2.png";
@@ -7,43 +7,11 @@ import { useNavigate } from "react-router-dom";
 import bg from "../images/bg.png";
 
 export class ForgotPass extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      email: "",
-      btn: "",
-    };
-  }
-  /*
-  This function will handle the email on change
-  */
-  handleEmail = (event) => {
-    this.setState({
-      email: event.target.value,
-    });
-  };
-  handleSubmit = (event) => {
-    event.preventDefault();
-    let navigate = useNavigate();
-    if (this.state.btn.localeCompare("submit")) {
-      alert(`${this.state.btn}`);
-      navigate("/*");
-    } else {
-      alert("hello");
-    }
-    navigate("/login")
-  };
-  handleBack = (event) => {
-    this.setState({
-      btn: event.target.value,
-    });
-  };
 
-  handleSub = (event) => {
-    this.setState({
-      btn: event.target.value,
-    });
-  };
+  backFunc = (event) => {
+    let navigate = useNavigate();
+    navigate("/login");
+  }
 
   render() {
     return (
@@ -63,39 +31,20 @@ export class ForgotPass extends Component {
           <div className="med" />
 
           <div className="leftBtm">
-            <Form onSubmit={this.handleSubmit}>
-              <Form.Group className="mb-3" controlId="formBasicEmail">
-                <Row>
-                  <Form.Label className="fp">Forgot Password?</Form.Label>
-                </Row>
-                <Row>
-                  <Form.Control
-                    type="email"
-                    value={this.state.email}
-                    onChange={this.handleEmail}
-                  />
-                </Row>
-              </Form.Group>
-              <Button
-                className="col-xs-3"
-                variant="secondary"
-                type="back"
-                onClick={this.handleBack}
-                value={"back"}
-              >
-                Back
-              </Button>
-              &nbsp;
-              <Button
-                className="btnSpace"
-                variant="primary"
-                type="submit"
-                onClick={this.handleSub}
-                value={"submit"}
-              >
-                Submit
-              </Button>
-            </Form>
+            <Row>
+              <Alert varient="success">
+                <Alert.Heading>Forgot Password</Alert.Heading>
+                <p>
+                  If the provided email exists an email will be sent to the
+                  address.
+                </p>
+                <hr />
+                <p>
+                  Please follow the instructions within the email provided to
+                  recover your password.
+                </p>
+              </Alert>
+            </Row>
           </div>
 
           <div className="logo1">

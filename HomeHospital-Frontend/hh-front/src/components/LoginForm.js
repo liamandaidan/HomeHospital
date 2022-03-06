@@ -115,7 +115,6 @@ function LoginForm() {
                 name="email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                pattern="[A-Za-z- ]+"
                 required
                 placeholder="yourName@gmail.com"
                 pattern="^[a-zA-Z0-9_.-]+@[a-zA-Z]+[\.][a-zA-Z]{2,}$"
