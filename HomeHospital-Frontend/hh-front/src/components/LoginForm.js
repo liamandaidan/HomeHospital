@@ -164,7 +164,7 @@ function LoginForm() {
                 />
               </Col>
               <Col className={`ms-5 mt-3 ${classes.smallFont}`}>
-                <Link className={classes.teal} to="">
+                <Link className={classes.teal} to="/forget">
                   Forgot Password
                 </Link>
               </Col>

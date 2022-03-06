@@ -7,9 +7,9 @@ import Login from "./pages/Login";
 import Register from "./pages/Register";
 import User from "./pages/User";
 import Symptoms from "./pages/SymptomsPage";
-import NewPass from "./pages/NewPass";
 import Forget from "./pages/ForgotPassPage";
-import FE from "./pages/ForgotPass"
+import FA from "./pages/ForgotPassAlert"
+import Reset from "./pages/ResetForgotPass";
 function App() {
   useEffect(() => {
     document.title = "HomeHospital";
@@ -24,8 +24,8 @@ function App() {
         <Route path="*" element={<Error />} />
         <Route path="/forget" element={<Forget />} />
         <Route path="/symptoms" element={<Symptoms />} />
-        <Route path="/newPass" element={<NewPass />} />
-        <Route path="/fe" element={<FE />} />
+        <Route path="/fa" element={<FA />} />
+        <Route path="/reset" element={<Reset />} />
         <Route
           path="/register"
           element={<Register className="full-height" />}

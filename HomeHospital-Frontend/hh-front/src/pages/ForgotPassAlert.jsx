@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Form, Button, Row, Alert } from "react-bootstrap";
+import { Row, Alert } from "react-bootstrap";
 import "../styles/forgotpass.css";
 import logo1 from "../images/hb1.png";
 import logo2 from "../images/hb2.png";
@@ -7,11 +7,10 @@ import { useNavigate } from "react-router-dom";
 import bg from "../images/bg.png";
 
 export class ForgotPass extends Component {
-
   backFunc = (event) => {
     let navigate = useNavigate();
     navigate("/login");
-  }
+  };
 
   render() {
     return (

@@ -1,10 +1,11 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Form, Button, Row } from "react-bootstrap";
 import bg from "../images/bg.png";
 import "../styles/forgotpass.css";
 import logo1 from "../images/hb1.png";
 import logo2 from "../images/hb2.png";
+import { Axios } from "axios";
 export default function ForgotPassPage() {
   //create some hooks and nav
   let navigate = useNavigate();
@@ -39,14 +40,18 @@ export default function ForgotPassPage() {
    * This will submit on click. Assuming that validation has gone through.
    */
   function submitFunc() {
-    if (validEmail === true) {
-      //need to set up functionalality for an alert box/window
-      navigate("/fe");
-    } else {
-      alert(
-        "There was an email misinput. Please ensure your credentials are correct."
-      );
-    }
+    Axios.post("localhost4000/api/resetPass", {
+      email: email,
+    })
+      .then((response) => {
+        console.log("Sent a email request through");
+        //redirect to the alert page
+        navigate("/fa");
+      })
+      .catch((err) => {
+        //incase some unknown error occurs
+        alert("Error! + " + err);
+      });
   }
 
   return (
@@ -83,7 +88,7 @@ export default function ForgotPassPage() {
                 />
                 <div className="valid-feedback"></div>
                 <div className="invalid-feedback">
-                  Please enter a valid Email
+                  Please enter a valid Email.
                 </div>
               </Row>
             </Form.Group>
@@ -109,21 +114,16 @@ export default function ForgotPassPage() {
         </div>
 
         <div className="logo1">
-            <img src={logo1} className="logo1" alt="Generic logo"></img>
+          <img src={logo1} className="logo1" alt="Generic logo"></img>
+        </div>
+        <div className="right">
+          <div className="title">
+            <p>Home Hospital</p>
           </div>
-          <div className="right">
-            <div className="title">
-              <p>Home Hospital</p>
-            </div>
-            <div className="logo2">
-              <img
-                src={logo2}
-                className="logo2"
-                alt="Generic img for logo"
-              ></img>
-            </div>
+          <div className="logo2">
+            <img src={logo2} className="logo2" alt="Generic img for logo"></img>
           </div>
-
+        </div>
       </div>
     </div>
   );
