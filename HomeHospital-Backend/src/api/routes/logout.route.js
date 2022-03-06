@@ -1,20 +1,18 @@
-import express, { application } from 'express'
-import jwt from 'jsonwebtoken'
+import express from 'express'
+import { invalidateRefToken } from '../service/token.service.js'
+import {
+	accessOptions,
+	refreshOptions,
+} from '../../configure/cookie.configure.js'
 
 const route = express.Router()
 
-route.get('/', async (req, res) => {
-	// Check for token
-
-    //TODO 
-	if (res.cookies?.JWT) {
-		// invalidate the token
-		res.cookies.set('JWT', { expires: Date.now() })
-		//send message
-		res.send({ data: 'COOKIE DELETED: maybe' })
-	} else {
-        res.send({data: 'delete didnt work!'})
-    }
+// Logs out the user byu hitting the invalidate service by remove the toke from the DB
+// And then clearing the cookies
+route.post('/', invalidateRefToken, (req, res) => {
+	res.clearCookie('accessTokenCookie', accessOptions)
+	res.clearCookie('refreshTokenCookie', refreshOptions)
+	res.status(200).json({ message: 'User successfully logged out.' })
 })
 
 export default route

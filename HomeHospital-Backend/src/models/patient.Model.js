@@ -7,6 +7,7 @@ const patientSchema = new mongoose.Schema({
 		minlength: 8,
 		required: true,
 		lowercase: true,
+		unique: true,
 	},
 	password: {
 		type: String,
@@ -27,6 +28,25 @@ const patientSchema = new mongoose.Schema({
 	},
 	user: {
 		type: UserSchema,
+	},
+	emergencyContact: {
+		firstName: {
+			type: String,
+			default: null,
+		},
+		lastName: {
+			type: String,
+			default: null,
+		},
+		phoneNumber: {
+			type: String,
+			default: null,
+		},
+	},
+	requests: {
+		type: [mongoose.Schema.Types.ObjectId],
+		ref: 'VisitRequest',
+		default: null,
 	},
 })
 

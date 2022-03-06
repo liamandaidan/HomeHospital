@@ -6,27 +6,22 @@
 import mongoose from 'mongoose'
 
 const addressSchema = new mongoose.Schema({
-	streetNum: {
+	streetAddress: {
 		type: String,
 		required: true,
-		maxlength: 8
-	},
-	streetName: {
-		type: String,
-		required: true,
-		maxlength: 30
+		maxlength: 30,
 	},
 	cityName: {
 		type: String,
 		required: true,
 		minlength: 2,
-		maxlength: 30
+		maxlength: 30,
 	},
 	provName: {
 		type: String,
 		maxlength: 3,
 		required: true,
-		uppercase: true
+		uppercase: true,
 	},
 	postalCode: {
 		type: String,
@@ -37,9 +32,9 @@ const addressSchema = new mongoose.Schema({
 	country: {
 		type: String,
 		default: 'Canada',
-		required: true
-	}, 
-	_id: false
+		required: true,
+	},
+	_id: false,
 })
 
 export default addressSchema
