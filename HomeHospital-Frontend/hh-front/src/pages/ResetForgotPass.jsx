@@ -18,7 +18,9 @@ export default function ResetForgotPass() {
    * This function will serve to sanitize the password data, and compare the two inputs
    */
   function validatePassword() {
-    if (password === verifyPassword && password !== "") {
+      //pass must be a min length of 5
+
+    if (password === verifyPassword && password.length > 4) {
       document.getElementById("password").classList.remove("is-invalid");
       document.getElementById("password").classList.add("is-valid");
       document.getElementById("passwordVer").classList.remove("is-invalid");
@@ -90,7 +92,7 @@ export default function ResetForgotPass() {
                 />
                 <div className="valid-feedback"></div>
                 <div className="invalid-feedback">
-                  Please ensure passwords match!
+                  Please ensure passwords match and meet password criteria.
                 </div>
               </Row>
             </Form.Group>
