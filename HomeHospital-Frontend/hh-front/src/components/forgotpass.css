@@ -1,0 +1,100 @@
+.logo1 {
+  position: absolute;
+  width: 20rem;
+  height: 20rem;
+  left: 100px;
+}
+
+.logo2 {
+  position: absolute;
+  width: 617px;
+  height: 56px;
+  left: -50px;
+  top: 72px;
+  /* transform: matrix(1, 0, 0, -1, 0, 0); */
+}
+.right {
+  position: absolute;
+  width: 609px;
+  height: 757px;
+  left: 583px;
+  background: rgba(244, 110, 253, 0.68);
+  border-radius: 0px 50px 50px 0px;
+}
+.med {
+  position: absolute;
+  width: 609px;
+  height: 687px;
+  background: url("../images/med.png");
+  border-radius: 0px 0px 50px 0px;
+  left: 583px;
+  top: 70px;
+}
+.content {
+  position: absolute;
+
+  height: 757px;
+  width: 1192px;
+  border-radius: 50px;
+  top: 96px;
+  left: 120px;
+  background: #fffefe;
+  box-shadow: 5px 5px 4px rgba(0, 0, 0, 0.3);
+}
+
+.bgdiv {
+  position: absolute;
+  width: 1440px;
+  height: 950px;
+  background: url("../images/bg.png");
+}
+
+.title {
+  position: absolute;
+  width: 851px;
+  height: 54px;
+  top: 96px;
+  left: -180px;
+  font-family: Inter;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 45px;
+  line-height: 54px;
+  letter-spacing: 0.25em;
+
+  color: #616060;
+}
+.fp {
+  /* position: absolute;
+  
+  height: 44px; */
+  /* top: 300px;
+  left: 75px; */
+  font-family: Inter;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 30px;
+  /* identical to box height */
+  width: 1000px;
+  letter-spacing: 0.25em;
+ 
+
+  color: #616060;
+
+  text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+}
+.email {
+  position: absolute;
+  width: 420px;
+  height: 38px;
+}
+
+.leftBtm {
+  position: absolute;
+  width: 540px;
+  height: 400px;
+  top: 290px;
+  left: 21px;
+  text-align: center;
+  /* background: rgba(244, 110, 253, 0.68); */
+}
