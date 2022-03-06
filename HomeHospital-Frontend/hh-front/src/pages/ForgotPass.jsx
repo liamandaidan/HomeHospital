@@ -24,10 +24,6 @@ export default function ForgotPass() {
         <div className="med" />
 
         <div className="leftBtm">
-          <Row>
-            <Col>{/* <p className="fp">Forgot Password?</p> */}</Col>
-          </Row>
-
           <Form>
             <Form.Group className="mb-3" controlId="formBasicEmail">
               <Row>
