@@ -1,10 +1,11 @@
 import React from "react";
+import UserNavBar from "../components/UserNavBar";
 
 function User() {
   return (
-    <div>
-      <h1>Welcome to the User Page</h1>
-    </div>
+    <React.Fragment>
+      <UserNavBar />
+    </React.Fragment>
   );
 }
 
