@@ -13,7 +13,7 @@ function ErrorPage404() {
 				<h1>404</h1>
 				<h3>Oops! Page Not Found</h3>
 				<p>Sorry, the page you are looking for does doesn't exist.</p>
-				<a href="/user" className="btn">Return To Homepage</a>
+				<a href="/user" className="btnErrorPg">Return To Homepage</a>
 				</div>
 				</Col>
 				<Col> 
