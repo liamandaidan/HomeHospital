@@ -43,7 +43,7 @@
 	height: auto;
 }
 
-.btn {
+.btnErrorPg {
 	color: #F8F8F8;
     border-radius: 1rem;
     background-color: #BA91EF;
@@ -53,7 +53,7 @@
 	height: 32px;
 }
 
-.btn:hover {
+.btnErrorPg:hover {
 	background:#EC66F6;
 	color: black;
 }
