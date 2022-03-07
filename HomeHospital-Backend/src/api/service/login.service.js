@@ -8,7 +8,7 @@ import RefToken from '../../models/refreshTokens.Schema.js'
 
 const { compare } = bcrypt
 
-export async function logUserIn(req, res, next) {
+export const logUserIn = async (req, res, next) => {
 	const { email, password } = req.body
 
 	const patient = await PatientModel.findOne({ email: email })
@@ -32,7 +32,7 @@ export async function logUserIn(req, res, next) {
 			return
 		}
 	} else {
-		res.status(403).send({ message: 'Login Failed!!!'})
+		res.status(403).send({ message: 'Login Failed!!!' })
 		console.log('No User found')
 		return
 	}

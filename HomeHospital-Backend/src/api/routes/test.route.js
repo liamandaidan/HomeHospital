@@ -5,12 +5,17 @@ import { checkAccessToken } from '../service/token.service.js'
 const route = express.Router()
 
 route.get('/', (req, res) => {
-	const accessT = res.locals.accessT;
-    const refreshT = res.locals.refreshT;
+	const accessT = res.locals.accessT
+	const refreshT = res.locals.refreshT
 	console.log('User made it to the test route!')
-    // console.log("accessT: " + accessT);
-    // console.log("refreshT: " + refreshT);
-    res.status(201).json({message: "You are authorized to reach this page!", user: req.authUser, accessT: accessT, refreshT: refreshT});
+	// console.log("accessT: " + accessT);
+	// console.log("refreshT: " + refreshT);
+	res.status(201).json({
+		message: 'You are authorized to reach this page!',
+		user: req.authUser,
+		accessT: accessT,
+		refreshT: refreshT,
+	})
 })
 
 // export this route

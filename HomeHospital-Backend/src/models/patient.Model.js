@@ -29,6 +29,25 @@ const patientSchema = new mongoose.Schema({
 	user: {
 		type: UserSchema,
 	},
+	emergencyContact: {
+		firstName: {
+			type: String,
+			default: null,
+		},
+		lastName: {
+			type: String,
+			default: null,
+		},
+		phoneNumber: {
+			type: String,
+			default: null,
+		},
+	},
+	requests: {
+		type: [mongoose.Schema.Types.ObjectId],
+		ref: 'VisitRequest',
+		default: null,
+	},
 })
 
 export default mongoose.model('Patient', patientSchema)

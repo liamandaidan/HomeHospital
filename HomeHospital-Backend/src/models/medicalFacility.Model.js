@@ -16,11 +16,17 @@ const medicalFacility = new mongoose.Schema({
 		default: null,
 	},
 	waitTime: {
-		type: Number,
+		type: String,
 		default: null,
 	},
+	hospitalDesc: {
+		type: String,
+		maxlength: 100,
+		defult: null,
+	},
 	practitioners: {
-		type: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Practitioner' }],
+		type: [mongoose.Schema.Types.ObjectId],
+		ref: 'Practitioner',
 		default: null,
 	},
 })
