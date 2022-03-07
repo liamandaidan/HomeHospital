@@ -1,25 +1,29 @@
-import React, { Component } from 'react'
-import '../styles/ErrorPageStyle.css'
-import errorpageimg from '../images/404Picture.jpg'
-import 'bootstrap/dist/css/bootstrap.min.css'
+import React, { Component } from "react";
+import "../styles/ErrorPageStyle.css";
+import errorpageimg from "../images/404Picture.jpg";
+import { Container, Row, Col } from "react-bootstrap";
 
-export class ErrorPage404 extends Component {
-	render() {
-		return (
-			<div className="container">
-				<div className="row align-items-center">
-					<div className="col-4">
-							<h1>404</h1>
-							<h3>Oops! Page Not Found</h3>
-							<p>Sorry, the page you are looking for doesn't exist.</p>
-							<a href="*" className="btn btn-primary">Return To Homepage</a>
-					</div>
-					<div className="col-6">
-						<img src={errorpageimg} alt="Error page Image" />
-					</div>
+function ErrorPage404() {
+	return (
+	<Container>
+		<div className="fourOhFour-container">
+			<Row className="align-items-center">
+				<Col>
+				<div className="column-left" >
+				<h1>404</h1>
+				<h3>Oops! Page Not Found</h3>
+				<p>Sorry, the page you are looking for does doesn't exist.</p>
+				<a href="/user" className="btn">Return To Homepage</a>
 				</div>
-			</div>
-		)
-	}
+				</Col>
+				<Col> 
+				<div className="column-right" >
+				<img src={errorpageimg} alt="Error page Image" className="errorimg"/>
+				</div>
+				</Col>
+			</Row>
+		</div>
+	</Container>
+	)
 }
-export default ErrorPage404
+export default ErrorPage404;
