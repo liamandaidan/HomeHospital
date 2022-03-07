@@ -44,7 +44,8 @@ const patientSchema = new mongoose.Schema({
 		},
 	},
 	requests: {
-		type: [{ type: mongoose.Schema.Types.ObjectId, ref: 'VisitRequest' }],
+		type: [mongoose.Schema.Types.ObjectId],
+		ref: 'VisitRequest',
 		default: null,
 	},
 })
