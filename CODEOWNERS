@@ -8,6 +8,9 @@
 # be identified in the format @org/team-name. Teams must have
 # explicit write access to the repository. In this example,
 # the octocats team in the octo-org organization owns all .txt files.
+*/HomeHospital/HomeHospital-Backend/ @Backend
+*/HomeHospital/HomeHospital-Frontend/ @Frontend
+
 * @Bushx/Backend
 * @Benson-Davis/Backend
 * @IronsideZero/Backend
@@ -16,5 +19,4 @@
 * @RidgeBnz/Frontend
 * @Lance-Gee/Frontend
 
-*/HomeHospital/HomeHospital-Backend/ @Backend
-*/HomeHospital/HomeHospital-Frontend/ @Frontend
+
