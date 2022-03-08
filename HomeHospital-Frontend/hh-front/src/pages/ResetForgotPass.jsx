@@ -38,14 +38,19 @@ export default function ResetForgotPass() {
    * This will submit on click. Assuming that validation has gone through.
    */
   function submitFunc() {
-    if (validPassword === true) {
-      //need to set up functionalality for an alert box/window
-      navigate("/*");
-    } else {
-      alert(
-        "There was a password misinput. Please ensure your credentials are correct."
-      );
-    }
+    Axios.post("localhost:4000/api/forget", {
+      password: password,
+
+    })
+      .then((response) => {
+        console.log("Sent a password request through");
+        //redirect to the alert page
+        //navigate("/fa");
+      })
+      .catch((err) => {
+        //incase some unknown error occurs
+        alert("Error! + " + err);
+      });
   }
 
   return (
