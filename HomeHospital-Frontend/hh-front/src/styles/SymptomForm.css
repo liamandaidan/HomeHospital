@@ -63,6 +63,11 @@ textarea {
     height: 12rem;
 }
 
+.hb-bar {
+    height: 3rem;
+    width: 26rem;
+}
+
 .profilepic {
     width: 6rem;
     height: 6rem;
@@ -86,4 +91,22 @@ textarea {
     font-size: medium;
     line-height: 1rem;
     margin-left: 1.5rem;
+}
+
+.edit {
+    text-align: right;
+
+}
+
+a {
+    font-size: small;
+    color: #616060;
+    text-decoration: underline;
+}
+
+a:hover {
+    font-size: small;
+    color: #7878ab;
+    text-decoration: none;
+    cursor: pointer;
 }

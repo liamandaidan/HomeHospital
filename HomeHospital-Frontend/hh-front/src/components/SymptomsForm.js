@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-
 import Form from "react-bootstrap/Form";
 import Col from "react-bootstrap/Col";
 import Row from "react-bootstrap/Row";
@@ -8,16 +7,14 @@ import Container from "react-bootstrap/Container";
 import InputGroup from "react-bootstrap/InputGroup";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "../styles/SymptomForm.css";
+import "../styles/modal.css";
 
 import AlertModal from "./AlertModal";
-import { render } from "react-dom";
 
 function SymptomsForm() {
 
   const [additionalInfo, setAdditionalInfo] = useState("");
-  const [modalState, setModalState] = useState({
-    show: false,
-  });
+  const [modalState, setModalState] = useState(false);
 
   const [symptomsList, setSymptomsList] = useState([
     {
@@ -62,21 +59,6 @@ function SymptomsForm() {
     list[index][name] = value;
     setSymptomsList(list);
   };
-
-
-  const displayAlert = () => {
-    console.log("alert displayed!");
-
-    
-  };
-
-  const showModal = () => {
-    setModalState({ show: true });
-  }
-
-  const hideModal = () => {
-    this.setModalState({ show: false } );
-  }
 
   return (
     <>
@@ -142,7 +124,7 @@ function SymptomsForm() {
                 <Form.Control as="textarea" rows={3} onChange={(e) => setAdditionalInfo(e.target.value)} />
               </div>
               <div>
-                <Button className="submit-btn btn-light" onClick={showModal}>
+                <Button className="submit-btn btn-light" onClick={() => setModalState(true)}>
                   <span>Submit Symptoms</span>
                 </Button>
               </div>
@@ -150,6 +132,7 @@ function SymptomsForm() {
           </Col>
         </Row>
       </Container>
+      <AlertModal show={modalState} onHide={() => setModalState(false)} />
     </>
   );
 }
