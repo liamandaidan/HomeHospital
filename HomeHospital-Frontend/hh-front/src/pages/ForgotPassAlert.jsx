@@ -7,10 +7,11 @@ import { useNavigate } from "react-router-dom";
 import bg from "../images/bg.png";
 
 export class ForgotPass extends Component {
-  backFunc = (event) => {
-    let navigate = useNavigate();
-    navigate("/login");
-  };
+
+  /**
+   * This class will be used return the alert notifying user to check their email.
+   * @returns alert component
+   */
 
   render() {
     return (
