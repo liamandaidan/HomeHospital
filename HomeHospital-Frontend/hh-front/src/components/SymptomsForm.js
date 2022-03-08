@@ -15,7 +15,6 @@ function SymptomsForm() {
 
   const [additionalInfo, setAdditionalInfo] = useState("");
   const [modalState, setModalState] = useState(false);
-  const [lastValue, setLastValue] = useState("");
 
   const [symptomsList, setSymptomsList] = useState([
     {
@@ -24,16 +23,16 @@ function SymptomsForm() {
     },
   ]);
 
-
   console.log(symptomsList);
   console.log(additionalInfo);
   console.log(modalState);
   
+  //this function will be add a new symptom field as long as the previous fields have been filled. 
   const handleSymptomsAdd = (index) => {
 
     console.log("this is the last index: " + index);
 
-    if(symptomsList[index].symptom != "" && symptomsList[index].severity != "") {
+    if(symptomsList[index].symptom !== "" && symptomsList[index].severity !== "") {
 
       setSymptomsList([
         ...symptomsList,
@@ -44,7 +43,7 @@ function SymptomsForm() {
       ]);
     
     } else {
-      alert("please enter all details before added a new symptom");
+      alert("Please enter all details before added a new symptom. Thank you :) ");
     }
 
   };
