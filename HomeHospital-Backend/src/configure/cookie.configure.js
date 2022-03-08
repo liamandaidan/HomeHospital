@@ -11,4 +11,4 @@ export const refreshOptions = {
 }
 
 // The Time for how often the web scrapper updates the DB
-export const refreshTime = 120000 // 2 min
+export const refreshTime = 300000 // 5 min
