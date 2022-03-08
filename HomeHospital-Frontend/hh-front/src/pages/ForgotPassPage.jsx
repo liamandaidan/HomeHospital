@@ -40,7 +40,7 @@ export default function ForgotPassPage() {
    * This will submit on click. Assuming that validation has gone through.
    */
   function submitFunc() {
-    Axios.post("localhost4000/api/resetPass", {
+    Axios.post("localhost4000/api/reset", {
       email: email,
     })
       .then((response) => {
