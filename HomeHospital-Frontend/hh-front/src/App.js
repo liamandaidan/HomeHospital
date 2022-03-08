@@ -1,13 +1,16 @@
 import "bootstrap/dist/css/bootstrap.min.css";
 import React, { useEffect } from "react";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
-import Error from "./pages/Error";
+import Error from "./components/ErrorPage404";
 import Home from "./pages/Home";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
 import User from "./pages/User";
-import Forget from "./components/ForgotPass";
-
+import Symptoms from "./pages/SymptomsPage";
+import Forget from "./pages/ForgotPassPage";
+import FA from "./pages/ForgotPassAlert"
+import Reset from "./pages/ResetForgotPass";
+import HospitalSelectionPage from "./pages/HospitalSelectionPage";
 function App() {
   useEffect(() => {
     document.title = "HomeHospital";
@@ -21,6 +24,10 @@ function App() {
         <Route path="/user" element={<User />} />
         <Route path="*" element={<Error />} />
         <Route path="/forget" element={<Forget />} />
+        <Route path="/symptoms" element={<Symptoms />} />
+        <Route path="/fa" element={<FA />} />
+        <Route path="/reset" element={<Reset />} />
+		<Route path="/hospitals" element={<HospitalSelectionPage />} />
         <Route
           path="/register"
           element={<Register className="full-height" />}
