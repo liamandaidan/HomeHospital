@@ -38,10 +38,10 @@ function PatientInfo() {
         </Row>
         <Row>
           <Col className="patient-contactDetails">
-            <p>Contact number: </p>
-            <p>Alberta Health Care no: </p>
-            <p>Emergency contact name: </p>
-            <p>Contact contanct number: </p>
+            <p>Contact number: (403) 123-1234</p>
+            <p>Alberta Health Care no: 123456-12</p>
+            <p>Emergency contact name: Bob Belcher</p>
+            <p>Contact contanct number: (403) 222-1111</p>
           </Col>
         </Row>
         <Row>
