@@ -7,7 +7,7 @@ function BreadcrumbNav() {
       <div className="breadcrumb-div">
         <Breadcrumb>
           <Breadcrumb.Item href="#">Home</Breadcrumb.Item>
-          <Breadcrumb.Item href="https://getbootstrap.com/docs/4.0/components/breadcrumb/">
+          <Breadcrumb.Item href="/hospitals">
             Hospital
           </Breadcrumb.Item>
           <Breadcrumb.Item active>Symptoms</Breadcrumb.Item>
