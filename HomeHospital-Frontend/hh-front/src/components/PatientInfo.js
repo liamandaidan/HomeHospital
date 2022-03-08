@@ -6,8 +6,11 @@ import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import Container from "react-bootstrap/Container";
 import "../styles/SymptomForm.css";
+import axios from 'axios';
+
 
 function PatientInfo() {
+
   return (
     <>
       <Container className="patient-container">

@@ -15,6 +15,7 @@ function SymptomsForm() {
 
   const [additionalInfo, setAdditionalInfo] = useState("");
   const [modalState, setModalState] = useState(false);
+  const [lastValue, setLastValue] = useState("");
 
   const [symptomsList, setSymptomsList] = useState([
     {
@@ -27,15 +28,25 @@ function SymptomsForm() {
   console.log(symptomsList);
   console.log(additionalInfo);
   console.log(modalState);
+  
+  const handleSymptomsAdd = (index) => {
 
-  const handleSymptomsAdd = () => {
-    setSymptomsList([
-      ...symptomsList,
-      {
-        symptom: "",
-        severity: "",
-      },
-    ]);
+    console.log("this is the last index: " + index);
+
+    if(symptomsList[index].symptom != "" && symptomsList[index].severity != "") {
+
+      setSymptomsList([
+        ...symptomsList,
+        {
+          symptom: "",
+          severity: "",
+        },
+      ]);
+    
+    } else {
+      alert("please enter all details before added a new symptom");
+    }
+
   };
 
   const handleSymptomsRemove = (index) => {
@@ -50,6 +61,7 @@ function SymptomsForm() {
     const list = [...symptomsList];
     list[index][name] = value;
     setSymptomsList(list);
+
   };
 
   const handleSeverityChange = (e, index) => {
@@ -59,6 +71,7 @@ function SymptomsForm() {
     list[index][name] = value;
     setSymptomsList(list);
   };
+
 
   return (
     <>
@@ -108,11 +121,11 @@ function SymptomsForm() {
                       </Button>
                     )}
                   </InputGroup>
-                  {symptomsList.length - 1 === index &&
+                  {symptomsList.length - 1 === index && 
                     symptomsList.length < 5 && (
                       <Button
                         className="add-btn btn-light"
-                        onClick={handleSymptomsAdd}
+                        onClick={() => handleSymptomsAdd(index)}
                       >
                         <span>Add Symptom</span>
                       </Button>
