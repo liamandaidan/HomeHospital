@@ -16,6 +16,7 @@ const DBConnect = async () => {
 		console.error(
 			'THE DB FAILED 🤯 :\n.\n..\n...\n....\n.....\nPlease Check Your DB Connection... '
 		)
+		console.log(error.message)
 		await mongoose.connection.close()
 
 		// Close the application if an error occurred.
