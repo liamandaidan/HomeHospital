@@ -3,6 +3,7 @@ import Navigation from "../components/Navigation.js";
 import PatientInfo from "../components/PatientInfo.js";
 import BreadcrumbNav from "../components/BreadcrumbNav.js";
 import ProgressNav from "../components/ProgressNav.js";
+import HospitalForm from "../components/HospitalForm.jsx"
 import "../styles/main.css";
 
 import { Container, Row, Col } from "react-bootstrap";
@@ -28,8 +29,11 @@ function HospitalSelectionPage() {
         </Row>
         <Row>
           <Col>
-            <PatientInfo />
+		  <HospitalForm />
           </Col>
+		  <Col>
+		  <PatientInfo />
+		  </Col>
         </Row>
       </Container>
 	</>
