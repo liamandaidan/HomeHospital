@@ -13,7 +13,7 @@ function UserNavBar() {
   return (
     <Navbar bg="light" expand="lg">
       <Container fluid>
-        <Navbar.Brand href="#" className={classes.title}>
+        <Navbar.Brand className={classes.title}>
           HomeHospital<span>Patient</span>
         </Navbar.Brand>
         <Navbar.Toggle aria-controls="navbarScroll" />
