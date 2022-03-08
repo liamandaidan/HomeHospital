@@ -8,7 +8,7 @@ import { updatePassword } from '../service/resetPass.service.js'
 import PatientModel from '../../models/patient.Model.js'
 
 const resetKey = ENV.RESET_TOKEN_SECRET;
-const clientURL = "http://localhost:3000/api/reset"
+const clientURL = "http://localhost:3000/reset"
 const route = express.Router()
 
 //route for when the user clicks to reset their password
@@ -17,6 +17,14 @@ route.post('/', async (req, res, next) => {
     console.log("Got email: " + email);
     if(email){
         if(newPass && newPassConfirm) {//these parameters will only exist if user has entered a new password and confirmed
+            let queryEmail = req.query.uemail;
+            let queryToken = req.query.tokenstring;
+            console.log("query token is: " + queryToken);
+            let tokenEmail = jwt.verify(queryToken, resetKey);
+            if(tokenEmail === queryEmail) {
+                console.log("Emails match!" + tokenEmail + "   " + queryEmail);
+            }
+            
             const updateResult = await updatePassword(email, newPass);
             console.log("Result: " + updateResult);
             if(updateResult === 1)
@@ -46,6 +54,10 @@ route.post('/', async (req, res, next) => {
     } else {
         res.status(401).send('Information is required')
     }
+    
+})
+
+route.get('/verify', (req, res, next) => {
     
 })
 
