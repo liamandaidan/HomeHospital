@@ -1,0 +1,29 @@
+.loginBox {
+  width: 400px;
+  height: 520px;
+  margin: auto;
+  padding-bottom: 25px;
+  background-color: white;
+  border-radius: 25px;
+  box-shadow: 10px 5px 5px rgb(83, 83, 83);
+}
+
+.header {
+  text-align: center;
+  padding-top: 60px;
+  margin-left: 115px;
+}
+
+.smallFont {
+  font-size: smaller;
+}
+
+.teal {
+  margin-left: 25px;
+  color: #202020;
+}
+
+.innerBox {
+  padding-left: 30px;
+  padding-right: 30px;
+}
