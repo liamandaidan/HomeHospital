@@ -1,7 +1,10 @@
 import React from "react";
 
 function SelectHospital() {
-  return <div></div>;
+  return (
+	<div></div>
+
+  )
 }
 
 export default SelectHospital;

@@ -51,6 +51,9 @@
 	box-shadow:3px 5px 8px #c7c3c3;
 	width: 150px;
 	height: 32px;
+	text-align: center;
+	text-decoration: none;
+	line-height: 30px;
 }
 
 .btnErrorPg:hover {
