@@ -13,14 +13,16 @@ const route = express.Router()
 
 //route for when the user clicks to reset their password
 route.post('/', async (req, res, next) => {
-    const {email, newPass, newPassConfirm} = req.body;
+    const {email, token, newPass, newPassConfirm} = req.body;
     console.log("Got email: " + email);
     if(email){
         if(newPass && newPassConfirm) {//these parameters will only exist if user has entered a new password and confirmed
-            let queryEmail = req.query.uemail;
-            let queryToken = req.query.tokenstring;
+            console.log("email is: " + email);
+            console.log("token is: " + token);
+            console.log("newPass is: " + newPass);
+            console.log("newPassConfirm is: " + newPassConfirm);
             console.log("query token is: " + queryToken);
-            let tokenEmail = jwt.verify(queryToken, resetKey);
+            let tokenEmail = jwt.verify(token, resetKey);
             if(tokenEmail === queryEmail) {
                 console.log("Emails match!" + tokenEmail + "   " + queryEmail);
             }
