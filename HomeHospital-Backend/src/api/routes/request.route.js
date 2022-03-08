@@ -6,6 +6,11 @@ import visitRequest from '../../models/visitRequest.Model.js'
 
 const app = express.Router()
 
+/*
+	This route creates a new request in the DB. The user must supply their user ID, the selected hospital ID,
+	along with the list of symptoms and any additional information about their request. 
+
+*/
 app.post('/newRequest', async (req, res) => {
 	// get the HospitalID
 	// get patient ID
@@ -41,8 +46,10 @@ app.post('/newRequest', async (req, res) => {
 
 				// Save the request to the DB if all is OK
 				request.save()
-				
-				console.log(`New Patient request added to the DB: ${request._id}`)
+
+				console.log(
+					`New Patient request added to the DB: ${request._id}`
+				)
 				res.send({ message: 'this worked', data: symptomList })
 			} catch (error) {
 				console.log(`Error: ${error.message}`)
@@ -56,12 +63,6 @@ app.post('/newRequest', async (req, res) => {
 		console.log("Object ID's are Not valid")
 		res.status(400).send({ message: 'you fucked up' })
 	}
-
-	// create the request
-
-	//save request
-
-	//send back user confirmation that request was made along with request ID
 })
 
 export default app
