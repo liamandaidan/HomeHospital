@@ -5,7 +5,7 @@ import bg from "../images/bg.png";
 import "../styles/forgotpass.css";
 import logo1 from "../images/hb1.png";
 import logo2 from "../images/hb2.png";
-import { Axios } from "axios";
+import Axios from "axios";
 export default function ForgotPassPage() {
   //create some hooks and nav
   let navigate = useNavigate();
@@ -41,7 +41,7 @@ export default function ForgotPassPage() {
    */
   function submitFunc() {
     
-    Axios.post("localhost:4000/api/forget", {
+    Axios.post("http://localhost:4000/api/forget", {
       email: email,
     })
       .then((response) => {
