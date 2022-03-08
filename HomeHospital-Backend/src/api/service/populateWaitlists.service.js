@@ -9,7 +9,7 @@ export async function populateWaitlists() {
                 console.error(err);
                 return;
             }
-            console.log(data);
+            console.log(data.split("\r\n"));
         })
     } else {
         //console.log(allRequests);

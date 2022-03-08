@@ -1,19 +1,14 @@
 import express from 'express'
-import bcrypt from 'bcryptjs'
 import jwt from 'jsonwebtoken'
 import ENV from '../../configure/configure.js'
-//import sendEmail from '../service/sendEmail.js'
 import sendEmailAlt from '../service/sendEmail.service.js'
-import sendEmail from '../service/emailTutorial.js'
-//const sendEmail = require('../service/sendEmail.cjs');
-import handlebar from 'handlebars'
 import { updatePassword } from '../service/resetPass.service.js'
 
 
 import PatientModel from '../../models/patient.Model.js'
 
 const resetKey = ENV.RESET_TOKEN_SECRET;
-const clientURL = "http://localhost:4000/api/reset"
+const clientURL = "http://localhost:3000/api/reset"
 const route = express.Router()
 
 //route for when the user clicks to reset their password
