@@ -20,7 +20,7 @@ route.post('/', async (req, res, next) => {
             let tokenEmail = jwt.verify(token, resetKey);
             console.log("tokenEmail is: " + tokenEmail.email);
             if(tokenEmail.email === email) {
-                console.log("Emails match!" + tokenEmail.email + "   " + email);
+                console.log("Emails match!" + tokenEmail.email + " and " + email);
                 const updateResult = await updatePassword(email, newPass);
                 console.log("Result: " + updateResult);
                 if(updateResult === 1)
@@ -54,7 +54,6 @@ route.post('/', async (req, res, next) => {
     } else {
         res.status(401).send('Information is required')
     }
-    
 })
 
 route.get('/verify', (req, res, next) => {
