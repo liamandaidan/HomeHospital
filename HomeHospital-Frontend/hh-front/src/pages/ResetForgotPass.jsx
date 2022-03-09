@@ -17,13 +17,6 @@ export default function ResetForgotPass() {
   //if password is valid
   const [validPassword, setValidPassword] = useState(false);
 
-  // function findInputs() {
-  //   let url = window.location.href;
-  //   let [val1, val2] = url.split("?uemail=")[1].split("&tokenstring=");
-  //   console.log(val1+" "+val2);
-  //   //alert(val1 + " " + val2);
-  // }
-
   /**
    * This function will serve to sanitize the password data, and compare the two inputs
    */
@@ -56,7 +49,7 @@ export default function ResetForgotPass() {
       .then((response) => {
         console.log("Sent a password request through");
         //redirect to the alert page
-        //navigate("/fa");
+        navigate("/login");
       })
       .catch((err) => {
         //incase some unknown error occurs
