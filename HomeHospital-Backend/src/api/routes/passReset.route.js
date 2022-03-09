@@ -17,22 +17,20 @@ route.post('/', async (req, res, next) => {
     console.log("Got email: " + email);
     if(email){
         if(newPass && newPassConfirm) {//these parameters will only exist if user has entered a new password and confirmed
-            console.log("email is: " + email);
-            console.log("token is: " + token);
-            console.log("newPass is: " + newPass);
-            console.log("newPassConfirm is: " + newPassConfirm);
-            console.log("query token is: " + queryToken);
             let tokenEmail = jwt.verify(token, resetKey);
-            if(tokenEmail === queryEmail) {
-                console.log("Emails match!" + tokenEmail + "   " + queryEmail);
-            }
-            
-            const updateResult = await updatePassword(email, newPass);
-            console.log("Result: " + updateResult);
-            if(updateResult === 1)
-            {
-                res.status(201).send({ message: "Password successfully updated" })
+            console.log("tokenEmail is: " + tokenEmail.email);
+            if(tokenEmail.email === email) {
+                console.log("Emails match!" + tokenEmail.email + "   " + email);
+                const updateResult = await updatePassword(email, newPass);
+                console.log("Result: " + updateResult);
+                if(updateResult === 1)
+                {
+                    res.status(201).send({ message: "Password successfully updated" })
+                } else {
+                    res.status(406).send({ message: "Password update failed" })
+                }
             } else {
+                console.log("they don't match");
                 res.status(406).send({ message: "Password update failed" })
             }
         } else {
