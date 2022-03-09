@@ -1,7 +1,7 @@
 import React from "react";
 import logo from "../images/heartbeat.png";
 import profile from "../images/profilepicture.png";
-
+import hbar from "../images/hb2.png";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import Container from "react-bootstrap/Container";
@@ -37,11 +37,23 @@ function PatientInfo() {
         </Row>
         <Row>
           <Col className="patient-contactDetails">
-            <p>Contact number: </p>
-            <p>Alberta Health Care no: </p>
-            <p>Emergency contact name: </p>
-            <p>Contact contanct number: </p>
+            <p>Contact number: (403) 123-1234</p>
+            <p>Alberta Health Care no: 123456-12</p>
+            <p>Emergency contact name: Bob Belcher</p>
+            <p>Contact contanct number: (403) 222-1111</p>
           </Col>
+        </Row>
+        <Row>
+          <Col>
+            <div className="edit">
+            <a href="">Edit details</a>
+            </div>
+          </Col>
+        </Row>
+        <Row>
+            <Col>
+            <img src={hbar} alt="heartbeat bar" className="hb-bar"/>
+            </Col>
         </Row>
       </Container>
     </>
