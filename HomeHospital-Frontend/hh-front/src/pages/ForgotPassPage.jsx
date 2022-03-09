@@ -52,6 +52,7 @@ export default function ForgotPassPage() {
       .catch((err) => {
         //incase some unknown error occurs
         alert("Error! + " + err);
+        navigate("/*");
       });
   }
 
@@ -105,7 +106,7 @@ export default function ForgotPassPage() {
             <Button
               className="btnSpace"
               variant="primary"
-              type="submit"
+              type="button"
               disabled={!validEmail}
               onClick={submitFunc}
             >
