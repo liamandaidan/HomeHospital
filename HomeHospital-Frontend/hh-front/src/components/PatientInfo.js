@@ -12,16 +12,19 @@ import axios from 'axios';
 
 function PatientInfo() {
 
-  const [email, setEmail] = useState("");
+  const [email, setEmail] = useState("robynbalanag@gmail.com");
+  const [patient, setPatient] = useState({});
+
 
 
   useEffect(() => {
-    axios.post('http://localhost:4000/api/PatientInfoVisitRequest').then((response) => {
-      setEmail(response.data.email)
-         console.log(email)
-     }).catch(err => {
-       console.log(err)
-     })
+    axios.post('http://localhost:4000/api/users/PatientInfoVisitRequest', {
+      email: email,
+    }).then((response) => {
+      console.log(response.data);
+    }).catch((err) => {
+      console.log(err);
+    })
    }, [])
 
   return (
