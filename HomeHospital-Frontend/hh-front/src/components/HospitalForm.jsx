@@ -1,6 +1,7 @@
 import React, {useEffect} from "react";
 import { Container, Row, Col} from "react-bootstrap";
 import Axios from "axios";
+import HospitalFormStyle from "../styles/HospitalFormStyle.css";
 
 
 function SelectHospital() {
