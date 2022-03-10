@@ -29,9 +29,9 @@ function SelectHospital() {
           </div>
         </Row>
         <Row>
-          {posts.hospitalList?.map((post, key) => (
-            <Form>
-              <div>
+          {posts.hospitalList?.map((post) => (
+            <Form key={post._id}>
+              <div className="listOfHospitals">
                 <h2>{post.hospitalName}</h2>
                 <p>{post.waitTime}</p>
 				<p>{post.address.streetAddress}, {post.address.cityName}</p>
@@ -44,8 +44,6 @@ function SelectHospital() {
               </div>
             </Form>
           ))}
-          {/* {posts.hospitalList?.map(post => <div key={post.wait}>{post.waitTime}</div>)} */}
-          {/* {posts.hospitalList?.map(post => <div>{post.}</div>)} */}
         </Row>
       </Container>
     </>
