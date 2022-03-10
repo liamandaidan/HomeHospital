@@ -12,6 +12,9 @@ function SelectHospital() {
 			console.log(response.data);
 			setPosts(response.data);
 		})
+		.catch((err) => {
+			console.log("Error:" + err);
+		  })
 	}, [])
 
 
@@ -29,11 +32,10 @@ function SelectHospital() {
 					<div>
 						<h2>{post.hospitalName}</h2>
 						<p>{post.waitTime}</p>
+						<p>{post.address.streetAddress}, {post.address.cityName}</p>
 						<p></p>
 					</div>
 				))}
-				{/* {posts.hospitalList?.map(post => <div key={post.wait}>{post.waitTime}</div>)} */}
-				{/* {posts.hospitalList?.map(post => <div>{post.}</div>)} */}
 			</Row>
 		</Container>
 	</>
