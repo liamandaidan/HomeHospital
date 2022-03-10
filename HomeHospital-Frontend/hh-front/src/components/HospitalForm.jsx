@@ -25,7 +25,7 @@ function SelectHospital() {
       <Container className="hospitalList-container">
         <Row>
           <div className="hospitalList-title">
-            <p>Select Hospital</p>
+			<p>Select Hospital</p>
           </div>
         </Row>
         <Row>

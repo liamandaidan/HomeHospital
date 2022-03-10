@@ -1,5 +1,5 @@
 .hospitalList-title {
-  position: absolute;
+  /* position: absolute; */
   width: 480px;
   height: 44px; 
 
@@ -8,6 +8,7 @@
   font-weight: 500;
   font-size: 36px;
   line-height: 44px;
+  padding-bottom: 44px;
   /* identical to box height */
 
   color: #000000;
