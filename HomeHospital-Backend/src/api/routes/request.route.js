@@ -32,7 +32,10 @@ app.post('/newRequest', async (req, res) => {
 				// Create the new request
 				const request = await visitRequest.create({
 					patient: patient._id, //patientOID
+					patientFirstName: patient.user.firstName,
+					patientLastName: patient.user.lastName,
 					requestHospitalID: hospital._id, //hospitalID,
+					requestHospitalName: hospital.hospitalName,
 					// sets the patients address by default to the starting address
 					startAddress: {
 						streetAddress: address.streetAddress,
@@ -48,20 +51,20 @@ app.post('/newRequest', async (req, res) => {
 				request.save()
 
 				console.log(
-					`New Patient request added to the DB: ${request._id}`
+					`New Patient request added to the DB, RequestID: ${request._id}`
 				)
-				res.send({ message: 'this worked', data: symptomList })
+				res.send({ message: 'Request entered', RequestID: request._id })
 			} catch (error) {
 				console.log(`Error: ${error.message}`)
-				res.status(400).send({ message: 'you fucked up:' })
+				res.status(400).send({ message: 'Error' })
 			}
 		} else {
 			console.log('Patient or hospital Do no exist')
-			res.status(400).send({ message: 'you fucked up:' })
+			res.status(400).send({ message: 'Error' })
 		}
 	} else {
 		console.log("Object ID's are Not valid")
-		res.status(400).send({ message: 'you fucked up' })
+		res.status(400).send({ message: 'Error' })
 	}
 })
 
