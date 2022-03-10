@@ -1,8 +1,7 @@
 import React, {useEffect} from "react";
 import { Container, Row, Col} from "react-bootstrap";
 import Axios from "axios";
-import HospitalFormStyle from "../styles/HospitalFormStyle.css";
-
+import "../styles/HospitalSelectionStyles.css"
 
 function SelectHospital() {
 	useEffect(() => {
@@ -21,13 +20,11 @@ function SelectHospital() {
 		<Container className="hospitalList-container">
 			<Row>
 				<div className="hospitalList-title">
-					<h2>Select Hospital</h2>
+					<p>Select Hospital</p>
 				</div>
 			</Row>
 			<Row>
-				<div className="hospitalChoice">
-					<h2>Please select the hospital you would like to visit</h2>
-				</div>
+	
 			</Row>
 		</Container>
 	</>
