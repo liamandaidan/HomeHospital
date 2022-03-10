@@ -7,8 +7,13 @@ import { populateWaitlists } from './api/service/populateWaitlists.service.js'
 const app = express()
 
 // Run the application
-await RunApp(app)
-populateWaitlists();
+try {
+	await RunApp(app)
+	await populateWaitlists()
+} catch (error) {
+	console.error(error.message)
+	process.exit(1)
+}
 
 // Set the app to listen on environment Port
 app.listen(ENV.APP_PORT, () => {
