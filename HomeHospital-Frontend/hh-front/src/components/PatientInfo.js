@@ -9,7 +9,19 @@ import "../styles/SymptomForm.css";
 import axios from 'axios';
 
 
+
 function PatientInfo() {
+
+  const [patientInfo, setPatientInfo] = useState();
+
+  useEffect(() => {
+    axios.get('http://localhost:4000/app/getUser').then((response) => {
+         setListUsers(response.data)
+         console.log(listOfUsers)
+     }).catch(err => {
+       console.log(err)
+     })
+   }, [])
 
   return (
     <>
