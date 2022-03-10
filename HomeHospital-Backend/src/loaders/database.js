@@ -9,15 +9,20 @@ const DBConnect = async () => {
 		await mongoose.connect(ENV.MONGO_URI)
 		console.log('🗄  DB Connect was was a success!')
 
-		// Run the web scrapper after the database has been connected to to ensure the most recent wait times
-		// have been added to the database
-		await webScraper()
+		try {
+			// Run the web scrapper after the database has been connected to to ensure the most recent wait times
+			// have been added to the database
+			await webScraper()
+		} catch (error) {
+			console.error(`Issue with the Web Scraper: \n${error.message}`)
+			// Close the application if an error occurred.
+			process.exit(1)
+		}
 	} catch (error) {
 		console.error(
-			'THE DB FAILED 🤯 :\n.\n..\n...\n....\n.....\nPlease Check Your DB Connection... '
+			`THE DB FAILED 🤯 :\n.\n..\n...\n....\n.....\nPlease Check Your DB Connection... \n${error.message}`
 		)
 		await mongoose.connection.close()
-
 		// Close the application if an error occurred.
 		process.exit(1)
 	}
