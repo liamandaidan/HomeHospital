@@ -1,5 +1,6 @@
 import React from "react";
 import { Row, Col, Container } from "react-bootstrap";
+import HHGoogleMap from "../components/HHGoogleMap";
 import UserNavBar from "../components/UserNavBar";
 import classes from "./User.module.css";
 
@@ -11,7 +12,9 @@ function User() {
         <Row>
           <Col>
             <Row className={classes.boxArea}>PROFILE COMPONENT</Row>
-            <Row className={classes.boxArea}>MAP COMPONENT</Row>
+            <Row>
+              <HHGoogleMap />
+            </Row>
           </Col>
           <Col>
             <Row className={classes.boxArea}>CURRENT WAITLIST COMPONENT</Row>
