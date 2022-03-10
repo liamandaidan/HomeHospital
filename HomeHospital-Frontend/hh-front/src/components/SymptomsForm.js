@@ -12,7 +12,6 @@ import "../styles/modal.css";
 import AlertModal from "./AlertModal";
 
 function SymptomsForm() {
-
   const [additionalInfo, setAdditionalInfo] = useState("");
   const [modalState, setModalState] = useState(false);
 
@@ -26,14 +25,15 @@ function SymptomsForm() {
   console.log(symptomsList);
   console.log(additionalInfo);
   console.log(modalState);
-  
-  //this function will be add a new symptom field as long as the previous fields have been filled. 
-  const handleSymptomsAdd = (index) => {
 
+  //this function will be add a new symptom field as long as the previous fields have been filled.
+  const handleSymptomsAdd = (index) => {
     console.log("this is the last index: " + index);
 
-    if(symptomsList[index].symptom !== "" && symptomsList[index].severity !== "") {
-
+    if (
+      symptomsList[index].symptom !== "" &&
+      symptomsList[index].severity !== ""
+    ) {
       setSymptomsList([
         ...symptomsList,
         {
@@ -41,11 +41,11 @@ function SymptomsForm() {
           severity: "",
         },
       ]);
-    
     } else {
-      alert("Please enter all details before added a new symptom. Thank you :) ");
+      alert(
+        "Please enter all details before added a new symptom. Thank you :) "
+      );
     }
-
   };
 
   const handleSymptomsRemove = (index) => {
@@ -60,7 +60,6 @@ function SymptomsForm() {
     const list = [...symptomsList];
     list[index][name] = value;
     setSymptomsList(list);
-
   };
 
   const handleSeverityChange = (e, index) => {
@@ -71,6 +70,15 @@ function SymptomsForm() {
     setSymptomsList(list);
   };
 
+  const handleSubmit = () => {
+    const list = [...symptomsList];
+    const lastVaue = list.splice(index, 1);
+
+    if (lastValue != "") {
+      () => setModalState(false);
+    }
+    alert("Please complete all fields");
+  };
 
   return (
     <>
@@ -120,7 +128,7 @@ function SymptomsForm() {
                       </Button>
                     )}
                   </InputGroup>
-                  {symptomsList.length - 1 === index && 
+                  {symptomsList.length - 1 === index &&
                     symptomsList.length < 5 && (
                       <Button
                         className="add-btn btn-light"
@@ -133,10 +141,17 @@ function SymptomsForm() {
               ))}
               <div className="additional-info">
                 <Form.Label>Additional Information</Form.Label>
-                <Form.Control as="textarea" rows={3} onChange={(e) => setAdditionalInfo(e.target.value)} />
+                <Form.Control
+                  as="textarea"
+                  rows={3}
+                  onChange={(e) => setAdditionalInfo(e.target.value)}
+                />
               </div>
               <div>
-                <Button className="submit-btn btn-light" onClick={() => setModalState(true)}>
+                <Button
+                  className="submit-btn btn-light"
+                  onClick={() => setModalState(true)}
+                >
                   <span>Submit Symptoms</span>
                 </Button>
               </div>
