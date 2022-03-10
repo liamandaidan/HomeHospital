@@ -12,16 +12,16 @@ import axios from 'axios';
 
 function PatientInfo() {
 
-  // const [patientInfo, setPatientInfo] = useState();
+  const [patientInfo, setPatientInfo] = useState([]);
 
-  // useEffect(() => {
-  //   axios.get('http://localhost:4000/app/viewFacilities').then((response) => {
-  //        setPatientInfo(response.data)
-  //        console.log(patientInfo)
-  //    }).catch(err => {
-  //      console.log(err)
-  //    })
-  //  }, [])
+  useEffect(() => {
+    axios.get('http://localhost:4000/app/viewFacilities').then((response) => {
+         setPatientInfo(response.data)
+         console.log(patientInfo)
+     }).catch(err => {
+       console.log(err)
+     })
+   }, [])
 
   return (
     <>
