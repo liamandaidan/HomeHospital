@@ -1,19 +1,20 @@
-import React, {useEffect} from "react";
+import React, {useEffect, useState} from "react";
 import { Container, Row, Col} from "react-bootstrap";
 import Axios from "axios";
 import "../styles/HospitalSelectionStyles.css"
 
 function SelectHospital() {
+	const [posts , setPosts] = useState([])
+
 	useEffect(() => {
-		Axios.get("http://localhost:4000/api/medicalFacility/viewFacilities"
-		)
-		  .then((response) => {
-			console.log(response);
-		  })
-		  .catch((err) => {
-			console.log("Error:" + err);
-		  })
-	  }, [])
+		Axios.get("http://localhost:4000/api/medicalFacility/viewFacilities")
+		.then(response => {
+			console.log(response.data);
+			setPosts(response.data);
+		})
+	}, [])
+
+
 
   return (
 	<>
@@ -24,7 +25,7 @@ function SelectHospital() {
 				</div>
 			</Row>
 			<Row>
-	
+				{posts.hospitalList?.map(post => <div>{post.hospitalName}</div>)}
 			</Row>
 		</Container>
 	</>
