@@ -34,6 +34,7 @@ function SelectHospital() {
               <div>
                 <h2>{post.hospitalName}</h2>
                 <p>{post.waitTime}</p>
+				<p>{post.address.streetAddress}, {post.address.cityName}</p>
                 <input
                   type="hidden"
                   id="hospital"
