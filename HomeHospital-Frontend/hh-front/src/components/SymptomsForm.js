@@ -75,7 +75,7 @@ function SymptomsForm() {
 
     console.log("this is the last value " +  list[list.length-1].symptom);
 
-    if ( (list[list.length-1].symptom != "") && (list[list.length-1].severity != "") ) {
+    if ( (list[list.length-1].symptom !== "") && (list[list.length-1].severity !== "") ) {
       setModalState(true);
     } else {
       alert("Please complete all fields");
