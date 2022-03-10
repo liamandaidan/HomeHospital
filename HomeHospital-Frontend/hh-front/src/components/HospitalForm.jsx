@@ -25,7 +25,15 @@ function SelectHospital() {
 				</div>
 			</Row>
 			<Row>
-				{posts.hospitalList?.map(post => <div>{post.hospitalName}</div>)}
+				{posts.hospitalList?.map((post, key) => (
+					<div>
+						<h2>{post.hospitalName}</h2>
+						<p>{post.waitTime}</p>
+						<p></p>
+					</div>
+				))}
+				{/* {posts.hospitalList?.map(post => <div key={post.wait}>{post.waitTime}</div>)} */}
+				{/* {posts.hospitalList?.map(post => <div>{post.}</div>)} */}
 			</Row>
 		</Container>
 	</>
