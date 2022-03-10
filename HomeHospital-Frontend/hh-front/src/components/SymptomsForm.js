@@ -72,12 +72,14 @@ function SymptomsForm() {
 
   const handleSubmit = () => {
     const list = [...symptomsList];
-    const lastVaue = list.splice(index, 1);
 
-    if (lastValue != "") {
-      () => setModalState(false);
+    console.log("this is the last value " +  list[list.length-1].symptom);
+
+    if ( (list[list.length-1].symptom != "") && (list[list.length-1].severity != "") ) {
+      setModalState(true);
+    } else {
+      alert("Please complete all fields");
     }
-    alert("Please complete all fields");
   };
 
   return (
@@ -150,7 +152,7 @@ function SymptomsForm() {
               <div>
                 <Button
                   className="submit-btn btn-light"
-                  onClick={() => setModalState(true)}
+                  onClick={handleSubmit}
                 >
                   <span>Submit Symptoms</span>
                 </Button>

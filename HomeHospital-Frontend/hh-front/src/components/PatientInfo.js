@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import logo from "../images/heartbeat.png";
 import profile from "../images/profilepicture.png";
 import hbar from "../images/hb2.png";
@@ -12,16 +12,16 @@ import axios from 'axios';
 
 function PatientInfo() {
 
-  const [patientInfo, setPatientInfo] = useState();
+  // const [patientInfo, setPatientInfo] = useState();
 
-  useEffect(() => {
-    axios.get('http://localhost:4000/app/getUser').then((response) => {
-         setListUsers(response.data)
-         console.log(listOfUsers)
-     }).catch(err => {
-       console.log(err)
-     })
-   }, [])
+  // useEffect(() => {
+  //   axios.get('http://localhost:4000/app/viewFacilities').then((response) => {
+  //        setPatientInfo(response.data)
+  //        console.log(patientInfo)
+  //    }).catch(err => {
+  //      console.log(err)
+  //    })
+  //  }, [])
 
   return (
     <>
