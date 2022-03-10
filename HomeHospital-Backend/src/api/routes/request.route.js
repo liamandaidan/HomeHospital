@@ -6,6 +6,11 @@ import visitRequest from '../../models/visitRequest.Model.js'
 
 const app = express.Router()
 
+/*
+	This route creates a new request in the DB. The user must supply their user ID, the selected hospital ID,
+	along with the list of symptoms and any additional information about their request. 
+
+*/
 app.post('/newRequest', async (req, res) => {
 	// get the HospitalID
 	// get patient ID
@@ -27,7 +32,10 @@ app.post('/newRequest', async (req, res) => {
 				// Create the new request
 				const request = await visitRequest.create({
 					patient: patient._id, //patientOID
+					patientFirstName: patient.user.firstName,
+					patientLastName: patient.user.lastName,
 					requestHospitalID: hospital._id, //hospitalID,
+					requestHospitalName: hospital.hospitalName,
 					// sets the patients address by default to the starting address
 					startAddress: {
 						streetAddress: address.streetAddress,
@@ -41,27 +49,23 @@ app.post('/newRequest', async (req, res) => {
 
 				// Save the request to the DB if all is OK
 				request.save()
-				
-				console.log(`New Patient request added to the DB: ${request._id}`)
-				res.send({ message: 'this worked', data: symptomList })
+
+				console.log(
+					`New Patient request added to the DB, RequestID: ${request._id}`
+				)
+				res.send({ message: 'Request entered', RequestID: request._id })
 			} catch (error) {
 				console.log(`Error: ${error.message}`)
-				res.status(400).send({ message: 'you fucked up:' })
+				res.status(400).send({ message: 'Error' })
 			}
 		} else {
 			console.log('Patient or hospital Do no exist')
-			res.status(400).send({ message: 'you fucked up:' })
+			res.status(400).send({ message: 'Error' })
 		}
 	} else {
 		console.log("Object ID's are Not valid")
-		res.status(400).send({ message: 'you fucked up' })
+		res.status(400).send({ message: 'Error' })
 	}
-
-	// create the request
-
-	//save request
-
-	//send back user confirmation that request was made along with request ID
 })
 
 export default app

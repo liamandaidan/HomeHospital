@@ -10,6 +10,11 @@ APP_PORT= // port for application to run on
 MONGO_URI= // connection string to connect to the MongoDB database
 ACCESSTOKEN_TEST_SECRET= // secret value needed to sign the access key
 REFRESHTOKEN_TEST_SECRET= // secret value needed to sign the access key
+RESET_TOKEN_SECRET= // Token used foe the reset password
+EMAIL_HOST= // Email host
+EMAIL_USERNAME= // email address
+EMAIL_PASSWORD= // password for email address
+FROM_EMAIL= // from email address
 ```
 Run the following commands to install and run the node dependencies
 ```
