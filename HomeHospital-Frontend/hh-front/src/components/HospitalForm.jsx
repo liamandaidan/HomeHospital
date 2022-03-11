@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from "react";
-import { Container, Row, Button, Form, Card } from "react-bootstrap";
+import { Container, Row, Col, Button, Form, Card } from "react-bootstrap";
 import Axios from "axios";
-import { useNavigate } from "react-router-dom";
+import { renderMatches, useNavigate } from "react-router-dom";
 import { HomeHospitalContext } from "./HomeHospitalContext";
 import "../styles/HospitalSelectionStyles.css";
 
@@ -9,24 +9,18 @@ function SelectHospital() {
   //useContext here
   const { _id } = useContext(HomeHospitalContext);
 
-  //Declare state variables for hospitalList
-  const [hospitals, setHospitals] = useState([]);
-
+  const [posts, setPosts] = useState([]);
   //grab the states of use context for the _id
   const [_idValue, set_idValue] = _id;
   let navigate = useNavigate();
 
-  //This will run on mount and code will execute, makes HTTP call and loads api/data for hospitals
   useEffect(() => {
-    Axios.get("http://localhost:4000/api/medicalFacility/viewFacilities")
-	.then(
+    Axios.get("http://localhost:4000/api/medicalFacility/viewFacilities").then(
       (response) => {
         console.log(response.data);
-        setHospitals(response.data); //Sets data and assigns it to variable hospitals
-      })
-	  .catch((err) => {
-		console.log("Error:" + err);
-	  })
+        setPosts(response.data);
+      }
+    );
   }, []);
 
   function test(e) {
@@ -34,8 +28,6 @@ function SelectHospital() {
     alert("Hospital Id = + " + _idValue);
     navigate("/symptoms");
   }
-
-
   return (
     <>
       <Container className="hospitalList-container">
@@ -43,32 +35,43 @@ function SelectHospital() {
           <div className="hospitalList-title">
             <p>Select Hospital</p>
           </div>
+          <div>
+            <p>Please select the hospital you would like to visit</p>
+          </div>
         </Row>
         <Row>
-          {hospitals.hospitalList?.map((hospital) => (
-            <Card style={{ width: "19rem" }} className="text-center" key={hospital._id}>
-              <Card.Body >
-                <Card.Title>{hospital.hospitalName}</Card.Title>
-                <Card.Subtitle></Card.Subtitle>
-                <Card.Text >
-                  {hospital.address.streetAddress}, {hospital.address.cityName}.
-                </Card.Text>
-                <Card.Footer className="text-muted">
-                  {hospital.waitTime}
-                </Card.Footer>
-                <Form>
-                  <Button
+          <div className="hospitalCards-div">
+            {posts.hospitalList?.map((post, index) => (
+                <Card
+                  style={{ width: "35rem" }}
+                  className="text-center"
+                  key={index}
+                >
+                  <Card.Body className="card-contents">
+                    <Card.Title>{post.hospitalName}</Card.Title>
+                    <Card.Subtitle>
+                      {post.address.streetAddress}, {post.address.cityName}
+                    </Card.Subtitle>
+                    <Card.Text className="card-text">{post.waitTime}</Card.Text>
+                    <Form key={post._id}>
+                      <Button
                     id="btn"
                     onClick={(event) => set_idValue(event.target.value)}
-                    value={hospital._id}
+                    value={post._id}
                   >
                     Select
                   </Button>
-                </Form>
-              </Card.Body>
-            </Card>
-          ))}
-          <Button onClick={test}>Submit</Button>
+                  </Form>
+                  </Card.Body>
+                </Card>
+
+            ))}
+          </div>
+          <div className="submit-btn-div">
+            <Button className="submit-btn" onClick={test}>
+              Submit
+            </Button>
+          </div>
         </Row>
       </Container>
     </>

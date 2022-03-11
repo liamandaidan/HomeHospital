@@ -1,7 +1,7 @@
 import React from "react";
 import { Row, Col } from "react-bootstrap";
 import RegistrationForm from "../components/RegistrationForm";
-import backgroundLogin from "../images/sunset.jpg";
+import backgroundLogin from "../images/bg.png";
 import leftImage from "../images/waitingRoom3.png";
 import classes from "./Register.module.css";
 

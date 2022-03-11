@@ -1,6 +1,6 @@
 import React from "react";
 import { Col, Row } from "react-bootstrap";
-import backgroundLogin from "../images/sunset.jpg";
+import backgroundLogin from "../images/bg.png";
 import LoginForm from "../components/LoginForm";
 
 function Login() {
