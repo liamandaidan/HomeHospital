@@ -13,7 +13,9 @@ function User() {
           <Col>
             <Row className={classes.boxArea}>PROFILE COMPONENT</Row>
             <Row>
-              <HHGoogleMap />
+              <div>
+                <HHGoogleMap />
+              </div>
             </Row>
           </Col>
           <Col>
