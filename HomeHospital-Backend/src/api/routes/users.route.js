@@ -1,8 +1,9 @@
 import express from 'express'
-import { getPatientInfoVisitRequest } from '../service/user.service.js'
+import patientModel from '../../models/patient.Model.js';
 
 // Creates Router
 const route = express.Router()
+
 
 // Register Route
 route.post('/PatientInfoVisitRequest', async (req, res) => {
@@ -21,6 +22,7 @@ route.post('/PatientInfoVisitRequest', async (req, res) => {
 			res.status(200).send({ data: patient })
 		}
 	} catch (error) {}
+
 })
 
 export default route
