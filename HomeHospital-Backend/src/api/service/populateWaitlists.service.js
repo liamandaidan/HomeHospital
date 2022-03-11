@@ -14,15 +14,7 @@ export async function populateWaitlists() {
     allFacilities.forEach(element => {
         allWaitlists.push(new Waitlist({_id: element._id, name: element.hospitalName}));
     })
-    allWaitlists.forEach(element => {
-        //console.log(element.hospital);
-        console.log(element.hospital._id);
-    })
     let allRequests = await VisitRequest.find();
-    // allRequests.forEach(element => {
-    //     allWaitlists[0].enqueue(element)   //this works. all requests are enqueued to the first hospital
-    // })
-    // console.log(allWaitlists[0].printAll());
     if(allRequests.length === 0) {
         fs.readFile('../HomeHospital-Backend/src/requestOrder.txt', 'utf8', (err, data) => {
             if(err) {
@@ -32,7 +24,6 @@ export async function populateWaitlists() {
             console.log(data.split("\r\n"));
         })
     } else {
-        console.log("Entered the else");
         //generate a waitlist class for each hospital. Check the hospitalId for each request, match it to a hospital, then put it in the appropriate waitlist
         allRequests.forEach(element => {
             let requestedHospital = element.requestHospitalID;
@@ -45,9 +36,9 @@ export async function populateWaitlists() {
         })
         allWaitlists.forEach(element => {
             if(element.queueSize > 0) {
-                //element.printAll();
+                console.log(`Hospital: ${element.hospital.name} has a queue size of ${element.queueSize}`);
             } else {
-                console.log(`Hospital: ${element.getHospital} has a queue size of ${element.getQueueSize}`);
+                console.log(`Hospital: ${element.hospital.name} has a queue size of ${element.queueSize}`);
             }
         })
     }
