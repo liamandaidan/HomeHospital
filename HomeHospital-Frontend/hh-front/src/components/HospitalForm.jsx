@@ -23,9 +23,7 @@ function SelectHospital() {
     );
   }, []);
 
-
   function test(e) {
-
     //set_idValue(e.target.value);
     alert("Hospital Id = + " + _idValue);
     navigate("/symptoms");
@@ -37,32 +35,43 @@ function SelectHospital() {
           <div className="hospitalList-title">
             <p>Select Hospital</p>
           </div>
+          <div>
+            <p>Please select the hospital you would like to visit</p>
+          </div>
         </Row>
         <Row>
-          {posts.hospitalList?.map((post , index) => (
-            <Card  key={index} style={{ width: "19rem" }} className="text-center">
-              <Card.Body>
-                <Card.Title>{post.hospitalName}</Card.Title>
-                <Card.Subtitle></Card.Subtitle>
-                <Card.Text>
-                  {post.address.streetAddress}, {post.address.cityName}.
-                </Card.Text>
-                <Card.Footer className="text-muted">
-                  {post.waitTime}
-                </Card.Footer>
-                <Form key={post._id}>
-                  <Button
+          <div className="hospitalCards-div">
+            {posts.hospitalList?.map((post, index) => (
+                <Card
+                  style={{ width: "35rem" }}
+                  className="text-center"
+                  key={index}
+                >
+                  <Card.Body className="card-contents">
+                    <Card.Title>{post.hospitalName}</Card.Title>
+                    <Card.Subtitle>
+                      {post.address.streetAddress}, {post.address.cityName}
+                    </Card.Subtitle>
+                    <Card.Text className="card-text">{post.waitTime}</Card.Text>
+                    <Form key={post._id}>
+                      <Button
                     id="btn"
                     onClick={(event) => set_idValue(event.target.value)}
                     value={post._id}
                   >
                     Select
                   </Button>
-                </Form>
-              </Card.Body>
-            </Card>
-          ))}
-          <Button onClick={test}>Submit</Button>
+                  </Form>
+                  </Card.Body>
+                </Card>
+
+            ))}
+          </div>
+          <div className="submit-btn-div">
+            <Button className="submit-btn" onClick={test}>
+              Submit
+            </Button>
+          </div>
         </Row>
       </Container>
     </>
