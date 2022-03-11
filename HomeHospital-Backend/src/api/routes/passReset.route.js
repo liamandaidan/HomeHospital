@@ -8,21 +8,29 @@ import { updatePassword } from '../service/resetPass.service.js'
 import PatientModel from '../../models/patient.Model.js'
 
 const resetKey = ENV.RESET_TOKEN_SECRET;
-const clientURL = "http://localhost:3000/api/reset"
+const clientURL = "http://localhost:3000/reset"
 const route = express.Router()
 
 //route for when the user clicks to reset their password
 route.post('/', async (req, res, next) => {
-    const {email, newPass, newPassConfirm} = req.body;
+    const {email, token, newPass, newPassConfirm} = req.body;
     console.log("Got email: " + email);
     if(email){
         if(newPass && newPassConfirm) {//these parameters will only exist if user has entered a new password and confirmed
-            const updateResult = await updatePassword(email, newPass);
-            console.log("Result: " + updateResult);
-            if(updateResult === 1)
-            {
-                res.status(201).send({ message: "Password successfully updated" })
+            let tokenEmail = jwt.verify(token, resetKey);
+            console.log("tokenEmail is: " + tokenEmail.email);
+            if(tokenEmail.email === email) {
+                console.log("Emails match!" + tokenEmail.email + " and " + email);
+                const updateResult = await updatePassword(email, newPass);
+                console.log("Result: " + updateResult);
+                if(updateResult === 1)
+                {
+                    res.status(201).send({ message: "Password successfully updated" })
+                } else {
+                    res.status(406).send({ message: "Password update failed" })
+                }
             } else {
+                console.log("they don't match");
                 res.status(406).send({ message: "Password update failed" })
             }
         } else {
@@ -46,6 +54,9 @@ route.post('/', async (req, res, next) => {
     } else {
         res.status(401).send('Information is required')
     }
+})
+
+route.get('/verify', (req, res, next) => {
     
 })
 
