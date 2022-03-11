@@ -39,8 +39,8 @@ function SymptomsPage() {
             </div>
           </Col>
           <Col>
-            <Row>
-              <Col>
+            <Row className="justify-content-md-center">
+              <Col className="offset-md-2">
                 <img
                   src={logo}
                   alt="heartbeat-logo"
