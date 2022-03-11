@@ -11,7 +11,7 @@ export const HomeHospitalProvider = (props) => {
         _id: [_id, set_id],
       }}
     >
-      {props.childern}
+      {props.children}
     </HomeHospitalContext.Provider>
   );
 };
