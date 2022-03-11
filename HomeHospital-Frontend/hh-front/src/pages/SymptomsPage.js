@@ -5,6 +5,7 @@ import PatientInfo from "../components/PatientInfo.js";
 import BreadcrumbNav from "../components/BreadcrumbNav.js";
 import ProgressNav from "../components/ProgressNav.js";
 import AlertModal from "../components/AlertModal.js";
+import logo from "../images/heartbeat.png";
 
 import Container from "react-bootstrap/Container";
 import Col from "react-bootstrap/Col";
@@ -38,6 +39,15 @@ function SymptomsPage() {
             </div>
           </Col>
           <Col>
+            <Row>
+              <Col>
+                <img
+                  src={logo}
+                  alt="heartbeat-logo"
+                  className="heartbeat-logo"
+                />
+              </Col>
+            </Row>
             <PatientInfo />
           </Col>
         </Row>

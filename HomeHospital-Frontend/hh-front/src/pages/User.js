@@ -2,8 +2,10 @@ import React from "react";
 import { Row, Col, Container } from "react-bootstrap";
 import HHGoogleMap from "../components/HHGoogleMap";
 import PatientVital from "../components/PatientVital";
+import PatientInfo from "../components/PatientInfo";
 import UserNavBar from "../components/UserNavBar";
 import classes from "./User.module.css";
+import WaitList from "../components/WaitList";
 
 function User() {
   return (
@@ -12,7 +14,11 @@ function User() {
       <Container>
         <Row>
           <Col>
-            <Row className={classes.boxArea}>PROFILE COMPONENT</Row>
+            <Row>
+              <Col className="mt-5">
+                <PatientInfo />
+              </Col>
+            </Row>
             <Row>
               <div>
                 <HHGoogleMap />
@@ -20,7 +26,11 @@ function User() {
             </Row>
           </Col>
           <Col>
-            <Row className={classes.boxArea}>CURRENT WAITLIST COMPONENT</Row>
+            <Row>
+              <Col>
+                <WaitList />
+              </Col>
+            </Row>
             <Row className={classes.boxArea}>SYMPTOMS COMPONENT</Row>
             <Row>
               <Col>

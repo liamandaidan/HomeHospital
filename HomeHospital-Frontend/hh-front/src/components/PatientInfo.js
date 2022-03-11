@@ -1,5 +1,5 @@
 import React from "react";
-import logo from "../images/heartbeat.png";
+
 import profile from "../images/profilepicture.png";
 import hbar from "../images/hb2.png";
 import Row from "react-bootstrap/Row";
@@ -12,12 +12,7 @@ function PatientInfo() {
     <>
       <Container className="patient-container">
         <Row>
-          <Col>
-            <img src={logo} alt="heartbeat-logo" className="heartbeat-logo" />
-          </Col>
-        </Row>
-        <Row>
-          <Col>
+          <Col className="text-center">
             <img src={profile} alt="profilePic" className="profilepic" />
           </Col>
           <Col md={8}>
@@ -46,14 +41,14 @@ function PatientInfo() {
         <Row>
           <Col>
             <div className="edit">
-            <a href="">Edit details</a>
+              <a href="">Edit details</a>
             </div>
           </Col>
         </Row>
         <Row>
-            <Col>
-            <img src={hbar} alt="heartbeat bar" className="hb-bar"/>
-            </Col>
+          <Col>
+            <img src={hbar} alt="heartbeat bar" className="hb-bar" />
+          </Col>
         </Row>
       </Container>
     </>
