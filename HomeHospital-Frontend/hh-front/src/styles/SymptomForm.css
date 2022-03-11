@@ -2,6 +2,9 @@
     margin-top: 5%;
 }
 
+.patient-container{
+    margin-left: 5rem;
+}
 
 .title-div{
     margin-bottom: 0.3rem;
@@ -63,9 +66,14 @@ textarea {
     height: 12rem;
 }
 
+.hb-div {
+    align-items: right;
+}
+
 .hb-bar {
     height: 3rem;
     width: 26rem;
+    transform: rotateY(180deg);
 }
 
 .profilepic {
@@ -77,6 +85,7 @@ textarea {
 
 .patient-info-requestDetails {
     margin-top: 0.5rem;
+    margin-left: 0;
     align-content: left;
     font-size: small;
     line-height: 0.1em;
@@ -85,12 +94,13 @@ textarea {
 .patient-info-personalDetails {
     margin-top: 1rem;
     margin-bottom: 1rem;
+    margin-left: 1.5rem;
 }
 
 .patient-contactDetails {
     font-size: medium;
     line-height: 1rem;
-    margin-left: 1.5rem;
+    margin-left: 2.5rem;
 }
 
 .edit {
