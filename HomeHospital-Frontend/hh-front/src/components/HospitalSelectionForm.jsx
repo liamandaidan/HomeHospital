@@ -6,6 +6,7 @@ import BreadcrumbNav from "../components/BreadcrumbNav.js";
 import ProgressNav from "../components/ProgressNav.js";
 import HospitalForm from "../components/HospitalForm.jsx"
 import logo from "../images/heartbeat.png";
+import ProgressBar from "react-bootstrap/ProgressBar"
 
 
 export default function HospitalSelectionForm() {
@@ -20,8 +21,11 @@ export default function HospitalSelectionForm() {
         </Row>
         <Row>
           <Col>
-            <div className="progress-div">
-              <ProgressNav />
+          <div className="progress-div">
+            <ProgressBar 
+            className="symptomsProgress" 
+            now={50}
+            variant="custom" />
             </div>
           </Col>
           <Col></Col>
