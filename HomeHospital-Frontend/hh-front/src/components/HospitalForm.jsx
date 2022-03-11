@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from "react";
-import { Container, Row, Col, Button, Form } from "react-bootstrap";
+import { Container, Row, Col, Button, Form, Card } from "react-bootstrap";
 import Axios from "axios";
 import { renderMatches, useNavigate } from "react-router-dom";
 import { HomeHospitalContext } from "./HomeHospitalContext";
@@ -23,11 +23,10 @@ function SelectHospital() {
     );
   }, []);
 
-  // onChange={(event) => setEmail(event.target.value)}
 
   function test(e) {
     //set_idValue(e.target.value);
-    alert("test + " + _idValue);
+    alert("Hospital Id = + " + _idValue);
     navigate("/symptoms");
   }
   return (
@@ -35,34 +34,34 @@ function SelectHospital() {
       <Container className="hospitalList-container">
         <Row>
           <div className="hospitalList-title">
-			<p>Select Hospital</p>
+            <p>Select Hospital</p>
           </div>
         </Row>
         <Row>
           {posts.hospitalList?.map((post) => (
-            <Form key={post._id}>
-              <div className="listOfHospitals">
-                <h2>{post.hospitalName}</h2>
-                <p>{post.waitTime}</p>
-                <p>
-                  {post.address.streetAddress}, {post.address.cityName}
-                </p>
-                <input
-                  type="hidden"
-                  id="hospital"
-                  value={post.hospitalName}
-                ></input>
-                <Button
-                  id="btn"
-                  onClick={(event) => set_idValue(event.target.value)}
-                  value={post._id}
-                >
-                  Select
-                </Button>
-              </div>
-              <Button onClick={test}>Submit</Button>
-            </Form>
+            <Card style={{ width: "19rem" }} className="text-center">
+              <Card.Body>
+                <Card.Title>{post.hospitalName}</Card.Title>
+                <Card.Subtitle></Card.Subtitle>
+                <Card.Text>
+                  {post.address.streetAddress}, {post.address.cityName}.
+                </Card.Text>
+                <Card.Footer className="text-muted">
+                  {post.waitTime}
+                </Card.Footer>
+                <Form key={post._id}>
+                  <Button
+                    id="btn"
+                    onClick={(event) => set_idValue(event.target.value)}
+                    value={post._id}
+                  >
+                    Select
+                  </Button>
+                </Form>
+              </Card.Body>
+            </Card>
           ))}
+          <Button onClick={test}>Submit</Button>
         </Row>
       </Container>
     </>
