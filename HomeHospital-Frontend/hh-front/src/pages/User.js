@@ -1,6 +1,7 @@
 import React from "react";
 import { Row, Col, Container } from "react-bootstrap";
 import HHGoogleMap from "../components/HHGoogleMap";
+import PatientVital from "../components/PatientVital";
 import UserNavBar from "../components/UserNavBar";
 import classes from "./User.module.css";
 
@@ -21,7 +22,11 @@ function User() {
           <Col>
             <Row className={classes.boxArea}>CURRENT WAITLIST COMPONENT</Row>
             <Row className={classes.boxArea}>SYMPTOMS COMPONENT</Row>
-            <Row className={classes.boxArea}>VITALS COMPONENT</Row>
+            <Row>
+              <Col>
+                <PatientVital />
+              </Col>
+            </Row>
           </Col>
         </Row>
       </Container>
