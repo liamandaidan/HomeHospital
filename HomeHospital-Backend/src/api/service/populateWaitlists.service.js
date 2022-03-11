@@ -3,6 +3,11 @@ import VisitRequest from '../../models/visitRequest.Model.js';
 import medicalFacilityModel from '../../models/medicalFacility.Model.js';
 import { Waitlist } from '../../models/waitlist.class.js';
 
+/**
+ * This will be used to populate the list of requests
+ * Right now, it is just checking to see requests in the DB, and also set up to be able to read requestID's
+ * that will be used in the development process to set the rough order
+ */
 export async function populateWaitlists() {
     let allFacilities = await medicalFacilityModel.find();
     let allWaitlists = []; 
