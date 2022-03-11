@@ -41,9 +41,7 @@ function SymptomsPage() {
         <Row>
           <Col>
             <div className="symptoms-div">
-          <HomeHospitalProvider>
               <SymptomsForm />
-          </HomeHospitalProvider>
             </div>
           </Col>
           <Col>
