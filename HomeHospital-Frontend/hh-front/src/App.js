@@ -11,7 +11,7 @@ import Forget from "./pages/ForgotPassPage";
 import FA from "./pages/ForgotPassAlert";
 import Reset from "./pages/ResetForgotPass";
 import HospitalSelectionPage from "./pages/HospitalSelectionPage";
-import HomeHospitalContext from "./components/HomeHospitalContext";
+import HomeHospitalContext, { HomeHospitalProvider } from "./components/HomeHospitalContext";
 
 function App() {
   useEffect(() => {
@@ -19,6 +19,7 @@ function App() {
   }, []);
 
   return (
+    <HomeHospitalProvider>
     <Router>
       <Routes>
         <Route path="/" element={<Home />} />
@@ -37,6 +38,7 @@ function App() {
         />
       </Routes>
     </Router>
+    </HomeHospitalProvider>
   );
 }
 
