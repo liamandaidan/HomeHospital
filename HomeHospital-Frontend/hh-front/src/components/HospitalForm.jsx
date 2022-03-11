@@ -9,26 +9,33 @@ function SelectHospital() {
   //useContext here
   const { _id } = useContext(HomeHospitalContext);
 
-  const [posts, setPosts] = useState([]);
+  //Declare state variables for hospitalList
+  const [hospitals, setHospitals] = useState([]);
+
   //grab the states of use context for the _id
   const [_idValue, set_idValue] = _id;
   let navigate = useNavigate();
 
+  //This will run on mount and code will execute and makes HTTP call and loads api/data for hospitals
   useEffect(() => {
-    Axios.get("http://localhost:4000/api/medicalFacility/viewFacilities").then(
+    Axios.get("http://localhost:4000/api/medicalFacility/viewFacilities")
+	.then(
       (response) => {
         console.log(response.data);
-        setPosts(response.data);
-      }
-    );
+        setHospitals(response.data); //Sets data and assigns it to variable hospitals
+      })
+	  .catch((err) => {
+		console.log("Error:" + err);
+	  })
   }, []);
-
 
   function test(e) {
     //set_idValue(e.target.value);
     alert("Hospital Id = + " + _idValue);
     navigate("/symptoms");
   }
+
+
   return (
     <>
       <Container className="hospitalList-container">
@@ -38,22 +45,22 @@ function SelectHospital() {
           </div>
         </Row>
         <Row>
-          {posts.hospitalList?.map((post) => (
-            <Card style={{ width: "19rem" }} className="text-center">
-              <Card.Body>
-                <Card.Title>{post.hospitalName}</Card.Title>
+          {hospitals.hospitalList?.map((hospital) => (
+            <Card style={{ width: "19rem" }} className="text-center" key={hospital._id}>
+              <Card.Body >
+                <Card.Title>{hospital.hospitalName}</Card.Title>
                 <Card.Subtitle></Card.Subtitle>
-                <Card.Text>
-                  {post.address.streetAddress}, {post.address.cityName}.
+                <Card.Text >
+                  {hospital.address.streetAddress}, {hospital.address.cityName}.
                 </Card.Text>
                 <Card.Footer className="text-muted">
-                  {post.waitTime}
+                  {hospital.waitTime}
                 </Card.Footer>
-                <Form key={post._id}>
+                <Form>
                   <Button
                     id="btn"
                     onClick={(event) => set_idValue(event.target.value)}
-                    value={post._id}
+                    value={hospital._id}
                   >
                     Select
                   </Button>
