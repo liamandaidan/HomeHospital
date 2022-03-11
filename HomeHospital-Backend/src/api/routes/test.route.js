@@ -7,7 +7,7 @@ const route = express.Router()
 route.get('/', (req, res) => {
 	const accessT = res.locals.accessT
 	const refreshT = res.locals.refreshT
-	console.log('User made it to the test route!')
+	// console.log('User made it to the test route!')
 	// console.log("accessT: " + accessT);
 	// console.log("refreshT: " + refreshT);
 	res.status(201).json({

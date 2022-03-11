@@ -24,7 +24,7 @@ export async function populateWaitlists() {
 			if (data[data.length - 1] === '') {
 				data.pop()
 			}
-			console.log(data)
+			console.table(data)
 		} else {
 			//console.log(allRequests);
 			allRequests.forEach((element) => {
