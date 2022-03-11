@@ -17,7 +17,7 @@ export class Waitlist {
     }
 
     /**
-     * Add a Patient to the end of the queue 
+     * Add a Request to the end of the queue 
      * @param {Request} Request 
      * @returns 
      */
@@ -98,5 +98,20 @@ export class Waitlist {
         } else {
             return -1;
         }
+    }
+
+    printAll() {
+        this.#queue.forEach(element => {
+            console.log(element);
+        })
+    }
+
+    get hospital() {
+        //return {_id: this.#hospital._id, name: this.#hospital.name};
+        return this.#hospital;
+    }
+
+    get queueSize() {
+        return this.#queueSize;
     }
 }
