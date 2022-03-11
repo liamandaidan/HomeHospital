@@ -51,16 +51,11 @@ If null, then the user is logged out, and an unauthorized status is returned. If
 then new cookies are generated with the access and refresh tokens, and both tokens are sent in the response, and the request is 
 allowed to proceed. 
  */
-export const checkAccessToken = (req, res, next) => {
-	if (ENV.DEV_ENV === 'prod') {
-		console.log('its a prod env!')
-	} else if (ENV.DEV_ENV === 'dev') {
-		console.log('its a dev env!')
-	}
+export const checkAccessToken = async (req, res, next) => {
 	// For dev purposes, we only want to get tokens from cookies, for ease of use. In production, we want to get tokens
 	//from both cookies and headers, and compare them
-	const token = req.cookies['accessTokenCookie']
-	const refToken = req.cookies['refreshTokenCookie']
+	const accessToken = req.cookies['accessTokenCookie']
+	const refreshToken = req.cookies['refreshTokenCookie']
 
 	//get tokens production. Ensure variable names match throughout.
 	//const cookieAccessToken = req.cookies['accessTokenCookie'];
@@ -70,7 +65,10 @@ export const checkAccessToken = (req, res, next) => {
 	//const headerRefToken = req.headers['refreshtoken'];
 
 	let allTokensPresent = false
-	if (token && refToken /* && cookieAccessToken && cookieRefToken*/) {
+	if (
+		accessToken &&
+		refreshToken /* && cookieAccessToken && cookieRefToken*/
+	) {
 		/*if(token === cookieAccessToken && refToken === cookieRefToken)
 		{
 			console.log("They match!");
@@ -81,23 +79,30 @@ export const checkAccessToken = (req, res, next) => {
 
 	if (allTokensPresent) {
 		try {
-			const validAccessToken = jwt.verify(token, ACCESSTOKEN_TEST_SECRET) //jwt.verify returns the entire token. By accessing valid.email, we get only the payload of the token, the user's email
-			console.log('Access token still valid')
-			res.locals.accessT = token
-			res.locals.refreshT = refToken
+			const validAccessToken = jwt.verify(
+				accessToken,
+				ACCESSTOKEN_TEST_SECRET
+			) //jwt.verify returns the entire token. By accessing valid.email, we get only the payload of the token, the user's email
+			console.log(`Access token still valid: ${validAccessToken.email}`)
+			res.locals.accessT = accessToken
+			res.locals.refreshT = refreshToken
 			next()
 		} catch (err) {
 			console.log('Access token invalid, time to check refresh token')
-			refreshAccessToken(refToken).then((newAccessToken) => {
+			refreshAccessToken(refreshToken).then((newAccessToken) => {
 				if (newAccessToken) {
 					res.locals.accessT = newAccessToken //res.locals is an object that carries on through all middleware
-					res.locals.refreshT = refToken
+					res.locals.refreshT = refreshToken
 					res.cookie(
 						'accessTokenCookie',
 						newAccessToken,
 						accessOptions
 					)
-					res.cookie('refreshTokenCookie', refToken, refreshOptions)
+					res.cookie(
+						'refreshTokenCookie',
+						refreshToken,
+						refreshOptions
+					)
 					next()
 				} else {
 					return res
@@ -106,8 +111,31 @@ export const checkAccessToken = (req, res, next) => {
 				}
 			})
 		}
+	} else if (!accessToken && refreshToken) {
+		try {
+			// console.log(`no valid access token but ok refresh token`)
+			const newAccessToken = await refreshAccessToken(refreshToken)
+
+			// console.log(`newAccess Token: ${newAccessToken}`)
+			
+			if(newAccessToken === null){
+				throw new Error('Refresh Token invalid! Check if new access token was created')
+			}
+			res.locals.accessT = newAccessToken //res.locals is an object that carries on through all middleware
+			res.locals.refreshT = refreshToken
+
+			res.cookie('accessTokenCookie', newAccessToken, accessOptions)
+			res.cookie('refreshTokenCookie', refreshToken, refreshOptions)
+			next()
+			return
+		} catch (error) {
+			console.log(error.message)
+			res.status(401).json({ message: 'Authorization Failed' })
+			return
+		}
 	} else {
-		return res.status(401).json({ message: 'Authorization Failed' })
+		res.status(401).json({ message: 'Authorization Failed' })
+		return
 	}
 }
 
