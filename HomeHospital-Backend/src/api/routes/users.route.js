@@ -18,7 +18,7 @@ route.post('/PatientInfoVisitRequest', async (req, res) => {
 				message: 'Cannot find patient',
 			})
 		} else {
-			res.status(200).send({data: patient})
+			res.status(200).send({ data: patient })
 		}
 	} catch (error) {}
 })
