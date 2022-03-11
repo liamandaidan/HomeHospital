@@ -13,7 +13,7 @@ route.post('/PatientInfoVisitRequest', async (req, res) => {
 		if (await patientModel.exists(req.body)) {
 			const patient = await patientModel.findOne(req.body)
 			const patientOut = patient.getPatientRequestInfo()
-			res.send({ data: patientOut })
+			res.status(200).send({ data: patientOut })
 		} else {
 			res.status(406).send({
 				status: 'Error',
