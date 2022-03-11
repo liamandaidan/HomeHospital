@@ -15,7 +15,6 @@ try {
 	process.exit(1)
 }
 
-// console.table({name:["mike", "john", "robert"]})
 // Set the app to listen on environment Port
 app.listen(ENV.APP_PORT, () => {
 	console.log(`🚀 Server is running on http://localhost:${ENV.APP_PORT}`)

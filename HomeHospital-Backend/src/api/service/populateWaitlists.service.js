@@ -24,8 +24,7 @@ export async function populateWaitlists() {
 			if (data[data.length - 1] === '') {
 				data.pop()
 			}
-            // console.log(`\nRequest Id's from the Text File `)
-			// console.table(data)
+			console.log(data)
 		} else {
 			//console.log(allRequests);
 			allRequests.forEach((element) => {
