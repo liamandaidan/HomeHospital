@@ -14,7 +14,7 @@ route.post('/', logUserIn, generateAccessToken, (req, res) => {
 	// console.log('refreshT: ' + refreshT)
 	res.status(201).json({
 		message: 'Login successful',
-		user: req.authUser,
+		patientId: req.patientId,
 		accessT: accessT,
 		refreshT: refreshT,
 	})

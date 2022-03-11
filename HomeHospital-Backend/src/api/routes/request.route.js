@@ -48,11 +48,16 @@ app.post('/newRequest', async (req, res) => {
 				})
 
 				// Save the request to the DB if all is OK
-				request.save()
+				await request.save()
 
 				console.log(
 					`New Patient request added to the DB, RequestID: ${request._id}`
 				)
+
+				// attach the new request ID to the patients requests list
+				patient.requests.push(request._id)
+				await patient.save()
+
 				res.send({ message: 'Request entered', RequestID: request._id })
 			} catch (error) {
 				console.log(`Error: ${error.message}`)
@@ -68,4 +73,7 @@ app.post('/newRequest', async (req, res) => {
 	}
 })
 
+app.get('/currentRequest')
+
+app.get('/allRequests')
 export default app
