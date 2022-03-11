@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from "react";
-import { Container, Row, Col, Button, Form, Card } from "react-bootstrap";
+import { Container, Row, Button, Form, Card } from "react-bootstrap";
 import Axios from "axios";
-import { renderMatches, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { HomeHospitalContext } from "./HomeHospitalContext";
 import "../styles/HospitalSelectionStyles.css";
 
@@ -16,7 +16,7 @@ function SelectHospital() {
   const [_idValue, set_idValue] = _id;
   let navigate = useNavigate();
 
-  //This will run on mount and code will execute and makes HTTP call and loads api/data for hospitals
+  //This will run on mount and code will execute, makes HTTP call and loads api/data for hospitals
   useEffect(() => {
     Axios.get("http://localhost:4000/api/medicalFacility/viewFacilities")
 	.then(
