@@ -25,6 +25,7 @@ function SelectHospital() {
 
 
   function test(e) {
+
     //set_idValue(e.target.value);
     alert("Hospital Id = + " + _idValue);
     navigate("/symptoms");
@@ -38,8 +39,8 @@ function SelectHospital() {
           </div>
         </Row>
         <Row>
-          {posts.hospitalList?.map((post) => (
-            <Card style={{ width: "19rem" }} className="text-center">
+          {posts.hospitalList?.map((post , index) => (
+            <Card  key={index} style={{ width: "19rem" }} className="text-center">
               <Card.Body>
                 <Card.Title>{post.hospitalName}</Card.Title>
                 <Card.Subtitle></Card.Subtitle>

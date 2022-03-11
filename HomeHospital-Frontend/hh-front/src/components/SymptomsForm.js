@@ -1,43 +1,48 @@
-import React, { useState } from "react";
+import React, { useContext, useState, useEffect } from "react";
 import Form from "react-bootstrap/Form";
 import Col from "react-bootstrap/Col";
 import Row from "react-bootstrap/Row";
 import Button from "react-bootstrap/Button";
 import Container from "react-bootstrap/Container";
 import InputGroup from "react-bootstrap/InputGroup";
+import Modal from "react-bootstrap/Modal";
+import axios from "axios";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "../styles/SymptomForm.css";
-import "../styles/modal.css";
 
-import AlertModal from "./AlertModal";
+import { HomeHospitalContext } from "./HomeHospitalContext";
 
 function SymptomsForm() {
+  
   const [additionalInfo, setAdditionalInfo] = useState("");
   const [modalState, setModalState] = useState(false);
 
+  const { _id } = useContext(HomeHospitalContext);
+  const [hospitalID, setHospitalID] = _id;
+
+  console.log("this is the hospital ID: " + hospitalID);
+
   const [symptomsList, setSymptomsList] = useState([
     {
-      symptom: "",
+      description: "",
       severity: "",
     },
   ]);
 
   console.log(symptomsList);
   console.log(additionalInfo);
-  console.log(modalState);
 
   //this function will be add a new symptom field as long as the previous fields have been filled.
   const handleSymptomsAdd = (index) => {
-    console.log("this is the last index: " + index);
 
     if (
-      symptomsList[index].symptom !== "" &&
+      symptomsList[index].description !== "" &&
       symptomsList[index].severity !== ""
     ) {
       setSymptomsList([
         ...symptomsList,
         {
-          symptom: "",
+          description: "",
           severity: "",
         },
       ]);
@@ -73,14 +78,68 @@ function SymptomsForm() {
   const handleSubmit = () => {
     const list = [...symptomsList];
 
-    console.log("this is the last value " +  list[list.length-1].symptom);
+    console.log("this is the last value " + list[list.length - 1].description);
 
-    if ( (list[list.length-1].symptom !== "") && (list[list.length-1].severity !== "") ) {
+    if (
+      list[list.length - 1].description !== "" &&
+      list[list.length - 1].severity !== ""
+    ) {
       setModalState(true);
     } else {
       alert("Please complete all fields");
     }
   };
+
+  const handleFormSubmit = () => {
+
+    axios.post('http://localhost:4000/api/visitRequest/newRequest', {
+        patientID: "",
+        hospitalID: "",
+        symptomList: [symptomsList],
+        description: additionalInfo,
+
+      }).then((response) => {
+          console.log(response)
+      }).catch((err) => {
+        console.log(err);
+      })
+
+      console.log("the form has been sent to backoffice!");
+  };
+
+  const AlertModal = (props) => {
+  
+    return (
+      <>
+        <Modal {...props} centered>
+          <Modal.Header className="modal-title">
+            <Modal.Title>Attention!</Modal.Title>
+          </Modal.Header>
+          <Modal.Body className="modal-content">
+            <p>
+              This will be a disclaimer stating that the information entered is up
+              to patient discretion. If they feel this is an emergency that is in
+              need of urgent care, call 911.
+            </p>
+          </Modal.Body>
+          <Modal.Footer className="modal-footer">
+            <Button
+              className="ack-btn"
+              onClick={handleFormSubmit}
+              variant="primary"
+            >
+              I Acknowledge
+            </Button>
+            <div>
+              <a className="cancel-lnk" onClick={props.onHide}>
+                cancel request
+              </a>
+            </div>
+          </Modal.Footer>
+        </Modal>
+      </>
+    );
+  }
 
   return (
     <>
@@ -103,7 +162,7 @@ function SymptomsForm() {
                   <InputGroup className="symptomGroup">
                     <Form.Control
                       type="text"
-                      name="symptom"
+                      name="description"
                       placeholder="Enter Symptom"
                       value={singleSymptom.service}
                       onChange={(e) => handleSymptomsChange(e, index)}
@@ -132,12 +191,14 @@ function SymptomsForm() {
                   </InputGroup>
                   {symptomsList.length - 1 === index &&
                     symptomsList.length < 5 && (
+                      <div className="add-btn-div">
                       <Button
                         className="add-btn btn-light"
                         onClick={() => handleSymptomsAdd(index)}
                       >
                         <span>Add Symptom</span>
                       </Button>
+                      </div>
                     )}
                 </div>
               ))}
@@ -149,13 +210,13 @@ function SymptomsForm() {
                   onChange={(e) => setAdditionalInfo(e.target.value)}
                 />
               </div>
-              <div>
-                <Button
-                  className="submit-btn btn-light"
-                  onClick={handleSubmit}
-                >
+              <div className="submit-btn-div">
+                <Button className="submit-btn btn-light" onClick={handleSubmit}>
                   <span>Submit Symptoms</span>
                 </Button>
+            <div>
+              <a href="/hospitals"> &lt; previous step</a>
+            </div>
               </div>
             </Form>
           </Col>

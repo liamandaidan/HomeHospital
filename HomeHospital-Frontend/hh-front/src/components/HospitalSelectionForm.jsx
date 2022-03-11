@@ -5,6 +5,7 @@ import PatientInfo from "../components/PatientInfo.js";
 import BreadcrumbNav from "../components/BreadcrumbNav.js";
 import ProgressNav from "../components/ProgressNav.js";
 import HospitalForm from "../components/HospitalForm.jsx"
+import logo from "../images/heartbeat.png";
 
 
 export default function HospitalSelectionForm() {
@@ -30,6 +31,15 @@ export default function HospitalSelectionForm() {
             <HospitalForm />
           </Col>
           <Col>
+          <Row>
+              <Col className="offset-md-2">
+                <img
+                  src={logo}
+                  alt="heartbeat-logo"
+                  className="heartbeat-logo"
+                />
+              </Col>
+            </Row>
             <PatientInfo />
           </Col>
         </Row>

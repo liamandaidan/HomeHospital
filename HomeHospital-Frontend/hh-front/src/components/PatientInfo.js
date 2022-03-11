@@ -22,7 +22,6 @@ function PatientInfo() {
   const [emergPhoneNumber, setEmergPhoneNumber] = useState("");
   
 
-
   useEffect(() => {
     axios.post('http://localhost:4000/api/users/PatientInfoVisitRequest', {
       email: email,
@@ -42,11 +41,6 @@ function PatientInfo() {
   return (
     <>
       <Container className="patient-container">
-        <Row>
-          <Col>
-            <img src={logo} alt="heartbeat-logo" className="heartbeat-logo" />
-          </Col>
-        </Row>
         <Row>
           <Col>
           </Col>
