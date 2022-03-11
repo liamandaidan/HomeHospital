@@ -21,6 +21,7 @@ export const logUserIn = async (req, res, next) => {
 				res.status(401).send({ message: 'Already Logged in' })
 				return
 			}
+			req.patientId = patient._id
 		} else {
 			res.status(403).send({ message: 'Login Failed!!!' })
 			console.log('Bad password')
@@ -56,7 +57,7 @@ const checkAlreadyLoggedIn = async (req) => {
 			return null
 		}
 	} else {
-		console.log(`No Ref Token`)
+		// console.log(`No Ref Token`)
 		return null
 	}
 }
