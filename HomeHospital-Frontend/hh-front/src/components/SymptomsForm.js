@@ -17,8 +17,9 @@ function SymptomsForm() {
   const [additionalInfo, setAdditionalInfo] = useState("");
   const [modalState, setModalState] = useState(false);
 
-  const { _id } = useContext(HomeHospitalContext);
+  const { _id, patient_id } = useContext(HomeHospitalContext);
   const [hospitalID, setHospitalID] = _id;
+  const [patientID, setPatientID] = patient_id;
 
   console.log("this is the hospital ID: " + hospitalID);
 
@@ -93,8 +94,8 @@ function SymptomsForm() {
   const handleFormSubmit = () => {
 
     axios.post('http://localhost:4000/api/visitRequest/newRequest', {
-        patientID: "",
-        hospitalID: "",
+        patientID: patientID,
+        hospitalID: hospitalD,
         symptomList: [symptomsList],
         description: additionalInfo,
 
