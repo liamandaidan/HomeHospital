@@ -18,7 +18,5 @@ route.get('/', (req, res) => {
 	})
 })
 
-// Test comment
-
 // export this route
 export default route
