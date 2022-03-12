@@ -95,7 +95,7 @@ app.get('/currentRequest', async (req, res) => {
 				patient.requests[patient.requests.length - 1]
 			)
 			// console.log(currentRequest)
-			console.log('sent user back latest request')
+			console.log('Sent patient their current request')
 			res.status(200).send({
 				request: currentRequest,
 			})
@@ -130,7 +130,7 @@ app.get('/allRequests', async (req, res) => {
 				patient: patientId,
 			})
 
-			console.log('sent user back latest request')
+			console.log('Sent patient list of ALL requests')
 			res.status(200).send({
 				numOfRequests: requestList.length,
 				request: requestList,
