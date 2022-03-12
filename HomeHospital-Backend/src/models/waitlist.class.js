@@ -131,6 +131,7 @@ export class Waitlist {
     }
 
     printAll() {
+        //console.table(this.#queue);
         this.#queue.forEach(element => {
             console.log(element._id.toHexString());
         })

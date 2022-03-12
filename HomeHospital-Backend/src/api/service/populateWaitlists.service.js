@@ -59,10 +59,11 @@ export async function populateWaitlists() {
         })
 
         allWaitlists.forEach(element => {
+            //console.log(element.hospital);
             /*Insert functionality to send each waitlist to its hospital here */
             if(element.queueSize > 0) {
                 console.log(`Hospital: ${element.hospital.name} has a queue size of ${element.queueSize}`);
-                console.log(element.printAll());
+                element.printAll();
             } else {
                 console.log(`Hospital: ${element.hospital.name} has a queue size of ${element.queueSize}`);
             }
