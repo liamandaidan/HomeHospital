@@ -48,7 +48,7 @@ function LoginForm() {
       password: password,
     })
       .then((response) => {
-        console.log(response);
+        console.log(response.data.data.patientId);
         console.log("You have logged in successfully");
         navigate("/user");
       })
