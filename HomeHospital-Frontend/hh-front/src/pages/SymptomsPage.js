@@ -6,18 +6,21 @@ import BreadcrumbNav from "../components/BreadcrumbNav.js";
 import ProgressNav from "../components/ProgressNav.js";
 import AlertModal from "../components/AlertModal.js";
 import logo from "../images/heartbeat.png";
+import UserNavBar from "../components/UserNavBar";
+import ProgressBar from "react-bootstrap/ProgressBar";
 
 import Container from "react-bootstrap/Container";
 import Col from "react-bootstrap/Col";
 import Row from "react-bootstrap/Row";
 
+import { HomeHospitalProvider } from "../components/HomeHospitalContext";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "../styles/main.css";
 
 function SymptomsPage() {
   return (
     <>
-      <Navigation />
+      <UserNavBar />
       <Container className="main-container">
         <Row>
           <Col>
@@ -27,7 +30,11 @@ function SymptomsPage() {
         <Row>
           <Col>
             <div className="progress-div">
-              <ProgressNav />
+              <ProgressBar
+                className="symptomsProgress"
+                now={90}
+                variant="custom"
+              />
             </div>
           </Col>
           <Col></Col>
@@ -39,7 +46,7 @@ function SymptomsPage() {
             </div>
           </Col>
           <Col>
-            <Row className="justify-content-md-center">
+            <Row>
               <Col className="offset-md-2">
                 <img
                   src={logo}
