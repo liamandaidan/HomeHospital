@@ -6,6 +6,8 @@ import PatientInfo from "../components/PatientInfo";
 import UserNavBar from "../components/UserNavBar";
 import classes from "./User.module.css";
 import WaitList from "../components/WaitList";
+import SymptomsTable from "../components/SymptomsTable";
+
 
 function User() {
   return (
@@ -31,7 +33,9 @@ function User() {
                 <WaitList />
               </Col>
             </Row>
-            <Row className={classes.boxArea}>SYMPTOMS COMPONENT</Row>
+            <Col>
+            <SymptomsTable />
+            </Col>
             <Row>
               <Col>
                 <PatientVital />
