@@ -1,4 +1,5 @@
 import React, { useContext, useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import Form from "react-bootstrap/Form";
 import Col from "react-bootstrap/Col";
 import Row from "react-bootstrap/Row";
@@ -10,6 +11,7 @@ import axios from "axios";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "../styles/SymptomForm.css";
 
+
 import { HomeHospitalContext } from "./HomeHospitalContext";
 
 function SymptomsForm() {
@@ -20,6 +22,8 @@ function SymptomsForm() {
   const { _id, patient_id } = useContext(HomeHospitalContext);
   const [hospitalID, setHospitalID] = _id;
   const [patientID, setPatientID] = patient_id;
+
+  const navigate = useNavigate();
 
   console.log("this is the hospital ID: " + hospitalID);
 
@@ -86,10 +90,14 @@ function SymptomsForm() {
       list[list.length - 1].severity !== ""
     ) {
       setModalState(true);
+
     } else {
       alert("Please complete all fields");
     }
+
+    navigate("/user");
   };
+
 
   const handleFormSubmit = () => {
 
