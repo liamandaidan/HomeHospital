@@ -82,23 +82,27 @@ app.get('/currentRequest/:patientId', async (req, res) => {
 	try {
 		// validate the users ID
 		const validUserID = mongoose.Types.ObjectId.isValid(patientId)
-		// console.log(validUserID)
-		const patient = await patientModel.findById(patientId)
-		// console.log(patient)
+		if (validUserID) {
+			// console.log(validUserID)
+			const patient = await patientModel.findById(patientId)
+			// console.log(patient)
 
-		if (patient.requests.length == 0) {
-			console.log('No registered requests')
-			res.status(404).send({ message: 'No Current requests' })
+			if (patient.requests.length == 0) {
+				console.log('No registered requests')
+				res.status(404).send({ message: 'No Current requests' })
+			} else {
+				// Get the request with the matching ID
+				const currentRequest = await visitRequestModel.findById(
+					patient.requests[patient.requests.length - 1]
+				)
+				// console.log(currentRequest)
+				console.log('Sent patient their current request')
+				res.status(200).send({
+					request: currentRequest,
+				})
+			}
 		} else {
-			// Get the request with the matching ID
-			const currentRequest = await visitRequestModel.findById(
-				patient.requests[patient.requests.length - 1]
-			)
-			// console.log(currentRequest)
-			console.log('Sent patient their current request')
-			res.status(200).send({
-				request: currentRequest,
-			})
+			throw new Error('Invalid User Id')
 		}
 	} catch (error) {
 		console.log(error.message)
