@@ -78,3 +78,45 @@ p {
   border-color: #ffffff;
 }
 
+.selectHospital-btn {
+  color: #000000;
+  border-radius: 1rem;
+  background-color: #FFFFFF;
+  border-color: #71E7CA;
+  opacity: 60%;
+  width: 175px;
+}
+
+.selectHospital-btn:hover {
+  color: #F5F5FA;
+  border-radius: 1rem;
+  background-color: #71E7CA;
+  border-color: #71E7CA;
+  opacity: 60%;
+}
+
+.selectHospital-btn:focus {
+  color: #F5F5FA;
+  background-color: #71E7CA;
+  border-color: #71E7CA;
+  opacity: 60%;
+  
+}
+
+.cancel-link-div{
+  margin-top: 5px;
+  margin-left: 20px;
+}
+
+a {
+  font-size: small;
+  color: #616060;
+  text-decoration: underline;
+}
+
+a:hover {
+  font-size: small;
+  color: #7878ab;
+  text-decoration: none;
+  cursor: pointer;
+}
