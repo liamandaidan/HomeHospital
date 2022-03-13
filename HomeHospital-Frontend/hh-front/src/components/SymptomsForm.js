@@ -95,8 +95,8 @@ function SymptomsForm() {
 
     axios.post('http://localhost:4000/api/visitRequest/newRequest', {
         patientID: patientID,
-        hospitalID: hospitalD,
-        symptomList: [symptomsList],
+        hospitalID: hospitalID,
+        symptomList: symptomsList,
         description: additionalInfo,
 
       }).then((response) => {

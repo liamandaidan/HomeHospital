@@ -5,8 +5,8 @@ import axios from "axios";
 function SymptomsTable() {
   useEffect(() => {
     axios
-      .post("http://localhost:4000/api/users/PatientInfoVisitRequest", {
-        email: email,
+      .get("http://localhost:4000/api/visitRequest/allRequests", {
+        patientID: "62282b4e396f393a00115f5d",
       })
       .then((response) => {
         console.log(response);
