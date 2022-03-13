@@ -12,7 +12,7 @@ import FA from "./pages/ForgotPassAlert";
 import Reset from "./pages/ResetForgotPass";
 import HospitalSelectionPage from "./pages/HospitalSelectionPage";
 import { HomeHospitalProvider } from "./components/HomeHospitalContext";
-import UserHomepage from "./pages/UserHomepage"
+import UserHomepage from "./pages/UserHomepage";
 
 function App() {
   useEffect(() => {
@@ -21,27 +21,24 @@ function App() {
 
   return (
     <HomeHospitalProvider>
-    <Router>
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/login" element={<Login />} />
-        <Route path="/user" element={<User />} />
-        <Route path="*" element={<Error />} />
-        <Route path="/forget" element={<Forget />} />
-        <Route path="/fa" element={<FA />} />
-        <Route path="/reset" element={<Reset />} />
-        <Route path="/hospitals" element={<HospitalSelectionPage />} />
-        <Route path="/symptoms" element={<Symptoms />} />
-        <Route path="/userhome" element={<UserHomepage />} />
-        
-
-
-        <Route
-          path="/register"
-          element={<Register className="full-height" />}
-        />
-      </Routes>
-    </Router>
+      <Router>
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/user" element={<User />} />
+          <Route path="*" element={<Error />} />
+          <Route path="/forget" element={<Forget />} />
+          <Route path="/fa" element={<FA />} />
+          <Route path="/reset" element={<Reset />} />
+          <Route path="/hospitals" element={<HospitalSelectionPage />} />
+          <Route path="/symptoms" element={<Symptoms />} />
+          <Route path="/userhome" element={<UserHomepage />} />
+          <Route
+            path="/register"
+            element={<Register className="full-height" />}
+          />
+        </Routes>
+      </Router>
     </HomeHospitalProvider>
   );
 }

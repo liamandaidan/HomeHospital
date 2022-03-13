@@ -1,13 +1,16 @@
 import React, { useContext, useEffect, useState } from "react";
 import { Container, Row, Col, Button, Form, Card } from "react-bootstrap";
 import Axios from "axios";
-import { renderMatches, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { HomeHospitalContext } from "./HomeHospitalContext";
 import "../styles/HospitalSelectionStyles.css";
 
 function SelectHospital() {
   //useContext here
-  const { _id } = useContext(HomeHospitalContext);
+  const { _id, patient_id } = useContext(HomeHospitalContext);
+  const [patientID, setPatientID] = patient_id;
+
+  console.log("PatientID: " + patientID)
 
   const [posts, setPosts] = useState([]);
   //grab the states of use context for the _id

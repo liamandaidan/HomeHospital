@@ -8,8 +8,15 @@ import {
 } from "react-bootstrap";
 import classes from "./UserNavBar.module.css";
 import avatar from "../images/img_avatar.png";
+import { useNavigate } from "react-router-dom";
 
 function UserNavBar() {
+  let navigate = useNavigate();
+
+  function requestPage() {
+    navigate("/hospitals");
+  }
+
   return (
     <Navbar bg="light" expand="lg">
       <Container fluid>
@@ -23,11 +30,11 @@ function UserNavBar() {
             style={{ maxHeight: "100px" }}
             navbarScroll
           >
-            <Nav.Link href="#action1" className="ms-5">
+            <Nav.Link href="/" className="ms-5">
               Home
             </Nav.Link>
-            <Nav.Link href="#action2">Requests</Nav.Link>
-            <Nav.Link href="#action2">Symptoms</Nav.Link>
+            <Nav.Link onClick={requestPage}>Requests</Nav.Link>
+            {/* <Nav.Link href="#action2">Symptoms</Nav.Link> */}
           </Nav>
           <div className="d-flex">
             <img src={avatar} alt="avatar" className={classes.avatar} />
