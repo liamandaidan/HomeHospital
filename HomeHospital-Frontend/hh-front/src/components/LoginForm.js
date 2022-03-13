@@ -48,6 +48,7 @@ function LoginForm() {
       password: password,
     })
       .then((response) => {
+        console.log(response);
         console.log("You have logged in successfully");
         navigate("/user");
       })
