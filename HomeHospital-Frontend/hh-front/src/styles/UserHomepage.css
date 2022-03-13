@@ -3,15 +3,16 @@
     opacity: 60%;
 }
 
+
+
 .user-profile-photo {
-    /* position: absolute;
-    left: 550px;
-    top: 150px; */
+    position: relative;
+    left: 350px;
+    top: -330px;
     z-index: 1;
-    width: 375px;
-    height: 375px;
+    width: 300px;
+    height: 300px;
     border-radius: 300px;
-    float:inline-flex;
 }
 
 .container-display {

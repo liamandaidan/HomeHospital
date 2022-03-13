@@ -15,7 +15,7 @@ function UserHomeDisplay() {
         <Row>
           <Col>
             <img
-            class='img-fluid w-100'
+            class="img-fluid heartbeat-logo-1"
               src={hb1}
               alt="heartbeat-logo-1"
               className="heartbeat-logo-1"
