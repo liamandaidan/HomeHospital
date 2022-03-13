@@ -46,7 +46,7 @@ function SymptomsTable() {
          )}
         </tbody>
       </Table>
-      <div>
+      <div className="add-btn-div">
         <Button
           className="submit-btn btn-light"
         >
