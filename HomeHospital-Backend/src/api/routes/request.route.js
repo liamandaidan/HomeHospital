@@ -145,4 +145,37 @@ app.get('/allRequests/:patientId', async (req, res) => {
 		res.status(400).send({ message: 'Bad request' })
 	}
 })
+
+app.get('/targetRequest/:requestId', async (req, res) => {
+	// return the current users request
+	const { requestId } = req.params
+
+	// find the patient
+	try {
+		// validate the users ID
+		const validUserID = mongoose.Types.ObjectId.isValid(requestId)
+		if (validUserID) {
+			// console.log(validUserID)
+			const request = await visitRequestModel.findById(requestId)
+			// console.log(patient)
+
+			if (request) {
+				console.log(
+					`Sent the patient the request with the Id: ${requestId}`
+				)
+				res.status(200).send({
+					request: request,
+				})
+			} else {
+				console.log('No registered requests')
+				res.status(404).send({ message: 'Request not found' })
+			}
+		} else {
+			throw new Error('Invalid Request Id')
+		}
+	} catch (error) {
+		console.log(error.message)
+		res.status(400).send({ message: 'Bad request' })
+	}
+})
 export default app
