@@ -5,7 +5,7 @@ import bg from "../images/bg.png";
 import "../styles/forgotpass.css";
 import logo1 from "../images/hb1.png";
 import logo2 from "../images/hb2.png";
-import { Axios } from "axios";
+import Axios from "axios";
 export default function ForgotPassPage() {
   //create some hooks and nav
   let navigate = useNavigate();
@@ -40,7 +40,8 @@ export default function ForgotPassPage() {
    * This will submit on click. Assuming that validation has gone through.
    */
   function submitFunc() {
-    Axios.post("localhost4000/api/resetPass", {
+    
+    Axios.post("http://localhost:4000/api/forget", {
       email: email,
     })
       .then((response) => {
@@ -51,6 +52,7 @@ export default function ForgotPassPage() {
       .catch((err) => {
         //incase some unknown error occurs
         alert("Error! + " + err);
+        navigate("/*");
       });
   }
 
@@ -104,7 +106,7 @@ export default function ForgotPassPage() {
             <Button
               className="btnSpace"
               variant="primary"
-              type="submit"
+              type="button"
               disabled={!validEmail}
               onClick={submitFunc}
             >
