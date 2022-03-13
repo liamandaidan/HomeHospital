@@ -51,15 +51,15 @@ const patientSchema = new mongoose.Schema({
 })
 
 patientSchema.methods.getPatientRequestInfo = function () {
-	return {user: this.user,
+	return {
+		user: this.user,
 		HCnumber: this.HCnumber,
 		emergencyContact: this.emergencyContact,
 		id: this._id,
-		email: this.email}
-		//HCnumber: HCNum,
-		//emergencyContact: { firstName: first, lastName: last }
-	
-
-};
+		email: this.email,
+	}
+	//HCnumber: HCNum,
+	//emergencyContact: { firstName: first, lastName: last }
+}
 
 export default mongoose.model('Patient', patientSchema)
