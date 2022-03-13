@@ -106,6 +106,8 @@ function SymptomsForm() {
       })
 
       console.log("the form has been sent to backoffice!");
+
+      
   };
 
   const AlertModal = (props) => {
