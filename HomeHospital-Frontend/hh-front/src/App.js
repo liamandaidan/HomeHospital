@@ -32,7 +32,8 @@ function App() {
           <Route path="/reset" element={<Reset />} />
           <Route path="/hospitals" element={<HospitalSelectionPage />} />
           <Route path="/symptoms" element={<Symptoms />} />
-          <Route path="/userhome" element={<UserHomepage />} />
+          <Route path="/home" element={<UserHomepage />} />
+
           <Route
             path="/register"
             element={<Register className="full-height" />}

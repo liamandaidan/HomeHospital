@@ -6,7 +6,7 @@ import PatientInfo from "../components/PatientInfo";
 import UserNavBar from "../components/UserNavBar";
 import classes from "./User.module.css";
 import WaitList from "../components/WaitList";
-import { HomeHospitalContext } from "../components/HomeHospitalContext";
+import SymptomsTable from "../components/SymptomsTable";
 
 function User() {
   const { patient_id } = useContext(HomeHospitalContext);
@@ -37,7 +37,9 @@ function User() {
                 <WaitList />
               </Col>
             </Row>
-            <Row className={classes.boxArea}>SYMPTOMS COMPONENT</Row>
+            <Col>
+              <SymptomsTable />
+            </Col>
             <Row>
               <Col>
                 <PatientVital />
