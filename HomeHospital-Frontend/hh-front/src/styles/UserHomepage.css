@@ -1,8 +1,10 @@
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@900&display=swap");
+
+
 .heartbeat-logo-1 {
     z-index: -1;
     opacity: 60%;
 }
-
 
 
 .user-profile-photo {
@@ -17,11 +19,53 @@
 
 .container-display {
     height:500px;
-    border: 5px solid #ec2baa;
 }
 
 
 .container-visits {
     height:300px;
-    border: 5px solid #ec2baa;
+    overflow-y: scroll;
 }
+
+
+.table-fixed tbody {
+    height: 300px;
+    overflow-y: scroll;
+    width: 100%;
+}
+
+.greetings {
+    position: relative;
+    left: 690px;
+    top: -560px;
+    z-index: 1;
+    margin-left: 25px;
+    font-family: "Inter", sans-serif;
+}
+
+h1 {
+    font-size: 50px;
+}
+
+.newRequest-btn {
+    color: #7878AB;
+    width: 200px;
+    border-radius: 1rem;
+    background-color: #F5F5FA;
+    border-color:#F5F5FA;
+}
+
+.newRequest-btn:hover {
+    color: #F5F5FA;
+    border-radius: 1rem;
+    background-color: #7878AB;
+    border-color:#7878AB;
+}
+.request-btn-div {
+    text-align: right;
+    justify-content: right;
+    margin-right: 35px;
+    margin-bottom: 20px;
+}
+
+

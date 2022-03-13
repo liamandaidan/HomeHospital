@@ -1,41 +1,43 @@
 import React, { useState, useContext, useEffect } from "react";
-
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import Container from "react-bootstrap/Container";
 import Table from "react-bootstrap/Table";
-
+import "../styles/UserHomepage.css";
 import axios from "axios";
-
+import moment from "moment";
 import { HomeHospitalContext } from "./HomeHospitalContext";
 
 function UserHomeVisitsDisplay() {
 
-    const [visitList, setVisitList] = useState([]);
+  moment.locale("en");
 
-    //get patient ID from context
-    const { patient_id } = useContext(HomeHospitalContext);
-    const [patientID, setPatientID] = patient_id;
+  const [visitList, setVisitList] = useState([]);
+  const [date, setDate] = useState();
 
-    //import all visits using patient ID 
-    useEffect(() => {
-        axios.get("http://localhost:4000/api/visitRequest/allRequests", {
-            patientId: patientID,
-          })
-          .then((response) => {
-            setVisitList(response);
-          })
-          .catch((err) => {
-            console.log(err);
-          });
-      }, []);
+  //get patient ID from context
+  const { patient_id } = useContext(HomeHospitalContext);
+  const [patientID, setPatientID] = patient_id;
+
+  //import all visits using patient ID
+  useEffect(() => {
+    axios
+      .get(`http://localhost:4000/api/visitRequest/allRequests/${patientID}`)
+      .then((response) => {
+        console.log(response.data.request);
+        setVisitList(response.data.request);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }, []);
 
   return (
     <>
       <Container className="container-visits">
         <Row>
           <Col>
-            <Table striped bordered hover>
+            <Table striped bordered hover responsive borderless className="visit-table table-fixed">
               <thead>
                 <tr>
                   <th>#</th>
@@ -45,14 +47,14 @@ function UserHomeVisitsDisplay() {
                 </tr>
               </thead>
               <tbody>
-                {visitList.map((visit, index) =>
-                <tr key={index}>
+                {visitList.map((visit, index) => (
+                  <tr key={index}>
                     <td>{index + 1}</td>
-                    <td>{visit.dateTime}</td>
+                    <td>{moment(visit.dateTime).format("dddd, MMMM Do YYYY")}</td>
                     <td>Emergency Room Visit</td>
                     <td>{visit.requestHospitalName}</td>
-                </tr>
-                )}
+                  </tr>
+                ))}
               </tbody>
             </Table>
           </Col>

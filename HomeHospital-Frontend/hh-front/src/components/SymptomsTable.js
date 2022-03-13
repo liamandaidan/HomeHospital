@@ -15,12 +15,11 @@ function SymptomsTable() {
   console.log("this is the patient id: " + patientID);
 
   useEffect(() => {
-    axios.get("http://localhost:4000/api/visitRequest/currentRequest", {
-        patientId: patientID,
-      })
+    axios
+      .get(`http://localhost:4000/api/visitRequest/currentRequest/${patientID}`)
       .then((response) => {
-        setSymptomsList(response.symptoms);
-        console.log(response.symptoms);
+        console.log(response.data.request);
+        setSymptomsList(response.data.request.symptoms)
       })
       .catch((err) => {
         console.log(err);

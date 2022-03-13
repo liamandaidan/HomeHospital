@@ -28,8 +28,12 @@ function SelectHospital() {
 
   function test(e) {
     //set_idValue(e.target.value);
-    alert("Hospital Id = + " + _idValue);
+    // alert("Hospital Id = + " + _idValue);
     navigate("/symptoms");
+  }
+
+  const cancelRequest = () => {
+    navigate("/home");
   }
   return (
     <>
@@ -59,10 +63,11 @@ function SelectHospital() {
                     <Form key={post._id}>
                       <Button
                     id="btn"
+                    className="selectHospital-btn"
                     onClick={(event) => set_idValue(event.target.value)}
                     value={post._id}
                   >
-                    Select
+                    Select hospital
                   </Button>
                   </Form>
                   </Card.Body>
@@ -72,8 +77,11 @@ function SelectHospital() {
           </div>
           <div className="submit-btn-div">
             <Button className="submit-btn" onClick={test}>
-              Submit
+              Submit hospital
             </Button>
+            <div className="cancel-link-div">
+              <a href="/home">Cancel request</a>
+            </div>
           </div>
         </Row>
       </Container>

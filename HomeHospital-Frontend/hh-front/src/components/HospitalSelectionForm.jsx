@@ -29,7 +29,7 @@ export default function HospitalSelectionForm() {
             <div className="progress-div">
               <ProgressBar
                 className="symptomsProgress"
-                now={50}
+                now={30}
                 variant="custom"
               />
             </div>
