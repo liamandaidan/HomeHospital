@@ -11,11 +11,13 @@ function Login() {
   const { patient_id } = useContext(HomeHospitalContext);
   const [patientID] = patient_id;
 
+  console.log(patientID);
+
   useEffect(() => {
-    if (patientID !== null || patientID !== undefined) {
-      navigate("/user");
+    if (patientID != null || patientID != undefined) {
+      navigate("/home");
     }
-  }, [navigate, patientID]);
+  }, []);
 
   return (
     <div>

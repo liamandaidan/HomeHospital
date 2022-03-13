@@ -1,11 +1,17 @@
-import React from "react";
+import React, { useContext } from "react";
 import { Button, Col, Row } from "react-bootstrap";
 import logo from "../images/heartbeat_logo_long.png";
 import classes from "./LandingPage.module.css";
 import landingImage from "../images/landingImage.png";
 import { Link, useNavigate } from "react-router-dom";
+import { HomeHospitalContext } from "./HomeHospitalContext";
 
 function LandingPage() {
+  const { patient_id } = useContext(HomeHospitalContext);
+  const [patientID, setPatientID] = patient_id;
+
+  console.log("Landing patient Id: " + patientID);
+
   const navigate = useNavigate();
 
   const handleRegister = () => {

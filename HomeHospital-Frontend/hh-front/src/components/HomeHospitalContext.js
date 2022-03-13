@@ -11,7 +11,6 @@ export const HomeHospitalProvider = (props) => {
       value={{
         patient_id: [patient_id, setPatient_id],
         _id: [_id, set_id],
-        patient_id: [patient_id, setPatient_id],
       }}
     >
       {props.children}

@@ -53,7 +53,7 @@ function LoginForm() {
       .then((response) => {
         setPatientID(response.data.patientId);
         console.log("You have logged in successfully");
-        navigate("/user");
+        navigate("/home");
       })
       .catch((err) => {
         handleShow();

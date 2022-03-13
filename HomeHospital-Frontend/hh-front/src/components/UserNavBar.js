@@ -47,7 +47,7 @@ function UserNavBar() {
             style={{ maxHeight: "100px" }}
             navbarScroll
           >
-            <Nav.Link href="/" className="ms-5">
+            <Nav.Link onClick={handleHome} className="ms-5">
               Home
             </Nav.Link>
             <Nav.Link onClick={requestPage}>Requests</Nav.Link>
