@@ -74,9 +74,9 @@ app.post("/newRequest", async (req, res) => {
   }
 });
 
-app.get("/currentRequest", async (req, res) => {
+app.get("/currentRequest/:patientId", async (req, res) => {
   // return the current users request
-  const { patientId } = req.body;
+  const { patientId } = req.params;
 
   // find the patient
   try {
@@ -106,9 +106,9 @@ app.get("/currentRequest", async (req, res) => {
   }
 });
 
-app.get("/allRequests", async (req, res) => {
+app.get("/allRequests/:patientId", async (req, res) => {
   // return the current users request
-  const { patientId } = req.body;
+  const { patientId } = req.params;
 
   // find the patient
   try {
