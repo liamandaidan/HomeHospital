@@ -24,6 +24,9 @@ function UserHomeDisplay() {
               alt="profile photo"
               className="user-profile-photo"
             />
+            <span className="greetings">
+              <h1>Hi Linda!</h1>
+            </span>
           </Col>
         </Row>
       </Container>
