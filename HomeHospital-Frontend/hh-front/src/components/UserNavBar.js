@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import {
   Navbar,
   Container,
@@ -9,18 +9,35 @@ import {
 import classes from "./UserNavBar.module.css";
 import avatar from "../images/img_avatar.png";
 import { useNavigate } from "react-router-dom";
+import { HomeHospitalContext } from "./HomeHospitalContext";
 
 function UserNavBar() {
   let navigate = useNavigate();
+
+  const { patient_id } = useContext(HomeHospitalContext);
+  const [patientID, setPatientID] = patient_id;
 
   function requestPage() {
     navigate("/hospitals");
   }
 
+  const handleHome = () => {
+    navigate("/");
+  };
+
+  const onHospital = () => {
+    navigate("/hospitals");
+  };
+
+  const handleLogout = () => {
+    setPatientID(null);
+    navigate("/");
+  };
+
   return (
     <Navbar bg="light" expand="lg">
       <Container fluid>
-        <Navbar.Brand className={classes.title}>
+        <Navbar.Brand className={classes.title} onClick={handleHome}>
           HomeHospital<span>Patient</span>
         </Navbar.Brand>
         <Navbar.Toggle aria-controls="navbarScroll" />
@@ -59,10 +76,16 @@ function UserNavBar() {
               className="me-5"
             >
               <Dropdown.Item href="#">Profile</Dropdown.Item>
-              <Dropdown.Item href="#">Hospitals</Dropdown.Item>
+              <Dropdown.Item href="#" onClick={onHospital}>
+                Hospitals
+              </Dropdown.Item>
               <Dropdown.Item href="#">Notifications</Dropdown.Item>
               <Dropdown.Divider />
-              <Dropdown.Item href="#" className="text-danger">
+              <Dropdown.Item
+                href="#"
+                className="text-danger"
+                onClick={handleLogout}
+              >
                 Logout
               </Dropdown.Item>
             </DropdownButton>

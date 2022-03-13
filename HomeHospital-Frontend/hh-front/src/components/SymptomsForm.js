@@ -10,15 +10,9 @@ import Modal from "react-bootstrap/Modal";
 import axios from "axios";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "../styles/SymptomForm.css";
-
-
 import { HomeHospitalContext } from "./HomeHospitalContext";
 
 function SymptomsForm() {
-  const { _id, patient_id } = useContext(HomeHospitalContext);
-  const [hospitalID] = _id;
-  const [patientID] = patient_id;
-
   const [additionalInfo, setAdditionalInfo] = useState("");
   const [modalState, setModalState] = useState(false);
 
@@ -96,7 +90,6 @@ function SymptomsForm() {
       list[list.length - 1].severity !== ""
     ) {
       setModalState(true);
-
     } else {
       alert("Please complete all fields");
     }
@@ -104,38 +97,25 @@ function SymptomsForm() {
     navigate("/user");
   };
 
-
   const handleFormSubmit = () => {
     axios
       .post("http://localhost:4000/api/visitRequest/newRequest", {
         patientID: patientID,
         hospitalID: hospitalID,
         symptomList: symptomsList,
-<<<<<<< HEAD
-        additionalInfo: additionalInfo,
+        description: additionalInfo,
       })
       .then((response) => {
         console.log(response);
-=======
-        description: additionalInfo,
-
-      }).then((response) => {
-          console.log(response)
-      }).catch((err) => {
+      })
+      .catch((err) => {
         console.log(err);
->>>>>>> robyn-mergebranch
       })
       .catch((err) => {
         console.log(err);
       });
 
-<<<<<<< HEAD
     console.log("the form has been sent to backoffice!");
-=======
-      console.log("the form has been sent to backoffice!");
-
-      
->>>>>>> robyn-mergebranch
   };
 
   const AlertModal = (props) => {

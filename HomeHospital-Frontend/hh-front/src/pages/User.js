@@ -7,6 +7,7 @@ import UserNavBar from "../components/UserNavBar";
 import classes from "./User.module.css";
 import WaitList from "../components/WaitList";
 import SymptomsTable from "../components/SymptomsTable";
+import { HomeHospitalContext } from "../components/HomeHospitalContext";
 
 function User() {
   const { patient_id } = useContext(HomeHospitalContext);

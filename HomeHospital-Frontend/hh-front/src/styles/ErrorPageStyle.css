@@ -1,4 +1,4 @@
-.fourOhFourContainer {
+.fourOhFour-container {
   height: 90vh;
   display: flex;
   align-items: center;
@@ -7,7 +7,7 @@
   max-width: 100%;
 }
 
-.columnLeft {
+.column-left {
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -16,15 +16,15 @@
   padding: 0rem 1em;
 }
 
-.columnLeft h1 {
+.column-left h1 {
   font-size: 110px;
 }
 
-.columnLeft h3 {
+.column-left h3 {
   font-size: 30px;
 }
 
-.columnLeft p {
+.column-left p {
   margin-bottom: 0.5rem;
   font-size: 16px;
 }

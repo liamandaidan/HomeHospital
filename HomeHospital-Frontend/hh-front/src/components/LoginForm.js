@@ -171,6 +171,11 @@ function LoginForm() {
                 <Link className={classes.teal} to="/forget">
                   Forgot Password
                 </Link>
+                <div style={{ paddingTop: "5px" }}>
+                  <Link className={classes.teal} to="/">
+                    Cancel
+                  </Link>
+                </div>
               </Col>
             </Row>
             <Row>

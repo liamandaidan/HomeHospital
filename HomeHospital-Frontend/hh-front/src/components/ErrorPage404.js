@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React from "react";
 import "../styles/ErrorPageStyle.css";
 import errorpageimg from "../images/404Picture.jpg";
 import { Container, Row, Col } from "react-bootstrap";
