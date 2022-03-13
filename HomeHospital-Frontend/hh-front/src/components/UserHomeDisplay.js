@@ -78,7 +78,6 @@ function UserHomeDisplay() {
             <span className="greetings">
               <h1>Hi Linda!</h1>
             </span>
-
           </Col>
         </Row>
       </Container>
