@@ -111,7 +111,7 @@ function SymptomsForm() {
       });
 
     console.log("the form has been sent to backoffice!");
-    navigate("/home");
+    navigate("/user");
   };
 
   const AlertModal = (props) => {

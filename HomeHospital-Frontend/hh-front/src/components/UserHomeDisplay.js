@@ -27,11 +27,6 @@ function UserHomeDisplay() {
   const { patient_id } = useContext(HomeHospitalContext);
   const [patientID, setPatientID] = patient_id;
 
-  const one = `http://localhost:4000/api/visitRequest/currentRequest/${patientID}`;
-  const two = "http://localhost:4000/api/medicalFacility/viewFacilities";
-
-  const requestOne = axios.get(one);
-  const requestTwo = axios.get(two);
 
   //import all visits using patient ID
   useEffect(() => {
@@ -44,18 +39,7 @@ function UserHomeDisplay() {
       .catch((err) => {
         console.log(err);
       });
-    // axios.all([requestOne, requestTwo])
-    // .then(axios.spread((...responses) => {
-    //   const responseOne = responses[0];
-    //   const responseTwo = responses[1];
-
-    //   setVisit(responseOne.data);
-    //   setHospitalList(responseTwo.data);
-
-    //   console.log(responseOne.data,responseTwo.data);
-    // })).catch(err => {
-    //   console.log(err);
-    // })
+  
   }, []);
 
   // get the patient data
@@ -92,7 +76,7 @@ function UserHomeDisplay() {
             />
             <span className="greetings">
               <h1>
-                {firstName} {lastName}
+                Hi {firstName}!
               </h1>
             </span>
           </Col>

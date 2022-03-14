@@ -41,6 +41,7 @@
     z-index: 1;
     margin-left: 25px;
     font-family: "Inter", sans-serif;
+    font-weight: bolder;
 }
 
 h1 {
@@ -68,4 +69,7 @@ h1 {
     margin-bottom: 20px;
 }
 
+tr {
+    height: 50px;
+}
 

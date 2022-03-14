@@ -45,6 +45,7 @@ function LandingPage() {
             <Button
               className={`rounded-pill shadow ${classes.signup}`}
               onClick={handleRegister}
+              style={{ height: "60px" , width: "150px" }}
             >
               Sign Up
             </Button>
@@ -71,10 +72,11 @@ function LandingPage() {
             <br />
             <br />
             <Button
-              className={`rounded-pill shadow ${classes.signup}`}
+              className={`rounded-pill shadow ${classes.signup} register-btn`}
               onClick={handleRegister}
+              style={{ height: "60px" , width: "250px" }}
             >
-              Register Now -->
+              Register Now --&gt;
             </Button>
           </div>
           <img
