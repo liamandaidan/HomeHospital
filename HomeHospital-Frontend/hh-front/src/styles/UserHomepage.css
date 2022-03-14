@@ -1,0 +1,22 @@
+.heartbeat-logo-1 {
+    position: absolute;
+    left: 100px;
+    top: 100px;
+    z-index: -1;
+    width: auto;
+    height: 475px;
+}
+
+.user-profile-photo {
+    position: absolute;
+    left: 550px;
+    top: 150px;
+    z-index: 1;
+    width: 400px;
+    height: 400px;
+    border-radius: 300px;
+
+}
+
+
+
