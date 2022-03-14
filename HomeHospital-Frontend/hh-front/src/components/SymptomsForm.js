@@ -94,7 +94,7 @@ function SymptomsForm() {
       alert("Please complete all fields");
     }
 
-    navigate("/user");
+    navigate("/home");
   };
 
   const handleFormSubmit = () => {

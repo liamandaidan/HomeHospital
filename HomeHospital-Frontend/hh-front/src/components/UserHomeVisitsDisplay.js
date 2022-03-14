@@ -7,8 +7,10 @@ import "../styles/UserHomepage.css";
 import axios from "axios";
 import moment from "moment";
 import { HomeHospitalContext } from "./HomeHospitalContext";
+import { useNavigate } from "react-router-dom";
 
 function UserHomeVisitsDisplay() {
+  const navigate = useNavigate();
 
   moment.locale("en");
 
@@ -16,8 +18,9 @@ function UserHomeVisitsDisplay() {
   const [date, setDate] = useState();
 
   //get patient ID from context
-  const { patient_id } = useContext(HomeHospitalContext);
+  const { patient_id, request_id } = useContext(HomeHospitalContext);
   const [patientID, setPatientID] = patient_id;
+  const [requestID, setRequestID] = request_id;
 
   //import all visits using patient ID
   useEffect(() => {
@@ -32,31 +35,49 @@ function UserHomeVisitsDisplay() {
       });
   }, []);
 
+  const handleRequest = () => {
+    setRequestID("hello I am the request ID!");
+    navigate("/user");
+  };
+
   return (
     <>
       <Container className="container-visits">
         <Row>
           <Col>
-            <Table striped bordered hover responsive borderless className="visit-table table-fixed">
-              <thead>
-                <tr>
-                  <th>#</th>
-                  <th>Date</th>
-                  <th>Reason</th>
-                  <th>Location</th>
-                </tr>
-              </thead>
-              <tbody>
-                {visitList.map((visit, index) => (
-                  <tr key={index}>
-                    <td>{index + 1}</td>
-                    <td>{moment(visit.dateTime).format("dddd, MMMM Do YYYY")}</td>
-                    <td>Emergency Room Visit</td>
-                    <td>{visit.requestHospitalName}</td>
+            {visitList.length > 0 ? (
+              <Table
+                striped
+                bordered
+                hover
+                responsive
+                borderless
+                className="visit-table table-fixed"
+              >
+                <thead>
+                  <tr>
+                    <th>#</th>
+                    <th>Date</th>
+                    <th>Reason</th>
+                    <th>Location</th>
                   </tr>
-                ))}
-              </tbody>
-            </Table>
+                </thead>
+                <tbody>
+                  {visitList.map((visit, index) => (
+                    <tr key={index} onClick={handleRequest}>
+                      <td>{index + 1}</td>
+                      <td>
+                        {moment(visit.dateTime).format("dddd, MMMM Do YYYY")}
+                      </td>
+                      <td>Emergency Room Visit</td>
+                      <td>{visit.requestHospitalName}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </Table>
+            ) : (
+              <h4>You Currently have No Requests</h4>
+            )}
           </Col>
         </Row>
       </Container>

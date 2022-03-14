@@ -14,13 +14,14 @@ import { HomeHospitalContext } from "./HomeHospitalContext";
 import "../styles/UserHomepage.css";
 
 function UserHomeDisplay() {
-
   moment.locale("en");
 
   const [visit, setVisit] = useState([]);
   const [hospitalList, setHospitalList] = useState([]);
   const [requestHospitalId, setRequestHospitalId] = useState();
   const [date, setDate] = useState();
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
 
   //get patient ID from context
   const { patient_id } = useContext(HomeHospitalContext);
@@ -38,6 +39,8 @@ function UserHomeDisplay() {
       .get(`http://localhost:4000/api/visitRequest/currentRequest/${patientID}`)
       .then((response) => {
         console.log("this is the current visit: " + response.data);
+        setFirstName(response.data.request.patientFirstName);
+        setLastName(response.data.request.patientLastName);
         setVisit(response.data.request);
       })
       .catch((err) => {
@@ -55,7 +58,6 @@ function UserHomeDisplay() {
     // })).catch(err => {
     //   console.log(err);
     // })
-
   }, []);
 
   console.log(requestHospitalId);
@@ -76,7 +78,9 @@ function UserHomeDisplay() {
               className="user-profile-photo"
             />
             <span className="greetings">
-              <h1>Hi Linda!</h1>
+              <h1>
+                {firstName} {lastName}
+              </h1>
             </span>
           </Col>
         </Row>

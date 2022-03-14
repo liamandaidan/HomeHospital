@@ -22,11 +22,19 @@ function UserNavBar() {
   }
 
   const handleHome = () => {
-    navigate("/");
+    if ((patientID !== null) | (patientID !== undefined)) {
+      navigate("/home");
+    } else {
+      navigate("/");
+    }
   };
 
   const onHospital = () => {
     navigate("/hospitals");
+  };
+
+  const handleOnLanding = () => {
+    navigate("/");
   };
 
   const handleLogout = () => {
@@ -37,7 +45,7 @@ function UserNavBar() {
   return (
     <Navbar bg="light" expand="lg">
       <Container fluid>
-        <Navbar.Brand className={classes.title} onClick={handleHome}>
+        <Navbar.Brand className={classes.title} onClick={handleOnLanding}>
           HomeHospital<span>Patient</span>
         </Navbar.Brand>
         <Navbar.Toggle aria-controls="navbarScroll" />
