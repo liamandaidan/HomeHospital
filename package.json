@@ -1,5 +1,7 @@
 {
   "dependencies": {
-    "install": "^0.13.0"
+    "install": "^0.13.0",
+    "json2csv": "^5.0.7",
+    "moment": "^2.29.1"
   }
 }

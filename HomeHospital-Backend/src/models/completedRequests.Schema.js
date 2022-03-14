@@ -1,68 +1,65 @@
+/* 
 import mongoose from "mongoose";
 import visitRequest from "./visitRequest.Model.js";
 import Patient from "./patient.Model.js";
 import { request } from "express";
-
-const completedRequestsSchema = new mongoose.Schema({
-  /* Build up a schema and model for completed requests
-That will take the completed request from current request,
-pull it out, move it to old requests  */
-  originalRequest: {
-    type: visitRequest,
-    required: true,
-  },
-  moveDAte: {
-    type: Date,
-    immutable: true,
-    default: () => Date.now(),
-  },
-  checkPatient:{
-    type:Patient,
-    required:true,
-  }
-
-  /*
-    add date ✅
-
-    a method that returns the patient info, symptoms, and additional details
-*/
-
-  /*
-    1.check all request ids, from mongodb visitRequests
-    2.see if any flag for completed
-    3.move request from db Vrequests
-    4.place into binary file
-*/
-
-});
-
-
-/* completedRequestsSchema.method('to????', function () {
-  const Vrequest = visitRequest.toObject()//???
- 
-  Vrequest.id = completedRequest._id// or vice versa i think 
-  delete visitRequest;//???????????????????
- 
-  return course
- }) */
-
-visitRequest.statics = {
-  getVisitRequestId: function (visitRequest, cb) {
-      this.findOne({ visitRequestID: visitRequestID }).select('_id').exec(cb);
-  }
-};
-
-completedRequestsSchema.methods.viewRequestedDetails = function () {
-  if (err) {
-    // handle error,  https://stackoverflow.com/questions/34515071/mongoose-method-to-return-id
-    return next(err);
-}
-  console.log(patientID);
-  //return;  // returns patient data
-};
-
 export default mongoose.model("CompletedRequest", completedRequestsSchema);
+*/
 
-//https://kb.objectrocket.com/mongo-db/simple-mongoose-and-node-js-example-1007
-//https://intellipaat.com/community/43707/model-find-returns-empty-in-mongoose
-//https://codesource.io/how-to-use-findoneandupdate-in-mongoose/
+
+/* install modules used by 
+    npm install moment json2csv
+    */
+    import express from 'express'
+    import fs from 'fs'
+    import Request from './visitRequest.Model.js'
+    
+//writes file in export directory
+const fs= require('fs');
+
+//gives the file a unique name
+const moment  = require ('moment');
+
+//converts the json to csv
+const json2csv = require('json2csv').parse;
+
+//finds exact path of directory
+const path = require('path');
+
+//The model we will export
+const Request = require('./visitRequest.Model');
+
+//Fields to import
+const fields = [];
+
+//THIS WILL SEARCH DB FOR COMPLETED REQUESTS
+router.get('/',function(req, res){
+  Request.find({completed:true}, function(err, Request){
+    if(err){
+      return res.status(500).json({err});
+    }
+    else{
+      let csv
+      try{
+        csv=json2csv(Request,{fields});
+      }catch(err){
+        return res.status(500).json({err});
+      }
+      const dateTime=moment().format('YYYYMMDDhhmmss');
+      const filePath = path.join(__dirname,"..","public","exports","csv-"+dateTime+".csv")
+
+//THIS WILL WRITE COMPLETED REQUESTS TO CSV
+      fs.writeFile(filePath,csv,function(err){
+        if(err){
+          return res.json(err).status(500);
+        }
+        else{
+          return res.json("/exports/csv-"+dateTime+".csv");
+
+//THIS WILL DELETE THE COMPLETED REQUESTS FROM DB
+          Request.deleteMany({completed:true})
+        }
+      })
+    }
+  })
+})
