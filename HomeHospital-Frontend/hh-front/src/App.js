@@ -13,7 +13,7 @@ import Reset from "./pages/ResetForgotPass";
 import HospitalSelectionPage from "./pages/HospitalSelectionPage";
 import { HomeHospitalProvider } from "./components/HomeHospitalContext";
 import UserHomepage from "./pages/UserHomepage"
-
+import Practioner from "./pages/Practioner";
 function App() {
   useEffect(() => {
     document.title = "HomeHospital";
@@ -33,7 +33,7 @@ function App() {
         <Route path="/hospitals" element={<HospitalSelectionPage />} />
         <Route path="/symptoms" element={<Symptoms />} />
         <Route path="/userhome" element={<UserHomepage />} />
-        
+        <Route path="/practioner" element={<Practioner />} />
 
 
         <Route
