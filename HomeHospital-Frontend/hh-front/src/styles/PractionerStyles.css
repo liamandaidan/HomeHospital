@@ -1,6 +1,24 @@
-.leftContent{
-    background-color: aqua;
+/* Colors are temporary to see what areas we are workign with*/
+.leftContent {
+  background-color: aqua;
 }
-.rightContent{
-    background-color: yellowgreen;
+.rightContent {
+  /* background-color: aliceblue; */
+}
+.pd {
+  font-family: "Inter";
+  font-style: normal;
+  font-weight: 500;
+  font-size: 36px;
+  line-height: 44px;
+  /* identical to box height */
+
+  color: #616060;
+}
+
+.hb2 {
+  width: 447px;
+  height: 86px;
+  left: 0px;
+  top: 107px;
 }
