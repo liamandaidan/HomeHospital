@@ -40,44 +40,42 @@ function UserHomeVisitsDisplay() {
     navigate("/user");
   };
 
+  console.log(visitList);
+
   return (
     <>
       <Container className="container-visits">
         <Row>
           <Col>
-            {visitList.length > 0 ? (
-              <Table
-                striped
-                bordered
-                hover
-                responsive
-                borderless
-                className="visit-table table-fixed"
-              >
-                <thead>
-                  <tr>
-                    <th>#</th>
-                    <th>Date</th>
-                    <th>Reason</th>
-                    <th>Location</th>
+            <Table
+              striped
+              bordered
+              hover
+              responsive
+              borderless
+              className="visit-table table-fixed"
+            >
+              <thead>
+                <tr>
+                  <th>#</th>
+                  <th>Date</th>
+                  <th>Reason</th>
+                  <th>Location</th>
+                </tr>
+              </thead>
+              <tbody>
+                {visitList.map((visit, index) => (
+                  <tr key={index} onClick={handleRequest}>
+                    <td>{index + 1}</td>
+                    <td>
+                      {moment(visit.dateTime).format("dddd, MMMM Do YYYY")}
+                    </td>
+                    <td>Emergency Room Visit</td>
+                    <td>{visit.requestHospitalName}</td>
                   </tr>
-                </thead>
-                <tbody>
-                  {visitList.map((visit, index) => (
-                    <tr key={index} onClick={handleRequest}>
-                      <td>{index + 1}</td>
-                      <td>
-                        {moment(visit.dateTime).format("dddd, MMMM Do YYYY")}
-                      </td>
-                      <td>Emergency Room Visit</td>
-                      <td>{visit.requestHospitalName}</td>
-                    </tr>
-                  ))}
-                </tbody>
-              </Table>
-            ) : (
-              <h4>You Currently have No Requests</h4>
-            )}
+                ))}
+              </tbody>
+            </Table>
           </Col>
         </Row>
       </Container>

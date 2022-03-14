@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext, useEffect } from "react";
 import UserNavBar from "../components/UserNavBar";
 import "../styles/UserHomepage.css";
 
@@ -11,6 +11,7 @@ import UserDisplay from "../components/UserHomeDisplay";
 import UserVisitDisplay from "../components/UserHomeVisitsDisplay";
 import { useNavigate } from "react-router-dom";
 import "../styles/UserHomepage.css";
+import { HomeHospitalContext } from "../components/HomeHospitalContext";
 
 function UserHomepage() {
   const navigate = useNavigate();

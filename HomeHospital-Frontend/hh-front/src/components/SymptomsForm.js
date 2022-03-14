@@ -93,8 +93,6 @@ function SymptomsForm() {
     } else {
       alert("Please complete all fields");
     }
-
-    navigate("/home");
   };
 
   const handleFormSubmit = () => {
@@ -103,19 +101,17 @@ function SymptomsForm() {
         patientID: patientID,
         hospitalID: hospitalID,
         symptomList: symptomsList,
-        description: additionalInfo,
+        additionalInfo: additionalInfo,
       })
       .then((response) => {
         console.log(response);
       })
       .catch((err) => {
         console.log(err);
-      })
-      .catch((err) => {
-        console.log(err);
       });
 
     console.log("the form has been sent to backoffice!");
+    navigate("/home");
   };
 
   const AlertModal = (props) => {

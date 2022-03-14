@@ -36,11 +36,9 @@ function UserHomeDisplay() {
   //import all visits using patient ID
   useEffect(() => {
     axios
-      .get(`http://localhost:4000/api/visitRequest/currentRequest/${patientID}`)
+      .get(`http://localhost:4000/api/visitRequest/allRequests/${patientID}`)
       .then((response) => {
-        console.log("this is the current visit: " + response.data);
-        setFirstName(response.data.request.patientFirstName);
-        setLastName(response.data.request.patientLastName);
+        console.log("this is the all visit: " + response.data.request);
         setVisit(response.data.request);
       })
       .catch((err) => {
@@ -60,7 +58,22 @@ function UserHomeDisplay() {
     // })
   }, []);
 
-  console.log(requestHospitalId);
+  // get the patient data
+  useEffect(() => {
+    axios
+      .post("http://localhost:4000/api/users/PatientInfoVisitRequest", {
+        patientId: patientID,
+      })
+      .then((response) => {
+        setFirstName(response.data.data.user.firstName);
+        setLastName(response.data.data.user.lastName);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }, []);
+
+  // console.log(requestHospitalId);
 
   return (
     <>
