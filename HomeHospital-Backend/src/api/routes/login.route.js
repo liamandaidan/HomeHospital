@@ -10,11 +10,11 @@ route.post('/', logUserIn, generateAccessToken, (req, res) => {
 	// attaches JWT token values to the request
 	const accessT = req.tokens.accessT
 	const refreshT = req.tokens.refreshT
-	console.log('accessT: ' + accessT)
-	console.log('refreshT: ' + refreshT)
+	// console.log('accessT: ' + accessT)
+	// console.log('refreshT: ' + refreshT)
 	res.status(201).json({
 		message: 'Login successful',
-		user: req.authUser,
+		patientId: req.patientId,
 		accessT: accessT,
 		refreshT: refreshT,
 	})

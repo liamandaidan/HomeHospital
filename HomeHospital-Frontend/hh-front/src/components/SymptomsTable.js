@@ -1,15 +1,25 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useContext, useState } from "react";
 import Table from "react-bootstrap/table";
 import axios from "axios";
+import { HomeHospitalContext } from "./HomeHospitalContext";
+import Button from "react-bootstrap/Button"
+
 
 function SymptomsTable() {
+
+  const [symptomsList, setSymptomsList] = useState([]);
+
+  const { patient_id } = useContext(HomeHospitalContext);
+  const [patientID, setPatientID] = patient_id;
+
+  console.log("this is the patient id: " + patientID);
+
   useEffect(() => {
     axios
-      .post("http://localhost:4000/api/users/PatientInfoVisitRequest", {
-        email: email,
-      })
+      .get(`http://localhost:4000/api/visitRequest/currentRequest/${patientID}`)
       .then((response) => {
-        console.log(response);
+        console.log(response.data.request);
+        setSymptomsList(response.data.request.symptoms)
       })
       .catch((err) => {
         console.log(err);
@@ -18,6 +28,7 @@ function SymptomsTable() {
 
   return (
     <>
+    <h4>Current Symptoms</h4>
       <Table striped bordered hover>
         <thead>
           <tr>
@@ -26,26 +37,19 @@ function SymptomsTable() {
           </tr>
         </thead>
         <tbody>
-          <tr>
-            <th>1</th>
-            <th>Cough</th>
-          </tr>
-          <tr>
-            <th>2</th>
-            <th>Fever</th>
-          </tr>
-          <tr>
-            <th>3</th>
-            <th>Chills</th>
-          </tr>
+         {symptomsList.map((symptom, index) =>
+         <tr key={index}>
+           <td>{index + 1}</td>
+           <td>{symptom.description}</td>
+         </tr>
+         )}
         </tbody>
       </Table>
-      <div>
+      <div className="add-btn-div">
         <Button
           className="submit-btn btn-light"
-          onClick={alert("added a symptom!")}
         >
-          <span>Submit Symptoms</span>
+          <span>Add</span>
         </Button>
       </div>
     </>

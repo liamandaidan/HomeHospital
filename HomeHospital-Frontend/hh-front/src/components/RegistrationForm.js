@@ -268,6 +268,13 @@ function RegistrationForm() {
   return (
     <Container>
       <div>
+        <h3
+          className="text-center mt-4"
+          style={{ color: "#58adaf", textShadow: "1px 1px #C6C6C6" }}
+        >
+          Registration
+        </h3>
+        <hr />
         <form id="clientForm" action="">
           <Row>
             <Col>

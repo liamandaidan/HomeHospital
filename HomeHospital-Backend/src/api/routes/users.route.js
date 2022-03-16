@@ -1,26 +1,36 @@
 import express from 'express'
-import { getPatientInfoVisitRequest } from '../service/user.service.js'
+import patientModel from '../../models/patient.Model.js'
+import mongoose from 'mongoose'
 
 // Creates Router
 const route = express.Router()
 
 // Register Route
 route.post('/PatientInfoVisitRequest', async (req, res) => {
-	// Get the patient.
-	const { email } = req.body
+	const { patientId } = req.body
+	// Check to see that the patient exists. If so send the appropriate info, if not send error code.
 	try {
-		const patient = await getPatientInfoVisitRequest(email)
+		const validUserID = mongoose.Types.ObjectId.isValid(patientId)
+		if (validUserID) {
 
-		// Check to see that the patient exists.
-		if (patient == null) {
-			res.status(406).send({
-				status: 'Error',
-				message: 'Cannot find patient',
-			})
-		} else {
-			res.status(200).send({data: patient})
+			if (await patientModel.exists({_id: patientId})) {
+				const patient = await patientModel.findById(patientId)
+				const patientOut = patient.getPatientRequestInfo()
+				res.status(200).send({ data: patientOut })
+			} else {
+				res.status(406).send({
+					status: 'Error',
+					message: 'Cannot find patient',
+				})
+			}
 		}
-	} catch (error) {}
+	} catch (error) {
+		console.error(error.message)
+		res.status(406).send({
+			status: 'Error',
+			message: 'Cannot find patient',
+		})
+	}
 })
 
 export default route

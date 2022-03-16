@@ -1,4 +1,5 @@
 import React, { useContext, useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import Form from "react-bootstrap/Form";
 import Col from "react-bootstrap/Col";
 import Row from "react-bootstrap/Row";
@@ -9,16 +10,17 @@ import Modal from "react-bootstrap/Modal";
 import axios from "axios";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "../styles/SymptomForm.css";
-
 import { HomeHospitalContext } from "./HomeHospitalContext";
 
 function SymptomsForm() {
-  
   const [additionalInfo, setAdditionalInfo] = useState("");
   const [modalState, setModalState] = useState(false);
 
-  const { _id } = useContext(HomeHospitalContext);
+  const { _id, patient_id } = useContext(HomeHospitalContext);
   const [hospitalID, setHospitalID] = _id;
+  const [patientID, setPatientID] = patient_id;
+
+  const navigate = useNavigate();
 
   console.log("this is the hospital ID: " + hospitalID);
 
@@ -34,7 +36,6 @@ function SymptomsForm() {
 
   //this function will be add a new symptom field as long as the previous fields have been filled.
   const handleSymptomsAdd = (index) => {
-
     if (
       symptomsList[index].description !== "" &&
       symptomsList[index].severity !== ""
@@ -76,6 +77,10 @@ function SymptomsForm() {
   };
 
   const handleSubmit = () => {
+    console.log(patientID);
+    console.log(hospitalID);
+    console.log(symptomsList);
+    console.log(additionalInfo);
     const list = [...symptomsList];
 
     console.log("this is the last value " + list[list.length - 1].description);
@@ -91,24 +96,25 @@ function SymptomsForm() {
   };
 
   const handleFormSubmit = () => {
-
-    axios.post('http://localhost:4000/api/visitRequest/newRequest', {
-        patientID: "",
-        hospitalID: "",
-        symptomList: [symptomsList],
-        description: additionalInfo,
-
-      }).then((response) => {
-          console.log(response)
-      }).catch((err) => {
-        console.log(err);
+    axios
+      .post("http://localhost:4000/api/visitRequest/newRequest", {
+        patientID: patientID,
+        hospitalID: hospitalID,
+        symptomList: symptomsList,
+        additionalInfo: additionalInfo,
       })
+      .then((response) => {
+        console.log(response);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
 
-      console.log("the form has been sent to backoffice!");
+    console.log("the form has been sent to backoffice!");
+    navigate("/home");
   };
 
   const AlertModal = (props) => {
-  
     return (
       <>
         <Modal {...props} centered>
@@ -117,9 +123,9 @@ function SymptomsForm() {
           </Modal.Header>
           <Modal.Body className="modal-content">
             <p>
-              This will be a disclaimer stating that the information entered is up
-              to patient discretion. If they feel this is an emergency that is in
-              need of urgent care, call 911.
+              This will be a disclaimer stating that the information entered is
+              up to patient discretion. If they feel this is an emergency that
+              is in need of urgent care, call 911.
             </p>
           </Modal.Body>
           <Modal.Footer className="modal-footer">
@@ -139,7 +145,7 @@ function SymptomsForm() {
         </Modal>
       </>
     );
-  }
+  };
 
   return (
     <>
@@ -192,12 +198,12 @@ function SymptomsForm() {
                   {symptomsList.length - 1 === index &&
                     symptomsList.length < 5 && (
                       <div className="add-btn-div">
-                      <Button
-                        className="add-btn btn-light"
-                        onClick={() => handleSymptomsAdd(index)}
-                      >
-                        <span>Add Symptom</span>
-                      </Button>
+                        <Button
+                          className="add-btn btn-light"
+                          onClick={() => handleSymptomsAdd(index)}
+                        >
+                          <span>Add Symptom</span>
+                        </Button>
                       </div>
                     )}
                 </div>
@@ -214,9 +220,9 @@ function SymptomsForm() {
                 <Button className="submit-btn btn-light" onClick={handleSubmit}>
                   <span>Submit Symptoms</span>
                 </Button>
-            <div>
-              <a href="/hospitals"> &lt; previous step</a>
-            </div>
+                <div>
+                  <a href="/hospitals"> &lt; previous step</a>
+                </div>
               </div>
             </Form>
           </Col>
