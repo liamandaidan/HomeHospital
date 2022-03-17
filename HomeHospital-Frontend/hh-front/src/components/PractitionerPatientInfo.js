@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { Component, useState, useEffect, useContext } from "react";
 import logo from "../images/heartbeat.png";
 import profile from "../images/profilepicture.png";
 import hbar from "../images/hb2.png";
@@ -6,11 +6,14 @@ import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import Container from "react-bootstrap/Container";
 import "../styles/SymptomForm.css";
+import "../styles/PractionerStyles.css";
 import axios from "axios";
 import { HomeHospitalContext } from "./HomeHospitalContext";
 
-function PractitionerPatientInfo() {
-//   const { patient_id } = useContext(HomeHospitalContext);
+
+export class PractitionerPatientInfo extends Component {
+  render() {
+	  //   const { patient_id } = useContext(HomeHospitalContext);
 //   const [patientID] = patient_id;
 
 //   const [firstName, setFirstName] = useState("");
@@ -44,7 +47,7 @@ function PractitionerPatientInfo() {
 //   const today = new Date(timeElapsed);
 
 //   const formatDate = today.toDateString();
-  return (
+return (
     <>
       <Container className="patient-container">
         <Row>
@@ -53,7 +56,7 @@ function PractitionerPatientInfo() {
             <img src={profile} alt="profilePic" className="profilepic" />
           </Col>
           <Col md={8}>
-            <div className="patient-info-requestDetails">
+            <div className="practitioner-patientRequestDetails">
               <h3>
 				  Kanye West
                 {/* {firstName} {lastName} */}
@@ -66,7 +69,7 @@ function PractitionerPatientInfo() {
         </Row>
         <Row>
           <Col>
-            <div className="patient-info-personalDetails">
+            <div className="practitioner-patientDetails">
 				<h4>Patient Details</h4>
               {/* <h4>Confirmed Patient Details </h4> */}
             </div>
@@ -74,7 +77,7 @@ function PractitionerPatientInfo() {
         </Row>
         <Row>
           <Col className="patient-contactDetails">
-			  <p>Address: 123 ThisMyHouse</p>
+			  <p>Address: 123 MyHouse</p>
 			  <p>Contact Number: (403) 223-2311</p>
 			  <p>Emergency Contact Name:Pete Davidson</p>
 			  <p>Emergency Contact No:(403) 443-2312</p>
@@ -99,6 +102,8 @@ function PractitionerPatientInfo() {
       </Container>
     </>
   );
+  }
 }
 
 export default PractitionerPatientInfo;
+
