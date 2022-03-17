@@ -6,6 +6,7 @@ import logo from "../images/heartbeat.png";
 import "../styles/PractionerStyles.css";
 import line from "../images/hb2.png";
 import PractionerWaitlist from "../components/PractionerWaitlist.jsx";
+import PractitionerPatientInfo from "../components/PractitionerPatientInfo.js"
 
 export default function Practioner() {
   // change the state to view visability on patient details
@@ -31,7 +32,7 @@ export default function Practioner() {
                 <Row>
                   {/* Patient info shown depending on logic of component selected.
                   PATIENTINFO COMPONENT WILL NEED TO BE REPLACED*/}
-                  <PatientInfo />
+                  <PractitionerPatientInfo />
                 </Row>
                 <Row>
                   <p>
