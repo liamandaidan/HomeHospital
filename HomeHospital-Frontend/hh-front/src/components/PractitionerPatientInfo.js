@@ -55,6 +55,7 @@ function PractitionerPatientInfo() {
           <Col md={8}>
             <div className="patient-info-requestDetails">
               <h3>
+				  Kanye West
                 {/* {firstName} {lastName} */}
               </h3>
               {/* <p>Visit request #45</p> */}
@@ -66,12 +67,20 @@ function PractitionerPatientInfo() {
         <Row>
           <Col>
             <div className="patient-info-personalDetails">
+				<h4>Patient Details</h4>
               {/* <h4>Confirmed Patient Details </h4> */}
             </div>
           </Col>
         </Row>
         <Row>
           <Col className="patient-contactDetails">
+			  <p>Address: 123 ThisMyHouse</p>
+			  <p>Contact Number: (403) 223-2311</p>
+			  <p>Emergency Contact Name:Pete Davidson</p>
+			  <p>Emergency Contact No:(403) 443-2312</p>
+			  <p>Alberta Health Care no: 12345-0000</p>
+			  <p>Symptoms: Broken Leg (Severity: 3)</p>
+			  <p>Place in queue: 1</p>
             {/* <p>Contact number: {phoneNumber}</p>
             <p>Alberta Health Care no: {HCNumber}</p> */}
             {/* <p>
