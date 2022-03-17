@@ -5,21 +5,23 @@ import {
 	accessOptions,
 	refreshOptions,
 } from '../../configure/cookie.configure.js'
+import PatientModel from '../../models/patient.Model.js'
+//import PractitionerModel from '../../models/practitioner.Model.js'
 
 const ACCESSTOKEN_TEST_SECRET = ENV.ACCESSTOKEN_TEST_SECRET
 const REFRESHTOKEN_TEST_SECRET = ENV.REFRESHTOKEN_TEST_SECRET
 
 /*This method generates an access token. It is called as middleware whenever a user attempts to log in. It calls the method 
-to generate a refresh token as well, so there should always be both together. For the moment, the refresh token is added to a
-dynamic list of refreshTokens. After proof of concept though, that list will be moved to the database. */
+to generate a refresh token as well, so there should always be both together. */
 export const generateAccessToken = (req, res, next) => {
 	const user = req.body //get the users email as a unique identifier
+	const id = req.patientID;
 	const accessToken = jwt.sign(
-		{ email: user.email },
+		{ email: user.email,
+		patientID: req.patientId },
 		ACCESSTOKEN_TEST_SECRET,
 		{ expiresIn: '30s' }
 	) //create token, expires in 30 seconds
-
 	const refreshToken = generateRefreshToken(user.email) //create non-expiring token with same user email
 	const savedRefToken = new RefToken({
 		email: user.email,
@@ -93,28 +95,37 @@ export const checkAccessToken = async (req, res, next) => {
 			res.locals.refreshT = refreshToken
 			next()
 		} catch (err) {
-			console.log('Access token invalid, time to check refresh token')
-			refreshAccessToken(refreshToken).then((newAccessToken) => {
-				if (newAccessToken) {
-					res.locals.accessT = newAccessToken //res.locals is an object that carries on through all middleware
-					res.locals.refreshT = refreshToken
-					res.cookie(
-						'accessTokenCookie',
-						newAccessToken,
-						accessOptions
-					)
-					res.cookie(
-						'refreshTokenCookie',
-						refreshToken,
-						refreshOptions
-					)
-					next()
-				} else {
-					return res
-						.status(401)
-						.json({ message: 'Authorization Failed' })
-				}
-			})
+			if(err.name == 'TokenExpiredError') {
+				console.log("Token is expired");
+				console.log('Access token invalid, time to check refresh token')
+				refreshAccessToken(refreshToken, accessToken).then((newAccessToken) => {
+					if (newAccessToken) {
+						res.locals.accessT = newAccessToken //res.locals is an object that carries on through all middleware
+						res.locals.refreshT = refreshToken
+						res.cookie(
+							'accessTokenCookie',
+							newAccessToken,
+							accessOptions
+						)
+						res.cookie(
+							'refreshTokenCookie',
+							refreshToken,
+							refreshOptions
+						)
+						next()
+					} else {
+						return res
+							.status(401)
+							.json({ message: 'Authorization Failed' })
+					}
+				})
+			} else {
+				console.log("Someone fiddled with the access token. No soup for you!");
+				return res
+							.status(401)
+							.send({ message: 'Authorization Failed' })
+			}
+			
 		}
 	} else if (!accessToken && refreshToken) {
 		try {
@@ -149,7 +160,7 @@ query to find the refresh token in the database. If the refresh token cannot be 
 promise with null. If the token is found, we verify its validity. If that passes as well, then we generate a new access token and resolve the promise 
 with that token. An error with the query will reject the promise.
 */
-const refreshAccessToken = (refreshToken) => {
+const refreshAccessToken = (refreshToken, oldAccessToken) => {
 	return new Promise((resolve, reject) => {
 		const thing = RefToken.findOne({ token: refreshToken })
 			.exec()
@@ -166,8 +177,10 @@ const refreshAccessToken = (refreshToken) => {
 								console.log(
 									// 'Email from refresh token is ' + email
 								)
+								const oldPayload = jwt.decode(oldAccessToken);
+								const pID = oldPayload.patientID;
 								const newAccessToken = jwt.sign(
-									{ email: email },
+									{ email: email, patientID: pID },
 									ACCESSTOKEN_TEST_SECRET,
 									{ expiresIn: '30s' }
 								)
