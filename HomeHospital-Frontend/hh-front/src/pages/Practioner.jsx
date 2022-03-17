@@ -5,9 +5,10 @@ import PractNav from "../components/PractNavBar.jsx";
 import logo from "../images/heartbeat.png";
 import "../styles/PractionerStyles.css";
 import line from "../images/hb2.png";
+import PractionerWaitlist from "../components/PractionerWaitlist.jsx";
 
 export default function Practioner() {
-    // change the state to view visability on patient details
+  // change the state to view visability on patient details
   const [patientDetails, setPatientDetails] = useState(true);
 
   return (
@@ -45,43 +46,7 @@ export default function Practioner() {
                   <p class="pd">Current Waitlist</p>
                 </Row>
                 <Row>
-                    {/* This table class will be automatically generated.
-                    Just used as an example for now */}
-                  <table class="table table-hover">
-                    <thead class="table-light">
-                      <tr>
-                        <th scope="col">#</th>
-                        <th scope="col">First</th>
-                        <th scope="col">Last</th>
-                        <th scope="col"></th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      <tr>
-                        <th scope="row">1</th>
-                        <td>Mark</td>
-                        <td>Otto</td>
-                        <td>
-                          <Button>Check in</Button>
-                        </td>
-                      </tr>
-                      <tr>
-                        <th scope="row">2</th>
-                        <td>Jacob</td>
-                        <td>Thornton</td>
-                        <td>
-                          <Button>Check in</Button>
-                        </td>
-                      </tr>
-                      <tr>
-                        <th scope="row">3</th>
-                        <td colspan="2">Larry the Bird</td>
-                        <td>
-                          <Button>Check in</Button>
-                        </td>
-                      </tr>
-                    </tbody>
-                  </table>
+                  <PractionerWaitlist />
                 </Row>
               </div>
             </Col>
