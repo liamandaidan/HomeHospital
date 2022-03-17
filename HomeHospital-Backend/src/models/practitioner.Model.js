@@ -27,6 +27,11 @@ const practitionerSchema = new mongoose.Schema({
 	user: {
 		type: UserSchema,
 	},
+	facilityId: {
+		type: mongoose.Schema.Types.ObjectId,
+		ref: 'MedicalFacility',
+		required: true
+	}
 })
 
 export default mongoose.model('Practitioner', practitionerSchema)
