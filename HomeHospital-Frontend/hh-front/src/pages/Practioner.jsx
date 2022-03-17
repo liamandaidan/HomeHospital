@@ -53,7 +53,6 @@ export default function Practioner() {
                         <th scope="col">#</th>
                         <th scope="col">First</th>
                         <th scope="col">Last</th>
-                        <th scope="col">Symptoms</th>
                         <th scope="col"></th>
                       </tr>
                     </thead>
@@ -62,7 +61,6 @@ export default function Practioner() {
                         <th scope="row">1</th>
                         <td>Mark</td>
                         <td>Otto</td>
-                        <td>@mdo</td>
                         <td>
                           <Button>Check in</Button>
                         </td>
@@ -71,7 +69,6 @@ export default function Practioner() {
                         <th scope="row">2</th>
                         <td>Jacob</td>
                         <td>Thornton</td>
-                        <td>@fat</td>
                         <td>
                           <Button>Check in</Button>
                         </td>
@@ -79,7 +76,6 @@ export default function Practioner() {
                       <tr>
                         <th scope="row">3</th>
                         <td colspan="2">Larry the Bird</td>
-                        <td>@twitter</td>
                         <td>
                           <Button>Check in</Button>
                         </td>
