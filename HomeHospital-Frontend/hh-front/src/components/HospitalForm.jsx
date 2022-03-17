@@ -1,13 +1,16 @@
 import React, { useContext, useEffect, useState } from "react";
 import { Container, Row, Col, Button, Form, Card } from "react-bootstrap";
 import Axios from "axios";
-import { renderMatches, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { HomeHospitalContext } from "./HomeHospitalContext";
 import "../styles/HospitalSelectionStyles.css";
 
 function SelectHospital() {
   //useContext here
-  const { _id } = useContext(HomeHospitalContext);
+  const { _id, patient_id } = useContext(HomeHospitalContext);
+  const [patientID, setPatientID] = patient_id;
+
+  console.log("PatientID: " + patientID)
 
   const [posts, setPosts] = useState([]);
   //grab the states of use context for the _id
@@ -25,8 +28,12 @@ function SelectHospital() {
 
   function test(e) {
     //set_idValue(e.target.value);
-    alert("Hospital Id = + " + _idValue);
+    // alert("Hospital Id = + " + _idValue);
     navigate("/symptoms");
+  }
+
+  const cancelRequest = () => {
+    navigate("/home");
   }
   return (
     <>
@@ -56,10 +63,11 @@ function SelectHospital() {
                     <Form key={post._id}>
                       <Button
                     id="btn"
+                    className="selectHospital-btn"
                     onClick={(event) => set_idValue(event.target.value)}
                     value={post._id}
                   >
-                    Select
+                    Select hospital
                   </Button>
                   </Form>
                   </Card.Body>
@@ -69,8 +77,11 @@ function SelectHospital() {
           </div>
           <div className="submit-btn-div">
             <Button className="submit-btn" onClick={test}>
-              Submit
+              Submit hospital
             </Button>
+            <div className="cancel-link-div">
+              <a href="/home">Cancel request</a>
+            </div>
           </div>
         </Row>
       </Container>

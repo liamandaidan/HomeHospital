@@ -214,3 +214,8 @@ p {
 .bg-custom {
     background-color: #C1F4E8;
     }
+
+.add-btn-div{
+    text-align: right;
+    justify-content: right;
+}

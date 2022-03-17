@@ -1,28 +1,8 @@
 import React from "react";
-import { Button } from "react-bootstrap";
-import { useNavigate } from "react-router-dom";
+import LandingPage from "../components/LandingPage";
 
 function Home() {
-  let navigate = useNavigate();
-  return (
-    <div>
-      <h1>Home Page</h1>
-      <Button
-        onClick={() => {
-          navigate("/login");
-        }}
-      >
-        Login
-      </Button>
-      <Button
-        onClick={() => {
-          navigate("/register");
-        }}
-      >
-        Register
-      </Button>
-    </div>
-  );
+  return <LandingPage />;
 }
 
 export default Home;

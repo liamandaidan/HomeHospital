@@ -8,8 +8,14 @@ import logo from "../images/heartbeat.png";
 import ProgressBar from "react-bootstrap/ProgressBar";
 
 import "../styles/HospitalSelectionStyles.css";
+import { useNavigate } from "react-router-dom";
 
 export default function HospitalSelectionForm() {
+  const navigate = useNavigate();
+
+  const handleOnHome = () => {
+    navigate("/home")
+  }
   return (
     <div>
       <UserNav />
@@ -18,7 +24,7 @@ export default function HospitalSelectionForm() {
           <Col>
             <div className="breadcrumb-div">
               <Breadcrumb>
-                <Breadcrumb.Item href="#">Home</Breadcrumb.Item>
+                <Breadcrumb.Item onClick={handleOnHome}>Home</Breadcrumb.Item>
                 <Breadcrumb.Item active>Hospital</Breadcrumb.Item>
               </Breadcrumb>
             </div>
@@ -29,7 +35,7 @@ export default function HospitalSelectionForm() {
             <div className="progress-div">
               <ProgressBar
                 className="symptomsProgress"
-                now={50}
+                now={30}
                 variant="custom"
               />
             </div>

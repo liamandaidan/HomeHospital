@@ -1,13 +1,16 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Button, Col, Container, Form, Modal, Row } from "react-bootstrap";
 import { Link, useNavigate } from "react-router-dom";
 import logo from "../images/heartbeat_logo_long.png";
 import classes from "./LoginForm.module.css";
 import Axios from "axios";
+import { HomeHospitalContext } from "./HomeHospitalContext";
 
 function LoginForm() {
   let navigate = useNavigate();
 
+  const { patient_id } = useContext(HomeHospitalContext);
+  const [patientID, setPatientID] = patient_id;
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [validEmail, setValidEmail] = useState(false);
@@ -48,8 +51,9 @@ function LoginForm() {
       password: password,
     })
       .then((response) => {
+        setPatientID(response.data.patientId);
         console.log("You have logged in successfully");
-        navigate("/user");
+        navigate("/home");
       })
       .catch((err) => {
         handleShow();
@@ -167,6 +171,11 @@ function LoginForm() {
                 <Link className={classes.teal} to="/forget">
                   Forgot Password
                 </Link>
+                <div style={{ paddingTop: "5px" }}>
+                  <Link className={classes.teal} to="/">
+                    Cancel
+                  </Link>
+                </div>
               </Col>
             </Row>
             <Row>
