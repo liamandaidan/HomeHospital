@@ -10,40 +10,40 @@ import axios from "axios";
 import { HomeHospitalContext } from "./HomeHospitalContext";
 
 function PractitionerPatientInfo() {
-  const { patient_id } = useContext(HomeHospitalContext);
-  const [patientID] = patient_id;
+//   const { patient_id } = useContext(HomeHospitalContext);
+//   const [patientID] = patient_id;
 
-  const [firstName, setFirstName] = useState("");
-  const [lastName, setLastName] = useState("");
-  const [HCNumber, setHCNumber] = useState("");
-  const [phoneNumber, setPhoneNumber] = useState("");
-  const [emergFirstName, setEmergFirstName] = useState("");
-  const [emergLastName, setEmergLastName] = useState("");
-  const [emergPhoneNumber, setEmergPhoneNumber] = useState("");
+//   const [firstName, setFirstName] = useState("");
+//   const [lastName, setLastName] = useState("");
+//   const [HCNumber, setHCNumber] = useState("");
+//   const [phoneNumber, setPhoneNumber] = useState("");
+//   const [emergFirstName, setEmergFirstName] = useState("");
+//   const [emergLastName, setEmergLastName] = useState("");
+//   const [emergPhoneNumber, setEmergPhoneNumber] = useState("");
 
-  useEffect(() => {
-    axios
-      .post("http://localhost:4000/api/users/PatientInfoVisitRequest", {
-        patientId: patientID,
-      })
-      .then((response) => {
-        setFirstName(response.data.data.user.firstName);
-        setLastName(response.data.data.user.lastName);
-        setPhoneNumber(response.data.data.user.phoneNumber);
-        setHCNumber(response.data.data.HCnumber);
-        setEmergFirstName(response.data.data.emergencyContact.firstName);
-        setEmergLastName(response.data.data.emergencyContact.lastName);
-        setEmergPhoneNumber(response.data.data.emergencyContact.phoneNumber);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  }, []);
+//   useEffect(() => {
+//     axios
+//       .post("http://localhost:4000/api/users/PatientInfoVisitRequest", {
+//         patientId: patientID,
+//       })
+//       .then((response) => {
+//         setFirstName(response.data.data.user.firstName);
+//         setLastName(response.data.data.user.lastName);
+//         setPhoneNumber(response.data.data.user.phoneNumber);
+//         setHCNumber(response.data.data.HCnumber);
+//         setEmergFirstName(response.data.data.emergencyContact.firstName);
+//         setEmergLastName(response.data.data.emergencyContact.lastName);
+//         setEmergPhoneNumber(response.data.data.emergencyContact.phoneNumber);
+//       })
+//       .catch((err) => {
+//         console.log(err);
+//       });
+//   }, []);
 
-  const timeElapsed = Date.now();
-  const today = new Date(timeElapsed);
+//   const timeElapsed = Date.now();
+//   const today = new Date(timeElapsed);
 
-  const formatDate = today.toDateString();
+//   const formatDate = today.toDateString();
   return (
     <>
       <Container className="patient-container">
@@ -55,10 +55,10 @@ function PractitionerPatientInfo() {
           <Col md={8}>
             <div className="patient-info-requestDetails">
               <h3>
-                {firstName} {lastName}
+                {/* {firstName} {lastName} */}
               </h3>
-              <p>Visit request #45</p>
-              <p>{formatDate}</p>
+              {/* <p>Visit request #45</p> */}
+              {/* <p>{formatDate}</p> */}
             </div>
           </Col>
           <Col></Col>
@@ -66,25 +66,25 @@ function PractitionerPatientInfo() {
         <Row>
           <Col>
             <div className="patient-info-personalDetails">
-              <h4>Confirmed Patient Details </h4>
+              {/* <h4>Confirmed Patient Details </h4> */}
             </div>
           </Col>
         </Row>
         <Row>
           <Col className="patient-contactDetails">
-            <p>Contact number: {phoneNumber}</p>
-            <p>Alberta Health Care no: {HCNumber}</p>
-            <p>
+            {/* <p>Contact number: {phoneNumber}</p>
+            <p>Alberta Health Care no: {HCNumber}</p> */}
+            {/* <p>
               Emergency contact name: {emergFirstName} {emergLastName}
             </p>
-            <p>Contact contanct number: {emergPhoneNumber}</p>
+            <p>Contact contanct number: {emergPhoneNumber}</p> */}
           </Col>
         </Row>
         <Row>
           <Col>
-            <div className="hbar-div">
+            {/* <div className="hbar-div">
               <img src={hbar} alt="heartbeat bar" className="hb-bar" />
-            </div>
+            </div> */}
           </Col>
         </Row>
       </Container>
