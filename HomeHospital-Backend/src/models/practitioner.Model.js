@@ -8,7 +8,9 @@ const practitionerSchema = new mongoose.Schema({
 		required: true,
 	},
 	role: {
-		type: HCPRole,
+		type: String,
+		enum: ['Doctor', 'Nurse', 'Clerk'],
+		required: true
 	},
 	email: {
 		type: String,
