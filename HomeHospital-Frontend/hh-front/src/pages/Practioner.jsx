@@ -9,6 +9,13 @@ import PractionerWaitlist from "../components/PractionerWaitlist.jsx";
 import PractitionerPatientInfo from "../components/PractitionerPatientInfo.js";
 
 export default class Practioner extends Component {
+  state = { firstName: "", lastName: "" };
+  //this will retrieve data from PractionerWaitlist table and update state
+  //I NEED TO FIGURE OUT HOW TO SEND JSON OF DATA
+  callbackFunction = (childData) => {
+    this.setState({firstName: childData})
+  };
+
   render() {
     return (
       <div>
