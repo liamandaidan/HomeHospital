@@ -15,10 +15,10 @@ const REFRESHTOKEN_TEST_SECRET = ENV.REFRESHTOKEN_TEST_SECRET
 to generate a refresh token as well, so there should always be both together. */
 export const generateAccessToken = (req, res, next) => {
 	const user = req.body //get the users email as a unique identifier
-	const id = req.patientID;
+	const id = req.patientId;
 	const accessToken = jwt.sign(
 		{ email: user.email,
-		patientID: req.patientId },
+		patientId: req.patientId },
 		ACCESSTOKEN_TEST_SECRET,
 		{ expiresIn: '30s' }
 	) //create token, expires in 30 seconds
@@ -40,8 +40,8 @@ const generateRefreshToken = (email) => {
 }
 
 /*
-IMPORTANT: THIS MIDDLEWARE IS THE PRIMARY ACCESS VALIDATOR FOR ALL PAGES. ANY PAGE THAT REQUIRES A USER TO BE LOGGED IN
-MUST BE ROUTED THROUGH THIS MIDDLEWARE BEFORE BEING ALLOWED TO PROCEED
+IMPORTANT: THIS MIdDLEWARE IS THE PRIMARY ACCESS VALIdATOR FOR ALL PAGES. ANY PAGE THAT REQUIRES A USER TO BE LOGGED IN
+MUST BE ROUTED THROUGH THIS MIdDLEWARE BEFORE BEING ALLOWED TO PROCEED
 
 
 This middleware is used to check the validity of an access token. First we collect the access and refresh tokens from both 
@@ -93,6 +93,9 @@ export const checkAccessToken = async (req, res, next) => {
 			// console.log(`Access token still valid: ${validAccessToken.email}`)
 			res.locals.accessT = accessToken
 			res.locals.refreshT = refreshToken
+			req.patientId = validAccessToken.patientId
+			console.log(validAccessToken)
+			console.log(validAccessToken.patientId)
 			next()
 		} catch (err) {
 			if(err.name == 'TokenExpiredError') {
@@ -178,9 +181,9 @@ const refreshAccessToken = (refreshToken, oldAccessToken) => {
 									// 'Email from refresh token is ' + email
 								)
 								const oldPayload = jwt.decode(oldAccessToken);
-								const pID = oldPayload.patientID;
+								const pId = oldPayload.patientId;
 								const newAccessToken = jwt.sign(
-									{ email: email, patientID: pID },
+									{ email: email, patientId: pId },
 									ACCESSTOKEN_TEST_SECRET,
 									{ expiresIn: '30s' }
 								)
