@@ -5,7 +5,7 @@ import { Waitlist } from '../../models/waitlist.class.js';
 
 /**
  * This will be used to populate the list of requests
- * Right now, it is just checking to see requests in the DB, and also set up to be able to read requestID's
+ * Right now, it is just checking to see requests in the DB, and also set up to be able to read requestId's
  * that will be used in the development process to set the rough order
  */
 export async function populateWaitlists() {
@@ -36,17 +36,17 @@ export async function populateWaitlists() {
         }
         //console.table(dataFromFile)
         
-        let requestIDsRandom = [];
+        let requestIdsRandom = [];
         allRequests.forEach(element => {
-            requestIDsRandom.push(element._id.toHexString());
+            requestIdsRandom.push(element._id.toHexString());
         })
 
-        /*For each request, I need to check the hospital, and check the requestID against the text file's list, and put the request into the waitlist in the same order as in the text file */
+        /*For each request, I need to check the hospital, and check the requestId against the text file's list, and put the request into the waitlist in the same order as in the text file */
 
         allRequests.forEach(element => {
             //console.log(element._id.toHexString());
             let elementIndex = allRequests.indexOf(element);
-            let requestedHospital = element.requestHospitalID;
+            let requestedHospital = element.requestHospitalId;
             let requestOrderIndex = dataFromFile.indexOf(element._id.toHexString());//get the position of the current request as it stands in the file
             //console.log(requestOrderIndex);
             let hospitalIndex = allWaitlists.findIndex(object => {

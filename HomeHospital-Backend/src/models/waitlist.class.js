@@ -9,7 +9,7 @@ export class Waitlist {
     #queue = [];
     /**
      * 
-     * @param {JS Object} hospital, contains name and hospitalID 
+     * @param {JS Object} hospital, contains name and hospitalId 
      */
     constructor(hospital) {
         this.#hospital = hospital;

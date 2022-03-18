@@ -3,7 +3,7 @@ import UserSchema from './user.Schema.js'
 import HCPRole from './hcpRole.Model.js'
 
 const practitionerSchema = new mongoose.Schema({
-	practitionerID: {
+	practitionerId: {
 		type: Number,
 		required: true,
 	},
