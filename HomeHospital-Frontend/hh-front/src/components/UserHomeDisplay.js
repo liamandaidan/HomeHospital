@@ -33,29 +33,29 @@ function UserHomeDisplay() {
   // const requestTwo = axios.get(two);
 
   //import all visits using patient ID
-  useEffect(() => {
-    axios
-      .get("http://localhost:4000/api/visitRequest/allRequests")
-      .then((response) => {
-        console.log("this is the all visit: " + response.data.request);
-        setVisit(response.data.request);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-    // axios.all([requestOne, requestTwo])
-    // .then(axios.spread((...responses) => {
-    //   const responseOne = responses[0];
-    //   const responseTwo = responses[1];
+  // useEffect(() => {
+  //   axios
+  //     .get("http://localhost:4000/api/visitRequest/allRequests")
+  //     .then((response) => {
+  //       console.log("this is the all visit: " + response.data.request);
+  //       setVisit(response.data.request);
+  //     })
+  //     .catch((err) => {
+  //       console.log(err);
+  //     });
+  // axios.all([requestOne, requestTwo])
+  // .then(axios.spread((...responses) => {
+  //   const responseOne = responses[0];
+  //   const responseTwo = responses[1];
 
-    //   setVisit(responseOne.data);
-    //   setHospitalList(responseTwo.data);
+  //   setVisit(responseOne.data);
+  //   setHospitalList(responseTwo.data);
 
-    //   console.log(responseOne.data,responseTwo.data);
-    // })).catch(err => {
-    //   console.log(err);
-    // })
-  }, []);
+  //   console.log(responseOne.data,responseTwo.data);
+  // })).catch(err => {
+  //   console.log(err);
+  // })
+  // }, []);
 
   // get the patient data
   useEffect(() => {
