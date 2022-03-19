@@ -3,7 +3,6 @@ import patientModel from '../../models/patient.Model.js'
 import medicalFacilityModel from '../../models/medicalFacility.Model.js'
 import mongoose from 'mongoose'
 import visitRequestModel from '../../models/visitRequest.Model.js'
-// import visitRequestModel from '../../models/visitRequest.Model.js'
 
 const app = express.Router()
 
@@ -17,7 +16,7 @@ app.post('/newRequest', async (req, res) => {
 	// get patient Id
 	// get list of symptom's (array) and additional info
 	const { hospitalId, symptomList, additionalInfo } = req.body
-	const { patientId } = req
+	const patientId = req.patientId
 
 	// Validates that the Id's for the hospital and patient are valid Mongo Ids
 	const validFacilityId = mongoose.Types.ObjectId.isValid(hospitalId)
@@ -77,9 +76,9 @@ app.post('/newRequest', async (req, res) => {
 	}
 })
 
-app.get('/currentRequest/:patientId', async (req, res) => {
+app.get('/currentRequest', async (req, res) => {
 	// return the current users request
-	const { patientId } = req.params
+	const patientId = req.patientId
 
 	// find the patient
 	try {
@@ -113,35 +112,39 @@ app.get('/currentRequest/:patientId', async (req, res) => {
 	}
 })
 
-app.get('/allRequests/:patientId', async (req, res) => {
+app.get('/allRequests', async (req, res) => {
 	// return the current users request
-	const { patientId } = req.params
+	const patientId = req.patientId
 
 	// find the patient
 	try {
 		// validate the users Id
 		const validUserId = mongoose.Types.ObjectId.isValid(patientId)
-		// console.log(validUserId)
-		const patient = await patientModel.findById(patientId)
-		// console.log(patient)
+		if (validUserId) {
+			// console.log(validUserId)
+			const patient = await patientModel.findById(patientId)
+			// console.log(patient)
 
-		if (patient.requests.length == 0) {
-			console.log('No registered requests')
-			res.status(404).send({ message: 'No Current requests' })
+			if (patient.requests.length == 0) {
+				console.log('No registered requests')
+				res.status(404).send({ message: 'No Current requests' })
+			} else {
+				// for each requestId attached to the patient, loop through and query all requests, attach to an array,
+				// send back to client
+
+				// find all DB entries with that patient id
+				const requestList = await visitRequestModel.find({
+					patient: patientId,
+				})
+
+				console.log('Sent patient list of ALL requests')
+				res.status(200).send({
+					numOfRequests: requestList.length,
+					request: requestList,
+				})
+			}
 		} else {
-			// for each requestId attached to the patient, loop through and query all requests, attach to an array,
-			// send back to client
-
-			// find all DB entries with that patient id
-			const requestList = await visitRequestModel.find({
-				patient: patientId,
-			})
-
-			console.log('Sent patient list of ALL requests')
-			res.status(200).send({
-				numOfRequests: requestList.length,
-				request: requestList,
-			})
+			throw new Error('Invalid mongo object Id')
 		}
 	} catch (error) {
 		console.log(error.message)
@@ -181,4 +184,5 @@ app.get('/targetRequest/:requestId', async (req, res) => {
 		res.status(400).send({ message: 'Bad request' })
 	}
 })
+
 export default app
