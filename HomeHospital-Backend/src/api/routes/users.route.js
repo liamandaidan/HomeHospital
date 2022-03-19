@@ -7,7 +7,8 @@ const route = express.Router()
 
 // Register Route
 route.post('/PatientInfoVisitRequest', async (req, res) => {
-	const { patientId } = req.body
+
+	const  patientId  = req.patientId
 	// Check to see that the patient exists. If so send the appropriate info, if not send error code.
 	try {
 		const validUserId = mongoose.Types.ObjectId.isValid(patientId)
