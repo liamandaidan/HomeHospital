@@ -1,15 +1,14 @@
-import React, { useState, useContext, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import Container from "react-bootstrap/Container";
-import Card from "react-bootstrap/Card";
 import moment from "moment";
 import axios from "axios";
 
 import hb1 from "../images/heartbeat-bg.png";
 import profile from "../images/profilepicture.png";
 
-import { HomeHospitalContext } from "./HomeHospitalContext";
+// import { HomeHospitalContext } from "./HomeHospitalContext";
 
 import "../styles/UserHomepage.css";
 
@@ -17,26 +16,26 @@ function UserHomeDisplay() {
   moment.locale("en");
 
   const [visit, setVisit] = useState([]);
-  const [hospitalList, setHospitalList] = useState([]);
-  const [requestHospitalId, setRequestHospitalId] = useState();
-  const [date, setDate] = useState();
+  // const [hospitalList, setHospitalList] = useState([]);
+  // const [requestHospitalId, setRequestHospitalId] = useState();
+  // const [date, setDate] = useState();
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
 
   //get patient ID from context
-  const { patient_id } = useContext(HomeHospitalContext);
-  const [patientID, setPatientID] = patient_id;
+  // const { patient_id } = useContext(HomeHospitalContext);
+  // const [patientID] = patient_id;
 
-  const one = `http://localhost:4000/api/visitRequest/currentRequest/${patientID}`;
-  const two = "http://localhost:4000/api/medicalFacility/viewFacilities";
+  // const one = `http://localhost:4000/api/visitRequest/currentRequest/${patientID}`;
+  // const two = "http://localhost:4000/api/medicalFacility/viewFacilities";
 
-  const requestOne = axios.get(one);
-  const requestTwo = axios.get(two);
+  // const requestOne = axios.get(one);
+  // const requestTwo = axios.get(two);
 
   //import all visits using patient ID
   useEffect(() => {
     axios
-      .get(`http://localhost:4000/api/visitRequest/allRequests/${patientID}`)
+      .get("http://localhost:4000/api/visitRequest/allRequests")
       .then((response) => {
         console.log("this is the all visit: " + response.data.request);
         setVisit(response.data.request);
@@ -61,9 +60,7 @@ function UserHomeDisplay() {
   // get the patient data
   useEffect(() => {
     axios
-      .post("http://localhost:4000/api/users/PatientInfoVisitRequest", {
-        patientId: patientID,
-      })
+      .post("http://localhost:4000/api/users/PatientInfoVisitRequest")
       .then((response) => {
         setFirstName(response.data.data.user.firstName);
         setLastName(response.data.data.user.lastName);
@@ -87,7 +84,7 @@ function UserHomeDisplay() {
             />
             <img
               src={profile}
-              alt="profile photo"
+              alt="profile_photo"
               className="user-profile-photo"
             />
             <span className="greetings">

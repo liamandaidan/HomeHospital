@@ -8,7 +8,7 @@ import { HomeHospitalContext } from "./HomeHospitalContext";
 
 function LandingPage() {
   const { patient_id } = useContext(HomeHospitalContext);
-  const [patientID, setPatientID] = patient_id;
+  const [patientID] = patient_id;
 
   console.log("Landing patient Id: " + patientID);
 

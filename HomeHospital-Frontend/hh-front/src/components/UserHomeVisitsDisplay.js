@@ -25,7 +25,7 @@ function UserHomeVisitsDisplay() {
   //import all visits using patient ID
   useEffect(() => {
     axios
-      .get(`http://localhost:4000/api/visitRequest/allRequests/${patientID}`)
+      .get("http://localhost:4000/api/visitRequest/allRequests")
       .then((response) => {
         console.log(response.data.request);
         setVisitList(response.data.request);

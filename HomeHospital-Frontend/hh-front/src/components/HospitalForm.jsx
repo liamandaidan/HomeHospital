@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from "react";
-import { Container, Row, Col, Button, Form, Card } from "react-bootstrap";
+import { Container, Row, Button, Form, Card } from "react-bootstrap";
 import Axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { HomeHospitalContext } from "./HomeHospitalContext";
@@ -8,7 +8,7 @@ import "../styles/HospitalSelectionStyles.css";
 function SelectHospital() {
   //useContext here
   const { _id, patient_id } = useContext(HomeHospitalContext);
-  const [patientID, setPatientID] = patient_id;
+  const [patientID] = patient_id;
 
   console.log("PatientID: " + patientID)
 
@@ -33,6 +33,7 @@ function SelectHospital() {
   }
 
   const cancelRequest = () => {
+    console.log("hospitalID: " + _idValue)
     navigate("/home");
   }
   return (
@@ -80,7 +81,7 @@ function SelectHospital() {
               Submit hospital
             </Button>
             <div className="cancel-link-div">
-              <a href="/home">Cancel request</a>
+              <Button variant="link" onClick={cancelRequest}>Cancel request</Button>
             </div>
           </div>
         </Row>

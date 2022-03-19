@@ -1,4 +1,4 @@
-import React, { useContext, useState, useEffect } from "react";
+import React, { useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Form from "react-bootstrap/Form";
 import Col from "react-bootstrap/Col";
@@ -17,8 +17,8 @@ function SymptomsForm() {
   const [modalState, setModalState] = useState(false);
 
   const { _id, patient_id } = useContext(HomeHospitalContext);
-  const [hospitalID, setHospitalID] = _id;
-  const [patientID, setPatientID] = patient_id;
+  const [hospitalID] = _id;
+  const [patientID] = patient_id;
 
   const navigate = useNavigate();
 
@@ -137,9 +137,13 @@ function SymptomsForm() {
               I Acknowledge
             </Button>
             <div>
-              <a className="cancel-lnk" onClick={props.onHide}>
+              <Button
+                variant="link"
+                className="cancel-lnk"
+                onClick={props.onHide}
+              >
                 cancel request
-              </a>
+              </Button>
             </div>
           </Modal.Footer>
         </Modal>

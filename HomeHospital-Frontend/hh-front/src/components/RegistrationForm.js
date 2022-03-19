@@ -19,7 +19,6 @@ function RegistrationForm() {
   const [dobValue, setDOBValue] = useState("");
   const [hcValue, setHCValue] = useState("");
   const [postalCodeValue, setPostalCodeValue] = useState("");
-  const [ageValue, setAgeValue] = useState(0);
   const [phoneValue, setPhoneValue] = useState("");
   const [emPhoneValue, setEmPhoneValue] = useState("");
   const [emailValue, setEmailValue] = useState("");
@@ -34,8 +33,7 @@ function RegistrationForm() {
   const [validHCValue, setValidHCValue] = useState(false);
   const [validPasswordValue, setValidPasswordValue] = useState(false);
   const [validClientFormValue, setValidClientFormValue] = useState(false);
-  const [resetAllFormValue, setResetAllFormValue] = useState(false);
-  const [modalShow, setModalShow] = useState(false);
+  const [resetAllFormValue] = useState(false);
 
   // check if the form is valid
   useEffect(() => {
@@ -76,7 +74,6 @@ function RegistrationForm() {
       setPostalCodeValue("");
       setPhoneValue("");
       setEmailValue("");
-      setAgeValue(0);
 
       document.getElementById("clientName").classList.remove("is-valid");
       document.getElementById("address").classList.remove("is-valid");
