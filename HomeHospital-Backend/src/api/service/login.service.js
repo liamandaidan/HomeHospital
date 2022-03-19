@@ -22,6 +22,7 @@ export const logUserIn = async (req, res, next) => {
 				return
 			}
 			req.patientId = patient._id
+			
 		} else {
 			res.status(403).send({ message: 'Login Failed!!!' })
 			console.log('Bad password')

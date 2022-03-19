@@ -1,4 +1,5 @@
 import UserSchema from './user.Schema.js'
+import mongoose from 'mongoose'
 
 const hcpRoleSchema = new mongoose.Schema({
 	Doctor: {

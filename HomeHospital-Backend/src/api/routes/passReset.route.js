@@ -12,7 +12,7 @@ const clientURL = "http://localhost:3000/reset"
 const route = express.Router()
 
 //route for when the user clicks to reset their password
-route.post('/', async (req, res, next) => {
+route.post('/', async (req, res) => {
     const {email, token, newPass, newPassConfirm} = req.body;
     console.log("Got email: " + email);
     if(email){

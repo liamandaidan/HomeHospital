@@ -26,9 +26,13 @@ app.use('/logout', logout)
 app.use('/forget', reset)
 
 // Add a facility, view list of all facilities
+app.use('/medicalFacility', checkAccessToken)
+app.use('/updateWaitTimesTemp', checkAccessToken)
 app.use('/medicalFacility', facilityActions)
 app.use('/updateWaitTimesTemp', updateWaitTimesTemp)
 
+app.use('/users', checkAccessToken)
+app.use('/visitRequest', checkAccessToken)
 app.use('/users', users)
 // Request endpoint
 app.use('/visitRequest', requestActions)
