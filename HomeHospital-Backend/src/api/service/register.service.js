@@ -30,7 +30,7 @@ export const registerUser = async (req) => {
 	const result = await PatientModel.exists({ email: email })
 	// If they exist return an error status code
 	if (result?._id) {
-		console.log('user ID: ' + result?._id)
+		console.log('user Id: ' + result?._id)
 		return (regStatus.status = false)
 	}
 

@@ -1,7 +1,7 @@
 import UserSchema from './user.Schema.js'
 
 const administratorSchema = new mongoose.Schema({
-	adminID: {
+	adminId: {
 		type: Number,
 		required: true
 	},

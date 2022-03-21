@@ -9,7 +9,7 @@ export class Waitlist {
     #queue = [];
     /**
      * 
-     * @param {JS Object} hospital, contains name and hospitalID 
+     * @param {JS Object} hospital, contains name and hospitalId 
      */
     constructor(hospital) {
         this.#hospital = hospital;
@@ -17,7 +17,7 @@ export class Waitlist {
     }
 
     /**
-     * Add a Patient to the end of the queue 
+     * Add a Request to the end of the queue 
      * @param {Request} Request 
      * @returns 
      */
@@ -55,13 +55,43 @@ export class Waitlist {
         if(position > this.#queue.length || position < 0) {
             return -1;
         }
-        this.#queue.splice(position, 0, Patient);
-        this.#queueSize++;
-        return 1;
+        if(this.#queue[position] === undefined ||this.#queue[position] === null)
+        {
+            this.#queue[position] = Request;
+            this.#queueSize++;
+            return 1;
+        } else {
+            this.#queue.splice(position, 0, Request);
+            this.#queueSize++;
+            return 1;    
+        }
     }
 
     /**
-     * Remove a single Request from the queue based on Request._id
+     * This method is identical to the insert method, except that it doesn't check that the position is within the bounds
+     * of the existing queue. This method is only called on initial loading of the waitlist. 
+     * @param {Request} Request 
+     * @param {int} position 
+     * @returns 1 on success, -1 on fail
+     */
+    initInsert(Request, position) {
+        if(position < 0) {
+            return -1;
+        }
+        if(this.#queue[position] === undefined ||this.#queue[position] === null)
+        {
+            this.#queue[position] = Request;
+            this.#queueSize++;
+            return 1;
+        } else {
+            this.#queue.splice(position, 0, Request);
+            this.#queueSize++;
+            return 1;    
+        }
+    }
+
+    /**
+     * Remove a single Request from the queue based on Request._id 
      * @param {Request} Request 
      * @returns 1 on success, -1 if Request doesn't exist
      */
@@ -98,5 +128,20 @@ export class Waitlist {
         } else {
             return -1;
         }
+    }
+
+    printAll() {
+        //console.table(this.#queue);
+        this.#queue.forEach(element => {
+            console.log(element._id.toHexString());
+        })
+    }
+
+    get hospital() {
+        return this.#hospital;
+    }
+
+    get queueSize() {
+        return this.#queueSize;
     }
 }
