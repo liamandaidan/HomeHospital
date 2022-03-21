@@ -1,24 +1,27 @@
-import { request } from 'express'
 import CompletedRequestModel from '../../models/completedRequest.model.js'
-import VisitRequestModel from '../../models/visitRequest.Model.js'
+import visitRequestModel from '../../models/visitRequest.Model.js'
 
 export async function completeVisitRequest(requestId) {
-    try {
+	console.log("hit complete Request, id: " + requestId)
+
+	try {
         // Try to retrieve the request from the database
-        const visitRequest = await VisitRequestModel.findOne(requestId).exec()
-        // return false if the returned object is null.
-        if (visitRequest == null) {
-            console.error('Invalid Request Id. ID:' + requestId)
-            return false
-        // if valid request then move it to the completed requests and delete it from the visit requests.
-        } else {
-            const completedRequest = await CompletedRequestModel.create({_id: visitRequest._id, request: visitRequest})
-            await VisitRequestModel.findOneAndDelete(requestId)
+        if (await visitRequestModel.exists(requestId)) {
+            console.log("here")
+            const visitRequest = await visitRequestModel.findById(requestId).exec()
+            console.log(visitRequest)
+            const completedRequest = await CompletedRequestModel.create({_id: requestId._id, request: visitRequest})
+            await visitRequestModel.findOneAndDelete(requestId)
             completedRequest.save()
+            console.log('completed Request!')
+            return true
         }
-    } catch (err) {
-        console.error(err.error)
+        else {
+            console.error('Invalid Request Id. ID: ' + requestId)
+			return false
+        }
+    } catch (error) {
+        console.error("Error: " + error.message)
         return false
     }
-    return true
 }
