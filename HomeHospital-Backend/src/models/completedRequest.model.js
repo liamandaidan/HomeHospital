@@ -2,7 +2,7 @@ import mongoose from 'mongoose';
 import VisitRequest from './visitRequest.Model.js'
 
 const completedRequest = new mongoose.Schema({
-    _id: String,
+    _id: mongoose.Types.ObjectId,
     request: {
         type: VisitRequest.schema,
         required: true
