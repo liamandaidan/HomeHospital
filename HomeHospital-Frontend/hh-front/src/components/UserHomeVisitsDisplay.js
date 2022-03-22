@@ -35,8 +35,9 @@ function UserHomeVisitsDisplay() {
       });
   }, []);
 
-  const handleRequest = () => {
-    setRequestID("hello I am the request ID!");
+  const handleRequest = (request) => {
+    setRequestID(request);
+    console.log("this is the request id: " + request);
     navigate("/user");
   };
 
@@ -65,7 +66,7 @@ function UserHomeVisitsDisplay() {
               </thead>
               <tbody>
                 {visitList.map((visit, index) => (
-                  <tr key={index} onClick={handleRequest}>
+                  <tr key={index} onClick={() => handleRequest(visit._id)}>
                     <td>{index + 1}</td>
                     <td>
                       {moment(visit.dateTime).format("dddd, MMMM Do YYYY")}

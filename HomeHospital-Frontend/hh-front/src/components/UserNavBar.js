@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import {
   Navbar,
   Container,
@@ -10,12 +10,30 @@ import classes from "./UserNavBar.module.css";
 import avatar from "../images/img_avatar.png";
 import { useNavigate } from "react-router-dom";
 import { HomeHospitalContext } from "./HomeHospitalContext";
+import axios from "axios";
 
 function UserNavBar() {
   let navigate = useNavigate();
 
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
+
   const { patient_id } = useContext(HomeHospitalContext);
   const [patientID, setPatientID] = patient_id;
+
+  useEffect(() => {
+    axios
+      .post("http://localhost:4000/api/users/PatientInfoVisitRequest", {
+        patientId: patientID,
+      })
+      .then((response) => {
+        setFirstName(response.data.data.user.firstName);
+        setLastName(response.data.data.user.lastName);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }, []);
 
   function requestPage() {
     navigate("/hospitals");
@@ -63,7 +81,7 @@ function UserNavBar() {
           </Nav>
           <div className="d-flex">
             <img src={avatar} alt="avatar" className={classes.avatar} />
-            <h6 className="me-3 mt-2 ps-2">Username</h6>
+            <h6 className="me-3 mt-2 ps-2">{firstName} {lastName}</h6>
             <DropdownButton
               variant="btn-outline-light"
               title={

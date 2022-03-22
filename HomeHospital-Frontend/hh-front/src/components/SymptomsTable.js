@@ -9,8 +9,9 @@ function SymptomsTable() {
 
   const [symptomsList, setSymptomsList] = useState([]);
 
-  const { patient_id } = useContext(HomeHospitalContext);
+  const { patient_id, request_id } = useContext(HomeHospitalContext);
   const [patientID, setPatientID] = patient_id;
+  const [requestID, setRequestID] = request_id;
 
   console.log("this is the patient id: " + patientID);
 
