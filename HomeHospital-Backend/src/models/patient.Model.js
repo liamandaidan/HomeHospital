@@ -9,7 +9,7 @@ const patientSchema = new mongoose.Schema({
 		minlength: [8,'Minimum Email Length is 8'],
 		required: [true, 'Please enter an Email'],
 		lowercase: true,
-		unique: true,
+		unique: [true, 'This Email is already in use'], 
 		validate:[validator.isEmail, 'Please enter a Valid Email'],
 	},
 	password: {
@@ -20,16 +20,16 @@ const patientSchema = new mongoose.Schema({
 	},
 	HCnumber: {
 		type: String,
-		required: true,
-		unique: true,
+		required: [true, 'Please enter a Health Care Number'], 
+		unique: [true, 'This Health Care Number is already in use'], 
 	},
 	gender: {
 		type: String,
-		required: true,
+		required: [true, 'Please Enter your Gender'], 
 	},
 	dateOfBirth: {
 		type: Date,
-		required: true,
+		required: [true, 'Please enter your Date of Birth'], 
 		validate:[validator.isDate, 'This amazingly was not a date'],
 	},
 	user: {

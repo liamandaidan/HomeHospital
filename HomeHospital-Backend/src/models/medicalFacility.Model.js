@@ -4,11 +4,11 @@ import validator from 'validator'
 const medicalFacility = new mongoose.Schema({
 	hospitalName: {
 		type: String,
-		required: true,
+		required: [true, 'Hospital Name is required'],
 	},
 	address: {
 		type: addressSchema,
-		required: true,
+		required: [true,'An Address is required'],
 	},
 	phoneNumber: {
 		type: String,
@@ -21,7 +21,7 @@ const medicalFacility = new mongoose.Schema({
 	},
 	hospitalDesc: {
 		type: String,
-		maxlength: 100,
+		maxlength: [100,'Maximum Length is 100'],
 		defult: null,
 	},
 	practitioners: {

@@ -4,12 +4,12 @@ import validator from 'validator'
 const administratorSchema = new mongoose.Schema({
 	adminId: {
 		type: Number,
-		required: true,
+		required: [true,'Please enter an Admin ID'],
 		validate:[validator.isNumeric, 'Please enter a Valid Number'],
 	},
     permissions: {
         type: Number,
-		required: true,
+		required: [true,'Please enter a Number for Permissions'],
 		validate:[validator.isNumeric, 'Please enter a Valid Number'],
     },
 	user: {
