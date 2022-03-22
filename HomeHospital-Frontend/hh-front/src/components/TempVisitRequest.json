@@ -6,9 +6,11 @@
 	  "Emergency Contact Number": "(403) 223-2311",
 	  "Emergency Contact Name": "(403) 223-2311",
 	  "symptoms": [
-		"Radiation resistance",
-		"Turning tiny",
-		"Radiation blast"
+		"Cough (Severity: 3)",
+		"Runny nose (Severity: 2)",
+		"Shallow Breathing (Severity: 5)",
+		"Sore Throat (Severity: 2)",
+		"Headache (Severity: 5)"
 	  ],
 	  "Additional Info" : "Help me I am sick *Cough"
 	}
