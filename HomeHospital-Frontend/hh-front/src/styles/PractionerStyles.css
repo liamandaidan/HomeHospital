@@ -1,6 +1,6 @@
 /* Colors are temporary to see what areas we are workign with*/
 .leftContent {
-  background-color: aqua;
+  background-color: lightgray;
 }
 .rightContent {
   /* background-color: aliceblue; */
@@ -16,13 +16,42 @@
   color: #616060;
 }
 
-.hb2 {
+/* .hb2 {
   width: 447px;
   height: 86px;
   left: 0px;
   top: 107px;
+} */
+
+.hb2-practitioner{
+    height: 3.0rem;
+    width: 30rem;
+    opacity:70%;
 }
 
-.practitioner-patientDetails {
-	
+.hb-bar-practitioner1 {
+	margin-left: -100px;
+	height: 3.0rem;
+    width: 30rem;
+    opacity:70%;
 }
+
+.hb-bar-practitioner2 {
+	margin-left: -85px;
+	height: 3.0rem;
+    width: 30rem;
+    opacity:70%;
+	transform:scaleX(-1);
+}
+
+.checkInBtn {
+	border: 1px solid #71E7CA;
+	box-sizing: border-box;
+	filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
+	border-radius: 16px;
+	background-color: white;
+	color: rgb(99, 99, 99);
+}
+
+
+

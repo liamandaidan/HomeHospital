@@ -25,18 +25,16 @@ export default class Practioner extends Component {
             <Row>
               <Col md="5">
                 <div className="leftContent">
-                  <p class="pd">Patient Details</p>
+                  {/* <p class="pd">Patient Details</p>
                   <Row>
                     <img
                       src={line}
                       class="rounded float-start"
                       alt="RIP"
-                      className="hb2"
+                      className="hb2-practitioner"
                     />
-                  </Row>
+                  </Row> */}
                   <Row>
-                    {/* Patient info shown depending on logic of component selected.
-                    PATIENTINFO COMPONENT WILL NEED TO BE REPLACED*/}
                     <PractitionerPatientInfo />
                   </Row>
                   <Row>

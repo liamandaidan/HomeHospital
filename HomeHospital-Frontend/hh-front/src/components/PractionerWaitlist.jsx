@@ -25,10 +25,10 @@ export default class PractionerWaitlist extends Component {
                 <td>Mark</td>
                 <td>Otto</td>
                 <td>
-                  <Button>Show</Button>
+                  <Button className="checkInBtn">Show</Button>
                 </td>
                 <td>
-                  <Button>Check in</Button>
+                  <Button className="checkInBtn">Check in</Button>
                 </td>
               </tr>
               <tr>
@@ -36,20 +36,20 @@ export default class PractionerWaitlist extends Component {
                 <td>Jacob</td>
                 <td>Thornton</td>{" "}
                 <td>
-                  <Button>Show</Button>
+                  <Button className="checkInBtn">Show</Button>
                 </td>
                 <td>
-                  <Button>Check in</Button>
+                  <Button className="checkInBtn">Check in</Button>
                 </td>
               </tr>
               <tr>
                 <th scope="row">3</th>
                 <td colspan="2">Larry the Bird</td>{" "}
                 <td>
-                  <Button>Show</Button>
+                  <Button className="checkInBtn">Show</Button>
                 </td>
                 <td>
-                  <Button>Check in</Button>
+                  <Button className="checkInBtn">Check in</Button>
                 </td>
               </tr>
             </tbody>
