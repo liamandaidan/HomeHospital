@@ -1,64 +1,202 @@
-import bcrypt from 'bcryptjs'
-import PatientModel from '../../models/patient.Model.js'
-import jwt from 'jsonwebtoken'
-import ENV from '../../configure/configure.js'
-import RefToken from '../../models/refreshTokens.Schema.js'
+import express from 'express'
+import patientModel from '../../models/patient.Model.js'
+import medicalFacilityModel from '../../models/medicalFacility.Model.js'
+import mongoose from 'mongoose'
+import visitRequestModel from '../../models/visitRequest.Model.js'
+import { completeVisitRequest } from '../service/request.service.js'
+// import visitRequestModel from '../../models/visitRequest.Model.js'
 
-const { compare } = bcrypt
+const app = express.Router()
 
-export const logUserIn = async (req, res, next) => {
-	const { email, password } = req.body
+/*
+	This route creates a new request in the DB. The user must supply their user ID, the selected hospital ID,
+	along with the list of symptoms and any additional information about their request. 
 
-	const patient = await PatientModel.findOne({ email: email })
+*/
+app.post('/newRequest', async (req, res) => {
+	// get the HospitalID
+	// get patient ID
+	// get list of symptom's (array) and additional info
+	const { hospitalID, patientID, symptomList, additionalInfo } = req.body
 
-	if (patient) {
-		const isAuthorized = await compare(password, patient.password)
-		if (isAuthorized) {
-			const isAlreadyLoggedIn = await checkAlreadyLoggedIn(req)
-			// console.log('Return from function is ' + isAlreadyLoggedIn)
-			if (isAlreadyLoggedIn === email) {
-				console.log('User is already logged in!')
-				res.status(401).send({ message: 'Already Logged in' })
-				return
+	// Validates that the ID's for the hospital and patient are valid Mongo IDs
+	const validFacilityID = mongoose.Types.ObjectId.isValid(hospitalID)
+	const validUserID = mongoose.Types.ObjectId.isValid(patientID)
+
+	if (validFacilityID && validUserID) {
+		// Fetch the patients address
+		const patient = await patientModel.findById(patientID)
+		const hospital = await medicalFacilityModel.findById(hospitalID)
+		const { address } = patient.user
+
+		if (patient && hospital) {
+			try {
+				// Create the new request
+				const request = await visitRequestModel.create({
+					patient: patient._id, //patientOID
+					patientFirstName: patient.user.firstName,
+					patientLastName: patient.user.lastName,
+					requestHospitalID: hospital._id, //hospitalID,
+					requestHospitalName: hospital.hospitalName,
+					// sets the patients address by default to the starting address
+					startAddress: {
+						streetAddress: address.streetAddress,
+						cityName: address.cityName,
+						provName: address.provName,
+						postalCode: address.postalCode,
+					},
+					symptoms: symptomList,
+					additionalInfo: additionalInfo,
+				})
+
+				// Save the request to the DB if all is OK
+				await request.save()
+
+				console.log(
+					`New Patient request added to the DB, RequestID: ${request._id}`
+				)
+
+				// attach the new request ID to the patients requests list
+				patient.requests.push(request._id)
+				await patient.save()
+
+				res.send({ message: 'Request entered', RequestID: request._id })
+			} catch (error) {
+				console.log(`Error: ${error.message}`)
+				res.status(400).send({ message: 'Error' })
 			}
-			req.patientId = patient._id
-			
 		} else {
-			res.status(403).send({ message: 'Login Failed!!!' })
-			console.log('Bad password')
-			return
+			console.log('Patient or hospital Do no exist')
+			res.status(400).send({ message: 'Error' })
 		}
-		next()
 	} else {
-		res.status(403).send({ message: 'Login Failed!!!' })
-		console.log('No User found')
-		return
+		console.log("Object ID's are Not valid")
+		res.status(400).send({ message: 'Error' })
 	}
-}
+})
 
-const checkAlreadyLoggedIn = async (req) => {
-	const refT = req.cookies['refreshTokenCookie']
-	// console.log(`______________________ ${refT}`)
-	if (refT) {
-		try {
-			const email = jwt.verify(refT, ENV.REFRESHTOKEN_TEST_SECRET)
-			// console.log(`----------------Check the verify value: ${email}`)
-			const isLoggedIn = await RefToken.findOne({ token: refT })
-			if (isLoggedIn != null) {
-				if (isLoggedIn.email === email) {
-					// console.log('Email in function is ' + email)
-					return email
-				} else {
-					return null
-				}
-			} else {
-				return null
-			}
-		} catch (err) {
-			return null
-		}
-	} else {
-		// console.log(`No Ref Token`)
-		return null
+app.get('/currentRequest/:patientId', async (req, res) => {
+	// return the current users request
+	const { patientId } = req.params
+
+	if(patientId == null || patientId == undefined || patientId == "") {
+		console.log("patientId is not valid")
+		res.status(400).send({ message: 'Error' })
 	}
-}
+	// find the patient
+	try {
+		// validate the users ID
+		const validUserID = mongoose.Types.ObjectId.isValid(patientId)
+		if (validUserID) {
+			// console.log(validUserID)
+			const patient = await patientModel.findById(patientId)
+			// console.log(patient)
+
+			if (patient.requests.length == 0) {
+				console.log('No registered requests')
+				res.status(404).send({ message: 'No Current requests' })
+			} else {
+				// Get the request with the matching ID
+				const currentRequest = await visitRequestModel.findById(
+					patient.requests[patient.requests.length - 1]
+				)
+				// console.log(currentRequest)
+				console.log('Sent patient their current request')
+				res.status(200).send({
+					request: currentRequest,
+				})
+			}
+		} else {
+			throw new Error('Invalid User Id')
+		}
+	} catch (error) {
+		console.log(error.message)
+		res.status(400).send({ message: 'Bad request' })
+	}
+})
+
+app.get('/allRequests/:patientId', async (req, res) => {
+	// return the current users request
+	const { patientId } = req.params
+
+	if(patientId == null || patientId == undefined || patientId == "") {
+		console.log("patientId is not valid")
+		res.status(400).send({ message: 'Error' })
+	}
+	// find the patient
+	try {
+		// validate the users ID
+		const validUserID = mongoose.Types.ObjectId.isValid(patientId)
+		// console.log(validUserID)
+		const patient = await patientModel.findById(patientId)
+		// console.log(patient)
+
+		if (patient.requests.length == 0) {
+			console.log('No registered requests')
+			res.status(404).send({ message: 'No Current requests' })
+		} else {
+			// for each requestId attached to the patient, loop through and query all requests, attach to an array,
+			// send back to client
+
+			// find all DB entries with that patient id
+			const requestList = await visitRequestModel.find({
+				patient: patientId,
+			})
+
+			console.log('Sent patient list of ALL requests')
+			res.status(200).send({
+				numOfRequests: requestList.length,
+				request: requestList,
+			})
+		}
+	} catch (error) {
+		console.log(error.message)
+		res.status(400).send({ message: 'Bad request' })
+	}
+})
+
+app.get('/targetRequest/:requestId', async (req, res) => {
+	// return the current users request
+	const { requestId } = req.params
+
+	// find the patient
+	try {
+		// validate the users ID
+		const validUserID = mongoose.Types.ObjectId.isValid(requestId)
+		if (validUserID) {
+			// console.log(validUserID)
+			const request = await visitRequestModel.findById(requestId)
+			// console.log(patient)
+
+			if (request) {
+				console.log(
+					`Sent the patient the request with the Id: ${requestId}`
+				)
+				res.status(200).send({
+					request: request,
+				})
+			} else {
+				console.log('No registered requests')
+				res.status(404).send({ message: 'Request not found' })
+			}
+		} else {
+			throw new Error('Invalid Request Id')
+		}
+	} catch (error) {
+		console.log(error.message)
+		res.status(400).send({ message: 'Bad request' })
+	}
+})
+
+app.put('/completeRequest/:requestId', async (req, res) => {
+	const { requestId } = req.params
+
+	if (completeVisitRequest({_id: requestId})) {
+		res.status(200).send();
+	}
+	else {
+		res.status(400).send({"message": "Failed to complete visit request!"});
+	}
+}) 
+
+export default app

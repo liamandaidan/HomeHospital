@@ -9,36 +9,34 @@ import { completeVisitRequest } from '../service/request.service.js'
 const app = express.Router()
 
 /*
-	This route creates a new request in the DB. The user must supply their user Id, the selected hospital Id,
+	This route creates a new request in the DB. The user must supply their user ID, the selected hospital ID,
 	along with the list of symptoms and any additional information about their request. 
 
 */
 app.post('/newRequest', async (req, res) => {
-	// get the HospitalId
-	// get patient Id
+	// get the HospitalID
+	// get patient ID
 	// get list of symptom's (array) and additional info
-	const { hospitalId, symptomList, additionalInfo } = req.body
-	const patientId = req.patientId
+	const { hospitalID, patientID, symptomList, additionalInfo } = req.body
 
-	// Validates that the Id's for the hospital and patient are valid Mongo Ids
-	const validFacilityId = mongoose.Types.ObjectId.isValid(hospitalId)
-	const validUserId = mongoose.Types.ObjectId.isValid(patientId)
-	console.log(`From the make request ${patientId}`)
+	// Validates that the ID's for the hospital and patient are valid Mongo IDs
+	const validFacilityID = mongoose.Types.ObjectId.isValid(hospitalID)
+	const validUserID = mongoose.Types.ObjectId.isValid(patientID)
 
-	if (validFacilityId && validUserId) {
+	if (validFacilityID && validUserID) {
 		// Fetch the patients address
-		const patient = await patientModel.findById(patientId)
-		const hospital = await medicalFacilityModel.findById(hospitalId)
+		const patient = await patientModel.findById(patientID)
+		const hospital = await medicalFacilityModel.findById(hospitalID)
 		const { address } = patient.user
 
 		if (patient && hospital) {
 			try {
 				// Create the new request
 				const request = await visitRequestModel.create({
-					patient: patientId, //patientOId
+					patient: patient._id, //patientOID
 					patientFirstName: patient.user.firstName,
 					patientLastName: patient.user.lastName,
-					requestHospitalId: hospital._id, //hospitalId,
+					requestHospitalID: hospital._id, //hospitalID,
 					requestHospitalName: hospital.hospitalName,
 					// sets the patients address by default to the starting address
 					startAddress: {
@@ -47,7 +45,6 @@ app.post('/newRequest', async (req, res) => {
 						provName: address.provName,
 						postalCode: address.postalCode,
 					},
-					waitListTime: hospital.waitTime,
 					symptoms: symptomList,
 					additionalInfo: additionalInfo,
 				})
@@ -56,14 +53,14 @@ app.post('/newRequest', async (req, res) => {
 				await request.save()
 
 				console.log(
-					`New Patient request added to the DB, RequestId: ${request._id}`
+					`New Patient request added to the DB, RequestID: ${request._id}`
 				)
 
-				// attach the new request Id to the patients requests list
+				// attach the new request ID to the patients requests list
 				patient.requests.push(request._id)
 				await patient.save()
 
-				res.send({ message: 'Request entered', RequestId: request._id })
+				res.send({ message: 'Request entered', RequestID: request._id })
 			} catch (error) {
 				console.log(`Error: ${error.message}`)
 				res.status(400).send({ message: 'Error' })
@@ -73,21 +70,25 @@ app.post('/newRequest', async (req, res) => {
 			res.status(400).send({ message: 'Error' })
 		}
 	} else {
-		console.log("Object Id's are Not valid")
+		console.log("Object ID's are Not valid")
 		res.status(400).send({ message: 'Error' })
 	}
 })
 
-app.get('/currentRequest', async (req, res) => {
+app.get('/currentRequest/:patientId', async (req, res) => {
 	// return the current users request
-	const patientId = req.patientId
+	const { patientId } = req.params
 
+	if(patientId == null || patientId == undefined || patientId == "") {
+		console.log("patientId is not valid")
+		res.status(400).send({ message: 'Error' })
+	}
 	// find the patient
 	try {
-		// validate the users Id
-		const validUserId = mongoose.Types.ObjectId.isValid(patientId)
-		if (validUserId) {
-			// console.log(validUserId)
+		// validate the users ID
+		const validUserID = mongoose.Types.ObjectId.isValid(patientId)
+		if (validUserID) {
+			// console.log(validUserID)
 			const patient = await patientModel.findById(patientId)
 			// console.log(patient)
 
@@ -95,7 +96,7 @@ app.get('/currentRequest', async (req, res) => {
 				console.log('No registered requests')
 				res.status(404).send({ message: 'No Current requests' })
 			} else {
-				// Get the request with the matching Id
+				// Get the request with the matching ID
 				const currentRequest = await visitRequestModel.findById(
 					patient.requests[patient.requests.length - 1]
 				)
@@ -114,39 +115,39 @@ app.get('/currentRequest', async (req, res) => {
 	}
 })
 
-app.get('/allRequests', async (req, res) => {
+app.get('/allRequests/:patientId', async (req, res) => {
 	// return the current users request
-	const patientId = req.patientId
+	const { patientId } = req.params
 
+	if(patientId == null || patientId == undefined || patientId == "") {
+		console.log("patientId is not valid")
+		res.status(400).send({ message: 'Error' })
+	}
 	// find the patient
 	try {
-		// validate the users Id
-		const validUserId = mongoose.Types.ObjectId.isValid(patientId)
-		if (validUserId) {
-			// console.log(validUserId)
-			const patient = await patientModel.findById(patientId)
-			// console.log(patient)
+		// validate the users ID
+		const validUserID = mongoose.Types.ObjectId.isValid(patientId)
+		// console.log(validUserID)
+		const patient = await patientModel.findById(patientId)
+		// console.log(patient)
 
-			if (patient.requests.length == 0) {
-				console.log('No registered requests')
-				res.status(404).send({ message: 'No Current requests' })
-			} else {
-				// for each requestId attached to the patient, loop through and query all requests, attach to an array,
-				// send back to client
-
-				// find all DB entries with that patient id
-				const requestList = await visitRequestModel.find({
-					patient: patientId,
-				})
-
-				console.log('Sent patient list of ALL requests')
-				res.status(200).send({
-					numOfRequests: requestList.length,
-					request: requestList,
-				})
-			}
+		if (patient.requests.length == 0) {
+			console.log('No registered requests')
+			res.status(404).send({ message: 'No Current requests' })
 		} else {
-			throw new Error('Invalid mongo object Id')
+			// for each requestId attached to the patient, loop through and query all requests, attach to an array,
+			// send back to client
+
+			// find all DB entries with that patient id
+			const requestList = await visitRequestModel.find({
+				patient: patientId,
+			})
+
+			console.log('Sent patient list of ALL requests')
+			res.status(200).send({
+				numOfRequests: requestList.length,
+				request: requestList,
+			})
 		}
 	} catch (error) {
 		console.log(error.message)
@@ -160,10 +161,10 @@ app.get('/targetRequest/:requestId', async (req, res) => {
 
 	// find the patient
 	try {
-		// validate the users Id
-		const validUserId = mongoose.Types.ObjectId.isValid(requestId)
-		if (validUserId) {
-			// console.log(validUserId)
+		// validate the users ID
+		const validUserID = mongoose.Types.ObjectId.isValid(requestId)
+		if (validUserID) {
+			// console.log(validUserID)
 			const request = await visitRequestModel.findById(requestId)
 			// console.log(patient)
 

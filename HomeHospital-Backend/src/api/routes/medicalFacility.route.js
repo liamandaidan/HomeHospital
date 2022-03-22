@@ -15,6 +15,12 @@ app.post('/newFacility', async (req, res) => {
 		phoneNumber,
 	} = req.body
 
+	let valsFromBody = [hospitalName, streetAddress, cityName, provName, postalCode, phoneNumber];
+	if(valsFromBody.includes(undefined) || valsFromBody.includes(null) || valsFromBody.includes("")) {
+		console.log("Detected a missing field in registering new medical facility");
+		res.status(400).send({ message: 'Error' })
+	}
+
 	try {
 		// Check to make sure we don't have a duplicate hospital
 		const result = await MedicalFacility.exists({
