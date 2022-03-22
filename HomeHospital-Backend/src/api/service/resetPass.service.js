@@ -4,8 +4,12 @@ import bcrypt from 'bcryptjs'
 
 
 export async function updatePassword(uemail, newPassword) {
+    if(typeof uemail != 'string') {
+        console.log("Update password function received bad data");
+        return 0;
+    }
+    
     const patient = await PatientModel.findOne({ email: uemail })
-    console.log("Current patient password: " + patient.password);
 
     if(patient != null){
         const { genSalt, hash } = bcrypt;
