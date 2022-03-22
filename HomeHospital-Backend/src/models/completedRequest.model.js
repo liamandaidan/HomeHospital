@@ -1,17 +1,20 @@
-import mongoose from 'mongoose';
+import mongoose from 'mongoose'
 import VisitRequest from './visitRequest.Model.js'
 
-const completedRequest = new mongoose.Schema({
-    _id: mongoose.Types.ObjectId,
-    request: {
-        type: VisitRequest.schema,
-        required: true
-    },
-    completionDate: {
-        type: Date,
-        immutable: true,
-        default: Date.now()
-    },
-}, {_id: false})
+const completedRequest = new mongoose.Schema(
+	{
+		_id: mongoose.Types.ObjectId,
+		request: {
+			type: VisitRequest.schema,
+			required: true,
+		},
+		completionDate: {
+			type: Date,
+			immutable: true,
+			default: () => Date.now(),
+		},
+	},
+	{ _id: false }
+)
 
 export default mongoose.model('CompletedRequest', completedRequest)
