@@ -25,6 +25,7 @@ function UserHomeVisitsDisplay() {
 
   //import all visits using patient ID
   useEffect(() => {
+    console.log("In the all request side");
     axios
       .get("http://localhost:4000/api/visitRequest/allRequests", {
         withCredentials: true,
