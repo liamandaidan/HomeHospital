@@ -8,7 +8,9 @@ const practitionerSchema = new mongoose.Schema({
 		required: true,
 	},
 	role: {
-		type: HCPRole,
+		type: String,
+		enum: ['Doctor', 'Nurse', 'Clerk'],
+		required: true
 	},
 	email: {
 		type: String,
@@ -25,6 +27,11 @@ const practitionerSchema = new mongoose.Schema({
 	user: {
 		type: UserSchema,
 	},
+	facilityId: {
+		type: mongoose.Schema.Types.ObjectId,
+		ref: 'MedicalFacility',
+		required: true
+	}
 })
 
 export default mongoose.model('Practitioner', practitionerSchema)

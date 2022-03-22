@@ -3,6 +3,8 @@ import patientModel from '../../models/patient.Model.js'
 import medicalFacilityModel from '../../models/medicalFacility.Model.js'
 import mongoose from 'mongoose'
 import visitRequestModel from '../../models/visitRequest.Model.js'
+import { completeVisitRequest } from '../service/request.service.js'
+// import visitRequestModel from '../../models/visitRequest.Model.js'
 
 const app = express.Router()
 
@@ -184,5 +186,16 @@ app.get('/targetRequest/:requestId', async (req, res) => {
 		res.status(400).send({ message: 'Bad request' })
 	}
 })
+
+app.put('/completeRequest/:requestId', async (req, res) => {
+	const { requestId } = req.params
+
+	if (completeVisitRequest({_id: requestId})) {
+		res.status(200).send();
+	}
+	else {
+		res.status(400).send({"message": "Failed to complete visit request!"});
+	}
+}) 
 
 export default app
