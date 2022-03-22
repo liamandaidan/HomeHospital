@@ -29,14 +29,6 @@ export default function Practioner() {
               <div className="leftContent">
                 <p class="pd">Patient Details</p>
                 <Row>
-                  <img
-                    src={line}
-                    class="rounded float-start"
-                    alt="RIP"
-                    className="hb2"
-                  />
-                </Row>
-                <Row>
                   <PractitionerPatientInfo patientDataGiven={patientData}/>
                 </Row>
                 <Row>
