@@ -15,10 +15,9 @@ const REFRESHTOKEN_TEST_SECRET = ENV.REFRESHTOKEN_TEST_SECRET
 to generate a refresh token as well, so there should always be both together. */
 export const generateAccessToken = (req, res, next) => {
 	const user = req.body //get the users email as a unique identifier
-	const id = req.patientId;
+	const id = req.patientId
 	const accessToken = jwt.sign(
-		{ email: user.email,
-		patientId: req.patientId },
+		{ email: user.email, patientId: req.patientId },
 		ACCESSTOKEN_TEST_SECRET,
 		{ expiresIn: '30s' }
 	) //create token, expires in 30 seconds
@@ -98,37 +97,41 @@ export const checkAccessToken = async (req, res, next) => {
 			console.log(validAccessToken.patientId)
 			next()
 		} catch (err) {
-			if(err.name == 'TokenExpiredError') {
-				console.log("Token is expired");
+			if (err.name == 'TokenExpiredError') {
+				console.log('Token is expired')
 				console.log('Access token invalid, time to check refresh token')
-				refreshAccessToken(refreshToken, accessToken).then((newAccessToken) => {
-					if (newAccessToken) {
-						res.locals.accessT = newAccessToken //res.locals is an object that carries on through all middleware
-						res.locals.refreshT = refreshToken
-						res.cookie(
-							'accessTokenCookie',
-							newAccessToken,
-							accessOptions
-						)
-						res.cookie(
-							'refreshTokenCookie',
-							refreshToken,
-							refreshOptions
-						)
-						next()
-					} else {
-						return res
-							.status(401)
-							.json({ message: 'Authorization Failed' })
+				refreshAccessToken(refreshToken, accessToken).then(
+					(newAccessToken) => {
+						if (newAccessToken) {
+							// Get the patientId from the new access token and attach it to the request
+							const { patientId } = jwt.decode(newAccessToken)
+							req.patientId = patientId
+							res.locals.accessT = newAccessToken //res.locals is an object that carries on through all middleware
+							res.locals.refreshT = refreshToken
+							res.cookie(
+								'accessTokenCookie',
+								newAccessToken,
+								accessOptions
+							)
+							res.cookie(
+								'refreshTokenCookie',
+								refreshToken,
+								refreshOptions
+							)
+							next()
+						} else {
+							return res
+								.status(401)
+								.json({ message: 'Authorization Failed' })
+						}
 					}
-				})
+				)
 			} else {
-				console.log("Someone fiddled with the access token. No soup for you!");
-				return res
-							.status(401)
-							.send({ message: 'Authorization Failed' })
+				console.log(
+					'Someone fiddled with the access token. No soup for you!'
+				)
+				return res.status(401).send({ message: 'Authorization Failed' })
 			}
-			
 		}
 	} else if (!accessToken && refreshToken) {
 		try {
@@ -137,8 +140,10 @@ export const checkAccessToken = async (req, res, next) => {
 
 			// console.log(`newAccess Token: ${newAccessToken}`)
 
-			if(newAccessToken === null){
-				throw new Error('Refresh Token invalid! Check if new access token was created')
+			if (newAccessToken === null) {
+				throw new Error(
+					'Refresh Token invalid! Check if new access token was created'
+				)
 			}
 			res.locals.accessT = newAccessToken //res.locals is an object that carries on through all middleware
 			res.locals.refreshT = refreshToken
@@ -177,11 +182,12 @@ const refreshAccessToken = (refreshToken, oldAccessToken) => {
 								reject()
 							} else {
 								const email = result
-								console.log(
+								console
+									.log
 									// 'Email from refresh token is ' + email
-								)
-								const oldPayload = jwt.decode(oldAccessToken);
-								const pId = oldPayload.patientId;
+									()
+								const oldPayload = jwt.decode(oldAccessToken)
+								const pId = oldPayload.patientId
 								const newAccessToken = jwt.sign(
 									{ email: email, patientId: pId },
 									ACCESSTOKEN_TEST_SECRET,
