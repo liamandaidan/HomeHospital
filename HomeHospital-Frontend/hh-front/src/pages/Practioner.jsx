@@ -1,65 +1,64 @@
-import React, { useState, Component } from "react";
-import { Container, Row, Col, Button } from "react-bootstrap";
-import PatientInfo from "../components/PatientInfo.js";
+import React, { useState } from "react";
+import { Container, Row, Col } from "react-bootstrap";
 import PractNav from "../components/PractNavBar.jsx";
-import logo from "../images/heartbeat.png";
 import "../styles/PractionerStyles.css";
 import line from "../images/hb2.png";
 import PractionerWaitlist from "../components/PractionerWaitlist.jsx";
 import PractitionerPatientInfo from "../components/PractitionerPatientInfo.js";
 
-export default class Practioner extends Component {
-  state = { firstName: "", lastName: "" };
-  //this will retrieve data from PractionerWaitlist table and update state
-  //I NEED TO FIGURE OUT HOW TO SEND JSON OF DATA
-  callbackFunction = (childData) => {
-    this.setState({firstName: childData})
-  };
+export default function Practioner() {
 
-  render() {
-    return (
-      <div>
-        <PractNav />
-        <Container className="main-container">
-          <div className="practionerView-div">
-            <Row>
-              <Col md="5">
-                <div className="leftContent">
-                  <p class="pd">Patient Details</p>
-                  <Row>
-                    <img
-                      src={line}
-                      class="rounded float-start"
-                      alt="RIP"
-                      className="hb2"
-                    />
-                  </Row>
-                  <Row>
-                    {/* Patient info shown depending on logic of component selected.
-                    PATIENTINFO COMPONENT WILL NEED TO BE REPLACED*/}
-                    <PractitionerPatientInfo />
-                  </Row>
-                  <Row>
-                    <p>
-                      <a href="/editPatient">Edit patient file</a>
-                    </p>
-                  </Row>
-                </div>
-              </Col>
-              <Col md="7">
-                <div className="rightContent">
-                  <Row>
-                    <p class="pd">Current Waitlist</p>
-                  </Row>
-                  <Row>
-                    <PractionerWaitlist />
-                  </Row>
-                </div>
-              </Col>
-            </Row>
-          </div>
-        </Container>
-      </div>
-    );
+  //State used to keep track of the current info in focus.
+  const[patientData, setPatientData] = useState("");
+  /**
+   * This will update our parent class(Practioner) with recent info.
+   * @param {*} childData the ID of a patient passed in from child.
+   */
+  const childToParent = (childData) => {
+    //alert("This is id num: "+childData);
+    setPatientData(childData);
   }
+
+  return (
+    <div>
+      <PractNav />
+      <Container className="main-container">
+        <div className="practionerView-div">
+          <Row>
+            <Col md="5">
+              <div className="leftContent">
+                <p class="pd">Patient Details</p>
+                <Row>
+                  <img
+                    src={line}
+                    class="rounded float-start"
+                    alt="RIP"
+                    className="hb2"
+                  />
+                </Row>
+                <Row>
+                  <PractitionerPatientInfo patientDataGiven={patientData}/>
+                </Row>
+                <Row>
+                  <p>
+                    <a href="/editPatient">Edit patient file</a>
+                  </p>
+                </Row>
+              </div>
+            </Col>
+            <Col md="7">
+              <div className="rightContent">
+                <Row>
+                  <p class="pd">Current Waitlist</p>
+                </Row>
+                <Row>
+                  <PractionerWaitlist childToParent={childToParent}/>
+                </Row>
+              </div>
+            </Col>
+          </Row>
+        </div>
+      </Container>
+    </div>
+  );
 }
