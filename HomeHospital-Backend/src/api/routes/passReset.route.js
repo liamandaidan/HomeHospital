@@ -14,9 +14,17 @@ const route = express.Router()
 //route for when the user clicks to reset their password
 route.post('/', async (req, res) => {
     const {email, token, newPass, newPassConfirm} = req.body;
+    
     console.log("Got email: " + email);
     if(email){
+        if(typeof email != 'string') {
+            res.status(406).send({ message: "Password update failed" })
+        }
         if(newPass && newPassConfirm) {//these parameters will only exist if user has entered a new password and confirmed
+            if(typeof newPass != 'string' || typeof newPassConfirm != 'string' || typeof token != 'string') {
+                console.log("One or more fields isn't a string");
+                res.status(406).send({ message: "Password update failed" })
+            }
             let tokenEmail = jwt.verify(token, resetKey);
             console.log("tokenEmail is: " + tokenEmail.email);
             if(tokenEmail.email === email) {
@@ -54,10 +62,6 @@ route.post('/', async (req, res) => {
     } else {
         res.status(401).send('Information is required')
     }
-})
-
-route.get('/verify', (req, res, next) => {
-    
 })
 
 

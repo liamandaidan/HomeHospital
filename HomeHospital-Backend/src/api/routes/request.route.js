@@ -20,6 +20,16 @@ app.post('/newRequest', async (req, res) => {
 	const { hospitalId, symptomList, additionalInfo } = req.body
 	const patientId = req.patientId
 
+	if(!mongoose.Types.ObjectId.isValid(hospitalId) && !mongoose.Types.ObjectId.isValid(patientId)) {
+		console.log("patientId or hospitalIdis not valid")
+		res.status(400).send({ message: 'Error' })
+	}
+
+	if(symptomList.length < 1) {
+		console.log("symptomList is not valid")
+		res.status(400).send({ message: 'Error' })
+	}
+
 	// Validates that the Id's for the hospital and patient are valid Mongo Ids
 	const validFacilityId = mongoose.Types.ObjectId.isValid(hospitalId)
 	const validUserId = mongoose.Types.ObjectId.isValid(patientId)
@@ -81,6 +91,11 @@ app.post('/newRequest', async (req, res) => {
 app.get('/currentRequest', async (req, res) => {
 	// return the current users request
 	const patientId = req.patientId
+	
+	if(patientId == null || patientId == undefined || patientId == "") {
+		console.log("patientId is not valid")
+		res.status(400).send({ message: 'Error' })
+	}
 
 	// find the patient
 	try {
@@ -117,6 +132,11 @@ app.get('/currentRequest', async (req, res) => {
 app.get('/allRequests', async (req, res) => {
 	// return the current users request
 	const patientId = req.patientId
+	
+	if(patientId == null || patientId == undefined || patientId == "") {
+		console.log("patientId is not valid")
+		res.status(400).send({ message: 'Error' })
+	}
 
 	// find the patient
 	try {

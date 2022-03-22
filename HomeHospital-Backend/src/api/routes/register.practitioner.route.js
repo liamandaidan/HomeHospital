@@ -1,5 +1,5 @@
 import express from 'express'
-import { registerUser } from '../service/register.service.js'
+import { registerPractitioner } from '../service/register.service.js'
 
 // Creates Router
 const route = express.Router()
@@ -7,10 +7,10 @@ const route = express.Router()
 // Register Route
 route.post('/', async (req, res) => {
 	try {
-		const result = await registerUser(req)
+		const result = await registerPractitioner(req)
 
 		if(result == -1) {
-			console.log("registerUser returned -1");
+			console.log("registerPractitioner returned -1");
 			res.status(422).send({
 				status: 'Error',
 				message: 'Something went wrong with the registration, please try again.',
@@ -19,7 +19,7 @@ route.post('/', async (req, res) => {
 		}
 
 		if (!result.status) {
-			console.log('Error: User already exists')
+			console.log('Error: Practitioner already exists')
 			res.status(422).send({
 				status: 'Error',
 				message: 'Something went wrong with the registration, please try again.',
@@ -33,7 +33,7 @@ route.post('/', async (req, res) => {
 		}
 	} catch (e) {
 		console.error(e.message)
-		res.status(406).send({message: 'Request Failed'})
+		res.status(406).send('Request Failed')
 	}
 })
 
