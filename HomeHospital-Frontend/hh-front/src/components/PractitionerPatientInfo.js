@@ -7,6 +7,7 @@ import Col from "react-bootstrap/Col";
 import Container from "react-bootstrap/Container";
 import "../styles/SymptomForm.css";
 import "../styles/PractionerStyles.css";
+import patientData2 from "../components/TempVisitRequest.json";
 import axios from "axios";
 import { HomeHospitalContext } from "./HomeHospitalContext";
 
@@ -48,6 +49,9 @@ export class PractitionerPatientInfo extends Component {
     //   const formatDate = today.toDateString();
     return (
       <>
+	  {patientData2.map((patientDetail, index) =>{
+		  return <h3>{patientDetail.name}</h3>
+	  })}
         <Container className="patient-container">
           <Row>
             {/* <Col></Col> */}
