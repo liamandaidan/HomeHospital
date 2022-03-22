@@ -51,7 +51,14 @@ return (
     <>
       <Container className="patient-container">
         <Row>
-          <Col></Col>
+          {/* <Col></Col> */}
+		  <Row>
+          <Col>
+             <div className="hbar-div">
+              <img src={hbar} alt="heartbeat bar" className="hb-bar-practitioner1" />
+            </div>
+          </Col>
+        </Row>
           <Col>
             <img src={profile} alt="profilePic" className="profilepic" />
           </Col>
@@ -76,14 +83,23 @@ return (
           </Col>
         </Row>
         <Row>
-          <Col className="patient-contactDetails">
+          <Col className="practitioner-patientContactDetails ">
 			  <p>Address: 123 MyHouse</p>
 			  <p>Contact Number: (403) 223-2311</p>
-			  <p>Emergency Contact Name:Pete Davidson</p>
-			  <p>Emergency Contact No:(403) 443-2312</p>
+			  <p>Emergency Contact Name: Pete Davidson</p>
+			  <p>Emergency Contact No: (403) 443-2312</p>
 			  <p>Alberta Health Care no: 12345-0000</p>
-			  <p>Symptoms: Broken Leg (Severity: 3)</p>
-			  <p>Place in queue: 1</p>
+			  <h5>Symptoms</h5>
+			  <ul>
+				  <li>Cough (Severity: 3)</li>
+				  <li>Runny nose (Severity: 2)</li>
+				  <li>Shallow Breathing (Severity: 5)</li>
+				  <li>Sore Throat (Severity: 2)</li>
+				  <li>Headache (Severity: 5)</li>
+			  </ul>
+			  <h5>Additional Info</h5>
+			  <p>Help me I am sick *cough</p>
+			  <h5>Place in queue: 1</h5>
             {/* <p>Contact number: {phoneNumber}</p>
             <p>Alberta Health Care no: {HCNumber}</p> */}
             {/* <p>
@@ -94,9 +110,9 @@ return (
         </Row>
         <Row>
           <Col>
-            {/* <div className="hbar-div">
-              <img src={hbar} alt="heartbeat bar" className="hb-bar" />
-            </div> */}
+             <div className="hbar-div">
+              <img src={hbar} alt="heartbeat bar" className="hb-bar-practitioner2" />
+            </div>
           </Col>
         </Row>
       </Container>
