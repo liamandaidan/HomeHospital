@@ -7,10 +7,7 @@ import "../styles/HospitalSelectionStyles.css";
 
 function SelectHospital() {
   //useContext here
-  const { _id, patient_id } = useContext(HomeHospitalContext);
-  const [patientID] = patient_id;
-
-  console.log("PatientID: " + patientID)
+  const { _id } = useContext(HomeHospitalContext);
 
   const [posts, setPosts] = useState([]);
   //grab the states of use context for the _id

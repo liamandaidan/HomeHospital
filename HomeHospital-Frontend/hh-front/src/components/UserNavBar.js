@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React from "react";
 import {
   Navbar,
   Container,
@@ -9,24 +9,19 @@ import {
 import classes from "./UserNavBar.module.css";
 import avatar from "../images/img_avatar.png";
 import { useNavigate } from "react-router-dom";
-import { HomeHospitalContext } from "./HomeHospitalContext";
+import axios from "axios";
+
+axios.defaults.withCredentials = true;
 
 function UserNavBar() {
   let navigate = useNavigate();
-
-  const { patient_id } = useContext(HomeHospitalContext);
-  const [patientID, setPatientID] = patient_id;
 
   function requestPage() {
     navigate("/hospitals");
   }
 
   const handleHome = () => {
-    if ((patientID !== null) | (patientID !== undefined)) {
-      navigate("/home");
-    } else {
-      navigate("/");
-    }
+    navigate("/home");
   };
 
   const onHospital = () => {
@@ -38,8 +33,17 @@ function UserNavBar() {
   };
 
   const handleLogout = () => {
-    setPatientID(null);
-    navigate("/");
+    axios
+      .post("http://localhost:4000/api/logout", {
+        withCredentials: true,
+      })
+      .then((response) => {
+        navigate("/");
+      })
+      .catch((err) => {
+        console.log(err);
+        navigate("/");
+      });
   };
 
   return (

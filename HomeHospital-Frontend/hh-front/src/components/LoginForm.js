@@ -1,16 +1,15 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Button, Col, Container, Form, Modal, Row } from "react-bootstrap";
 import { Link, useNavigate } from "react-router-dom";
 import logo from "../images/heartbeat_logo_long.png";
 import classes from "./LoginForm.module.css";
-import Axios from "axios";
-import { HomeHospitalContext } from "./HomeHospitalContext";
+import axios from "axios";
+
+axios.defaults.withCredentials = true;
 
 function LoginForm() {
   let navigate = useNavigate();
 
-  const { patient_id } = useContext(HomeHospitalContext);
-  const [patientID, setPatientID] = patient_id;
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [validEmail, setValidEmail] = useState(false);
@@ -46,13 +45,12 @@ function LoginForm() {
   }
 
   const loginUser = () => {
-    Axios.post("http://localhost:4000/api/login", {
-      email: email,
-      password: password,
-    })
+    axios
+      .post("http://localhost:4000/api/login", {
+        email: email,
+        password: password,
+      })
       .then((response) => {
-        // setPatientID(response.data.patientId);
-        console.log(response);
         console.log("You have logged in successfully");
         navigate("/home");
       })

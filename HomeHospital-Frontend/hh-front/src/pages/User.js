@@ -10,11 +10,9 @@ import SymptomsTable from "../components/SymptomsTable";
 import { HomeHospitalContext } from "../components/HomeHospitalContext";
 
 function User() {
-  const { patient_id, request_id } = useContext(HomeHospitalContext);
-  const [patientID] = patient_id;
+  const { request_id } = useContext(HomeHospitalContext);
   const [requestID] = request_id;
 
-  console.log(patientID);
   console.log(requestID);
 
   return (

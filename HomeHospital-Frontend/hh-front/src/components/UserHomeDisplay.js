@@ -4,13 +4,11 @@ import Col from "react-bootstrap/Col";
 import Container from "react-bootstrap/Container";
 import moment from "moment";
 import axios from "axios";
-
 import hb1 from "../images/heartbeat-bg.png";
 import profile from "../images/profilepicture.png";
-
-// import { HomeHospitalContext } from "./HomeHospitalContext";
-
 import "../styles/UserHomepage.css";
+
+axios.defaults.withCredentials = true;
 
 function UserHomeDisplay() {
   moment.locale("en");
@@ -60,7 +58,9 @@ function UserHomeDisplay() {
   // get the patient data
   useEffect(() => {
     axios
-      .post("http://localhost:4000/api/users/PatientInfoVisitRequest")
+      .post("http://localhost:4000/api/users/PatientInfoVisitRequest", {
+        withCredentials: true,
+      })
       .then((response) => {
         setFirstName(response.data.data.user.firstName);
         setLastName(response.data.data.user.lastName);

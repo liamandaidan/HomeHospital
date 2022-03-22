@@ -1,23 +1,31 @@
-import React, { useContext, useEffect } from "react";
+import React, { useEffect } from "react";
 import { Col, Row } from "react-bootstrap";
 import backgroundLogin from "../images/bg.png";
 import LoginForm from "../components/LoginForm";
-import { HomeHospitalContext } from "../components/HomeHospitalContext";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
+
+axios.defaults.withCredentials = true;
 
 function Login() {
   const navigate = useNavigate();
 
-  const { patient_id } = useContext(HomeHospitalContext);
-  const [patientID] = patient_id;
-
-  console.log(patientID);
-
-  useEffect(() => {
-    if (patientID != null || patientID != undefined) {
-      navigate("/home");
-    }
-  }, []);
+  // useEffect(() => {
+  //   axios
+  //     .post("http://localhost:4000/api/users/PatientInfoVisitRequest", {
+  //       withCredentials: true,
+  //     })
+  //     .then((response) => {
+  //       if (response.status === "Error") {
+  //         navigate("/login");
+  //       } else {
+  //         navigate("/home");
+  //       }
+  //     })
+  //     .catch((err) => {
+  //       console.log(err);
+  //     });
+  // }, []);
 
   return (
     <div>

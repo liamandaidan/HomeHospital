@@ -9,6 +9,8 @@ import moment from "moment";
 import { HomeHospitalContext } from "./HomeHospitalContext";
 import { useNavigate } from "react-router-dom";
 
+axios.defaults.withCredentials = true;
+
 function UserHomeVisitsDisplay() {
   const navigate = useNavigate();
 
@@ -18,14 +20,15 @@ function UserHomeVisitsDisplay() {
   const [date, setDate] = useState();
 
   //get patient ID from context
-  const { patient_id, request_id } = useContext(HomeHospitalContext);
-  const [patientID, setPatientID] = patient_id;
+  const { request_id } = useContext(HomeHospitalContext);
   const [requestID, setRequestID] = request_id;
 
   //import all visits using patient ID
   useEffect(() => {
     axios
-      .get("http://localhost:4000/api/visitRequest/allRequests")
+      .get("http://localhost:4000/api/visitRequest/allRequests", {
+        withCredentials: true,
+      })
       .then((response) => {
         console.log(response.data.request);
         setVisitList(response.data.request);

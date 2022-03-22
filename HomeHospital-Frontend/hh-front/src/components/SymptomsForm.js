@@ -12,13 +12,14 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import "../styles/SymptomForm.css";
 import { HomeHospitalContext } from "./HomeHospitalContext";
 
+axios.defaults.withCredentials = true;
+
 function SymptomsForm() {
   const [additionalInfo, setAdditionalInfo] = useState("");
   const [modalState, setModalState] = useState(false);
 
-  const { _id, patient_id } = useContext(HomeHospitalContext);
+  const { _id } = useContext(HomeHospitalContext);
   const [hospitalID] = _id;
-  const [patientID] = patient_id;
 
   const navigate = useNavigate();
 
@@ -77,10 +78,6 @@ function SymptomsForm() {
   };
 
   const handleSubmit = () => {
-    console.log(patientID);
-    console.log(hospitalID);
-    console.log(symptomsList);
-    console.log(additionalInfo);
     const list = [...symptomsList];
 
     console.log("this is the last value " + list[list.length - 1].description);
@@ -98,8 +95,8 @@ function SymptomsForm() {
   const handleFormSubmit = () => {
     axios
       .post("http://localhost:4000/api/visitRequest/newRequest", {
-        patientID: patientID,
-        hospitalID: hospitalID,
+        withCredentials: true,
+        hospitalId: hospitalID,
         symptomList: symptomsList,
         additionalInfo: additionalInfo,
       })
