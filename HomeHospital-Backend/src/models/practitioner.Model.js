@@ -1,6 +1,6 @@
 import mongoose from 'mongoose'
 import UserSchema from './user.Schema.js'
-import HCPRole from './hcpRole.Model.js'
+//import HCPRole from './hcpRole.Model.js'
 
 const practitionerSchema = new mongoose.Schema({
 	practitionerId: {
