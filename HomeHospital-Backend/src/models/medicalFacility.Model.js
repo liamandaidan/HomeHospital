@@ -1,7 +1,6 @@
 import mongoose from 'mongoose'
 import addressSchema from './address.Schema.js'
-// import practitioner from './practitioner.Model.js'
-
+import validator from 'validator'
 const medicalFacility = new mongoose.Schema({
 	hospitalName: {
 		type: String,
@@ -14,6 +13,7 @@ const medicalFacility = new mongoose.Schema({
 	phoneNumber: {
 		type: String,
 		default: null,
+		validate:[validator.isMobilePhone, 'Please enter a Valid Phone Number']
 	},
 	waitTime: {
 		type: String,

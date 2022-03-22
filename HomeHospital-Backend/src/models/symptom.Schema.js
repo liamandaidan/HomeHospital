@@ -1,4 +1,5 @@
 import mongoose from 'mongoose'
+import validator from 'validator'
 
 const symptomSchema = new mongoose.Schema({
 	description: {
@@ -12,6 +13,8 @@ const symptomSchema = new mongoose.Schema({
 		min: 1,
 		max: 5,
 		required: true,
+		validate:[validator.isNumeric, 'Please enter a Number!'],
+
 	},
 	_id: false,
 })

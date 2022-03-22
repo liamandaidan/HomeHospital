@@ -24,7 +24,7 @@ route.post('/', async (req, res) => {
 		}
 	} catch (e) {
 		console.error(e.message)
-		res.status(406).send('Request Failed')
+		res.status(406).send({message: 'Request Failed'})
 	}
 })
 

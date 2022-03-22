@@ -16,6 +16,7 @@ const practitionerSchema = new mongoose.Schema({
 		required: true,
 		lowercase: true,
 		unique: true,
+		validate:[validator.isEmail, 'Please enter a Valid Email'],
 	},
 	password: {
 		type: String,
