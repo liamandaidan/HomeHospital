@@ -2,18 +2,17 @@ import CompletedRequestModel from '../../models/completedRequest.model.js'
 import visitRequestModel from '../../models/visitRequest.Model.js'
 
 export async function completeVisitRequest(requestId) {
-	console.log("hit complete Request, id: " + requestId)
+    try {
+        // Check to see that ID is valid and check that the document exists.
+        if (mongoose.Types.ObjectId.isValid(requestId) && await visitRequestModel.exists(requestId)) {
 
-	try {
-        // Try to retrieve the request from the database
-        if (await visitRequestModel.exists(requestId)) {
-            console.log("here")
-            const visitRequest = await visitRequestModel.findById(requestId).exec()
-            console.log(visitRequest)
-            const completedRequest = await CompletedRequestModel.create({_id: requestId._id, request: visitRequest})
+            // Get the visit request and create a completed request from it.
+            const visitRequest      = await visitRequestModel.findById(requestId).exec()
+            const completedRequest  = await CompletedRequestModel.create({_id: requestId._id, request: visitRequest})
+
+            //Finally delete the visit request and save the completed request.
             await visitRequestModel.findOneAndDelete(requestId)
             completedRequest.save()
-            console.log('completed Request!')
             return true
         }
         else {

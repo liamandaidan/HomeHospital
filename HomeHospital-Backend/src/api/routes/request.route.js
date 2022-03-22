@@ -180,12 +180,15 @@ app.get('/targetRequest/:requestId', async (req, res) => {
 	}
 })
 
-app.get('/completeRequest/:requestId', async (req, res) => {
-	
+app.put('/completeRequest/:requestId', async (req, res) => {
 	const { requestId } = req.params
-	console.log("hit complete Request, id: " + requestId)
-	completeVisitRequest({_id: requestId})
-	res.status(200).send();
+
+	if (completeVisitRequest({_id: requestId})) {
+		res.status(200).send();
+	}
+	else {
+		res.status(400).send({"message": "Failed to complete visit request!"});
+	}
 }) 
 
 export default app
