@@ -15,9 +15,22 @@ app.post('/newFacility', async (req, res) => {
 		phoneNumber,
 	} = req.body
 
-	let valsFromBody = [hospitalName, streetAddress, cityName, provName, postalCode, phoneNumber];
-	if(valsFromBody.includes(undefined) || valsFromBody.includes(null) || valsFromBody.includes("")) {
-		console.log("Detected a missing field in registering new medical facility");
+	let valsFromBody = [
+		hospitalName,
+		streetAddress,
+		cityName,
+		provName,
+		postalCode,
+		phoneNumber,
+	]
+	if (
+		valsFromBody.includes(undefined) ||
+		valsFromBody.includes(null) ||
+		valsFromBody.includes('')
+	) {
+		console.log(
+			'Detected a missing field in registering new medical facility'
+		)
 		res.status(400).send({ message: 'Error' })
 	}
 
@@ -61,6 +74,7 @@ app.get('/viewFacilities', async (req, res) => {
 			.select({
 				practitioners: 0,
 				__v: 0,
+				waitList: 0,
 			})
 			.exec()
 

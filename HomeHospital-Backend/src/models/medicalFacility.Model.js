@@ -11,6 +11,14 @@ const medicalFacility = new mongoose.Schema({
 		type: addressSchema,
 		required: true,
 	},
+	latitude: {
+		type: Number,
+		immutable: true,
+	},
+	longitude: {
+		type: Number,
+		immutable: true,
+	},
 	phoneNumber: {
 		type: String,
 		default: null,
@@ -27,6 +35,11 @@ const medicalFacility = new mongoose.Schema({
 	practitioners: {
 		type: [mongoose.Schema.Types.ObjectId],
 		ref: 'Practitioner',
+		default: null,
+	},
+	waitList: {
+		type: [mongoose.Schema.Types.ObjectId],
+		ref: 'VisitRequest',
 		default: null,
 	},
 })
