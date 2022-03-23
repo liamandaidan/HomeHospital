@@ -84,7 +84,7 @@ function UserHomeDisplay() {
                 <Image src={profile} className="user-profile-photo" fluid roundedCircle />
             </Col>
             <Col sm={{order: 3}} md={3} >
-              <span><h1>Hi {firstName}!</h1></span>
+                <h1>Hi {firstName}!</h1>
               <Card className="card-currentVisit">
                 <Card.Body>
                 {moment(date).format("dddd, MMMM Do YYYY")}
