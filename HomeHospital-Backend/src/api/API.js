@@ -1,7 +1,11 @@
 import { Router } from 'express'
 import test from './routes/test.route.js'
 import register from './routes/register.route.js'
+import registerP from './routes/register.practitioner.route.js'
+import registerA from './routes/register.administrator.route.js'
 import login from './routes/login.route.js'
+import loginP from './routes/login.practitioner.route.js'
+import loginA from './routes/login.administrator.route.js'
 import logout from './routes/logout.route.js'
 import reset from './routes/passReset.route.js'
 import facilityActions from './routes/medicalFacility.route.js'
@@ -21,7 +25,11 @@ app.use('/test', test)
 
 // NO validation needed for tokens on these 3 routes
 app.use('/register', register)
+app.use('/registerP', registerP)
+app.use('/registerA', registerA)
 app.use('/login', login)
+app.use('/loginP', loginP)
+app.use('/loginA', loginA)
 app.use('/logout', logout)
 app.use('/forget', reset)
 

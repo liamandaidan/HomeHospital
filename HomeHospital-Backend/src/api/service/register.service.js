@@ -1,5 +1,6 @@
 import PatientModel from '../../models/patient.Model.js'
 import PractitionerModel from '../../models/practitioner.Model.js'
+import AdministratorModel from '../../models/administrator.Model.js'
 import bcrypt from 'bcryptjs'
 
 const regStatus = {
@@ -151,6 +152,74 @@ export const registerPractitioner = async (req) => {
 	// Set Registration status and attach the user
 	regStatus.status = true
 	regStatus.user = newPractitioner
+
+	return regStatus
+}
+
+export const registerAdministrator = async (req) => {
+	const { genSalt, hash } = bcrypt
+
+	// Destructure values from client request
+	const {
+		firstName,
+		lastName,
+		email,
+		password,
+		streetAddress,
+		cityName,
+		provName,
+		postalCode,
+		phoneNumber,
+		adminId,
+		permissionLevel
+	} = req.body
+
+	let valsFromBody = [firstName, lastName, email, password, streetAddress, cityName, provName, postalCode, adminId, permissionLevel, phoneNumber];
+	if(valsFromBody.includes(undefined) || valsFromBody.includes(null) || valsFromBody.includes("")) {
+		console.log("Detected a missing field in registerPractitioner");
+		return -1;
+	}
+
+
+	// check if administrator exists
+	const result = await AdministratorModel.exists({ adminId: adminId })
+	// If they exist return an error status code
+	if (result?.adminId) {
+		console.log('Admin Id: ' + result?.adminId)
+		return (regStatus.status = false)
+	}
+
+	// Salt and Hash password
+
+	// generate salt
+	const salt = await genSalt(10)
+
+	// hash with salt
+	const hashedPassword = await hash(password, salt)
+
+	// verify practitioner object
+	const newAdministrator = await AdministratorModel.create({
+		adminId: adminId,
+		permissions: permissionLevel,
+		email: email,
+		password: hashedPassword,
+		user: {
+			firstName: firstName,
+			lastName: lastName,
+			address: {
+				streetAddress: streetAddress,
+				cityName: cityName,
+				provName: provName,
+				postalCode: postalCode,
+			},
+			phoneNumber: phoneNumber,
+		},
+	})
+	newAdministrator.save()
+
+	// Set Registration status and attach the user
+	regStatus.status = true
+	regStatus.user = newAdministrator
 
 	return regStatus
 }
