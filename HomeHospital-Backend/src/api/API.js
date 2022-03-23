@@ -31,6 +31,9 @@ app.use('/updateWaitTimesTemp', checkAccessToken)
 app.use('/medicalFacility', facilityActions)
 app.use('/updateWaitTimesTemp', updateWaitTimesTemp)
 
+// add routes for 'manageRequests' 
+// put middleware to check for practitioner
+
 app.use('/users', checkAccessToken)
 app.use('/visitRequest', checkAccessToken)
 app.use('/users', users)
