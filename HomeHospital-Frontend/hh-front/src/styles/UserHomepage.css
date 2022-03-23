@@ -4,17 +4,49 @@
 .heartbeat-logo-1 {
     z-index: -1;
     opacity: 60%;
+    float: none;
+    /* padding: 20px; */
 }
 
 
 .user-profile-photo {
-    position: relative;
-    left: 350px;
-    top: -330px;
-    z-index: 1;
-    width: 300px;
-    height: 300px;
-    border-radius: 300px;
+    position:absolute;
+    z-index: 2;
+    max-width: 100%;
+    height:250px;
+    margin-top: 4%;
+    margin-left: 3%;
+
+}
+
+@media screen and (max-width: 992px) {
+    .user-profile-photo {
+        max-width: 100%;
+        height: 150px;
+        margin-top: 4%;
+        margin-left: 2%;
+    }
+
+
+}
+
+@media screen and (max-width: 600px) {
+    .user-profile-photo {
+        max-width: 100%;
+        height: 100px;
+        margin-top: 5%;
+        margin-left: 25%;
+    }
+
+
+}
+
+h1 {
+    position:absolute;
+    margin-top: 7%;
+    margin-left: 2%;
+    font-weight: bold;
+    font-family: "Inter", sans-serif;
 }
 
 .container-display {
@@ -44,9 +76,7 @@
     font-weight: bolder;
 }
 
-h1 {
-    font-size: 50px;
-}
+
 
 .newRequest-btn {
     color: #7878AB;
@@ -71,5 +101,14 @@ h1 {
 
 tr {
     height: 50px;
+}
+
+
+.card-currentVisit {
+    position:absolute;
+    background-color: #E7FBF6;
+    width: 250px;
+    margin-top: 13%;
+    margin-left: 2%;
 }
 

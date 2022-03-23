@@ -170,7 +170,7 @@ function SymptomsForm() {
                       type="text"
                       name="description"
                       placeholder="Enter Symptom"
-                      value={singleSymptom.service}
+                      value={singleSymptom.description}
                       onChange={(e) => handleSymptomsChange(e, index)}
                     />
                     <Form.Select
