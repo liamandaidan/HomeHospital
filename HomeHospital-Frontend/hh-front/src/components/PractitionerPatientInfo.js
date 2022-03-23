@@ -13,48 +13,11 @@ import { HomeHospitalContext } from "./HomeHospitalContext";
 
 export class PractitionerPatientInfo extends Component {
   render() {
-    //   const { patient_id } = useContext(HomeHospitalContext);
-    //   const [patientID] = patient_id;
-
-    //   const [firstName, setFirstName] = useState("");
-    //   const [lastName, setLastName] = useState("");
-    //   const [HCNumber, setHCNumber] = useState("");
-    //   const [phoneNumber, setPhoneNumber] = useState("");
-    //   const [emergFirstName, setEmergFirstName] = useState("");
-    //   const [emergLastName, setEmergLastName] = useState("");
-    //   const [emergPhoneNumber, setEmergPhoneNumber] = useState("");
-
-    //   useEffect(() => {
-    //     axios
-    //       .post("http://localhost:4000/api/users/PatientInfoVisitRequest", {
-    //         patientId: patientID,
-    //       })
-    //       .then((response) => {
-    //         setFirstName(response.data.data.user.firstName);
-    //         setLastName(response.data.data.user.lastName);
-    //         setPhoneNumber(response.data.data.user.phoneNumber);
-    //         setHCNumber(response.data.data.HCnumber);
-    //         setEmergFirstName(response.data.data.emergencyContact.firstName);
-    //         setEmergLastName(response.data.data.emergencyContact.lastName);
-    //         setEmergPhoneNumber(response.data.data.emergencyContact.phoneNumber);
-    //       })
-    //       .catch((err) => {
-    //         console.log(err);
-    //       });
-    //   }, []);
-
-    //   const timeElapsed = Date.now();
-    //   const today = new Date(timeElapsed);
-
-    //   const formatDate = today.toDateString();
     return (
       <>
-	  {patientData2.map((patientDetail, index) =>{
-		  return <h3>{patientDetail.name}</h3>
-	  })}
+	  
         <Container className="patient-container">
           <Row>
-            {/* <Col></Col> */}
             <Row>
               <Col>
                 <div className="hbar-div">
@@ -71,12 +34,9 @@ export class PractitionerPatientInfo extends Component {
             </Col>
             <Col md={8}>
               <div className="practitioner-patientRequestDetails">
-                <h3>
-                  Kanye West
-                  {/* {firstName} {lastName} */}
-                </h3>
-                {/* <p>Visit request #45</p> */}
-                {/* <p>{formatDate}</p> */}
+			  {patientData2.map((patientDetail, index) => {
+		  		return <h3>{patientDetail.name}</h3>
+	  		 })}
               </div>
             </Col>
             <Col></Col>
@@ -88,35 +48,28 @@ export class PractitionerPatientInfo extends Component {
                 <div class="alert alert-primary" role="alert">
                   #This is temporary, waitlist ID: {this.props.patientDataGiven}
                 </div>
-
-                {/* <h4>Confirmed Patient Details </h4> */}
               </div>
             </Col>
           </Row>
           <Row>
             <Col className="practitioner-patientContactDetails ">
-              <p>Address: 123 MyHouse</p>
-              <p>Contact Number: (403) 223-2311</p>
-              <p>Emergency Contact Name: Pete Davidson</p>
-              <p>Emergency Contact No: (403) 443-2312</p>
-              <p>Alberta Health Care no: 12345-0000</p>
-              <h5>Symptoms</h5>
-              <ul>
-                <li>Cough (Severity: 3)</li>
-                <li>Runny nose (Severity: 2)</li>
-                <li>Shallow Breathing (Severity: 5)</li>
-                <li>Sore Throat (Severity: 2)</li>
-                <li>Headache (Severity: 5)</li>
-              </ul>
-              <h5>Additional Info</h5>
-              <p>Help me I am sick *cough</p>
-              <h5>Place in queue: 1</h5>
-              {/* <p>Contact number: {phoneNumber}</p>
-            <p>Alberta Health Care no: {HCNumber}</p> */}
-              {/* <p>
-              Emergency contact name: {emergFirstName} {emergLastName}
-            </p>
-            <p>Contact contanct number: {emergPhoneNumber}</p> */}
+			  {patientData2.map((patientDetail, index) => {
+		  		return (
+					<><p>Address: {patientDetail.address}</p>
+					<p>Contact Number: {patientDetail.contactNumber}</p>
+					<p>Alberta Health Care no: {patientDetail.albertaHealthcareNo}</p>
+					<p>Emergency Contact Name: {patientDetail.emergencyContactName}</p>
+					<p>Emergency Contact No:{patientDetail.emergencyContactNumber}</p>
+					<h5>Symptoms</h5>
+					<ul>
+						<li>{patientDetail.symptoms}</li>
+              		</ul>
+					<h5>Additional Info</h5>
+						<p>{patientDetail.additionalInfo}</p>
+					<h5>Place in queue: {patientDetail.queue}</h5>
+					</>
+				  )		
+	  		 })}
             </Col>
           </Row>
           <Row>
