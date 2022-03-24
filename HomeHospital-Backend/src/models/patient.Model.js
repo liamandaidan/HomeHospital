@@ -43,6 +43,11 @@ const patientSchema = new mongoose.Schema({
 			default: null,
 		},
 	},
+	currentHospital: {
+		type: mongoose.Schema.Types.ObjectId,
+		ref: 'MedicalFacility',
+		default: null,
+	},
 	currentRequest: {
 		type: mongoose.Schema.Types.ObjectId,
 		ref: 'VisitRequest',
@@ -56,17 +61,21 @@ const patientSchema = new mongoose.Schema({
 })
 
 // Adds the new request to the Patients currentRequest spot
-patientSchema.methods.newRequest = function (requestId) {
+patientSchema.methods.newRequest = function (requestId, requestHospitalId) {
 	try {
 		if (this.currentRequest != null) {
 			throw new Error('Patient already has an active request!!')
 		} else {
-			if (mongoose.Types.ObjectId.isValid(requestId)) {
+			if (
+				mongoose.Types.ObjectId.isValid(requestId) &&
+				mongoose.Types.ObjectId.isValid(requestHospitalId)
+			) {
 				this.currentRequest = requestId
+				this.currentHospital = requestHospitalId
 				return
 			} else {
 				throw new Error(
-					'Invalid RequestId for the patients new Request'
+					'Invalid RequestId or HospitalId for the patients new Request'
 				)
 			}
 		}
@@ -78,13 +87,15 @@ patientSchema.methods.newRequest = function (requestId) {
 // moves the current request from the patients curret request spot and puts it in the list of past requests
 patientSchema.methods.completeRequest = function () {
 	try {
-		if (this.currentRequest == null) {
-			throw new Error('Patient has no request to move to be completed')
-		} else {
+		if (this.currentRequest) {
 			this.pastRequests.push(this.currentRequest)
 			this.currentRequest = null
+			this.currentHospital = null
+		} else {
+			throw new Error('Patient has no request to move to be completed')
 		}
 	} catch (error) {
+		console.log('completed Request from patient model')
 		console.log(error.message)
 	}
 }
@@ -95,6 +106,7 @@ patientSchema.methods.cancelRequest = function () {
 	try {
 		if (this.currentRequest) {
 			this.currentRequest = null
+			this.currentHospital = null
 		} else {
 			throw new Error('Patient Does not have an active request to cancel')
 		}
