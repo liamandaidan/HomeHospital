@@ -114,7 +114,9 @@ export const checkEmployeeAccessToken = async (req, res, next) => {
 			// console.log(`Access token still valid: ${validAccessToken.email}`)
 			res.locals.accessT = accessToken
 			res.locals.refreshT = refreshToken
-			
+			if(!checkAccessAuthorized(jwt.decode(validAccessToken))) {
+				return res.status(401).json({ message: 'Authorization Failed' })
+			}
 			const isAnAdmin = validAccessToken.adminId
 			const isAPractitioner = validAccessToken.practitionerId
 			console.log("validAccessToken is: " + validAccessToken);
@@ -174,31 +176,7 @@ export const checkEmployeeAccessToken = async (req, res, next) => {
 				return res.status(401).send({ message: 'Authorization Failed' })
 			}
 		}
-	} /*else if (!accessToken && refreshToken) {
-		try {
-			// console.log(`no valid access token but ok refresh token`)
-			const newAccessToken = await refreshEmployeeAccessToken(refreshToken)
-
-			// console.log(`newAccess Token: ${newAccessToken}`)
-
-			if (newAccessToken === null) {
-				throw new Error(
-					'Refresh Token invalid! Check if new access token was created'
-				)
-			}
-			res.locals.accessT = newAccessToken //res.locals is an object that carries on through all middleware
-			res.locals.refreshT = refreshToken
-
-			res.cookie('accessTokenCookie', newAccessToken, accessOptions)
-			res.cookie('refreshTokenCookie', refreshToken, refreshOptions)
-			next()
-			return
-		} catch (error) {
-			console.log(error.message)
-			res.status(401).json({ message: 'Authorization Failed' })
-			return
-		}
-	}*/ else {
+	} else {
 		console.log("One or more tokens wasn't present");
 		res.status(401).json({ message: 'Authorization Failed' })
 		return
@@ -310,5 +288,15 @@ export const invalidateEmployeeRefToken = (req, res, next) => {
 		// return res
 		// 	.status(401)
 		// 	.json({ message: 'Something weird happened on logout attempt' })
+	}
+}
+
+const checkAccessAuthorized = (validAccessToken) => {
+	const userType = validAccessToken.patientId;
+	if(userType) {
+		return true;
+	} else {
+		console.log("Not a patient. Go find your own page!");
+		return false;
 	}
 }

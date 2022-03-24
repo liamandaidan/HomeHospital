@@ -46,7 +46,8 @@ MUST BE ROUTED THROUGH THIS MIdDLEWARE BEFORE BEING ALLOWED TO PROCEED
 This middleware is used to check the validity of an access token. First we collect the access and refresh tokens from both 
 the header and from cookies. If any are missing, we return a 401 error. If all exist, we check to make sure that both sets of 
 tokens match each other (access token from cookie matches access token from header, etc). Next, we attempt to verify the access 
-token. If it has been modified, or is expired, it will fail. On failure, we attempt to refresh it using the refreshToken. 
+token. If it has been modified, or is expired, it will fail. If it succeeds, we call the function to check to ensure that the 
+access token belongs to a user type authorized to view a patient page. On failure, we attempt to refresh it using the refreshToken. 
 The refreshAccessToken method returns a promise. If the promise resolves, it will resolve to either a new access token, or null. 
 If null, then the user is logged out, and an unauthorized status is returned. If the promise resolves with a new access token, 
 then new cookies are generated with the access and refresh tokens, and both tokens are sent in the response, and the request is 
@@ -89,7 +90,11 @@ export const checkAccessToken = async (req, res, next) => {
 				accessToken,
 				ACCESSTOKEN_TEST_SECRET
 			) //jwt.verify returns the entire token. By accessing valid.email, we get only the payload of the token, the user's email
-			// console.log(`Access token still valid: ${validAccessToken.email}`)
+			
+			// check to ensure that the type of user making the request is a patient
+			if(!checkAccessAuthorized(jwt.decode(validAccessToken))) {
+				return res.status(401).json({ message: 'Authorization Failed' })
+			}
 			res.locals.accessT = accessToken
 			res.locals.refreshT = refreshToken
 			req.patientId = validAccessToken.patientId
@@ -100,6 +105,11 @@ export const checkAccessToken = async (req, res, next) => {
 			if (err.name == 'TokenExpiredError') {
 				console.log('Token is expired')
 				console.log('Access token invalid, time to check refresh token')
+				if(!checkAccessAuthorized(jwt.decode(accessToken)))
+				{
+					console.log("Access token is expired, and user may not access this page.");
+					return res.status(401).json({ message: 'Authorization Failed' })
+				}
 				refreshAccessToken(refreshToken, accessToken).then(
 					(newAccessToken) => {
 						if (newAccessToken) {
@@ -133,31 +143,7 @@ export const checkAccessToken = async (req, res, next) => {
 				return res.status(401).send({ message: 'Authorization Failed' })
 			}
 		}
-	} /*else if (!accessToken && refreshToken) {
-		try {
-			// console.log(`no valid access token but ok refresh token`)
-			const newAccessToken = await refreshAccessToken(refreshToken)
-
-			// console.log(`newAccess Token: ${newAccessToken}`)
-
-			if (newAccessToken === null) {
-				throw new Error(
-					'Refresh Token invalid! Check if new access token was created'
-				)
-			}
-			res.locals.accessT = newAccessToken //res.locals is an object that carries on through all middleware
-			res.locals.refreshT = refreshToken
-
-			res.cookie('accessTokenCookie', newAccessToken, accessOptions)
-			res.cookie('refreshTokenCookie', refreshToken, refreshOptions)
-			next()
-			return
-		} catch (error) {
-			console.log(error.message)
-			res.status(401).json({ message: 'Authorization Failed' })
-			return
-		}
-	}*/ else {
+	} else {
 		console.log("One or more tokens wasn't present");
 		res.status(401).json({ message: 'Authorization Failed' })
 		return
@@ -183,10 +169,6 @@ const refreshAccessToken = (refreshToken, oldAccessToken) => {
 								reject()
 							} else {
 								const email = result
-								console
-									.log
-									// 'Email from refresh token is ' + email
-									()
 								const oldPayload = jwt.decode(oldAccessToken)
 								const pId = oldPayload.patientId
 								const newAccessToken = jwt.sign(
@@ -275,3 +257,14 @@ export const invalidateRefToken = (req, res, next) => {
 		// 	.json({ message: 'Something weird happened on logout attempt' })
 	}
 }
+
+const checkAccessAuthorized = (validAccessToken) => {
+	const userType = validAccessToken.patientId;
+	if(userType) {
+		return true;
+	} else {
+		console.log("Not a patient. Go find your own page!");
+		return false;
+	}
+}
+
