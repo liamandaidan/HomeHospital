@@ -1,5 +1,6 @@
 import mongoose from 'mongoose'
 import UserSchema from './user.Schema.js'
+import validator from 'validator'
 
 const patientSchema = new mongoose.Schema({
 	email: {

@@ -1,12 +1,12 @@
 import mongoose from 'mongoose'
 import UserSchema from './user.Schema.js'
-//import HCPRole from './hcpRole.Model.js'
+import validator from 'validator'
 
 const practitionerSchema = new mongoose.Schema({
 	practitionerId: {
 		type: Number,
 		required: [true, 'You must enter a Practitioner ID'],
-		validate:[validator.isNumeric, 'Please enter a Number'],
+		//validate:[validator.isNumeric, 'Please enter a Number'],
 	},
 	role: {
 		type: String,

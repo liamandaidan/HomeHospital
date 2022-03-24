@@ -1,5 +1,6 @@
 import mongoose from 'mongoose'
 import addressSchema from './address.Schema.js'
+import validator from 'validator'
 
 const userSchema = new mongoose.Schema({
 	firstName: {

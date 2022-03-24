@@ -2,6 +2,7 @@ import mongoose from 'mongoose'
 import addressSchema from './address.Schema.js'
 import vitalsSchema from './vitals.Schema.js'
 import symptomSchema from './symptom.Schema.js'
+import validator from 'validator'
 
 const visitRequestSchema = new mongoose.Schema({
 	requestHospitalId: {
@@ -26,7 +27,7 @@ const visitRequestSchema = new mongoose.Schema({
 	patientLastName: {
 		type: String,
 		required: [true, 'Patients Last Name is Required'],
-		validate:[validator.isAlpha, 'Only Letters allowed'],
+		//validate:[validator.isAlpha, 'Only Letters allowed'],
 	},
 	symptoms: {
 		type: [symptomSchema],
