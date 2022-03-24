@@ -1,11 +1,11 @@
 import express from 'express' // Creates Router
 import MedicalFacility from '../../models/medicalFacility.Model.js'
 
-const app = express.Router()
+const route = express.Router()
 
 // Used to created a new medical facility
 // This was just used to manually enter a new facility
-app.post('/newFacility', async (req, res) => {
+route.post('/newFacility', async (req, res) => {
 	const {
 		hospitalName,
 		streetAddress,
@@ -14,6 +14,25 @@ app.post('/newFacility', async (req, res) => {
 		postalCode,
 		phoneNumber,
 	} = req.body
+
+	let valsFromBody = [
+		hospitalName,
+		streetAddress,
+		cityName,
+		provName,
+		postalCode,
+		phoneNumber,
+	]
+	if (
+		valsFromBody.includes(undefined) ||
+		valsFromBody.includes(null) ||
+		valsFromBody.includes('')
+	) {
+		console.log(
+			'Detected a missing field in registering new medical facility'
+		)
+		res.status(400).send({ message: 'Error' })
+	}
 
 	try {
 		// Check to make sure we don't have a duplicate hospital
@@ -48,13 +67,14 @@ app.post('/newFacility', async (req, res) => {
 })
 
 // Get a list of all of the hospitals with their wait times
-app.get('/viewFacilities', async (req, res) => {
+route.get('/viewFacilities', async (req, res) => {
 	try {
 		// Fetch the list of hospitals from the database without the list of practitioners or V number
 		const hospitalList = await MedicalFacility.find()
 			.select({
 				practitioners: 0,
 				__v: 0,
+				waitList: 0,
 			})
 			.exec()
 
@@ -71,4 +91,4 @@ app.get('/viewFacilities', async (req, res) => {
 })
 
 // export this route
-export default app
+export default route

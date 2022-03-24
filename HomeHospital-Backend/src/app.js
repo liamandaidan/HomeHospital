@@ -9,7 +9,7 @@ const app = express();
 // Run the application
 try {
   await RunApp(app);
-  await populateWaitlists();
+  // await populateWaitlists()
 } catch (error) {
   console.error(error.message);
   process.exit(1);

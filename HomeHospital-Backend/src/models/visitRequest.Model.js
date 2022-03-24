@@ -13,6 +13,14 @@ const visitRequestSchema = new mongoose.Schema({
 		type: String,
 		required: true,
 	},
+	latitude: {
+		type: Number,
+		immutable: true,
+	},
+	longitude: {
+		type: Number,
+		immutable: true,
+	},
 	patient: {
 		type: mongoose.Schema.Types.ObjectId,
 		ref: 'Patient',
@@ -42,7 +50,7 @@ const visitRequestSchema = new mongoose.Schema({
 	},
 	waitListTime: {
 		type: String,
-		default: null
+		default: null,
 	},
 	dateTime: {
 		type: Date,
