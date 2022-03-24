@@ -15,6 +15,7 @@ import { HomeHospitalContext } from "./HomeHospitalContext";
 function SymptomsForm() {
   const [additionalInfo, setAdditionalInfo] = useState("");
   const [modalState, setModalState] = useState(false);
+  
 
   const { _id, patient_id } = useContext(HomeHospitalContext);
   const [hospitalID, setHospitalID] = _id;
@@ -62,10 +63,16 @@ function SymptomsForm() {
 
   const handleSymptomsChange = (e, index) => {
     const { name, value } = e.target;
+    const letters = /^[A-Za-z ]+$/;
 
-    const list = [...symptomsList];
-    list[index][name] = value;
-    setSymptomsList(list);
+    if( !value.match(letters)) {
+      alert("please enter valid characters!");
+    } else {
+      const list = [...symptomsList];
+      list[index][name] = value;
+      setSymptomsList(list);
+    }
+
   };
 
   const handleSeverityChange = (e, index) => {
@@ -81,6 +88,7 @@ function SymptomsForm() {
     console.log(hospitalID);
     console.log(symptomsList);
     console.log(additionalInfo);
+
     const list = [...symptomsList];
 
     console.log("this is the last value " + list[list.length - 1].description);
@@ -93,25 +101,40 @@ function SymptomsForm() {
     } else {
       alert("Please complete all fields");
     }
+
   };
 
-  const handleFormSubmit = () => {
-    axios
-      .post("http://localhost:4000/api/visitRequest/newRequest", {
-        patientID: patientID,
-        hospitalID: hospitalID,
-        symptomList: symptomsList,
-        additionalInfo: additionalInfo,
-      })
-      .then((response) => {
-        console.log(response);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+  const handleAdditonalChange = (e) => {
+    const { value } = e.target;
+    const letters = /^[A-Za-z ]+$/;
 
-    console.log("the form has been sent to backoffice!");
-    navigate("/user");
+    if( !value.match(letters)) {
+      alert("please enter valid characters!");
+    } else if(value === "") {
+      setAdditionalInfo(e.target.value);
+    } else {
+      setAdditionalInfo(e.target.value);
+    }
+  }
+
+  const handleFormSubmit = () => {
+      axios
+        .post("http://localhost:4000/api/visitRequest/newRequest", {
+          patientID: patientID,
+          hospitalID: hospitalID,
+          symptomList: symptomsList,
+          additionalInfo: additionalInfo,
+        })
+        .then((response) => {
+          console.log(response);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+  
+      console.log("the form has been sent to backoffice!");
+      navigate("/user");
+    
   };
 
   const AlertModal = (props) => {
@@ -213,7 +236,8 @@ function SymptomsForm() {
                 <Form.Control
                   as="textarea"
                   rows={3}
-                  onChange={(e) => setAdditionalInfo(e.target.value)}
+                  value={additionalInfo}
+                  onChange={handleAdditonalChange}
                 />
               </div>
               <div className="submit-btn-div">
