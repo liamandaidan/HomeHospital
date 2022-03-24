@@ -31,6 +31,7 @@ app.use('/testP', test)
 
 // NO validation needed for tokens on these 3 routes
 app.use('/register', register)
+app.use('/registerP', checkMayAccessAdminPage)
 app.use('/registerP', registerP)
 app.use('/registerA', registerA)
 app.use('/login', login)

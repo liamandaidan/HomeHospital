@@ -22,21 +22,28 @@ export const logUserIn = async (req, res, next) => {
 	if (patient) {
 		const isAuthorized = await compare(password, patient.password)
 		if (isAuthorized) {
-			const isAlreadyLoggedIn = await checkAlreadyLoggedIn(req)
+			const isAlreadyLoggedIn = await checkPatientAlreadyLoggedIn(req)
 			// console.log('Return from function is ' + isAlreadyLoggedIn)
 			if (isAlreadyLoggedIn === email) {
 				console.log('User is already logged in!')
-				res.status(401).send({ message: 'Already Logged in' })
+				res.status(202).send({ message: 'Already Logged in' })
 				return
+			} else if(isAlreadyLoggedIn === "bad token") {
+				res.status(403).send({ message: 'Login Failed!!!' })
+				console.log('Bad token')
+				return
+			} else {
+				req.patientId = patient._id
+				res.locals.patientId = patient.id
+				next();
 			}
-			req.patientId = patient._id
 			
 		} else {
 			res.status(403).send({ message: 'Login Failed!!!' })
 			console.log('Bad password')
 			return
 		}
-		next()
+		//next()
 	} else {
 		res.status(403).send({ message: 'Login Failed!!!' })
 		console.log('No User found')
@@ -44,32 +51,66 @@ export const logUserIn = async (req, res, next) => {
 	}
 }
 
-const checkAlreadyLoggedIn = async (req) => {
+const checkPatientAlreadyLoggedIn = async (req) => {
 	const refT = req.cookies['refreshTokenCookie']
-	// console.log(`______________________ ${refT}`)
-	if (refT) {
+	if(refT) {
 		try {
-			const email = jwt.verify(refT, ENV.REFRESHTOKEN_TEST_SECRET)
-			// console.log(`----------------Check the verify value: ${email}`)
-			const isLoggedIn = await RefToken.findOne({ token: refT })
-			if (isLoggedIn != null) {
-				if (isLoggedIn.email === email) {
-					// console.log('Email in function is ' + email)
-					return email
+			const verifiedEmail = jwt.verify(refT, ENV.PATIENTREFRESHTOKEN_SECRET);
+			const validPatient = await PatientModel.findOne({ email: verifiedEmail });
+			if(validPatient) {
+				const isLoggedIn = await RefToken.findOne({ token: refT });
+				if(isLoggedIn) {
+					return verifiedEmail;
 				} else {
-					return null
+					return null;
 				}
-			} else {
-				return null
 			}
-		} catch (err) {
-			return null
+		} catch (err) {//they gave us a bad token
+			return "bad token";
 		}
-	} else {
-		// console.log(`No Ref Token`)
-		return null
-	}
+	} 
 }
+
+const checkPractitionerAlreadyLoggedIn = async (req) => {
+	const refT = req.cookies['refreshTokenCookie']
+	if(refT) {
+		try {
+			const verifiedEmail = jwt.verify(refT, ENV.EMPLOYEEREFRESHTOKEN_SECRET);
+			const validPractitioner = await PractitionerModel.findOne({ email: verifiedEmail });
+			if(validPractitioner) {
+				const isLoggedIn = await RefToken.findOne({ token: refT });
+				if(isLoggedIn) {
+					return verifiedEmail;
+				} else {
+					return null;
+				}
+			}
+		} catch (err) {//they gave us a bad token
+			return "bad token";
+		}
+	} 
+}
+
+const checkAdminAlreadyLoggedIn = async (req) => {
+	const refT = req.cookies['refreshTokenCookie']
+	if(refT) {
+		try {
+			const verifiedEmail = jwt.verify(refT, ENV.EMPLOYEEREFRESHTOKEN_SECRET);
+			const validAdmin = await AdministratorModel.findOne({ email: verifiedEmail });
+			if(validAdmin) {
+				const isLoggedIn = await RefToken.findOne({ token: refT });
+				if(isLoggedIn) {
+					return verifiedEmail;
+				} else {
+					return null;
+				}
+			}
+		} catch (err) {//they gave us a bad token
+			return "bad token";
+		}
+	} 
+}
+
 
 export const logAdministratorIn = async (req, res, next) => {
 	const { email, password } = req.body
@@ -85,21 +126,27 @@ export const logAdministratorIn = async (req, res, next) => {
 	if (administrator) {
 		const isAuthorized = await compare(password, administrator.password)
 		if (isAuthorized) {
-			const isAlreadyLoggedIn = await checkAlreadyLoggedIn(req)//should still work?
-			// console.log('Return from function is ' + isAlreadyLoggedIn)
+			const isAlreadyLoggedIn = await checkAdminAlreadyLoggedIn(req)
 			if (isAlreadyLoggedIn === email) {
 				console.log('User is already logged in!')
-				res.status(401).send({ message: 'Already Logged in' })
+				res.status(202).send({ message: 'Already Logged in' })
 				return
+			} else if(isAlreadyLoggedIn === "bad token") {
+				res.status(403).send({ message: 'Login Failed!!!' })
+				console.log('Bad token')
+				return
+			} else {
+				req.adminId = administrator.adminId
+				res.locals.adminId = administrator.id
+				next();
 			}
-			req.adminId = administrator.adminId
 			
 		} else {
 			res.status(403).send({ message: 'Login Failed!!!' })
 			console.log('Bad password')
 			return
 		}
-		next()
+		//next()
 	} else {
 		res.status(403).send({ message: 'Login Failed!!!' })
 		console.log('No User found')
@@ -122,21 +169,27 @@ export const logPractitionerIn = async (req, res, next) => {
 	if (practitioner) {
 		const isAuthorized = await compare(password, practitioner.password)
 		if (isAuthorized) {
-			const isAlreadyLoggedIn = await checkAlreadyLoggedIn(req)//should still work?
-			// console.log('Return from function is ' + isAlreadyLoggedIn)
+			const isAlreadyLoggedIn = await checkPractitionerAlreadyLoggedIn(req)
 			if (isAlreadyLoggedIn === email) {
 				console.log('User is already logged in!')
-				res.status(401).send({ message: 'Already Logged in' })
+				res.status(202).send({ message: 'Already Logged in' })
 				return
+			} else if(isAlreadyLoggedIn === "bad token") {
+				res.status(403).send({ message: 'Login Failed!!!' })
+				console.log('Bad token')
+				return
+			} else {
+				req.practitionerId = practitioner.id
+				res.locals.practitionerId = practitioner.id
+				next();
 			}
-			req.practitionerId = practitioner.practitionerId
 			
 		} else {
 			res.status(403).send({ message: 'Login Failed!!!' })
 			console.log('Bad password')
 			return
 		}
-		next()
+		//next()
 	} else {
 		res.status(403).send({ message: 'Login Failed!!!' })
 		console.log('No User found')

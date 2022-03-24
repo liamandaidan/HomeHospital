@@ -8,8 +8,8 @@ import {
 import PatientModel from '../../models/patient.Model.js'
 //import PractitionerModel from '../../models/practitioner.Model.js'
 
-const ACCESSTOKEN_TEST_SECRET = ENV.ACCESSTOKEN_TEST_SECRET
-const REFRESHTOKEN_TEST_SECRET = ENV.REFRESHTOKEN_TEST_SECRET
+const ACCESSTOKEN_KEY = ENV.PATIENTACCESSTOKEN_SECRET
+const REFRESHTOKEN_KEY = ENV.PATIENTREFRESHTOKEN_SECRET
 
 /*This method generates an access token. It is called as middleware whenever a user attempts to log in. It calls the method 
 to generate a refresh token as well, so there should always be both together. */
@@ -18,7 +18,7 @@ export const generateAccessToken = (req, res, next) => {
 	const id = req.patientId
 	const accessToken = jwt.sign(
 		{ email: user.email, patientId: req.patientId },
-		ACCESSTOKEN_TEST_SECRET,
+		ACCESSTOKEN_KEY,
 		{ expiresIn: '30s' }
 	) //create token, expires in 30 seconds
 	const refreshToken = generateRefreshToken(user.email) //create non-expiring token with same user email
@@ -34,7 +34,7 @@ export const generateAccessToken = (req, res, next) => {
 }
 
 const generateRefreshToken = (email) => {
-	const refreshToken = jwt.sign(email, REFRESHTOKEN_TEST_SECRET)
+	const refreshToken = jwt.sign(email, REFRESHTOKEN_KEY)
 	return refreshToken
 }
 
@@ -88,7 +88,7 @@ export const checkAccessToken = async (req, res, next) => {
 		try {
 			const validAccessToken = jwt.verify(
 				accessToken,
-				ACCESSTOKEN_TEST_SECRET
+				ACCESSTOKEN_KEY
 			) //jwt.verify returns the entire token. By accessing valid.email, we get only the payload of the token, the user's email
 			
 			// check to ensure that the type of user making the request is a patient
@@ -163,7 +163,7 @@ const refreshAccessToken = (refreshToken, oldAccessToken) => {
 				if (token) {
 					jwt.verify(
 						refreshToken,
-						REFRESHTOKEN_TEST_SECRET,
+						REFRESHTOKEN_KEY,
 						(err, result) => {
 							if (err) {
 								reject()
@@ -173,7 +173,7 @@ const refreshAccessToken = (refreshToken, oldAccessToken) => {
 								const pId = oldPayload.patientId
 								const newAccessToken = jwt.sign(
 									{ email: email, patientId: pId },
-									ACCESSTOKEN_TEST_SECRET,
+									ACCESSTOKEN_KEY,
 									{ expiresIn: '30s' }
 								)
 								resolve(newAccessToken)

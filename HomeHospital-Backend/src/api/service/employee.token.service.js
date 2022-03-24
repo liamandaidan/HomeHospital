@@ -17,6 +17,10 @@ import AdministratorModel from '../../models/administrator.Model.js'
 const ACCESSTOKEN_TEST_SECRET = ENV.ACCESSTOKEN_TEST_SECRET
 const REFRESHTOKEN_TEST_SECRET = ENV.REFRESHTOKEN_TEST_SECRET
 
+const EMPLOYEE_ACCESS_KEY = ENV.EMPLOYEEACCESSTOKEN_SECRET
+const EMPLOYEE_REFRESH_KEY = ENV.EMPLOYEEREFRESHTOKEN_SECRET
+
+
 /*This method generates an access token. Every login attempt will have an email, but an administrator logging in will have an adminId, whereas a 
 practitioner logging in will have a practitionerId. We try to get both, and see which one returns an actual value to figure out which 
 type of user is logging in */
@@ -30,15 +34,17 @@ export const generateEmployeeAccessToken = (req, res, next) => {
 	if(isAnAdmin) {
 		accessToken = jwt.sign(
 			{ email: user.email, adminId: req.adminId },
-			ACCESSTOKEN_TEST_SECRET,
+			EMPLOYEE_ACCESS_KEY,
 			{ expiresIn: '30s' }
 		) 
+		const refreshToken = generateEmployeeRefreshToken(user.email)
 	} else if (isAPractitioner) {
 		accessToken = jwt.sign(
 			{ email: user.email, practitionerId: req.practitionerId },
-			ACCESSTOKEN_TEST_SECRET,
+			EMPLOYEE_ACCESS_KEY,
 			{ expiresIn: '30s' }
 		) 
+		const refreshToken = generateEmployeeRefreshToken(user.email)
 	} else {
 		return res.status(401).json({ message: 'Authorization Failed' })
 	}
@@ -56,8 +62,10 @@ export const generateEmployeeAccessToken = (req, res, next) => {
 }
 
 const generateEmployeeRefreshToken = (email) => {
-	const refreshToken = jwt.sign(email, REFRESHTOKEN_TEST_SECRET)
+	
+	const refreshToken = jwt.sign(email, EMPLOYEE_REFRESH_KEY)
 	return refreshToken
+	
 }
 
 /*
@@ -106,11 +114,13 @@ export const checkEmployeeAccessToken = async (req, res, next) => {
 	}
 
 	if (allTokensPresent) {
-		try {
+		try {			
 			const validAccessToken = jwt.verify(
 				accessToken,
-				ACCESSTOKEN_TEST_SECRET
-			) //jwt.verify returns the entire token. By accessing valid.email, we get only the payload of the token, the user's email
+				EMPLOYEE_ACCESS_KEY
+			)
+
+			 //jwt.verify returns the entire token. By accessing valid.email, we get only the payload of the token, the user's email
 			// console.log(`Access token still valid: ${validAccessToken.email}`)
 			res.locals.accessT = accessToken
 			res.locals.refreshT = refreshToken
@@ -133,8 +143,7 @@ export const checkEmployeeAccessToken = async (req, res, next) => {
 			next()
 		} catch (err) {
 			if (err.name == 'TokenExpiredError') {
-				console.log('Token is expired')
-				console.log('Access token invalid, time to check refresh token')
+				console.log('Access Token is expired, time to check refresh token')				
 				refreshEmployeeAccessToken(refreshToken, accessToken).then(
 					(newAccessToken) => {
 						if (newAccessToken) {
@@ -194,15 +203,16 @@ const refreshEmployeeAccessToken = (refreshToken, oldAccessToken) => {
 			.exec()
 			.then((token) => {
 				if (token) {
+					const userType = jwt.decode(refreshToken);
+
 					jwt.verify(
 						refreshToken,
-						REFRESHTOKEN_TEST_SECRET,
+						EMPLOYEE_ACCESS_KEY,
 						(err, result) => {
 							if (err) {
 								reject()
 							} else {
 								const email = result
-								const oldPayload = jwt.decode(oldAccessToken)
 								let newAccessToken
 								const isAnAdmin = oldPayload.adminId
 								const isAPractitioner = oldPayload.practitionerId
@@ -212,7 +222,7 @@ const refreshEmployeeAccessToken = (refreshToken, oldAccessToken) => {
 								if(isAnAdmin) {
 									newAccessToken = jwt.sign(
 										{ email: email, adminId: oldPayload.adminId },
-										ACCESSTOKEN_TEST_SECRET,
+										EMPLOYEE_ACCESS_KEY,
 										{ expiresIn: '30s' }
 									)
 									console.log("User is an administrator, adminId is " + oldPayload.adminId);
@@ -220,7 +230,7 @@ const refreshEmployeeAccessToken = (refreshToken, oldAccessToken) => {
 									const iDNum = oldPayload.practitionerId
 									newAccessToken = jwt.sign(
 										{ email: email, practitionerId: oldPayload.practitionerId },
-										ACCESSTOKEN_TEST_SECRET,
+										EMPLOYEE_ACCESS_KEY,
 										{ expiresIn: '30s' }
 									)
 									console.log("User is a practitioner, practitionerId is " + oldPayload.practitionerId);
