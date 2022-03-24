@@ -3,7 +3,7 @@ import mongoose from 'mongoose'
 const symptomSchema = new mongoose.Schema({
 	description: {
 		type: String,
-		minlength:1,
+		minlength: 1,
 		maxlength: 50,
 		required: true,
 	},

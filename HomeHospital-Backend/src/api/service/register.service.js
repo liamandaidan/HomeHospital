@@ -27,12 +27,28 @@ export const registerUser = async (req) => {
 		contactPhoneNumber,
 	} = req.body
 
-	let valsFromBody = [firstName, lastName, email, password, streetAddress, cityName, provName, postalCode, HCnumber, gender, dateOfBirth, phoneNumber, contactFirstName, contactLastName, contactPhoneNumber];
-	if(valsFromBody.includes(undefined) || valsFromBody.includes(null) || valsFromBody.includes("")) {
-		console.log("Detected a missing field in registerUser");
-		return -1;
+	let valsFromBody = [
+		firstName,
+		lastName,
+		email,
+		password,
+		streetAddress,
+		cityName,
+		provName,
+		postalCode,
+		HCnumber,
+		gender,
+		dateOfBirth,
+		phoneNumber,
+	]
+	if (
+		valsFromBody.includes(undefined) ||
+		valsFromBody.includes(null) ||
+		valsFromBody.includes('')
+	) {
+		console.log('Detected a missing field in registerUser')
+		return -1
 	}
-
 
 	// check if user exists
 	const result = await PatientModel.exists({ email: email })
@@ -85,7 +101,7 @@ export const registerUser = async (req) => {
 
 /**
  * This function is mostly identical to the above function for registering a patient
- * @param {} req 
+ * @param {} req
  */
 export const registerPractitioner = async (req) => {
 	const { genSalt, hash } = bcrypt
@@ -102,15 +118,30 @@ export const registerPractitioner = async (req) => {
 		postalCode,
 		employeeNum,
 		role,
-		phoneNumber
+		phoneNumber,
 	} = req.body
 
-	let valsFromBody = [firstName, lastName, email, password, streetAddress, cityName, provName, postalCode, employeeNum, role, phoneNumber];
-	if(valsFromBody.includes(undefined) || valsFromBody.includes(null) || valsFromBody.includes("")) {
-		console.log("Detected a missing field in registerPractitioner");
-		return -1;
+	let valsFromBody = [
+		firstName,
+		lastName,
+		email,
+		password,
+		streetAddress,
+		cityName,
+		provName,
+		postalCode,
+		employeeNum,
+		role,
+		phoneNumber,
+	]
+	if (
+		valsFromBody.includes(undefined) ||
+		valsFromBody.includes(null) ||
+		valsFromBody.includes('')
+	) {
+		console.log('Detected a missing field in registerPractitioner')
+		return -1
 	}
-
 
 	// check if practitioner exists
 	const result = await PractitionerModel.exists({ employeeNum: employeeNum })
