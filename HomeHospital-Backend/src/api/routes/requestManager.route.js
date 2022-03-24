@@ -3,7 +3,10 @@ import patientModel from '../../models/patient.Model.js'
 import medicalFacilityModel from '../../models/medicalFacility.Model.js'
 import mongoose from 'mongoose'
 import visitRequestModel from '../../models/visitRequest.Model.js'
-import { completeCurrentRequest } from '../service/request.service.js'
+import {
+	completeCurrentRequest,
+	getHospitalWaitList,
+} from '../service/request.service.js'
 
 const route = express.Router()
 
@@ -45,5 +48,22 @@ route.get('/hospitalWaitList/:hospitalId', async (req, res) => {
 
 route.get('/viewAllLists', (req, res) => {
 	// view the lists from all hospitals
+})
+
+route.get('/hospitalWaitList/:hospitalId', async (req, res) => {
+	const hospitalId = req.params
+
+	const vaildHospitalId = mongoose.Types.ObjectId.isValid(hospitalId)
+	try {
+		if (vaildHospitalId) {
+			const waitList = getHospitalWaitList(hospitalId)
+		} else {
+			throw new Error(
+				'Hospital Id passed into the hospital waitList is invalid'
+			)
+		}
+	} catch (error) {
+		console.log(error.message)
+	}
 })
 export default route

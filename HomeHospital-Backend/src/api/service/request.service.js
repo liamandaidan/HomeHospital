@@ -81,3 +81,7 @@ export const cancelCurrentRequest = async (patientId) => {
 		return false
 	}
 }
+
+export const getHospitalWaitList = async (hospitalId) => {
+	
+}
