@@ -3,16 +3,16 @@ import patientModel from '../../models/patient.Model.js'
 import medicalFacilityModel from '../../models/medicalFacility.Model.js'
 import mongoose from 'mongoose'
 import visitRequestModel from '../../models/visitRequest.Model.js'
-import { completeVisitRequest } from '../service/request.service.js'
+import { completeCurrentRequest } from '../service/request.service.js'
 
 const route = express.Router()
 
-// 
+//
 route.put('/completeRequest', async (req, res) => {
-	const patientId = req.patientId
+	const { patientId } = req.body
 
-	if (await completeVisitRequest(patientId)) {
-		res.status(200).send({message: 'Request Completed'})
+	if (await completeCurrentRequest(patientId)) {
+		res.status(200).send({ message: 'Request Completed' })
 	} else {
 		res.status(400).send({ message: 'Failed to complete visit request!' })
 	}
@@ -42,9 +42,8 @@ route.get('/hospitalWaitList/:hospitalId', async (req, res) => {
 		res.status(400).send({ message: 'There was an error' })
 	}
 })
- 
 
-route.get('/viewAllLists', (req,res)=> {
-    // view the lists from all hospitals
+route.get('/viewAllLists', (req, res) => {
+	// view the lists from all hospitals
 })
-export  default route
+export default route

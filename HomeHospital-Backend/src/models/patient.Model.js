@@ -66,8 +66,11 @@ patientSchema.methods.newRequest = function (requestId, requestHospitalId) {
 		if (this.currentRequest != null) {
 			throw new Error('Patient already has an active request!!')
 		} else {
-			if (mongoose.Types.ObjectId.isValid(requestId) && mongoose.Types.ObjectId.isValid(requestHospitalId)) {
-				this.currentRequest 		= requestId
+			if (
+				mongoose.Types.ObjectId.isValid(requestId) &&
+				mongoose.Types.ObjectId.isValid(requestHospitalId)
+			) {
+				this.currentRequest = requestId
 				this.currentHospital = requestHospitalId
 				return
 			} else {
@@ -86,12 +89,13 @@ patientSchema.methods.completeRequest = function () {
 	try {
 		if (this.currentRequest) {
 			this.pastRequests.push(this.currentRequest)
-			this.currentRequest 	= null
-			this.currentHospital 	= null;
+			this.currentRequest = null
+			this.currentHospital = null
 		} else {
 			throw new Error('Patient has no request to move to be completed')
 		}
 	} catch (error) {
+		console.log('completed Request from patient model')
 		console.log(error.message)
 	}
 }
@@ -101,8 +105,8 @@ patientSchema.methods.completeRequest = function () {
 patientSchema.methods.cancelRequest = function () {
 	try {
 		if (this.currentRequest) {
-			this.currentRequest 	= null
-			this.currentHospital 	= null
+			this.currentRequest = null
+			this.currentHospital = null
 		} else {
 			throw new Error('Patient Does not have an active request to cancel')
 		}

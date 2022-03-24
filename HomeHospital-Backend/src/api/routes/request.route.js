@@ -3,8 +3,10 @@ import patientModel from '../../models/patient.Model.js'
 import medicalFacilityModel from '../../models/medicalFacility.Model.js'
 import mongoose from 'mongoose'
 import visitRequestModel from '../../models/visitRequest.Model.js'
-import { CancelCurrentRequest, completeVisitRequest } from '../service/request.service.js'
-
+import {
+	completeCurrentRequest,
+	cancelCurrentRequest,
+} from '../service/request.service.js'
 
 const route = express.Router()
 
@@ -212,26 +214,22 @@ route.get('/targetRequest/:requestId', async (req, res) => {
 	}
 })
 
-route.delete('/cancel',async (req, res)=> {
+route.delete('/cancel', async (req, res) => {
 	// check if they have a current request
 	const patientId = req.patientId
 	try {
-		console.log(patient)
-		console.log('Current requstst: ' + patient.user)
-
 		// Ensure that the patientId is valid
-		if(await CancelCurrentRequest(patientId)){
-			// Delete the visit request and all references to it			
+		if (await cancelCurrentRequest(patientId)) {
+			// Delete the visit request and all references to it
 			console.log('request was canceled')
-			res.status(200).send({message: 'Request was canceled'})
+			res.status(200).send({ message: 'Request was canceled' })
 		} else {
-			res.status(400).send({message: 'Cancel not processed'})
+			res.status(400).send({ message: 'Cancel not processed' })
 		}
 	} catch (error) {
-		console.error("Cancel Request Error: " + error.message)
-		res.status(400).send({message: "Cancel Request Error"})
+		console.error('Cancel Request Error: ' + error.message)
+		res.status(400).send({ message: 'Cancel Request Error' })
 	}
 })
-
 
 export default route
