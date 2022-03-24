@@ -16,14 +16,14 @@ const addressSchema = new mongoose.Schema({
 		type: String,required: [true, 'Please enter a City'], 
 		minlength: [2, 'Minimum City Length is 2 characters'],
 		maxlength: [30, 'Maximum City Length is 30 Characters'],
-		//validate:[validator.isAlpha, 'Please enter a Valid City, Letters Only']
+		validate:[validator.isAlpha, 'Please enter a Valid City, Letters Only']
 	},
 	provName: {
 		type: String,
 		maxlength: [3,'Maximum length for Province Name is 3'],
 		required: [true, 'Please Enter a Province Name'], 
 		uppercase: true,
-		//validate:[validator.isAlpha, 'Please enter a Province, Letters Only']
+		validate:[validator.isAlpha, 'Please enter a Province, Letters Only']
 	},
 	postalCode: {
 		type: String,

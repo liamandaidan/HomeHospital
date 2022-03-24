@@ -22,12 +22,12 @@ const visitRequestSchema = new mongoose.Schema({
 	patientFirstName: {
 		type: String,
 		required: [true, 'Patients First Name is Required'],
-		//validate:[validator.isAlpha, 'Only Letters allowed'],
+		validate:[validator.isAlpha, 'Only Letters allowed'],
 	},
 	patientLastName: {
 		type: String,
 		required: [true, 'Patients Last Name is Required'],
-		//validate:[validator.isAlpha, 'Only Letters allowed'],
+		validate:[validator.isAlpha, 'Only Letters allowed'],
 	},
 	symptoms: {
 		type: [symptomSchema],

@@ -9,7 +9,7 @@ const patientSchema = new mongoose.Schema({
 		required: [true, 'Please enter an Email'],
 		lowercase: true,
 		unique: [true, 'This Email is already in use'], 
-		//validate:[validator.isEmail, 'Please enter a Valid Email'],
+		validate:[validator.isEmail, 'Please enter a Valid Email'],
 	},
 	password: {
 		type: String,
@@ -29,7 +29,7 @@ const patientSchema = new mongoose.Schema({
 	dateOfBirth: {
 		type: Date,
 		required: [true, 'Please enter your Date of Birth'], 
-		//validate:[validator.isDate, 'This amazingly was not a date'],
+		validate:[validator.isDate, 'This amazingly was not a date'],
 	},
 	user: {
 		type: UserSchema,
@@ -48,7 +48,7 @@ const patientSchema = new mongoose.Schema({
 		phoneNumber: {
 			type: String,
 			default: null,
-			validate:[validator.isMobilePhone, 'We need a real canadian phone number'],
+			//validate:[validator.isMobilePhone, 'We need a real canadian phone number'],
 		},
 	},
 	currentRequest: {
