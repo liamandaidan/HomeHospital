@@ -1,6 +1,7 @@
 import express from 'express'
 import patientModel from '../../models/patient.Model.js'
 import medicalFacilityModel from '../../models/medicalFacility.Model.js'
+import completedRequestModel from '../../models/completedRequest.model.js'
 import mongoose from 'mongoose'
 import visitRequestModel from '../../models/visitRequest.Model.js'
 import {
@@ -154,7 +155,7 @@ route.get('/allRequests', async (req, res) => {
 			const patient = await patientModel.findById(patientId)
 			// console.log(patient)
 
-			if (patient.requests.length == 0) {
+			if (patient.pastRequests.length == 0) {
 				console.log('No registered requests')
 				res.status(404).send({ message: 'No Current requests' })
 			} else {
@@ -162,9 +163,8 @@ route.get('/allRequests', async (req, res) => {
 				// send back to client
 
 				// find all DB entries with that patient id
-				const requestList = await visitRequestModel.find({
-					patient: patientId,
-				})
+				const requestList = await completedRequestModel.find({'request.patient': patientId})
+
 
 				console.log('Sent patient list of ALL requests')
 				res.status(200).send({
@@ -190,9 +190,7 @@ route.get('/targetRequest/:requestId', async (req, res) => {
 		// validate the users Id
 		const validUserId = mongoose.Types.ObjectId.isValid(requestId)
 		if (validUserId) {
-			// console.log(validUserId)
-			const request = await visitRequestModel.findById(requestId)
-			// console.log(patient)
+			const request = await completedRequestModel.findById(requestId)
 
 			if (request) {
 				console.log(
