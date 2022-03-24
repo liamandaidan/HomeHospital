@@ -71,7 +71,7 @@ const checkAlreadyLoggedIn = async (req) => {
 	}
 }
 
-export const logPractitionerIn = async (req, res, next) => {
+export const logAdministratorIn = async (req, res, next) => {
 	const { email, password } = req.body
 
 	if(email == null || email == undefined || password == null || password == undefined) {
@@ -108,7 +108,7 @@ export const logPractitionerIn = async (req, res, next) => {
 }
 
 
-export const logAdministratorIn = async (req, res, next) => {
+export const logPractitionerIn = async (req, res, next) => {
 	const { email, password } = req.body
 
 	if(email == null || email == undefined || password == null || password == undefined) {
@@ -129,7 +129,7 @@ export const logAdministratorIn = async (req, res, next) => {
 				res.status(401).send({ message: 'Already Logged in' })
 				return
 			}
-			req.practitioner_employeeNum = practitioner.employeeNum
+			req.practitionerId = practitioner.practitionerId
 			
 		} else {
 			res.status(403).send({ message: 'Login Failed!!!' })

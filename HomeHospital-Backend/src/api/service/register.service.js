@@ -2,6 +2,8 @@ import PatientModel from '../../models/patient.Model.js'
 import PractitionerModel from '../../models/practitioner.Model.js'
 import AdministratorModel from '../../models/administrator.Model.js'
 import bcrypt from 'bcryptjs'
+import jwt from 'jsonwebtoken'
+
 
 const regStatus = {
 	status: false,
@@ -101,20 +103,38 @@ export const registerPractitioner = async (req) => {
 		cityName,
 		provName,
 		postalCode,
-		employeeNum,
+		practitionerId,
 		role,
-		phoneNumber
+		phoneNumber,
+		facilityId
 	} = req.body
+	
+	const adminAccessToken = req.cookies['accessTokenCookie']
+	
+	if(adminAccessToken) {
+		const payload = jwt.decode(adminAccessToken);
+		const adminId = payload.adminId
+		console.log(adminId);
+		const validAdmin = await AdministratorModel.exists({adminId: adminId})
+		if(!adminId || !validAdmin) {
+			console.log("A non-administrator attempted to register a practitioner");
+			return -1;
+		}
+	} else {
+		console.log("Access token not present");
+		return -1
+	}
 
-	let valsFromBody = [firstName, lastName, email, password, streetAddress, cityName, provName, postalCode, employeeNum, role, phoneNumber];
+	let valsFromBody = [firstName, lastName, email, password, streetAddress, cityName, provName, postalCode, practitionerId, role, phoneNumber];
 	if(valsFromBody.includes(undefined) || valsFromBody.includes(null) || valsFromBody.includes("")) {
+		valsFromBody.forEach(element => console.log(element))
 		console.log("Detected a missing field in registerPractitioner");
 		return -1;
 	}
 
 
 	// check if practitioner exists
-	const result = await PractitionerModel.exists({ employeeNum: employeeNum })
+	const result = await PractitionerModel.exists({ practitionerId })
 	// If they exist return an error status code
 	if (result?._id) {
 		console.log('user Id: ' + result?._id)
@@ -131,7 +151,7 @@ export const registerPractitioner = async (req) => {
 
 	// verify practitioner object
 	const newPractitioner = await PractitionerModel.create({
-		employeeNum: employeeNum,
+		practitionerId: practitionerId,
 		role: role,
 		email: email,
 		password: hashedPassword,
@@ -146,6 +166,7 @@ export const registerPractitioner = async (req) => {
 			},
 			phoneNumber: phoneNumber,
 		},
+		facilityId: facilityId
 	})
 	newPractitioner.save()
 

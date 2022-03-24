@@ -20,8 +20,12 @@ const administratorSchema = new mongoose.Schema({
 		required: true,
 		lowercase: true,
 		unique: true,
-	}
-    
+	},
+    password: {
+		type: String,
+		required: true,
+		minlength: 10,
+	},
 })
 
 export default mongoose.model('Administrator', administratorSchema)
