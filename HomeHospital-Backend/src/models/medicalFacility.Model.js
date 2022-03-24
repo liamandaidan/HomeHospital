@@ -5,11 +5,11 @@ import addressSchema from './address.Schema.js'
 const medicalFacility = new mongoose.Schema({
 	hospitalName: {
 		type: String,
-		required: true,
+		required: [true, 'Hospital Name is required'],
 	},
 	address: {
 		type: addressSchema,
-		required: true,
+		required: [true,'An Address is required'],
 	},
 	latitude: {
 		type: Number,
@@ -22,6 +22,7 @@ const medicalFacility = new mongoose.Schema({
 	phoneNumber: {
 		type: String,
 		default: null,
+		//validate:[validator.isMobilePhone, 'Please enter a Valid Phone Number']
 	},
 	waitTime: {
 		type: String,
@@ -29,7 +30,7 @@ const medicalFacility = new mongoose.Schema({
 	},
 	hospitalDesc: {
 		type: String,
-		maxlength: 100,
+		maxlength: [100,'Maximum Length is 100'],
 		defult: null,
 	},
 	practitioners: {

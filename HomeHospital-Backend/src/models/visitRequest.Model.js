@@ -7,28 +7,30 @@ const visitRequestSchema = new mongoose.Schema({
 	requestHospitalId: {
 		type: mongoose.Schema.Types.ObjectId,
 		ref: 'MedicalFacility',
-		required: true,
+		required: [true, 'A facility is Needed']
 	},
 	requestHospitalName: {
 		type: String,
-		required: true,
+		required: [true, 'A Hospital Name is Required'],
 	},
 	patient: {
 		type: mongoose.Schema.Types.ObjectId,
 		ref: 'Patient',
-		required: true,
+		required: [true, 'Patient is Required']
 	},
 	patientFirstName: {
 		type: String,
-		required: true,
+		required: [true, 'Patients First Name is Required'],
+		//validate:[validator.isAlpha, 'Only Letters allowed'],
 	},
 	patientLastName: {
 		type: String,
-		required: true,
+		required: [true, 'Patients Last Name is Required'],
+		validate:[validator.isAlpha, 'Only Letters allowed'],
 	},
 	symptoms: {
 		type: [symptomSchema],
-		required: true,
+		required: [true, 'Symptoms are Required'],
 	},
 	additionalInfo: {
 		type: String,
