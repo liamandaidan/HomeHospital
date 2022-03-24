@@ -56,6 +56,8 @@ route.post('/newRequest', async (req, res) => {
 					patientLastName: patient.user.lastName,
 					requestHospitalId: hospital._id, //hospitalId,
 					requestHospitalName: hospital.hospitalName,
+					latitude: hospital.latitude,
+					longitude: hospital.longitude,
 					// sets the patients address by default to the starting address
 					startAddress: {
 						streetAddress: address.streetAddress,
