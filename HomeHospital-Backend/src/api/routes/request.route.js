@@ -211,5 +211,33 @@ route.get('/targetRequest/:requestId', async (req, res) => {
 	}
 })
 
+route.delete('/cancel',async (req, res)=> {
+	// check if they have a current request
+	const patientId = req.patientId
+	try {
+		
+		const patient = await patientModel.findById(patientId)
+		console.log(patient)
+		console.log('Current requstst: ' + patient.user)
+		if(patient.currentRequest){
+			// delete fro, DB and then remove from current
+			await visitRequestModel.findByIdAndDelete(patient.currentRequest)
+			patient.cancelRequest()
+			patient.save()
+
+			console.log('request was canceled')
+			res.status(200).send({message: 'Request was canceled'})
+		} else {
+			res.status(400).send({message: 'Cancel not processed'})
+		}
+	} catch (error) {
+		console.error("Cancel Request Error: " + error.message)
+		res.status(400).send({message: "Cancel Request Error"})
+	}
+
+	// delete if they do
+	// remove from DB
+})
+
 
 export default route

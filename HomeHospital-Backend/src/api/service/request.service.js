@@ -1,5 +1,6 @@
 import mongoose from 'mongoose'
 import CompletedRequestModel from '../../models/completedRequest.model.js'
+import patientModel from '../../models/patient.Model.js'
 import visitRequestModel from '../../models/visitRequest.Model.js'
 
 // Takes in a requestId, moves the request Object from the vistitRequest collection in the database
@@ -10,20 +11,29 @@ export const completeVisitRequest = async (requestId) => {
 		// Check to see that ID is valid and check that the document exists.
 		if (
 			mongoose.Types.ObjectId.isValid(requestId) &&
-			(await visitRequestModel.exists(requestId))
+			(await visitRequestModel.exists({ _id: requestId }))
 		) {
+			// console.log(requestId)
 			// Get the visit request and create a completed request from it.
 			const visitRequest = await visitRequestModel
 				.findById(requestId)
 				.exec()
 			const completedRequest = await CompletedRequestModel.create({
-				_id: requestId._id,
+				_id: requestId,
 				request: visitRequest,
 			})
 
 			//Finally delete the visit request and save the completed request.
-			await visitRequestModel.findOneAndDelete(requestId)
+			await visitRequestModel.findOneAndDelete({
+				_id: requestId,
+			})
+
 			completedRequest.save()
+
+			// Update the patients waitlist
+			const patient = await patientModel.findById(visitRequest.patient)
+			patient.completeRequest()
+			patient.save()
 			return true
 		} else {
 			console.error('Invalid Request Id. ID: ' + requestId)
@@ -31,6 +41,7 @@ export const completeVisitRequest = async (requestId) => {
 		}
 	} catch (error) {
 		console.error('Error: ' + error.message)
+		console.log('this error')
 		return false
 	}
 }
@@ -44,7 +55,7 @@ export const deleteVisitRequest = async (requestId) => {
 			mongoose.Types.ObjectId.isValid(requestId) &&
 			(await visitRequestModel.exists(requestId))
 		) {
-			await visitRequestModel.findOneAndDelete(requestId)
+			await visitRequestModel.findOneAndDelete({ _id: requestId })
 		}
 	} catch (error) {
 		console.log(error.message)
