@@ -1,0 +1,15 @@
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@900&display=swap");
+
+.title {
+  margin-left: 25px;
+  font-family: "Inter", sans-serif;
+}
+
+.title span {
+  color: #ec2baa;
+}
+
+.div-adminDisplay {
+    border: 1px solid #000000;
+    height: 500px;
+}

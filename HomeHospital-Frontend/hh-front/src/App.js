@@ -10,6 +10,7 @@ import Symptoms from "./pages/SymptomsPage";
 import Forget from "./pages/ForgotPassPage";
 import FA from "./pages/ForgotPassAlert";
 import Reset from "./pages/ResetForgotPass";
+import Admin from "./pages/Admin";
 import HospitalSelectionPage from "./pages/HospitalSelectionPage";
 import { HomeHospitalProvider } from "./components/HomeHospitalContext";
 import UserHomepage from "./pages/UserHomepage";
@@ -33,6 +34,7 @@ function App() {
           <Route path="/hospitals" element={<HospitalSelectionPage />} />
           <Route path="/symptoms" element={<Symptoms />} />
           <Route path="/home" element={<UserHomepage />} />
+          <Route path="/admin" element={<Admin />} />
 
           <Route
             path="/register"

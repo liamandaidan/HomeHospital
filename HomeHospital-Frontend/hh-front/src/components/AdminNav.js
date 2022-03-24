@@ -15,70 +15,18 @@ import axios from "axios";
 function UserNavBar() {
   let navigate = useNavigate();
 
-  const [firstName, setFirstName] = useState("");
-  const [lastName, setLastName] = useState("");
-
-  const { patient_id } = useContext(HomeHospitalContext);
-  const [patientID, setPatientID] = patient_id;
-
-  useEffect(() => {
-    axios
-      .post("http://localhost:4000/api/users/PatientInfoVisitRequest", {
-        patientId: patientID,
-      })
-      .then((response) => {
-        setFirstName(response.data.data.user.firstName);
-        setLastName(response.data.data.user.lastName);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  }, []);
-
-  function requestPage() {
-    navigate("/hospitals");
-  }
-
-  const handleHome = () => {
-    if ((patientID !== null) | (patientID !== undefined)) {
-      navigate("/home");
-    } else {
-      navigate("/");
-    }
-  };
-
-  const onHospital = () => {
-    navigate("/hospitals");
-  };
-
-  const handleOnLanding = () => {
-    navigate("/");
-  };
-
   const handleLogout = () => {
-    setPatientID(null);
     navigate("/");
   };
 
   return (
     <Navbar bg="light" expand="lg">
       <Container fluid>
-        <Navbar.Brand className={classes.title} onClick={handleOnLanding}>
-          HomeHospital<span>Patient</span>
+        <Navbar.Brand className={classes.title}>
+          HomeHospital<span>Administrator</span>
         </Navbar.Brand>
         <Navbar.Toggle aria-controls="navbarScroll" />
-        <Navbar.Collapse id="navbarScroll">
-          <Nav
-            className="me-auto my-2 my-lg-0"
-            style={{ maxHeight: "100px" }}
-            navbarScroll
-          >
-            <Nav.Link onClick={handleHome} className="ms-5">
-              Home
-            </Nav.Link>
-            <Nav.Link onClick={requestPage}>Requests</Nav.Link>
-            {/* <Nav.Link href="#action2">Symptoms</Nav.Link> */}
-          </Nav>
+        <Navbar.Collapse id="navbarScroll" className="justify-content-end">
           <div className="d-flex">
             <DropdownButton
               variant="btn-outline-light"
@@ -100,9 +48,6 @@ function UserNavBar() {
               className="me-5"
             >
               <Dropdown.Item href="#">Profile</Dropdown.Item>
-              <Dropdown.Item href="#" onClick={onHospital}>
-                Hospitals
-              </Dropdown.Item>
               <Dropdown.Item href="#">Notifications</Dropdown.Item>
               <Dropdown.Divider />
               <Dropdown.Item
