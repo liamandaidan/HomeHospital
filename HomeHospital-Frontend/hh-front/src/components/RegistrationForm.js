@@ -205,7 +205,9 @@ function RegistrationForm() {
   }
 
   function validateEmail() {
-    const pattern = new RegExp("^[a-zA-Z0-9_.-]+@[a-zA-Z]+[.][a-zA-Z]{2,}$");
+    const pattern = new RegExp(
+      "([!#-'*+/-9=?A-Z^-~-]+(.[!#-'*+/-9=?A-Z^-~-]+)*|\"([]!#-[^-~ \t]|(\\[\t -~]))+\")@([!#-'*+/-9=?A-Z^-~-]+(.[!#-'*+/-9=?A-Z^-~-]+)*|[[\t -Z^-~]*])"
+    );
     if (pattern.test(emailValue)) {
       document.getElementById("email").classList.add("is-valid");
       document.getElementById("email").classList.remove("is-invalid");

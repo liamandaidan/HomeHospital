@@ -5,18 +5,24 @@ import {
 } from "@react-google-maps/api";
 import React, {
   useCallback,
+  useContext,
   useEffect,
   useMemo,
   useRef,
   useState,
 } from "react";
+import { HomeHospitalContext } from "./HomeHospitalContext";
 import classes from "./Map.module.css";
 
 function Map() {
+  // context variables
+  const { longitude, latitude } = useContext(HomeHospitalContext);
+  const [hospitalLongitude, setHospitalLongitude] = longitude;
+  const [hospitalLatitude, setHospitalLatitude] = latitude;
   // variables
   const [travelTime, setTravelTime] = useState("");
-  const [latitude, setLatitude] = useState(0);
-  const [longitude, setLongitude] = useState(0);
+  const [userLatitude, setLatitude] = useState(0);
+  const [userLongitude, setLongitude] = useState(0);
   const mapRef = useRef();
   const center = useMemo(() => ({ lat: 51.0447, lng: -114.0719 }), []);
   const options = useMemo(
@@ -30,15 +36,15 @@ function Map() {
   useEffect(() => {
     if ("geolocation" in navigator) {
       navigator.geolocation.getCurrentPosition(function (position) {
-        setLatitude(position.coords.latitude);
-        setLongitude(position.coords.longitude);
-        console.log(latitude);
-        console.log(longitude);
+        setLatitude(position.coords.userLatitude);
+        setLongitude(position.coords.userLongitude);
+        console.log(userLatitude);
+        console.log(userLongitude);
       });
     } else {
       alert("Enable Geo-Location to get Travel Times");
     }
-  }, [latitude, longitude]);
+  }, [userLatitude, userLongitude]);
 
   const [responseData, setResponseData] = useState(null);
 
@@ -57,11 +63,11 @@ function Map() {
 
   const directionsServiceOptions = React.useMemo(() => {
     return {
-      destination: { lat: 51.07956590317617, lng: -113.9841688696898 },
-      origin: { lat: latitude, lng: longitude },
+      destination: { lat: hospitalLatitude, lng: hospitalLongitude },
+      origin: { lat: userLatitude, lng: userLongitude },
       travelMode: "DRIVING",
     };
-  }, [latitude, longitude]);
+  }, [userLatitude, userLongitude]);
 
   const onLoad = useCallback((map) => (mapRef.current = map), []);
 

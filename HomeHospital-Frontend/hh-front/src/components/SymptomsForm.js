@@ -18,8 +18,9 @@ function SymptomsForm() {
   const [additionalInfo, setAdditionalInfo] = useState("");
   const [modalState, setModalState] = useState(false);
 
-  const { _id } = useContext(HomeHospitalContext);
+  const { _id, newRequest } = useContext(HomeHospitalContext);
   const [hospitalID] = _id;
+  const [newRequestValue, setNewRequestValue] = newRequest;
 
   const navigate = useNavigate();
 
@@ -106,7 +107,7 @@ function SymptomsForm() {
       .catch((err) => {
         console.log(err);
       });
-
+    setNewRequestValue(true);
     console.log("the form has been sent to backoffice!");
     navigate("/home");
   };

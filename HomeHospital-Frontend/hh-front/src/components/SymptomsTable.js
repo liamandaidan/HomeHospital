@@ -1,14 +1,22 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import Table from "react-bootstrap/table";
 import axios from "axios";
 import Button from "react-bootstrap/Button";
+import { HomeHospitalContext } from "./HomeHospitalContext";
 
 function SymptomsTable() {
+  // context variables
+  const { requestId } = useContext(HomeHospitalContext);
+  const [requestIdValue, setRequestIdValue] = requestId;
+
   const [symptomsList, setSymptomsList] = useState([]);
 
   useEffect(() => {
+    console.log(requestIdValue);
     axios
-      .get("http://localhost:4000/api/visitRequest/currentRequest")
+      .get(
+        `http://localhost:4000/api/visitRequest/targetRequest/${requestIdValue}`
+      )
       .then((response) => {
         console.log(response.data.request);
         setSymptomsList(response.data.request.symptoms);

@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from "react";
+import React, { useContext } from "react";
 import UserNavBar from "../components/UserNavBar";
 import "../styles/UserHomepage.css";
 
@@ -16,7 +16,12 @@ import { HomeHospitalContext } from "../components/HomeHospitalContext";
 function UserHomepage() {
   const navigate = useNavigate();
 
+  // useContext to get new Request value
+  const { newRequest } = useContext(HomeHospitalContext);
+  const [newRequestValue, setNewRequestValue] = newRequest;
+
   const createNewRequest = () => {
+    setNewRequestValue(false);
     navigate("/hospitals");
   };
 

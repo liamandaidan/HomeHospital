@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { Col, Row } from "react-bootstrap";
 import backgroundLogin from "../images/bg.png";
 import LoginForm from "../components/LoginForm";
@@ -9,23 +9,6 @@ axios.defaults.withCredentials = true;
 
 function Login() {
   const navigate = useNavigate();
-
-  // useEffect(() => {
-  //   axios
-  //     .post("http://localhost:4000/api/users/PatientInfoVisitRequest", {
-  //       withCredentials: true,
-  //     })
-  //     .then((response) => {
-  //       if (response.status === "Error") {
-  //         navigate("/login");
-  //       } else {
-  //         navigate("/home");
-  //       }
-  //     })
-  //     .catch((err) => {
-  //       console.log(err);
-  //     });
-  // }, []);
 
   return (
     <div>

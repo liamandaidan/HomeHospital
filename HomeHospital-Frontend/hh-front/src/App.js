@@ -5,7 +5,7 @@ import Error from "./components/ErrorPage404";
 import Home from "./pages/Home";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
-import User from "./pages/User";
+import Request from "./pages/Request";
 import Symptoms from "./pages/SymptomsPage";
 import Forget from "./pages/ForgotPassPage";
 import FA from "./pages/ForgotPassAlert";
@@ -25,7 +25,7 @@ function App() {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/login" element={<Login />} />
-          <Route path="/user" element={<User />} />
+          <Route path="/request" element={<Request />} />
           <Route path="*" element={<Error />} />
           <Route path="/forget" element={<Forget />} />
           <Route path="/fa" element={<FA />} />
