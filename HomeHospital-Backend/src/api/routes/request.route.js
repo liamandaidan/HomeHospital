@@ -20,13 +20,16 @@ app.post('/newRequest', async (req, res) => {
 	const { hospitalId, symptomList, additionalInfo } = req.body
 	const patientId = req.patientId
 
-	if(!mongoose.Types.ObjectId.isValid(hospitalId) && !mongoose.Types.ObjectId.isValid(patientId)) {
-		console.log("patientId or hospitalIdis not valid")
+	if (
+		!mongoose.Types.ObjectId.isValid(hospitalId) &&
+		!mongoose.Types.ObjectId.isValid(patientId)
+	) {
+		console.log('patientId or hospitalIdis not valid')
 		res.status(400).send({ message: 'Error' })
 	}
 
-	if(symptomList.length < 1) {
-		console.log("symptomList is not valid")
+	if (symptomList.length < 1) {
+		console.log('symptomList is not valid')
 		res.status(400).send({ message: 'Error' })
 	}
 
@@ -73,6 +76,10 @@ app.post('/newRequest', async (req, res) => {
 				patient.requests.push(request._id)
 				await patient.save()
 
+				// Add the request to the hospitals waitlist
+				hospital.waitList.push(request._id)
+				await hospital.save()
+
 				res.send({ message: 'Request entered', RequestId: request._id })
 			} catch (error) {
 				console.log(`Error: ${error.message}`)
@@ -91,9 +98,9 @@ app.post('/newRequest', async (req, res) => {
 app.get('/currentRequest', async (req, res) => {
 	// return the current users request
 	const patientId = req.patientId
-	
-	if(patientId == null || patientId == undefined || patientId == "") {
-		console.log("patientId is not valid")
+
+	if (patientId == null || patientId == undefined || patientId == '') {
+		console.log('patientId is not valid')
 		res.status(400).send({ message: 'Error' })
 	}
 
@@ -132,9 +139,9 @@ app.get('/currentRequest', async (req, res) => {
 app.get('/allRequests', async (req, res) => {
 	// return the current users request
 	const patientId = req.patientId
-	
-	if(patientId == null || patientId == undefined || patientId == "") {
-		console.log("patientId is not valid")
+
+	if (patientId == null || patientId == undefined || patientId == '') {
+		console.log('patientId is not valid')
 		res.status(400).send({ message: 'Error' })
 	}
 
@@ -210,12 +217,34 @@ app.get('/targetRequest/:requestId', async (req, res) => {
 app.put('/completeRequest/:requestId', async (req, res) => {
 	const { requestId } = req.params
 
-	if (completeVisitRequest({_id: requestId})) {
-		res.status(200).send();
+	if (completeVisitRequest({ _id: requestId })) {
+		res.status(200).send()
+	} else {
+		res.status(400).send({ message: 'Failed to complete visit request!' })
 	}
-	else {
-		res.status(400).send({"message": "Failed to complete visit request!"});
-	}
-}) 
+})
 
+app.get('/hospitalWaitList/:hospitalId', async (req, res) => {
+	const { hospitalId } = req?.params
+
+	try {
+		const validId = mongoose.Types.ObjectId.isValid(hospitalId)
+
+		if (validId) {
+			const hospitalWaitList = await medicalFacilityModel
+				.findById(hospitalId)
+				.select({
+					hospitalName: 1,
+					waitList: 1,
+				})
+
+			res.status(200).send(hospitalWaitList)
+		} else {
+			throw new Error('Issue finding the hospital')
+		}
+	} catch (error) {
+		console.log(error.message)
+		res.status(400).send({ message: 'There was an error' })
+	}
+})
 export default app
