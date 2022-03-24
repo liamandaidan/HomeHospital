@@ -10,7 +10,12 @@ const { compare } = bcrypt
 export const logUserIn = async (req, res, next) => {
 	const { email, password } = req.body
 
-	if(email == null || email == undefined || password == null || password == undefined) {
+	if (
+		email == null ||
+		email == undefined ||
+		password == null ||
+		password == undefined
+	) {
 		res.status(403).send({ message: 'Login Failed!!!' })
 		console.log('One or more fields are missing')
 		return
@@ -29,7 +34,6 @@ export const logUserIn = async (req, res, next) => {
 				return
 			}
 			req.patientId = patient._id
-			
 		} else {
 			res.status(403).send({ message: 'Login Failed!!!' })
 			console.log('Bad password')
@@ -73,18 +77,23 @@ const checkAlreadyLoggedIn = async (req) => {
 export const logPractitionerIn = async (req, res, next) => {
 	const { email, password } = req.body
 
-	if(email == null || email == undefined || password == null || password == undefined) {
+	if (
+		email == null ||
+		email == undefined ||
+		password == null ||
+		password == undefined
+	) {
 		res.status(403).send({ message: 'Login Failed!!!' })
 		console.log('One or more fields are missing')
 		return
 	}
 
-	const practitioner = await PractitionerModel.findOne({ email: email })//returns null if not found
+	const practitioner = await PractitionerModel.findOne({ email: email }) //returns null if not found
 
 	if (practitioner) {
 		const isAuthorized = await compare(password, practitioner.password)
 		if (isAuthorized) {
-			const isAlreadyLoggedIn = await checkAlreadyLoggedIn(req)//should still work?
+			const isAlreadyLoggedIn = await checkAlreadyLoggedIn(req) //should still work?
 			// console.log('Return from function is ' + isAlreadyLoggedIn)
 			if (isAlreadyLoggedIn === email) {
 				console.log('User is already logged in!')
@@ -92,7 +101,6 @@ export const logPractitionerIn = async (req, res, next) => {
 				return
 			}
 			req.practitioner_employeeNum = practitioner.employeeNum
-			
 		} else {
 			res.status(403).send({ message: 'Login Failed!!!' })
 			console.log('Bad password')

@@ -40,7 +40,6 @@ export const registerUser = async (req) => {
 		gender,
 		dateOfBirth,
 		phoneNumber,
-
 	]
 	if (
 		valsFromBody.includes(undefined) ||

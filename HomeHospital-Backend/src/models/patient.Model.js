@@ -58,8 +58,6 @@ patientSchema.methods.getPatientRequestInfo = function () {
 		id: this._id,
 		email: this.email,
 	}
-	//HCnumber: HCNum,
-	//emergencyContact: { firstName: first, lastName: last }
 }
 
 export default mongoose.model('Patient', patientSchema)

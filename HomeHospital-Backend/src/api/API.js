@@ -27,17 +27,21 @@ app.use('/forget', reset)
 
 // Add a facility, view list of all facilities
 app.use('/medicalFacility', checkAccessToken)
-app.use('/updateWaitTimesTemp', checkAccessToken)
 app.use('/medicalFacility', facilityActions)
-app.use('/updateWaitTimesTemp', updateWaitTimesTemp)
 
-// add routes for 'manageRequests' 
+//TODO: remove manual waitlist update  route
+// app.use('/updateWaitTimesTemp', checkAccessToken)
+// app.use('/updateWaitTimesTemp', updateWaitTimesTemp)
+
+// add routes for 'manageRequests'
 // put middleware to check for practitioner
 
+// Get patient details
 app.use('/users', checkAccessToken)
-app.use('/visitRequest', checkAccessToken)
 app.use('/users', users)
-// Request endpoint
+
+// Patient hits these endpoints to perform actions on their requests
+app.use('/visitRequest', checkAccessToken)
 app.use('/visitRequest', requestActions)
 
 // exports the router application

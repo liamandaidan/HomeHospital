@@ -1,11 +1,11 @@
 import express from 'express' // Creates Router
 import MedicalFacility from '../../models/medicalFacility.Model.js'
 
-const app = express.Router()
+const route = express.Router()
 
 // Used to created a new medical facility
 // This was just used to manually enter a new facility
-app.post('/newFacility', async (req, res) => {
+route.post('/newFacility', async (req, res) => {
 	const {
 		hospitalName,
 		streetAddress,
@@ -67,7 +67,7 @@ app.post('/newFacility', async (req, res) => {
 })
 
 // Get a list of all of the hospitals with their wait times
-app.get('/viewFacilities', async (req, res) => {
+route.get('/viewFacilities', async (req, res) => {
 	try {
 		// Fetch the list of hospitals from the database without the list of practitioners or V number
 		const hospitalList = await MedicalFacility.find()
@@ -91,4 +91,4 @@ app.get('/viewFacilities', async (req, res) => {
 })
 
 // export this route
-export default app
+export default route

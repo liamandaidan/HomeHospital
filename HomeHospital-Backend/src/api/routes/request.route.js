@@ -4,16 +4,16 @@ import medicalFacilityModel from '../../models/medicalFacility.Model.js'
 import mongoose from 'mongoose'
 import visitRequestModel from '../../models/visitRequest.Model.js'
 import { completeVisitRequest } from '../service/request.service.js'
-// import visitRequestModel from '../../models/visitRequest.Model.js'
 
-const app = express.Router()
+
+const route = express.Router()
 
 /*
 	This route creates a new request in the DB. The user must supply their user Id, the selected hospital Id,
 	along with the list of symptoms and any additional information about their request. 
 
 */
-app.post('/newRequest', async (req, res) => {
+route.post('/newRequest', async (req, res) => {
 	// get the HospitalId
 	// get patient Id
 	// get list of symptom's (array) and additional info
@@ -95,7 +95,7 @@ app.post('/newRequest', async (req, res) => {
 	}
 })
 
-app.get('/currentRequest', async (req, res) => {
+route.get('/currentRequest', async (req, res) => {
 	// return the current users request
 	const patientId = req.patientId
 
@@ -136,7 +136,7 @@ app.get('/currentRequest', async (req, res) => {
 	}
 })
 
-app.get('/allRequests', async (req, res) => {
+route.get('/allRequests', async (req, res) => {
 	// return the current users request
 	const patientId = req.patientId
 
@@ -181,7 +181,7 @@ app.get('/allRequests', async (req, res) => {
 	}
 })
 
-app.get('/targetRequest/:requestId', async (req, res) => {
+route.get('/targetRequest/:requestId', async (req, res) => {
 	// return the current users request
 	const { requestId } = req.params
 
@@ -214,7 +214,7 @@ app.get('/targetRequest/:requestId', async (req, res) => {
 	}
 })
 
-app.put('/completeRequest/:requestId', async (req, res) => {
+route.put('/completeRequest/:requestId', async (req, res) => {
 	const { requestId } = req.params
 
 	if (completeVisitRequest({ _id: requestId })) {
@@ -224,7 +224,7 @@ app.put('/completeRequest/:requestId', async (req, res) => {
 	}
 })
 
-app.get('/hospitalWaitList/:hospitalId', async (req, res) => {
+route.get('/hospitalWaitList/:hospitalId', async (req, res) => {
 	const { hospitalId } = req?.params
 
 	try {
@@ -247,4 +247,4 @@ app.get('/hospitalWaitList/:hospitalId', async (req, res) => {
 		res.status(400).send({ message: 'There was an error' })
 	}
 })
-export default app
+export default route
