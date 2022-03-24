@@ -4,29 +4,31 @@ import medicalFacilityModel from '../../models/medicalFacility.Model.js'
 import mongoose from 'mongoose'
 import visitRequestModel from '../../models/visitRequest.Model.js'
 import { completeVisitRequest } from '../service/request.service.js'
-// import visitRequestModel from '../../models/visitRequest.Model.js'
 
-const app = express.Router()
+const route = express.Router()
 
 /*
 	This route creates a new request in the DB. The user must supply their user Id, the selected hospital Id,
 	along with the list of symptoms and any additional information about their request. 
 
 */
-app.post('/newRequest', async (req, res) => {
+route.post('/newRequest', async (req, res) => {
 	// get the HospitalId
 	// get patient Id
 	// get list of symptom's (array) and additional info
 	const { hospitalId, symptomList, additionalInfo } = req.body
 	const patientId = req.patientId
 
-	if(!mongoose.Types.ObjectId.isValid(hospitalId) && !mongoose.Types.ObjectId.isValid(patientId)) {
-		console.log("patientId or hospitalIdis not valid")
+	if (
+		!mongoose.Types.ObjectId.isValid(hospitalId) &&
+		!mongoose.Types.ObjectId.isValid(patientId)
+	) {
+		console.log('patientId or hospitalId not valid')
 		res.status(400).send({ message: 'Error' })
 	}
 
-	if(symptomList.length < 1) {
-		console.log("symptomList is not valid")
+	if (symptomList.length < 1) {
+		console.log('symptomList is not valid')
 		res.status(400).send({ message: 'Error' })
 	}
 
@@ -70,8 +72,12 @@ app.post('/newRequest', async (req, res) => {
 				)
 
 				// attach the new request Id to the patients requests list
-				patient.requests.push(request._id)
+				patient.newRequest(request._id)
 				await patient.save()
+
+				// Add the request to the hospitals waitList
+				hospital.enqueue(request._id)
+				await hospital.save()
 
 				res.send({ message: 'Request entered', RequestId: request._id })
 			} catch (error) {
@@ -88,12 +94,12 @@ app.post('/newRequest', async (req, res) => {
 	}
 })
 
-app.get('/currentRequest', async (req, res) => {
+route.get('/currentRequest', async (req, res) => {
 	// return the current users request
 	const patientId = req.patientId
-	
-	if(patientId == null || patientId == undefined || patientId == "") {
-		console.log("patientId is not valid")
+
+	if (patientId == null || patientId == undefined || patientId == '') {
+		console.log('patientId is not valid')
 		res.status(400).send({ message: 'Error' })
 	}
 
@@ -106,15 +112,13 @@ app.get('/currentRequest', async (req, res) => {
 			const patient = await patientModel.findById(patientId)
 			// console.log(patient)
 
-			if (patient.requests.length == 0) {
-				console.log('No registered requests')
+			if (patient.currentRequest == null) {
 				res.status(404).send({ message: 'No Current requests' })
 			} else {
 				// Get the request with the matching Id
 				const currentRequest = await visitRequestModel.findById(
-					patient.requests[patient.requests.length - 1]
+					patient.currentRequest
 				)
-				// console.log(currentRequest)
 				console.log('Sent patient their current request')
 				res.status(200).send({
 					request: currentRequest,
@@ -129,12 +133,12 @@ app.get('/currentRequest', async (req, res) => {
 	}
 })
 
-app.get('/allRequests', async (req, res) => {
+route.get('/allRequests', async (req, res) => {
 	// return the current users request
 	const patientId = req.patientId
-	
-	if(patientId == null || patientId == undefined || patientId == "") {
-		console.log("patientId is not valid")
+
+	if (patientId == null || patientId == undefined || patientId == '') {
+		console.log('patientId is not valid')
 		res.status(400).send({ message: 'Error' })
 	}
 
@@ -174,7 +178,7 @@ app.get('/allRequests', async (req, res) => {
 	}
 })
 
-app.get('/targetRequest/:requestId', async (req, res) => {
+route.get('/targetRequest/:requestId', async (req, res) => {
 	// return the current users request
 	const { requestId } = req.params
 
@@ -207,15 +211,5 @@ app.get('/targetRequest/:requestId', async (req, res) => {
 	}
 })
 
-app.put('/completeRequest/:requestId', async (req, res) => {
-	const { requestId } = req.params
 
-	if (completeVisitRequest({_id: requestId})) {
-		res.status(200).send();
-	}
-	else {
-		res.status(400).send({"message": "Failed to complete visit request!"});
-	}
-}) 
-
-export default app
+export default route

@@ -13,9 +13,8 @@ const administratorSchema = new mongoose.Schema({
 		//validate:[validator.isNumeric, 'Please enter a Valid Number'],
     },
 	user: {
-		type: UserSchema
-	}
-    
+		type: UserSchema,
+	},
 })
 
 export default mongoose.model('Administrator', administratorSchema)

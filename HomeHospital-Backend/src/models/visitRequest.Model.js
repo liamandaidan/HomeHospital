@@ -45,7 +45,7 @@ const visitRequestSchema = new mongoose.Schema({
 	},
 	waitListTime: {
 		type: String,
-		default: null
+		default: null,
 	},
 	dateTime: {
 		type: Date,

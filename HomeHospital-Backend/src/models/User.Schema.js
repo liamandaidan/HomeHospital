@@ -31,7 +31,7 @@ const userSchema = new mongoose.Schema({
 		type: Date,
 		default: () => Date.now(),
 	},
-	_id: false
+	_id: false,
 })
 
 export default userSchema
