@@ -9,6 +9,7 @@ import { checkAccessToken } from './service/token.service.js'
 import updateWaitTimesTemp from './routes/updateWaitTimeTemp.route.js'
 import users from './routes/users.route.js'
 import requestActions from './routes/request.route.js'
+import requestManager from './routes/requestManager.route.js'
 
 // Create the Router App
 const app = Router()
@@ -29,13 +30,6 @@ app.use('/forget', reset)
 app.use('/medicalFacility', checkAccessToken)
 app.use('/medicalFacility', facilityActions)
 
-//TODO: remove manual waitlist update  route
-// app.use('/updateWaitTimesTemp', checkAccessToken)
-// app.use('/updateWaitTimesTemp', updateWaitTimesTemp)
-
-// add routes for 'manageRequests'
-// put middleware to check for practitioner
-
 // Get patient details
 app.use('/users', checkAccessToken)
 app.use('/users', users)
@@ -43,6 +37,10 @@ app.use('/users', users)
 // Patient hits these endpoints to perform actions on their requests
 app.use('/visitRequest', checkAccessToken)
 app.use('/visitRequest', requestActions)
+
+// add routes for 'manageRequests'
+// put middleware to check for practitioner
+app.use('/requestManagement', requestManager)
 
 // exports the router application
 export default app
