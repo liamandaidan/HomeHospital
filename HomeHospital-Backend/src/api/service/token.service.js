@@ -133,7 +133,7 @@ export const checkAccessToken = async (req, res, next) => {
 				return res.status(401).send({ message: 'Authorization Failed' })
 			}
 		}
-	} else if (!accessToken && refreshToken) {
+	} /*else if (!accessToken && refreshToken) {
 		try {
 			// console.log(`no valid access token but ok refresh token`)
 			const newAccessToken = await refreshAccessToken(refreshToken)
@@ -157,7 +157,8 @@ export const checkAccessToken = async (req, res, next) => {
 			res.status(401).json({ message: 'Authorization Failed' })
 			return
 		}
-	} else {
+	}*/ else {
+		console.log("One or more tokens wasn't present");
 		res.status(401).json({ message: 'Authorization Failed' })
 		return
 	}
@@ -221,6 +222,25 @@ export const invalidateRefToken = (req, res, next) => {
 	const token = req.cookies['accessTokenCookie']
 	const refToken = req.cookies['refreshTokenCookie']
 
+	// if (token && refToken) {
+	// 	RefToken.findOneAndDelete({ token: refToken })
+	// 		.exec()
+	// 		.then((deleted) => {
+	// 			console.log('Successfully deleted: ' + deleted)
+	// 			next()
+	// 		})
+	// 		.catch((err) => {
+	// 			console.log('Line 153 error: ' + err)
+	// 			return res.status(401).json({
+	// 				message: 'Something weird happened on logout attempt',
+	// 			})
+	// 		})
+	// } else {
+	// 	console.log('Line 157 error')
+	// 	return res
+	// 		.status(401)
+	// 		.json({ message: 'Something weird happened on logout attempt' })
+	// }
 	if (token && refToken) {
 		RefToken.findOneAndDelete({ token: refToken })
 			.exec()
@@ -229,15 +249,29 @@ export const invalidateRefToken = (req, res, next) => {
 				next()
 			})
 			.catch((err) => {
-				console.log('Line 153 error: ' + err)
+				//console.log('Line 153 error: ' + err)
 				return res.status(401).json({
 					message: 'Something weird happened on logout attempt',
 				})
 			})
 	} else {
-		console.log('Line 157 error')
-		return res
-			.status(401)
-			.json({ message: 'Something weird happened on logout attempt' })
+		RefToken.findOneAndDelete({ token: refToken })
+			.exec()
+			.then((deleted) => {
+				console.log('Successfully deleted: ' + deleted)
+				console.log("Note, one of the tokens wasn't present");
+				next()
+			})
+			.catch((err) => {
+				console.log("Refresh token wasn't present: " + err)
+				return res.status(401).json({
+					message: 'Something weird happened on logout attempt',
+				})
+			})
+		
+		// console.log('Line 157 error')
+		// return res
+		// 	.status(401)
+		// 	.json({ message: 'Something weird happened on logout attempt' })
 	}
 }

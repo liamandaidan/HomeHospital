@@ -19,7 +19,7 @@ route.post('/', async (req, res) => {
 		}
 
 		if (!result.status) {
-			console.log('Error: Administrator already exists')
+			//console.log('Error: Administrator already exists')
 			res.status(422).send({
 				status: 'Error',
 				message: 'Something went wrong with the registration, please try again.',

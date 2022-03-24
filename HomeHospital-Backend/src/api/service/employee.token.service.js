@@ -174,7 +174,7 @@ export const checkEmployeeAccessToken = async (req, res, next) => {
 				return res.status(401).send({ message: 'Authorization Failed' })
 			}
 		}
-	} else if (!accessToken && refreshToken) {
+	} /*else if (!accessToken && refreshToken) {
 		try {
 			// console.log(`no valid access token but ok refresh token`)
 			const newAccessToken = await refreshEmployeeAccessToken(refreshToken)
@@ -198,7 +198,8 @@ export const checkEmployeeAccessToken = async (req, res, next) => {
 			res.status(401).json({ message: 'Authorization Failed' })
 			return
 		}
-	} else {
+	}*/ else {
+		console.log("One or more tokens wasn't present");
 		res.status(401).json({ message: 'Authorization Failed' })
 		return
 	}
@@ -238,7 +239,7 @@ const refreshEmployeeAccessToken = (refreshToken, oldAccessToken) => {
 									)
 									console.log("User is an administrator, adminId is " + oldPayload.adminId);
 								} else if(isAPractitioner) {
-									iDNum = oldPayload.practitionerId
+									const iDNum = oldPayload.practitionerId
 									newAccessToken = jwt.sign(
 										{ email: email, practitionerId: oldPayload.practitionerId },
 										ACCESSTOKEN_TEST_SECRET,
@@ -285,15 +286,29 @@ export const invalidateEmployeeRefToken = (req, res, next) => {
 				next()
 			})
 			.catch((err) => {
-				console.log('Line 153 error: ' + err)
+				//console.log('Line 153 error: ' + err)
 				return res.status(401).json({
 					message: 'Something weird happened on logout attempt',
 				})
 			})
 	} else {
-		console.log('Line 157 error')
-		return res
-			.status(401)
-			.json({ message: 'Something weird happened on logout attempt' })
+		RefToken.findOneAndDelete({ token: refToken })
+			.exec()
+			.then((deleted) => {
+				console.log('Successfully deleted: ' + deleted)
+				console.log("Note, one of the tokens wasn't present");
+				next()
+			})
+			.catch((err) => {
+				console.log("Refresh token wasn't present: " + err)
+				return res.status(401).json({
+					message: 'Something weird happened on logout attempt',
+				})
+			})
+		
+		// console.log('Line 157 error')
+		// return res
+		// 	.status(401)
+		// 	.json({ message: 'Something weird happened on logout attempt' })
 	}
 }
