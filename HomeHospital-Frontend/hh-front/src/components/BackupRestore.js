@@ -1,5 +1,6 @@
 import React from "react";
 import { Form, Button, Table } from "react-bootstrap";
+import "../styles/admin.css";
 
 function BackupRestore() {
   return (
@@ -23,13 +24,13 @@ function BackupRestore() {
               <option value="1">Every hour</option>
             </Form.Select>
           </Form.Group>
-          <Button>Create Backup</Button>
+          <Button className="create-btn">Create Backup</Button>
         </Form>
       </div>
       <div>
         <label>Last successful back up:</label> March 23, 22 11:23:09
         <span>
-          <Button>Backup now</Button>
+          <Button className="backup-btn">Backup now</Button>
         </span>
       </div>
       <div>
@@ -56,15 +57,14 @@ function BackupRestore() {
         </Table>
       </div>
       <div>
-          <Form>
+        <Form>
           <label>Retore from point</label>
           <Form.Select>
-              <option>patient-backup</option>
-              <option>practitioner-backup</option>
+            <option>patient-backup</option>
+            <option>practitioner-backup</option>
           </Form.Select>
-            <Button>Restore</Button>
-          </Form>
-          
+          <Button className="restore-btn">Restore</Button>
+        </Form>
       </div>
     </>
   );

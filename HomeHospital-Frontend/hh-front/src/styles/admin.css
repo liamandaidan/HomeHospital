@@ -13,3 +13,42 @@
     border: 1px solid #000000;
     height: 500px;
 }
+
+.create-btn {
+  color: #7878AB;
+  border-radius: 10px;
+  background-color: #E7FBF6;
+  border: #E7FBF6;
+  margin-top: 1rem;
+}
+.restore-btn {
+  color: #7878AB;
+  border-radius: 10px;
+  background-color: #E7FBF6;
+  border: #E7FBF6;
+  margin-top: 1rem;
+}
+.backup-btn {
+  color: #7878AB;
+  border-radius: 10px;
+  background-color: #E7FBF6;
+  border: #E7FBF6;
+  margin-top: 1rem;
+}
+
+
+.create-btn:hover {
+  color: #F5F5FA;
+  border-radius: 10px;
+  background-color: #7878AB;
+}
+.restore-btn:hover {
+  color: #F5F5FA;
+  border-radius: 10px;
+  background-color: #7878AB;
+}
+.backup-btn:hover {
+  color: #F5F5FA;
+  border-radius: 10px;
+  background-color: #7878AB;
+}
