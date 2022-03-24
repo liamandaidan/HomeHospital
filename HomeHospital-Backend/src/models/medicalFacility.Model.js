@@ -71,8 +71,6 @@ medicalFacility.methods.dequeue = async function () {
 // cancel request
 medicalFacility.methods.cancel = async function (requestId) {
 	try {
-		// deletes request from the visit request DB
-		await deleteVisitRequest(requestId)
 		// removes the request from the waitList
 		if (this.waitList[this.waitList.length - 1] === requestId) {
 			this.waitList.pop()

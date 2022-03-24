@@ -8,10 +8,10 @@ import { completeVisitRequest } from '../service/request.service.js'
 const route = express.Router()
 
 // 
-route.put('/completeRequest/:requestId', async (req, res) => {
-	const { requestId } = req.params
+route.put('/completeRequest', async (req, res) => {
+	const patientId = req.patientId
 
-	if (await completeVisitRequest(requestId)) {
+	if (await completeVisitRequest(patientId)) {
 		res.status(200).send({message: 'Request Completed'})
 	} else {
 		res.status(400).send({ message: 'Failed to complete visit request!' })

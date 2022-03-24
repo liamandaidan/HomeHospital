@@ -3,7 +3,8 @@ import patientModel from '../../models/patient.Model.js'
 import medicalFacilityModel from '../../models/medicalFacility.Model.js'
 import mongoose from 'mongoose'
 import visitRequestModel from '../../models/visitRequest.Model.js'
-import { completeVisitRequest } from '../service/request.service.js'
+import { CancelCurrentRequest, completeVisitRequest } from '../service/request.service.js'
+
 
 const route = express.Router()
 
@@ -72,7 +73,7 @@ route.post('/newRequest', async (req, res) => {
 				)
 
 				// attach the new request Id to the patients requests list
-				patient.newRequest(request._id)
+				patient.newRequest(request._id, request.requestHospitalId)
 				await patient.save()
 
 				// Add the request to the hospitals waitList
@@ -215,16 +216,12 @@ route.delete('/cancel',async (req, res)=> {
 	// check if they have a current request
 	const patientId = req.patientId
 	try {
-		
-		const patient = await patientModel.findById(patientId)
 		console.log(patient)
 		console.log('Current requstst: ' + patient.user)
-		if(patient.currentRequest){
-			// delete fro, DB and then remove from current
-			await visitRequestModel.findByIdAndDelete(patient.currentRequest)
-			patient.cancelRequest()
-			patient.save()
 
+		// Ensure that the patientId is valid
+		if(await CancelCurrentRequest(patientId)){
+			// Delete the visit request and all references to it			
 			console.log('request was canceled')
 			res.status(200).send({message: 'Request was canceled'})
 		} else {
@@ -234,9 +231,6 @@ route.delete('/cancel',async (req, res)=> {
 		console.error("Cancel Request Error: " + error.message)
 		res.status(400).send({message: "Cancel Request Error"})
 	}
-
-	// delete if they do
-	// remove from DB
 })
 
 

@@ -6,42 +6,39 @@ import visitRequestModel from '../../models/visitRequest.Model.js'
 // Takes in a requestId, moves the request Object from the vistitRequest collection in the database
 // and shifts it into the completedRequests collection in the database
 // this is a function that will be called BY THE PRACTITIONER
-export const completeVisitRequest = async (requestId) => {
+export const completeCurrentRequest = async (patientId) => {
 	try {
-		// Check to see that ID is valid and check that the document exists.
-		if (
-			mongoose.Types.ObjectId.isValid(requestId) &&
-			(await visitRequestModel.exists({ _id: requestId }))
-		) {
-			// console.log(requestId)
+		const patient = await patientModel.findById(patientId)
+		if (patient.currentRequest && patient.currentHospital) {
 			// Get the visit request and create a completed request from it.
-			const visitRequest = await visitRequestModel
-				.findById(requestId)
-				.exec()
+			const visitRequest = await visitRequestModel.findById(patient.currentRequest)
+
 			const completedRequest = await CompletedRequestModel.create({
 				_id: requestId,
 				request: visitRequest,
 			})
-
-			//Finally delete the visit request and save the completed request.
-			await visitRequestModel.findOneAndDelete({
-				_id: requestId,
-			})
-
 			completedRequest.save()
 
-			// Update the patients waitlist
-			const patient = await patientModel.findById(visitRequest.patient)
+			//Finally delete the visit request and save the completed request.
+			await visitRequestModel.findByIdAndDelete(requestId)	
+
+			// Get the hospital and patient so that we can remove the visit request references from then.
+			const hospital = await hospitalModel.findById(visitRequest.req)
+
+			// Remove the visit request and move it into history
+			hospital.completeRequest(patient.currentRequest);
 			patient.completeRequest()
+
+			// Save these new object states.
+			hospital.save()
 			patient.save()
+
 			return true
 		} else {
-			console.error('Invalid Request Id. ID: ' + requestId)
-			return false
+			throw new Error("patient does not possess current request")
 		}
 	} catch (error) {
 		console.error('Error: ' + error.message)
-		console.log('this error')
 		return false
 	}
 }
@@ -49,15 +46,29 @@ export const completeVisitRequest = async (requestId) => {
 // This takes in a requestId and deletes the request from the visitRequest collection
 //TODO: This still needs to remove the request from the Patients list/hospital list
 //This can be called by the PATIENT OR THE PRACTITIONER
-export const deleteVisitRequest = async (requestId) => {
+export const CancelCurrentRequest = async (patientId) => {
 	try {
-		if (
-			mongoose.Types.ObjectId.isValid(requestId) &&
-			(await visitRequestModel.exists(requestId))
-		) {
-			await visitRequestModel.findOneAndDelete({ _id: requestId })
+		const patient = await patientModel.findById(patientId)
+		if (patient.currentRequest && patient.currentHospital) {
+			
+			// Delete the visit request
+			await visitRequestModel.findByIdAndDelete(patient.currentRequest)
+
+			const hospital = await hospitalModel.findById(patient.currentHospital)
+
+			// Remove the references to the visit request from the patient and the hospital.
+			hospital.cancelRequest(patient.currentRequest)
+			patient.cancelRequest()
+
+			hospital.save()
+			patient.save()
+
+			return true
+		} else {
+			throw new Error("patient does not possess current request")
 		}
 	} catch (error) {
-		console.log(error.message)
+		console.log("Error: " + error.message)
+		return false
 	}
 }
