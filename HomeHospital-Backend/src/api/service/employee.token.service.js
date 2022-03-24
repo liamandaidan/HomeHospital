@@ -114,9 +114,9 @@ export const checkEmployeeAccessToken = async (req, res, next) => {
 			// console.log(`Access token still valid: ${validAccessToken.email}`)
 			res.locals.accessT = accessToken
 			res.locals.refreshT = refreshToken
-			if(!checkAccessAuthorized(jwt.decode(validAccessToken))) {
-				return res.status(401).json({ message: 'Authorization Failed' })
-			}
+			// if(!checkAccessAuthorized(jwt.decode(validAccessToken))) {
+			// 	return res.status(401).json({ message: 'Authorization Failed' })
+			// }
 			const isAnAdmin = validAccessToken.adminId
 			const isAPractitioner = validAccessToken.practitionerId
 			console.log("validAccessToken is: " + validAccessToken);
@@ -291,12 +291,12 @@ export const invalidateEmployeeRefToken = (req, res, next) => {
 	}
 }
 
-const checkAccessAuthorized = (validAccessToken) => {
-	const userType = validAccessToken.patientId;
-	if(userType) {
-		return true;
-	} else {
-		console.log("Not a patient. Go find your own page!");
-		return false;
-	}
-}
+// const checkAccessAuthorized = (validAccessToken) => {
+// 	const userType = validAccessToken.patientId;
+// 	if(userType) {
+// 		return true;
+// 	} else {
+// 		console.log("Not a patient. Go find your own page!");
+// 		return false;
+// 	}
+// }
