@@ -16,9 +16,11 @@ function UserHomeVisitsDisplay() {
   const navigate = useNavigate();
 
   // useContext to get new Request value
-  const { newRequest, requestId } = useContext(HomeHospitalContext);
+  const { newRequest, requestId, isCurrentRequest } =
+    useContext(HomeHospitalContext);
   const [newRequestValue, setNewRequestValue] = newRequest;
   const [requestIdValue, setRequestIdValue] = requestId;
+  const [isCurrent, setIsCurrent] = isCurrentRequest;
 
   moment.locale("en");
 
@@ -38,7 +40,7 @@ function UserHomeVisitsDisplay() {
         // console.log(response.data.request);
         if (response.status === 200) {
           console.log("200 Success!");
-          setVisitList(response.data.request);
+          setVisitList(response.data);
           setSpinner(false);
         }
       })
@@ -58,7 +60,8 @@ function UserHomeVisitsDisplay() {
         // console.log(response.data.request);
         if (response.status === 200) {
           console.log("200 Success!");
-          setCurrentList(response.data.request);
+          console.log(response.data);
+          setCurrentList(response.data);
           setCurrentSpinner(false);
         }
       })
@@ -81,8 +84,15 @@ function UserHomeVisitsDisplay() {
     }
   }, []);
 
-  function handleRequest(requestId) {
-    setRequestIdValue(requestId);
+  function handleCurrentRequest(request) {
+    setIsCurrent(true);
+    setRequestIdValue(request._id);
+    setNewRequestValue(false);
+    navigate("/request");
+  }
+
+  function handlePastRequest(request) {
+    setRequestIdValue(request);
     setNewRequestValue(false);
     navigate("/request");
   }
@@ -135,7 +145,7 @@ function UserHomeVisitsDisplay() {
                   </tr>
                 </thead>
                 <tbody>
-                  <tr onClick={() => handleRequest(currentList._id)}>
+                  <tr onClick={() => handleCurrentRequest(currentList)}>
                     <td>1</td>
                     <td>
                       {moment(currentList.dateTime).format(
@@ -167,7 +177,7 @@ function UserHomeVisitsDisplay() {
               </div>
             )}
 
-            {!spinner && noRequest && visitList.length > 0 && (
+            {!spinner && !noRequest && visitList.length > 0 && (
               <Table
                 striped
                 bordered
@@ -186,7 +196,10 @@ function UserHomeVisitsDisplay() {
                 </thead>
                 <tbody>
                   {visitList.map((visit, index) => (
-                    <tr key={index} onClick={() => handleRequest(visit._id)}>
+                    <tr
+                      key={index}
+                      onClick={() => handlePastRequest(visit._id)}
+                    >
                       <td>{index + 1}</td>
                       <td>
                         {moment(visit.dateTime).format("dddd, MMMM Do YYYY")}

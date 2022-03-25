@@ -34,9 +34,7 @@ function UserNavBar() {
 
   const handleLogout = () => {
     axios
-      .post("http://localhost:4000/api/logout", {
-        withCredentials: true,
-      })
+      .post("http://localhost:4000/api/logout")
       .then((response) => {
         navigate("/");
       })

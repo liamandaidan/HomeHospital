@@ -13,6 +13,7 @@ import Reset from "./pages/ResetForgotPass";
 import HospitalSelectionPage from "./pages/HospitalSelectionPage";
 import { HomeHospitalProvider } from "./components/HomeHospitalContext";
 import UserHomepage from "./pages/UserHomepage";
+import RequireAuth from "./components/RequireAuth";
 
 function App() {
   useEffect(() => {
@@ -25,14 +26,42 @@ function App() {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/login" element={<Login />} />
-          <Route path="/request" element={<Request />} />
+          <Route
+            path="/request"
+            element={
+              <RequireAuth>
+                <Request />
+              </RequireAuth>
+            }
+          />
           <Route path="*" element={<Error />} />
           <Route path="/forget" element={<Forget />} />
           <Route path="/fa" element={<FA />} />
           <Route path="/reset" element={<Reset />} />
-          <Route path="/hospitals" element={<HospitalSelectionPage />} />
-          <Route path="/symptoms" element={<Symptoms />} />
-          <Route path="/home" element={<UserHomepage />} />
+          <Route
+            path="/hospitals"
+            element={
+              <RequireAuth>
+                <HospitalSelectionPage />
+              </RequireAuth>
+            }
+          />
+          <Route
+            path="/symptoms"
+            element={
+              <RequireAuth>
+                <Symptoms />
+              </RequireAuth>
+            }
+          />
+          <Route
+            path="/home"
+            element={
+              <RequireAuth>
+                <UserHomepage />
+              </RequireAuth>
+            }
+          />
 
           <Route
             path="/register"

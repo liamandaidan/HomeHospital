@@ -34,17 +34,28 @@ function Map() {
   );
 
   useEffect(() => {
+    console.log("hospital longitude: " + hospitalLongitude);
+    console.log("hospital latitude: " + hospitalLatitude);
     if ("geolocation" in navigator) {
       navigator.geolocation.getCurrentPosition(function (position) {
         setLatitude(position.coords.userLatitude);
         setLongitude(position.coords.userLongitude);
+        if (
+          userLongitude === 0 ||
+          userLatitude === 0 ||
+          userLongitude === undefined ||
+          userLatitude === undefined
+        ) {
+          setLatitude(51.065934372560484);
+          setLongitude(-114.09079456099977);
+        }
         console.log(userLatitude);
         console.log(userLongitude);
       });
     } else {
       alert("Enable Geo-Location to get Travel Times");
     }
-  }, [userLatitude, userLongitude]);
+  }, []);
 
   const [responseData, setResponseData] = useState(null);
 
@@ -67,7 +78,7 @@ function Map() {
       origin: { lat: userLatitude, lng: userLongitude },
       travelMode: "DRIVING",
     };
-  }, [userLatitude, userLongitude]);
+  }, [userLatitude, userLongitude, hospitalLatitude, hospitalLongitude]);
 
   const onLoad = useCallback((map) => (mapRef.current = map), []);
 
