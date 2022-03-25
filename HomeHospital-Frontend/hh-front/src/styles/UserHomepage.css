@@ -25,7 +25,7 @@
 }
 
 .table-fixed tbody {
-  height: 300px;
+  /* height: 300px; */
   overflow-y: scroll;
   width: 100%;
 }

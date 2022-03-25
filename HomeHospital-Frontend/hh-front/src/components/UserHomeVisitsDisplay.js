@@ -23,19 +23,48 @@ function UserHomeVisitsDisplay() {
   moment.locale("en");
 
   const [visitList, setVisitList] = useState([]);
+  const [currentList, setCurrentList] = useState();
   const [spinner, setSpinner] = useState(true);
+  const [currentSpinner, setCurrentSpinner] = useState(true);
+  const [noRequest, setNoRequest] = useState(false);
+  const [noCurrent, setNoCurrent] = useState(false);
 
-  function makeRequest() {
+  function pastRequest() {
     axios
       .get("http://localhost:4000/api/visitRequest/allRequests", {
         withCredentials: true,
       })
       .then((response) => {
         // console.log(response.data.request);
-        setVisitList(response.data.request);
-        setSpinner(false);
+        if (response.status === 200) {
+          console.log("200 Success!");
+          setVisitList(response.data.request);
+          setSpinner(false);
+        }
       })
       .catch((err) => {
+        setNoRequest(true);
+        setSpinner(false);
+        console.log(err);
+      });
+  }
+
+  function currentRequest() {
+    axios
+      .get("http://localhost:4000/api/visitRequest/currentRequest", {
+        withCredentials: true,
+      })
+      .then((response) => {
+        // console.log(response.data.request);
+        if (response.status === 200) {
+          console.log("200 Success!");
+          setCurrentList(response.data.request);
+          setCurrentSpinner(false);
+        }
+      })
+      .catch((err) => {
+        setNoCurrent(true);
+        setCurrentSpinner(false);
         console.log(err);
       });
   }
@@ -45,10 +74,10 @@ function UserHomeVisitsDisplay() {
     setSpinner(true);
     if (newRequestValue) {
       const timer = setTimeout(() => {
-        makeRequest();
+        pastRequest();
       }, 500);
     } else {
-      makeRequest();
+      pastRequest();
     }
   }, []);
 
@@ -58,11 +87,78 @@ function UserHomeVisitsDisplay() {
     navigate("/request");
   }
 
+  useEffect(() => {
+    setCurrentSpinner(true);
+    if (newRequestValue) {
+      const timer = setTimeout(() => {
+        currentRequest();
+      }, 500);
+    } else {
+      currentRequest();
+    }
+  }, []);
+
   return (
     <>
-      <Container className="container-visits">
-        <Row>
+      <Container className=".container-visits">
+        <Row className="current">
+          <h2>Current Request</h2>
           <Col>
+            {noCurrent && (
+              <div className="pb-5">
+                <h4>No Current Request Available</h4>
+              </div>
+            )}
+            {currentSpinner && (
+              <div className="spinner-div">
+                <Spinner animation="border" role="status" className="spinner">
+                  <span className="visually-hidden">Loading...</span>
+                </Spinner>
+              </div>
+            )}
+
+            {!currentSpinner && !noCurrent && (
+              <Table
+                striped
+                bordered
+                hover
+                responsive
+                borderless
+                className="visit-table table-fixed"
+              >
+                <thead>
+                  <tr>
+                    <th>#</th>
+                    <th>Date</th>
+                    <th>Reason</th>
+                    <th>Location</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr onClick={() => handleRequest(currentList._id)}>
+                    <td>1</td>
+                    <td>
+                      {moment(currentList.dateTime).format(
+                        "dddd, MMMM Do YYYY"
+                      )}
+                    </td>
+                    <td>Emergency Room currentList</td>
+                    <td>{currentList.requestHospitalName}</td>
+                  </tr>
+                </tbody>
+              </Table>
+            )}
+          </Col>
+        </Row>
+
+        <Row>
+          <h2>Past Requests</h2>
+          <Col>
+            {noRequest && (
+              <div>
+                <h4>No Past Requests Available</h4>
+              </div>
+            )}
             {spinner && (
               <div className="spinner-div">
                 <Spinner animation="border" role="status" className="spinner">
@@ -70,7 +166,8 @@ function UserHomeVisitsDisplay() {
                 </Spinner>
               </div>
             )}
-            {!spinner && (
+
+            {!spinner && noRequest && visitList.length > 0 && (
               <Table
                 striped
                 bordered
