@@ -33,6 +33,12 @@ export const generateAccessToken = (req, res, next) => {
 	next()
 }
 
+/**
+ * This method is called by the generateEmployeeAccessToken method. It is passed the employee's email and simply returns
+ * a new non-expiring token with the email as the payload for storage in the login database
+ * @param {string} email 
+ * @returns 
+ */
 const generateRefreshToken = (email) => {
 	const refreshToken = jwt.sign(email, REFRESHTOKEN_KEY)
 	return refreshToken
@@ -92,7 +98,7 @@ export const checkAccessToken = async (req, res, next) => {
 			) //jwt.verify returns the entire token. By accessing valid.email, we get only the payload of the token, the user's email
 			
 			// check to ensure that the type of user making the request is a patient
-			if(!checkAccessAuthorized(jwt.decode(validAccessToken))) {
+			if(!checkAccessAuthorized(validAccessToken)) {
 				return res.status(401).json({ message: 'Authorization Failed' })
 			}
 			res.locals.accessT = accessToken
@@ -140,6 +146,7 @@ export const checkAccessToken = async (req, res, next) => {
 				console.log(
 					'Someone fiddled with the access token. No soup for you!'
 				)
+				console.log(err);
 				return res.status(401).send({ message: 'Authorization Failed' })
 			}
 		}
@@ -150,11 +157,16 @@ export const checkAccessToken = async (req, res, next) => {
 	}
 }
 
-/*In this method, we are passed a refreshToken. This method returns a Promise. The promise will resolve upon successful execution of the mongoose 
-query to find the refresh token in the database. If the refresh token cannot be found in the DB, the query returns a null value. We resolve the 
-promise with null. If the token is found, we verify its validity. If that passes as well, then we generate a new access token and resolve the promise 
-with that token. An error with the query will reject the promise.
-*/
+
+/**
+ * In this method, we are passed a refreshToken. This method returns a Promise. The promise will resolve upon successful execution of the mongoose 
+ * query to find the refresh token in the database. If the refresh token cannot be found in the DB, the query returns a null value. We resolve the 
+ * promise with null. If the token is found, we verify its validity. If that passes as well, then we generate a new access token and resolve the promise 
+ * with that token. An error with the query will reject the promise.
+ * @param {jwt} refreshToken 
+ * @param {jwt} oldAccessToken 
+ * @returns 
+ */
 const refreshAccessToken = (refreshToken, oldAccessToken) => {
 	return new Promise((resolve, reject) => {
 		const thing = RefToken.findOne({ token: refreshToken })
@@ -192,8 +204,14 @@ const refreshAccessToken = (refreshToken, oldAccessToken) => {
 	})
 }
 
-/*This method invalidates a user by removing their refresh token from the database, effectively 'logging out' that user. This functionality is
-backstopped in the logout route, which also clears the cookies containing the user's tokens.*/
+
+/**
+ * This method invalidates a user by removing their refresh token from the database, effectively 'logging out' that user. This functionality is
+ * backstopped in the logout route, which also clears the cookies containing the user's tokens.
+ * @param {request} req 
+ * @param {response} res 
+ * @param {next} next 
+ */
 export const invalidateRefToken = (req, res, next) => {
 	const authHeader = req.headers['accesstoken'] //get the whole authorization header, which is 'Bearer token'
 	//const token = authHeader && authHeader.split(" ")[1];//get only the actual token string, if there is one. If not, return undefined
@@ -204,25 +222,6 @@ export const invalidateRefToken = (req, res, next) => {
 	const token = req.cookies['accessTokenCookie']
 	const refToken = req.cookies['refreshTokenCookie']
 
-	// if (token && refToken) {
-	// 	RefToken.findOneAndDelete({ token: refToken })
-	// 		.exec()
-	// 		.then((deleted) => {
-	// 			console.log('Successfully deleted: ' + deleted)
-	// 			next()
-	// 		})
-	// 		.catch((err) => {
-	// 			console.log('Line 153 error: ' + err)
-	// 			return res.status(401).json({
-	// 				message: 'Something weird happened on logout attempt',
-	// 			})
-	// 		})
-	// } else {
-	// 	console.log('Line 157 error')
-	// 	return res
-	// 		.status(401)
-	// 		.json({ message: 'Something weird happened on logout attempt' })
-	// }
 	if (token && refToken) {
 		RefToken.findOneAndDelete({ token: refToken })
 			.exec()
@@ -250,14 +249,16 @@ export const invalidateRefToken = (req, res, next) => {
 					message: 'Something weird happened on logout attempt',
 				})
 			})
-		
-		// console.log('Line 157 error')
-		// return res
-		// 	.status(401)
-		// 	.json({ message: 'Something weird happened on logout attempt' })
 	}
 }
 
+/**
+ * This method simply checks to ensure that the user who is attempting to access the page is a patient. This method 
+ * is called in the checkAccessToken method, which is middleware placed on every page that a patient alone should 
+ * have access to
+ * @param {string} validAccessToken the payload of a decoded token
+ * @returns 
+ */
 const checkAccessAuthorized = (validAccessToken) => {
 	const userType = validAccessToken.patientId;
 	if(userType) {

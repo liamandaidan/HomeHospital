@@ -1,11 +1,12 @@
 import bcrypt from 'bcryptjs'
-import PatientModel from '../../models/patient.Model.js'
-import PractitionerModel from '../../models/practitioner.Model.js'
-import AdministratorModel from '../../models/administrator.Model.js'
 import jwt from 'jsonwebtoken'
-import ENV from '../../configure/configure.js'
-import RefToken from '../../models/refreshTokens.Schema.js'
 
+
+/**
+ * This file contains two pieces of nearly identical middleware, that are applied to pages and routes that only a practitioner 
+ * or an administrator has authorization to access. It is called after the user is already authenticated as a valid user, and 
+ * simply checks the type of user before allowing them to proceed, or turning them away. 
+ */
 export const checkMayAccessAdminPage = async (req, res, next) => {
     const accessToken = jwt.decode(req.cookies['accessTokenCookie'])
     const adminId = accessToken.adminId

@@ -8,6 +8,14 @@ import jwt from 'jsonwebtoken'
 const regStatus = {
 	status: false,
 }
+
+/**
+ * Function for registering a user, specifically a patient. Takes in all relevant fields from the body and checks for blank, null, or undefined values. then it checks 
+ * if a user with that Id already exists. Assuming no issues, it creates a new patient (with a user nested inside) and returns true. If 
+ * any checks fail, it returns false. 
+ * @param {request} req 
+ * @returns 
+ */
 export const registerUser = async (req) => {
 	const { genSalt, hash } = bcrypt
 
@@ -33,7 +41,7 @@ export const registerUser = async (req) => {
 	let valsFromBody = [firstName, lastName, email, password, streetAddress, cityName, provName, postalCode, HCnumber, gender, dateOfBirth, phoneNumber, contactFirstName, contactLastName, contactPhoneNumber];
 	if(valsFromBody.includes(undefined) || valsFromBody.includes(null) || valsFromBody.includes("")) {
 		console.log("Detected a missing field in registerUser");
-		return -1;
+		return (regStatus.status = false);
 	}
 
 
@@ -41,6 +49,7 @@ export const registerUser = async (req) => {
 	const result = await PatientModel.exists({ email: email })
 	// If they exist return an error status code
 	if (result?._id) {
+		console.log("User already exists!");
 		console.log('user Id: ' + result?._id)
 		return (regStatus.status = false)
 	}
@@ -125,12 +134,10 @@ export const registerPractitioner = async (req) => {
 		const validAdmin = await AdministratorModel.exists({adminId: adminId})
 		if(!adminId || !validAdmin) {
 			console.log("A non-administrator attempted to register a practitioner");
-			//return -1;
 			return (regStatus.status = false)
 		}
 	} else {
 		console.log("Access token not present");
-		//return -1
 		return (regStatus.status = false)
 	}
 
@@ -138,7 +145,6 @@ export const registerPractitioner = async (req) => {
 	if(valsFromBody.includes(undefined) || valsFromBody.includes(null) || valsFromBody.includes("")) {
 		valsFromBody.forEach(element => console.log(element))
 		console.log("Detected a missing field in registerPractitioner");
-		//return -1;
 		return (regStatus.status = false)
 	}
 
@@ -147,6 +153,7 @@ export const registerPractitioner = async (req) => {
 	const result = await PractitionerModel.exists({ practitionerId })
 	// If they exist return an error status code
 	if (result?._id) {
+		console.log("User already exists!");
 		console.log('user Id: ' + result?._id)
 		return (regStatus.status = false)
 	}
@@ -224,6 +231,7 @@ export const registerAdministrator = async (req) => {
 	console.log("Check exist result is: " + result);
 	// If they exist return an error status code
 	if (result?._id) {
+		console.log("User already exists!");
 		console.log('Admin already exists: ' + result?._id)
 		return (regStatus.status = false)
 	}

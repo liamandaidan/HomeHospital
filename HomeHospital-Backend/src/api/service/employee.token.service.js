@@ -12,18 +12,23 @@ import {
 import PatientModel from '../../models/patient.Model.js'
 import PractitionerModel from '../../models/practitioner.Model.js'
 import AdministratorModel from '../../models/administrator.Model.js'
-//import PractitionerModel from '../../models/practitioner.Model.js'
 
-const ACCESSTOKEN_TEST_SECRET = ENV.ACCESSTOKEN_TEST_SECRET
-const REFRESHTOKEN_TEST_SECRET = ENV.REFRESHTOKEN_TEST_SECRET
+// const ACCESSTOKEN_TEST_SECRET = ENV.ACCESSTOKEN_TEST_SECRET
+// const REFRESHTOKEN_TEST_SECRET = ENV.REFRESHTOKEN_TEST_SECRET
 
 const EMPLOYEE_ACCESS_KEY = ENV.EMPLOYEEACCESSTOKEN_SECRET
 const EMPLOYEE_REFRESH_KEY = ENV.EMPLOYEEREFRESHTOKEN_SECRET
 
 
-/*This method generates an access token. Every login attempt will have an email, but an administrator logging in will have an adminId, whereas a 
-practitioner logging in will have a practitionerId. We try to get both, and see which one returns an actual value to figure out which 
-type of user is logging in */
+/**
+ * This method generates an access token. Every login attempt will have an email, but an administrator logging in will have an adminId, whereas a 
+ * practitioner logging in will have a practitionerId. We try to get both, and see which one returns an actual value to figure out which 
+ * type of user is logging in, then add that to the access token payload
+ * @param {request} req 
+ * @param {response} res 
+ * @param {next} next 
+ * @returns 
+ */
 export const generateEmployeeAccessToken = (req, res, next) => {
 	const user = req.body //get the users email as a unique identifier
 	const isAnAdmin = req.adminId
@@ -61,6 +66,12 @@ export const generateEmployeeAccessToken = (req, res, next) => {
 	next()
 }
 
+/**
+ * This method is called by the generateEmployeeAccessToken method. It is passed the employee's email and simply returns
+ * a new non-expiring token with the email as the payload for storage in the login database
+ * @param {string} email 
+ * @returns 
+ */
 const generateEmployeeRefreshToken = (email) => {
 	
 	const refreshToken = jwt.sign(email, EMPLOYEE_REFRESH_KEY)
@@ -69,18 +80,24 @@ const generateEmployeeRefreshToken = (email) => {
 }
 
 /*
-IMPORTANT: THIS MIdDLEWARE IS THE PRIMARY ACCESS VALIdATOR FOR ALL PAGES. ANY PAGE THAT REQUIRES A USER TO BE LOGGED IN
-MUST BE ROUTED THROUGH THIS MIdDLEWARE BEFORE BEING ALLOWED TO PROCEED
+IMPORTANT: THIS MIDDLEWARE IS THE PRIMARY ACCESS VALIDATOR FOR ALL PAGES. ANY PAGE THAT REQUIRES A USER TO BE LOGGED IN
+MUST BE ROUTED THROUGH THIS MIDDLEWARE BEFORE BEING ALLOWED TO PROCEED
+*/
 
 
-This middleware is used to check the validity of an access token. First we collect the access and refresh tokens from both 
-the header and from cookies. If any are missing, we return a 401 error. If all exist, we check to make sure that both sets of 
-tokens match each other (access token from cookie matches access token from header, etc). Next, we attempt to verify the access 
-token. If it has been modified, or is expired, it will fail. On failure, we attempt to refresh it using the refreshToken. 
-The refreshAccessToken method returns a promise. If the promise resolves, it will resolve to either a new access token, or null. 
-If null, then the user is logged out, and an unauthorized status is returned. If the promise resolves with a new access token, 
-then new cookies are generated with the access and refresh tokens, and both tokens are sent in the response, and the request is 
-allowed to proceed. 
+/**
+ * This middleware is used to check the validity of an access token. First we collect the access and refresh tokens from both 
+ * the header and from cookies. If any are missing, we return a 401 error. If all exist, we check to make sure that both sets of 
+ * tokens match each other (access token from cookie matches access token from header, etc). Next, we attempt to verify the access 
+ * token. If it has been modified, or is expired, it will fail. On failure, we attempt to refresh it using the refreshToken. 
+ * The refreshAccessToken method returns a promise. If the promise resolves, it will resolve to either a new access token, or null. 
+ * If null, then the user is logged out, and an unauthorized status is returned. If the promise resolves with a new access token, 
+ * then new cookies are generated with the access and refresh tokens, and both tokens are sent in the response, and the request is 
+ * allowed to proceed. 
+ * @param {*} req 
+ * @param {*} res 
+ * @param {*} next 
+ * @returns 
  */
 export const checkEmployeeAccessToken = async (req, res, next) => {
 	if (ENV.DEV_ENV === 'prod') {
@@ -178,9 +195,7 @@ export const checkEmployeeAccessToken = async (req, res, next) => {
 					}
 				)
 			} else {
-				console.log(
-					'Someone fiddled with the access token. No soup for you!'
-				)
+				console.log('Someone fiddled with the access token. No soup for you!')
 				console.log(err);
 				return res.status(401).send({ message: 'Authorization Failed' })
 			}
@@ -194,9 +209,20 @@ export const checkEmployeeAccessToken = async (req, res, next) => {
 
 /*In this method, we are passed a refreshToken. This method returns a Promise. The promise will resolve upon successful execution of the mongoose 
 query to find the refresh token in the database. If the refresh token cannot be found in the DB, the query returns a null value. We resolve the 
-promise with null. If the token is found, we verify its validity. If that passes as well, then we generate a new access token and resolve the promise 
-with that token. An error with the query will reject the promise.
+promise with null. If the token is found, we verify its validity. If that passes as well, we perform a check to see if the user is an administrator 
+or a practitioner, in order to provide the proper payload. Then we generate a new access token and resolve the promise with that token. An error 
+with the query will reject the promise.
 */
+/**
+ * In this method, we are passed a refreshToken. This method returns a Promise. The promise will resolve upon successful execution of the mongoose 
+ * query to find the refresh token in the database. If the refresh token cannot be found in the DB, the query returns a null value. We resolve the 
+ * promise with null. If the token is found, we verify its validity. If that passes as well, we perform a check to see if the user is an administrator 
+ * or a practitioner, in order to provide the proper payload. Then we generate a new access token and resolve the promise with that token. An error 
+ * with the query will reject the promise.
+ * @param {jwt} refreshToken 
+ * @param {jwt} oldAccessToken 
+ * @returns 
+ */
 const refreshEmployeeAccessToken = (refreshToken, oldAccessToken) => {
 	return new Promise((resolve, reject) => {
 		const thing = RefToken.findOne({ token: refreshToken })
@@ -293,20 +319,5 @@ export const invalidateEmployeeRefToken = (req, res, next) => {
 					message: 'Something weird happened on logout attempt',
 				})
 			})
-		
-		// console.log('Line 157 error')
-		// return res
-		// 	.status(401)
-		// 	.json({ message: 'Something weird happened on logout attempt' })
 	}
 }
-
-// const checkAccessAuthorized = (validAccessToken) => {
-// 	const userType = validAccessToken.patientId;
-// 	if(userType) {
-// 		return true;
-// 	} else {
-// 		console.log("Not a patient. Go find your own page!");
-// 		return false;
-// 	}
-// }

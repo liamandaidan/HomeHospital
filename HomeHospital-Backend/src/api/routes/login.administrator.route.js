@@ -5,7 +5,6 @@ import { generateEmployeeAccessToken } from '../service/employee.token.service.j
 // Creates Router
 const route = express.Router()
 
-// Logs in the user and creates access tokens through token.service.js middleware
 route.post('/', logAdministratorIn, generateEmployeeAccessToken, (req, res) => {
 	// attaches JWT token values to the request
 	const accessT = req.tokens.accessT
