@@ -126,9 +126,7 @@ route.get('/currentRequest', async (req, res) => {
 					patient.currentRequest
 				)
 				console.log('Sent patient their current request')
-				res.status(200).send({
-					request: currentRequest,
-				})
+				res.status(200).send(currentRequest)
 			}
 		} else {
 			throw new Error('Invalid User Id')
