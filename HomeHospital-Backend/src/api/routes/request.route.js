@@ -126,9 +126,7 @@ route.get("/currentRequest", async (req, res) => {
           patient.currentRequest
         );
         console.log("Sent patient their current request");
-        res.status(200).send({
-          request: currentRequest,
-        });
+        res.status(200).send(currentRequest);
       }
     } else {
       throw new Error("Invalid User Id");
@@ -170,10 +168,7 @@ route.get("/allRequests", async (req, res) => {
         });
 
         console.log("Sent patient list of ALL requests");
-        res.status(200).send({
-          numOfRequests: requestList.length,
-          request: requestList,
-        });
+        res.status(200).send(requestList);
       }
     } else {
       throw new Error("Invalid mongo object Id");
@@ -197,9 +192,7 @@ route.get("/targetRequest/:requestId", async (req, res) => {
 
       if (request) {
         console.log(`Sent the patient the request with the Id: ${requestId}`);
-        res.status(200).send({
-          request: request,
-        });
+        res.status(200).send(request);
       } else {
         console.log("No registered requests");
         res.status(404).send({ message: "Request not found" });
