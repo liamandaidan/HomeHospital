@@ -7,6 +7,10 @@ body {
   
 }
 
+.admin-container {
+  margin-top: 50px;
+}
+
 .title {
   margin-left: 25px;
   font-family: "Inter", sans-serif;

@@ -9,7 +9,7 @@ function Admin() {
   return (
     <>
       <AdminNav />
-      <Container>
+      <Container className="admin-container">
         <Row>
           <Col sm={3}>
             <AdminMenu />
