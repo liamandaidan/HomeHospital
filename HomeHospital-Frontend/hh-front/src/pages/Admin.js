@@ -2,7 +2,7 @@ import React from "react";
 import AdminMenu from "../components/AdminMenu";
 import AdminNav from "../components/AdminNav";
 import { Container, Row, Col } from "react-bootstrap"; 
-import Backup from "../components/BackupRestore";
+import ManageUser from "../components/ManageUser";
 
 function Admin() {
   return (
@@ -14,7 +14,7 @@ function Admin() {
       <AdminMenu />
               </Col>
               <Col sm={8}>
-      <Backup />
+      <ManageUser />
               </Col>
           </Row>
       </Container>

@@ -1,0 +1,80 @@
+[
+    {
+        "id": "12345",
+        "type": "patient",
+        "firstName": "Dwight",
+        "lastName": "Shrute",
+        "phoneNumber": "403-123-1232",
+        "address": "123 beets ave",
+        "city": "Scranton",
+        "postalCode": "B2B 1B1",
+        "aHCNumber": "1234-21",
+        "emergencyContactName": "Angela",
+        "emergencyConactNumber": "403-441-4343"
+    },
+    {
+        "id": "11111",
+        "type": "patient",
+        "firstName": "Bob",
+        "lastName": "Belcher",
+        "phoneNumber": "403-123-1222",
+        "address": "123 burger ave",
+        "city": "Tomato",
+        "postalCode": "B2B 1B1",
+        "aHCNumber": "1234-41",
+        "emergencyContactName": "Linda",
+        "emergencyConactNumber": "403-441-4343"
+    },
+    {
+        "id": "22222",
+        "type": "practitioner",
+        "firstName": "James",
+        "lastName": "May",
+        "phoneNumber": "403-111-1111",
+        "address": "123 ferari ave",
+        "city": "London",
+        "postalCode": "C2C 1C1",
+        "aHCNumber": "1222-22",
+        "emergencyContactName": "Brad",
+        "emergencyConactNumber": "403-444-3333"
+    },
+    {
+        "id": "33333",
+        "type": "practitioner",
+        "firstName": "Justin",
+        "lastName": "Beaver",
+        "phoneNumber": "403-222-2211",
+        "address": "123 Purple ave",
+        "city": "Toronto",
+        "postalCode": "T2T 1T1",
+        "aHCNumber": "13333-33",
+        "emergencyContactName": "Hailey",
+        "emergencyConactNumber": "403-555-4444"
+    },
+    {
+        "id": "44444",
+        "type": "patient",
+        "firstName": "Greg",
+        "lastName": "House",
+        "phoneNumber": "403-333-3331",
+        "address": "123 Cane ave",
+        "city": "Red Deer",
+        "postalCode": "D2D 1D1",
+        "aHCNumber": "1555-25",
+        "emergencyContactName": "Cameron",
+        "emergencyConactNumber": "403-455-3543"
+    },
+    {
+        "id": "55555",
+        "type": "patient",
+        "firstName": "Valerie",
+        "lastName": "Frizzle",
+        "phoneNumber": "403-101-1010",
+        "address": "123 Magic ave",
+        "city": "Edmonton",
+        "postalCode": "F2F 1F1",
+        "aHCNumber": "1222-22",
+        "emergencyContactName": "Brad",
+        "emergencyConactNumber": "403-444-3333"
+    }
+]
