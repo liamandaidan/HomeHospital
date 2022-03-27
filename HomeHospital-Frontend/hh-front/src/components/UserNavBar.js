@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import {
   Navbar,
   Container,
@@ -16,6 +16,8 @@ axios.defaults.withCredentials = true;
 function UserNavBar() {
   let navigate = useNavigate();
 
+  const [currentRequestExist, setCurrentRequestExist] = useState(false);
+
   function requestPage() {
     navigate("/hospitals");
   }
@@ -32,10 +34,22 @@ function UserNavBar() {
     navigate("/");
   };
 
+  function deleteAllCookies() {
+    const cookies = document.cookie.split(";");
+
+    for (let i = 0; i < cookies.length; i++) {
+      const cookie = cookies[i];
+      const eqPos = cookie.indexOf("=");
+      const name = eqPos > -1 ? cookie.substr(0, eqPos) : cookie;
+      document.cookie = name + "=;expires=Thu, 01 Jan 1970 00:00:00 GMT";
+    }
+  }
+
   const handleLogout = () => {
     axios
       .post("http://localhost:4000/api/logout")
       .then((response) => {
+        deleteAllCookies();
         navigate("/");
       })
       .catch((err) => {
@@ -43,6 +57,27 @@ function UserNavBar() {
         navigate("/");
       });
   };
+
+  function currentRequest() {
+    axios
+      .get("http://localhost:4000/api/visitRequest/currentRequest", {
+        withCredentials: true,
+      })
+      .then((response) => {
+        if (response.status === 200) {
+          setCurrentRequestExist(true);
+        } else {
+          setCurrentRequestExist(false);
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }
+
+  useEffect(() => {
+    currentRequest();
+  }, []);
 
   return (
     <Navbar bg="light" expand="lg">
@@ -60,8 +95,9 @@ function UserNavBar() {
             <Nav.Link onClick={handleHome} className="ms-5">
               Home
             </Nav.Link>
-            <Nav.Link onClick={requestPage}>Requests</Nav.Link>
-            {/* <Nav.Link href="#action2">Symptoms</Nav.Link> */}
+            {!currentRequestExist && (
+              <Nav.Link onClick={requestPage}>Requests</Nav.Link>
+            )}
           </Nav>
           <div className="d-flex">
             <img src={avatar} alt="avatar" className={classes.avatar} />
