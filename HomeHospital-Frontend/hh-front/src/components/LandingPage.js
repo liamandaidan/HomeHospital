@@ -14,17 +14,7 @@ function LandingPage() {
   };
 
   const handleLogin = () => {
-    axios
-      .post("http://localhost:4000/api/users/PatientInfoVisitRequest", {
-        withCredentials: true,
-      })
-      .then((response) => {
-        navigate("/home");
-      })
-      .catch((err) => {
-        console.log(err);
-        navigate("/login");
-      });
+    navigate("/login");
   };
 
   return (

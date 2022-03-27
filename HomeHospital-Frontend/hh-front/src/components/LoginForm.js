@@ -1,5 +1,13 @@
 import React, { useEffect, useState } from "react";
-import { Button, Col, Container, Form, Modal, Row } from "react-bootstrap";
+import {
+  Button,
+  Col,
+  Container,
+  Form,
+  Modal,
+  Row,
+  Spinner,
+} from "react-bootstrap";
 import { Link, useNavigate } from "react-router-dom";
 import logo from "../images/heartbeat_logo_long.png";
 import classes from "./LoginForm.module.css";
@@ -16,6 +24,7 @@ function LoginForm() {
   const [validPassword, setvalidPassword] = useState(false);
   const [validForm, setValidForm] = useState(false);
   const [modalShow, setModalShow] = useState(false);
+  const [loggedIn, setLoggedIn] = useState();
 
   const handleShow = () => setModalShow(true);
 
@@ -55,10 +64,23 @@ function LoginForm() {
         navigate("/home");
       })
       .catch((err) => {
-        handleShow();
-        console.log("Error:" + err);
+        console.log(err);
       });
   };
+
+  useEffect(() => {
+    axios
+      .post("http://localhost:4000/api/users/PatientInfoVisitRequest", {
+        withCredentials: true,
+      })
+      .then((response) => {
+        setLoggedIn(true);
+        navigate("/home");
+      })
+      .catch((err) => {
+        setLoggedIn(false);
+      });
+  }, [loggedIn]);
 
   function ErrorModal(props) {
     return (
@@ -86,6 +108,14 @@ function LoginForm() {
       setValidForm(true);
     }
   }, [validEmail, validPassword]);
+
+  if (loggedIn === undefined || loggedIn === null) {
+    return (
+      <Spinner animation="border" role="status">
+        <span className="visually-hidden">Loading...</span>
+      </Spinner>
+    );
+  }
 
   return (
     <React.Fragment>

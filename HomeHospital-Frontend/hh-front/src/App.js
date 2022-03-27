@@ -54,14 +54,7 @@ function App() {
               </RequireAuth>
             }
           />
-          <Route
-            path="/home"
-            element={
-              <RequireAuth>
-                <UserHomepage />
-              </RequireAuth>
-            }
-          />
+          <Route path="/home" element={<UserHomepage />} />
 
           <Route
             path="/register"

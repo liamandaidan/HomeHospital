@@ -1,6 +1,7 @@
 import React, { useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Form from "react-bootstrap/Form";
+import Alert from "react-bootstrap/Alert";
 import Col from "react-bootstrap/Col";
 import Row from "react-bootstrap/Row";
 import Button from "react-bootstrap/Button";
@@ -17,6 +18,7 @@ axios.defaults.withCredentials = true;
 function SymptomsForm() {
   const [additionalInfo, setAdditionalInfo] = useState("");
   const [modalState, setModalState] = useState(false);
+  const [isValid, setIsValid] = useState(true);
 
   const { _id, newRequest } = useContext(HomeHospitalContext);
   const [hospitalID] = _id;
@@ -50,9 +52,10 @@ function SymptomsForm() {
         },
       ]);
     } else {
-      alert(
-        "Please enter all details before added a new symptom. Thank you :) "
-      );
+      setIsValid(false);
+      // alert(
+      //   "Please enter all details before added a new symptom. Thank you :) "
+      // );
     }
   };
 
@@ -152,6 +155,14 @@ function SymptomsForm() {
   return (
     <>
       <Container className="symptoms-container">
+        {!isValid && (
+          <Alert variant="danger" onClose={() => setIsValid(true)} dismissible>
+            <Alert.Heading>
+              Please enter all details before added a new symptom. Thank you!
+            </Alert.Heading>
+          </Alert>
+        )}
+
         <Row>
           <div className="title-div">
             <h2>Enter Symtoms</h2>
