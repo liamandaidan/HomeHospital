@@ -120,8 +120,8 @@ function UserHomeVisitsDisplay() {
               </div>
             )}
             {currentSpinner && (
-              <div className="spinner-div">
-                <Spinner animation="border" role="status" className="spinner">
+              <div className="spinner-div text-center">
+                <Spinner animation="border" role="status">
                   <span className="visually-hidden">Loading...</span>
                 </Spinner>
               </div>
@@ -170,8 +170,8 @@ function UserHomeVisitsDisplay() {
               </div>
             )}
             {spinner && (
-              <div className="spinner-div">
-                <Spinner animation="border" role="status" className="spinner">
+              <div className="spinner-div text-center">
+                <Spinner animation="border" role="status">
                   <span className="visually-hidden">Loading...</span>
                 </Spinner>
               </div>

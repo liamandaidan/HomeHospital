@@ -111,9 +111,11 @@ function LoginForm() {
 
   if (loggedIn === undefined || loggedIn === null) {
     return (
-      <Spinner animation="border" role="status">
-        <span className="visually-hidden">Loading...</span>
-      </Spinner>
+      <div className={`${classes.spinner} text-center`}>
+        <Spinner animation="border" role="status">
+          <span className="visually-hidden">Loading...</span>
+        </Spinner>
+      </div>
     );
   }
 

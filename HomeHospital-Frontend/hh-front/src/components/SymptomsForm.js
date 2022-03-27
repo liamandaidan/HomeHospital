@@ -158,7 +158,7 @@ function SymptomsForm() {
         {!isValid && (
           <Alert variant="danger" onClose={() => setIsValid(true)} dismissible>
             <Alert.Heading>
-              Please enter all details before added a new symptom. Thank you!
+              Please enter all details before adding a new symptom. Thank you!
             </Alert.Heading>
           </Alert>
         )}

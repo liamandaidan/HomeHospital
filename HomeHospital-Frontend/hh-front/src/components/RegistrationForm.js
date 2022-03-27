@@ -1,11 +1,16 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { Button, Container, Row, Col, Form } from "react-bootstrap";
 import classes from "./RegistrationForm.module.css";
 import { useNavigate } from "react-router-dom";
 import Axios from "axios";
+import { HomeHospitalContext } from "./HomeHospitalContext";
 
 function RegistrationForm() {
   let navigate = useNavigate();
+
+  // useContext to get new Request value
+  const { regSuccess } = useContext(HomeHospitalContext);
+  const [regSuccessValue, setRegSuccessValue] = regSuccess;
 
   // Declare React Variables
   const [firstNameValue, setFirstNameValue] = useState("");
@@ -259,6 +264,7 @@ function RegistrationForm() {
       contactLastName: emLastNameValue,
       contactPhoneNumber: emPhoneValue,
     }).then((response) => {
+      setRegSuccessValue(true);
       console.log("Registration Successful");
       navigate("/login");
     });
