@@ -1,5 +1,12 @@
 @import url("https://fonts.googleapis.com/css2?family=Inter:wght@900&display=swap");
 
+body {
+  background-image: url("../images/adminbg.jpg");
+  background-repeat: no-repeat;
+  background-size: cover;
+  
+}
+
 .title {
   margin-left: 25px;
   font-family: "Inter", sans-serif;
@@ -51,4 +58,15 @@
   color: #F5F5FA;
   border-radius: 10px;
   background-color: #7878AB;
+}
+
+.manageuser-inner-div {
+  height: 500px;
+  border: 1px solid #CCCCCC;
+  border-radius: 5px;
+  margin-top: 20px;
+}
+
+.manageuser-div {
+  margin-top: 35px;
 }

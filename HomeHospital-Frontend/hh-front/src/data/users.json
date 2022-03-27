@@ -1,6 +1,6 @@
 [
     {
-        "id": "12345",
+        "id": 12345,
         "type": "patient",
         "firstName": "Dwight",
         "lastName": "Shrute",
@@ -13,7 +13,7 @@
         "emergencyConactNumber": "403-441-4343"
     },
     {
-        "id": "11111",
+        "id": 11111,
         "type": "patient",
         "firstName": "Bob",
         "lastName": "Belcher",
@@ -26,7 +26,7 @@
         "emergencyConactNumber": "403-441-4343"
     },
     {
-        "id": "22222",
+        "id": 22222,
         "type": "practitioner",
         "firstName": "James",
         "lastName": "May",
@@ -39,7 +39,7 @@
         "emergencyConactNumber": "403-444-3333"
     },
     {
-        "id": "33333",
+        "id": 33333,
         "type": "practitioner",
         "firstName": "Justin",
         "lastName": "Beaver",
@@ -52,7 +52,7 @@
         "emergencyConactNumber": "403-555-4444"
     },
     {
-        "id": "44444",
+        "id": 44444,
         "type": "patient",
         "firstName": "Greg",
         "lastName": "House",
@@ -65,7 +65,7 @@
         "emergencyConactNumber": "403-455-3543"
     },
     {
-        "id": "55555",
+        "id": 55555,
         "type": "patient",
         "firstName": "Valerie",
         "lastName": "Frizzle",
