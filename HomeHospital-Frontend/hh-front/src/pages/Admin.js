@@ -4,12 +4,14 @@ import AdminNav from "../components/AdminNav";
 import { Container, Row, Col } from "react-bootstrap";
 import ManageUser from "../components/ManageUser";
 import "../styles/admin.css";
+import { AdminProvider } from "../components/AdminContext";
 
 function Admin() {
   return (
     <>
       <AdminNav />
       <Container className="admin-container">
+            <AdminProvider>
         <Row>
           <Col sm={3}>
             <AdminMenu />
@@ -21,6 +23,7 @@ function Admin() {
             </div>
           </Col>
         </Row>
+            </AdminProvider>
       </Container>
     </>
   );

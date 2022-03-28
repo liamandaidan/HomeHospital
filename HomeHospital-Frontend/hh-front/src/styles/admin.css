@@ -7,8 +7,15 @@ body {
   
 }
 
+.modal-title {
+  letter-spacing: 0px;
+}
+
 .admin-container {
   margin-top: 50px;
+}
+.cancel-btn-div {
+  position:static;
 }
 
 .title {
@@ -69,8 +76,40 @@ body {
   border: 1px solid #CCCCCC;
   border-radius: 5px;
   margin-top: 20px;
+  overflow-y: auto;
 }
 
 .manageuser-div {
   margin-top: 35px;
+  margin-bottom: 40px;;
 }
+
+.editUser-div {
+  padding: 20px;
+}
+.userDisplay-div {
+  padding: 20px;
+}
+
+.confirmChange-btn {
+  margin-top:10px;
+  margin-bottom: 5px;
+  color: #3c3b3b;
+  border-radius: 10px;
+  background-color: #E7FBF6;
+  border: #E7FBF6;
+  margin-top: 1rem;
+}
+.confirmChange-btn:hover {
+  color: #F5F5FA;
+  border-radius: 10px;
+  background-color: #7878AB;
+}
+
+.confirmChange-div {
+  text-align: right;
+  justify-content: right;
+
+}
+
+
