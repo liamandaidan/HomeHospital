@@ -27,7 +27,7 @@ const medicalFacility = new mongoose.Schema({
 	phoneNumber: {
 		type: String,
 		default: null,
-		//validate:[validator.isMobilePhone, 'Please enter a Valid Phone Number']
+		validate:[validator.isMobilePhone, 'Please enter a Valid Phone Number']
 	},
 	waitTime: {
 		type: String,
