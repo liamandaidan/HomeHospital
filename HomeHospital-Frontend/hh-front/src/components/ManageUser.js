@@ -1,12 +1,16 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import { Table, Modal, Button, Form } from "react-bootstrap";
 import Users from "../data/users.json";
+import { AdminContext } from "./AdminContext";
 
 function ManageUser() {
   const [modalState, setModalState] = useState(false);
   const [selectedUser, setSelectedUser] = useState("");
-  const [userDisplay, setUserDisplay] = useState(false);
   const [editDisplay, setEditDisplay] = useState(false);
+  
+  const { displayUsers } = useContext(AdminContext);
+  console.log(displayUsers);
+  const [userDisplay, setUserDisplay] = displayUsers;
 
   //selected user details to edit
   const [id, setId] = useState("");
@@ -35,6 +39,30 @@ function ManageUser() {
   //         console.log(err);
   //       });
   //   }, []);
+
+  //push updated user information
+    // useEffect(() => {
+    //   axios
+    //     .post("http://localhost:4000/api/users/PatientInfoVisitRequest", {
+    //       id,
+    //       type,
+    //       firstName,
+    //       lastName,
+    //       phoneNum,
+    //       address,
+    //       city,
+    //       postalCode,
+    //       aHCNum,
+    //       emergName,
+    //       emergNum
+    //     })
+    //     .then((response) => {
+    //         console.log(response);
+    //     })
+    //     .catch((err) => {
+    //       console.log(err);
+    //     });
+    // }, []);
 
   const AlertModal = (props) => {
     return (
@@ -88,6 +116,7 @@ function ManageUser() {
 
   const selectEdit = (e) => {
     setUserDisplay(false);
+    // setDisplayUsers(false);
     setEditDisplay(true);
 
     {
@@ -111,12 +140,13 @@ function ManageUser() {
 
   const showUsers = () => {
     setUserDisplay(true);
+    // setDisplayUsers(true);
     setEditDisplay(false);
   };
 
   return (
     <>
-      <Button onClick={showUsers}>show users</Button>
+      {/* <Button onClick={showUsers}>show users</Button> */}
 
       {/* the values are set to read only for now until we figure out how are sending information */}
       <div className="manageuser-inner-div">
@@ -126,23 +156,25 @@ function ManageUser() {
             <Form>
               <Form.Group>
                 <Form.Label>User type: </Form.Label>
-                <Form.Control value={type} size="sm" readOnly />
+                <Form.Control value={type} onChange={(e) => setType(e.target.value)} size="sm" />
                 <Form.Label>First name: </Form.Label>
-                <Form.Control value={firstName} size="sm" readOnly />
+                <Form.Control value={firstName} onChange={(e) => setFirstName(e.target.value)} size="sm" />
                 <Form.Label>Last name: </Form.Label>
-                <Form.Control value={lastName} size="sm" readOnly />
+                <Form.Control value={lastName} onChange={(e) => setLastName(e.target.value)} size="sm" />
+                <Form.Label>Phone numer: </Form.Label>
+                <Form.Control value={phoneNum} onChange={(e) => setPhoneNum(e.target.value)} size="sm" />
                 <Form.Label>Address: </Form.Label>
-                <Form.Control value={address} size="sm" readOnly />
+                <Form.Control value={address} onChange={(e) => setAddress(e.target.value)} size="sm" />
                 <Form.Label>City: </Form.Label>
-                <Form.Control value={city} size="sm" readOnly />
+                <Form.Control value={city} onChange={(e) => setCity(e.target.value)} size="sm" />
                 <Form.Label>Postal code: </Form.Label>
-                <Form.Control value={postalCode} size="sm" readOnly />
+                <Form.Control value={postalCode} onChange={(e) => setPostalCode(e.target.value)} size="sm" />
                 <Form.Label>Alberta Health Care: </Form.Label>
-                <Form.Control value={aHCNum} size="sm" readOnly />
+                <Form.Control value={aHCNum} onChange={(e) => setAHCNum(e.target.value)} size="sm" />
                 <Form.Label>Emergecy contact name: </Form.Label>
-                <Form.Control value={emergName} size="sm" readOnly />
+                <Form.Control value={emergName} onChange={(e) => setEmergName(e.target.value)} size="sm" />
                 <Form.Label>Emergency contact number: </Form.Label>
-                <Form.Control value={emergNum} size="sm" readOnly />
+                <Form.Control value={emergNum} onChange={(e) => setEmergNum(e.target.value)} size="sm" />
               </Form.Group>
               <div className="confirmChange-div">
                 <Button className="confirmChange-btn">Confirm Change</Button>
