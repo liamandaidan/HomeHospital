@@ -1,7 +1,6 @@
 import mongoose from 'mongoose'
 import addressSchema from './address.Schema.js'
 
-
 const medicalFacility = new mongoose.Schema({
 	hospitalName: {
 		type: String,
@@ -72,6 +71,7 @@ medicalFacility.methods.cancelRequest = async function (requestId) {
 		if (this.waitList[this.waitList.length - 1] === requestId) {
 			this.waitList.pop()
 		} else {
+			console.log(this.findIndexInWaitList(requestId))
 			this.waitList.splice(this.findIndexInWaitList(requestId), 1)
 		}
 	} catch (error) {
@@ -83,6 +83,8 @@ medicalFacility.methods.cancelRequest = async function (requestId) {
 medicalFacility.methods.completeRequest = async function (requestId) {
 	try {
 		// removes the request Id from the waitList
+		// console.log('requestId: ' + requestId)
+		// console.log(this.findIndexInWaitList(requestId))
 		this.waitList.splice(this.findIndexInWaitList(requestId), 1)
 	} catch (error) {
 		console.log(error.message)
@@ -94,8 +96,15 @@ medicalFacility.methods.findIndexInWaitList = function (requestId) {
 	try {
 		// Search the waitList array for the requestId and return that index
 		for (let i = 0; i < this.waitList.length; i++) {
-			if (this.waitList.length[i] === requestId) {
-				return this.waitList[i]
+			// console.log(
+			// 	'Waitlist ' + this.waitList[i] + ' requestId ' + requestId
+			// )
+			// console.log('bool result ' + this.waitList[i].toString() == requestId.toString())
+
+			//TODO: Check this out, it shouldn't work, but it does.. who knows?
+			if (this.waitList[i].toString() == requestId.toString()) {
+				
+				return i
 			}
 		}
 	} catch (error) {
