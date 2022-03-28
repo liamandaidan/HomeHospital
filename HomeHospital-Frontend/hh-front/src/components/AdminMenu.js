@@ -6,15 +6,10 @@ import { AdminContext } from "./AdminContext";
 
 function AdminMenu() {
 
-  const { displayUsers } = useContext(AdminContext);
+  const { menuSelection } = useContext(AdminContext);
 
-  const [usersDiplay, setUserDisplay] = displayUsers;
+  const [menuChoice, setMenuChoice] = menuSelection;
 
-  console.log(displayUsers);
-
-  const displayManageUsers = (e) => {
-    setUserDisplay(true);
-  }
 
   return (
     <>
@@ -24,7 +19,7 @@ function AdminMenu() {
                 <h2>Menu</h2>
                 <ListGroup className="admin-menu">
                     <ListGroup.Item disabled >Backup and Restore</ListGroup.Item>
-                    <ListGroup.Item onClick={(e) => setUserDisplay(true)} >Manage Users</ListGroup.Item>
+                    <ListGroup.Item className="adminMenu-item" onClick={(e) => setMenuChoice("manage") } >Manage Users</ListGroup.Item>
                     <ListGroup.Item disabled >Reports</ListGroup.Item>
                     <ListGroup.Item disabled >System</ListGroup.Item>
                 </ListGroup>

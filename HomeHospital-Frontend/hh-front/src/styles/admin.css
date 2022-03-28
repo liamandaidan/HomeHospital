@@ -7,8 +7,33 @@ body {
   
 }
 
+.admin-main-div {
+  /* border: 1px solid #ec2baa; */
+  margin-top: 35px;
+  margin-bottom: 40px;
+}
+
+.admin-link {
+  color: #7878AB;
+}
+
+.adminMenu-item:hover {
+  background-color: #E7FBF6;
+  cursor: pointer;
+}
+
+.adminMenu-item:active {
+  background-color: #E7FBF6;
+  cursor: pointer;
+}
+
 .modal-title {
   letter-spacing: 0px;
+}
+
+.table-row:hover {
+  background-color: #E7FBF6;
+  cursor: pointer;
 }
 
 .admin-container {
@@ -79,10 +104,10 @@ body {
   overflow-y: auto;
 }
 
-.manageuser-div {
+/* .manageuser-div {
   margin-top: 35px;
-  margin-bottom: 40px;;
-}
+  margin-bottom: 40px;
+} */
 
 .editUser-div {
   padding: 20px;
@@ -92,7 +117,6 @@ body {
 }
 
 .confirmChange-btn {
-  margin-top:10px;
   margin-bottom: 5px;
   color: #3c3b3b;
   border-radius: 10px;
@@ -109,7 +133,29 @@ body {
 .confirmChange-div {
   text-align: right;
   justify-content: right;
+  align-self: right;
 
 }
+
+.grid-div {
+  display:grid;
+}
+
+.item-1{
+  grid-column-start: 1;
+  grid-column-end: 2;
+  padding-top: 25px;
+}
+.item-2{
+  grid-column-start: 2;
+  grid-column-end: 3;
+  padding-top: 10px;
+}
+
+.delete-link {
+  color:#ec2baa;
+  font-size: 13px;
+}
+
 
 

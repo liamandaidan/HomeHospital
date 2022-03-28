@@ -7,10 +7,11 @@ function ManageUser() {
   const [modalState, setModalState] = useState(false);
   const [selectedUser, setSelectedUser] = useState("");
   const [editDisplay, setEditDisplay] = useState(false);
+  const [userDisplay, setUserDisplay] = useState(true);
   
-  const { displayUsers } = useContext(AdminContext);
-  console.log(displayUsers);
-  const [userDisplay, setUserDisplay] = displayUsers;
+  const { menuSelection } = useContext(AdminContext);
+  // console.log(displayUsers);
+  const [menuChoice, setMenuChoice] = menuSelection;
 
   //selected user details to edit
   const [id, setId] = useState("");
@@ -146,6 +147,11 @@ function ManageUser() {
 
   return (
     <>
+    {menuChoice === "manage" && (
+
+    <div className="admin-main-div">
+      <h2>Manage Users</h2>
+
       {/* <Button onClick={showUsers}>show users</Button> */}
 
       {/* the values are set to read only for now until we figure out how are sending information */}
@@ -176,17 +182,20 @@ function ManageUser() {
                 <Form.Label>Emergency contact number: </Form.Label>
                 <Form.Control value={emergNum} onChange={(e) => setEmergNum(e.target.value)} size="sm" />
               </Form.Group>
-              <div className="confirmChange-div">
+              <div className="grid-div">
+              <div className="item-1"><a className="delete-link" onClick={(e) => handleDelete(id)}>Delete User</a></div>
+              <div className="confirmChange-div item-2">
                 <Button className="confirmChange-btn">Confirm Change</Button>
                 <br />
-                <a onClick={showUsers}>Cancel</a>
+                <a className="admin-link" onClick={showUsers}>Cancel</a>
+              </div>
               </div>
             </Form>
           </div>
         )}
         {userDisplay && (
           <div className="userDisplay-div">
-            <Table hover className="userDisplay-table">
+            <Table className="userDisplay-table">
               <thead>
                 <tr>
                   <th>#</th>
@@ -198,16 +207,16 @@ function ManageUser() {
               <tbody>
                 {Users.map((user, index) => {
                   return (
-                    <tr key={user.id} value={user.id}>
+                    <tr className="table-row" key={user.id} value={user.id}>
                       <td>{index + 1}</td>
                       <td>{user.firstName}</td>
                       <td>{user.lastName}</td>
                       <td>{user.type}</td>
                       <td>
-                        <a onClick={(e) => selectEdit(user.id)}>Edit</a>
+                        <a className="admin-link" onClick={(e) => selectEdit(user.id)}>Edit</a>
                       </td>
                       <td>
-                        <a onClick={(e) => handleDelete(user.id)}>Delete</a>
+                        <a className="admin-link" onClick={(e) => handleDelete(user.id)}>Delete</a>
                       </td>
                     </tr>
                   );
@@ -217,6 +226,8 @@ function ManageUser() {
           </div>
         )}
       </div>
+    </div>
+    )}
 
       <AlertModal show={modalState} onHide={() => setModalState(false)} />
     </>

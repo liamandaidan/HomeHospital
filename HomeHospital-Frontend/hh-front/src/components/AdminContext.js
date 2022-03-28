@@ -3,12 +3,12 @@ import React, { useState, createContext } from "react";
 export const AdminContext = createContext();
 
 export const AdminProvider = (props) => {
-  const [displayUsers, setDisplayUsers] = useState(false);
+  const [menuSelection, setMenuSelection] = useState("");
 
   return (
     <AdminContext.Provider
       value={{
-        displayUsers: [displayUsers, setDisplayUsers]
+        menuSelection: [menuSelection, setMenuSelection]
       }}
     >
       {props.children}
