@@ -8,11 +8,16 @@ export default function PractionerWaitlist({ childToParent }) {
     "Childerns",
     "Foothills",
   ]);
+  const [hospital, setHospital] = useState("none");
+  //this will map our selection of hospitals
+  const Add = selectHospital.map((Add) => Add);
+
   const handleHospitalChange = (e) => {
-   console.log(setSelectHospital(e.target.value));
+    console.clear();
+    console.log(selectHospital[e.target.value]);
+    setHospital(selectHospital[e.target.value]);
   };
 
-  const AddSelection = selectHospital.map((AddSelection) => AddSelection);
   /**
    * This will be used to render table rows based off of a dummy json file i created
    */
@@ -47,7 +52,7 @@ export default function PractionerWaitlist({ childToParent }) {
             aria-label="Floating label select example"
             onChange={(e) => handleHospitalChange(e)}
           >
-            {AddSelection.map((address, key) => (
+            {Add.map((address, key) => (
               <option key={key} value={key}>
                 {address}
               </option>
