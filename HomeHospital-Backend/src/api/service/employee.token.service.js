@@ -229,11 +229,11 @@ const refreshEmployeeAccessToken = (refreshToken, oldAccessToken) => {
 			.exec()
 			.then((token) => {
 				if (token) {
-					const userType = jwt.decode(refreshToken);
+					const oldPayload = jwt.decode(oldAccessToken);
 
 					jwt.verify(
 						refreshToken,
-						EMPLOYEE_ACCESS_KEY,
+						EMPLOYEE_REFRESH_KEY,
 						(err, result) => {
 							if (err) {
 								reject()
