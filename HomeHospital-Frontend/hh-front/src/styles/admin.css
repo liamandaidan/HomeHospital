@@ -172,10 +172,72 @@ body {
 }
 
 .landing-grid {
-  display:grid
-}
-
-.card-1{
+  display:grid;
+  margin-top: 150px;
+  margin-left: 40px;
+  grid-gap: 10px;
  
 }
 
+.card-1{
+  grid-column-start: 1;
+  grid-column-end: 2;
+  grid-row-start: 1;
+  grid-row-end: 2;
+  padding: 15px;
+  background-color: #ec2ba865;
+
+}
+.card-2{
+  grid-column-start: 2;
+  grid-column-end: 3;
+  grid-row-start: 1;
+  grid-row-end: 2;
+  padding: 15px;
+
+}
+.card-3{
+  grid-column-start: 1;
+  grid-column-end: 2;
+  grid-row-start: 2 ;
+  grid-row-end: 3 ;
+  padding: 15px;
+
+}
+
+.header-div {
+  display: grid;
+}
+
+.header-1 {
+  grid-column-start: 1;
+  grid-column-end: 2;
+}
+  
+.header-2 {
+  grid-column-start: 2;
+  grid-column-end: 3;
+  align-items: right;
+  justify-content: right;
+  text-align: right;
+  margin-top:-10px;
+}
+
+.createNewUser-btn {
+  margin-bottom: 5px;
+  color: #ffffff;
+  border-radius: 10px;
+  background-color: #7878AB;
+  border: #7878AB;
+  margin-top: 1rem;
+  width: 200px;
+}
+.createNewUser-btn:hover {
+  color: #1b1b1b;
+  border-radius: 10px;
+  background-color: #E7FBF6;
+}
+
+.createUser-div {
+  padding: 20px;
+}

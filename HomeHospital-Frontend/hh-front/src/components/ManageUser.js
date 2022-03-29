@@ -8,6 +8,7 @@ function ManageUser() {
   const [selectedUser, setSelectedUser] = useState("");
   const [editDisplay, setEditDisplay] = useState(false);
   const [userDisplay, setUserDisplay] = useState(true);
+  const [createDisplay, setCreateDisplay] = useState(false);
 
   const { menuSelection } = useContext(AdminContext);
   // console.log(displayUsers);
@@ -121,6 +122,7 @@ function ManageUser() {
     setUserDisplay(false);
     // setDisplayUsers(false);
     setEditDisplay(true);
+    setCreateDisplay(false);
 
     {
       Users.map((user) => {
@@ -145,17 +147,31 @@ function ManageUser() {
   const showUsers = () => {
     setUserDisplay(true);
     setEditDisplay(false);
+    setCreateDisplay(false);
   };
 
   const closeWindow = () => {
     setMenuChoice("");
   }
 
+  const showCreate = () => {
+    setCreateDisplay(true);
+    setUserDisplay(false);
+    setEditDisplay(false);
+  }
+
   return (
     <>
       {menuChoice === "manage" && (
         <div className="admin-main-div">
-          <h2>Manage Users</h2>
+          <div className="header-div">
+            <div className="header-1">
+            <h2>Manage Users</h2>
+            </div>
+            <div className="header-2">
+            <Button className="createNewUser-btn" onClick={showCreate}>Create new user</Button>
+            </div>
+            </div>
           <div className="manageuser-inner-div">
             {editDisplay && (
               <div className="editUser-div">
@@ -287,6 +303,86 @@ function ManageUser() {
                   </tbody>
                 </Table>
               </div>
+            )}
+            {createDisplay && (
+               <div className="createUser-div">
+               {/* <h3>User ID: {id} </h3> */}
+               <Form>
+                 <Form.Group>
+                   <Form.Label>User type: </Form.Label>
+                   <Form.Control
+                     value={type}
+                     onChange={(e) => setType(e.target.value)}
+                     size="sm"
+                   />
+                   <Form.Label>First name: </Form.Label>
+                   <Form.Control
+                     value={firstName}
+                     onChange={(e) => setFirstName(e.target.value)}
+                     size="sm"
+                   />
+                   <Form.Label>Last name: </Form.Label>
+                   <Form.Control
+                     value={lastName}
+                     onChange={(e) => setLastName(e.target.value)}
+                     size="sm"
+                   />
+                   <Form.Label>Phone numer: </Form.Label>
+                   <Form.Control
+                     value={phoneNum}
+                     onChange={(e) => setPhoneNum(e.target.value)}
+                     size="sm"
+                   />
+                   <Form.Label>Address: </Form.Label>
+                   <Form.Control
+                     value={address}
+                     onChange={(e) => setAddress(e.target.value)}
+                     size="sm"
+                   />
+                   <Form.Label>City: </Form.Label>
+                   <Form.Control
+                     value={city}
+                     onChange={(e) => setCity(e.target.value)}
+                     size="sm"
+                   />
+                   <Form.Label>Postal code: </Form.Label>
+                   <Form.Control
+                     value={postalCode}
+                     onChange={(e) => setPostalCode(e.target.value)}
+                     size="sm"
+                   />
+                   <Form.Label>Alberta Health Care: </Form.Label>
+                   <Form.Control
+                     value={aHCNum}
+                     onChange={(e) => setAHCNum(e.target.value)}
+                     size="sm"
+                   />
+                   <Form.Label>Emergecy contact name: </Form.Label>
+                   <Form.Control
+                     value={emergName}
+                     onChange={(e) => setEmergName(e.target.value)}
+                     size="sm"
+                   />
+                   <Form.Label>Emergency contact number: </Form.Label>
+                   <Form.Control
+                     value={emergNum}
+                     onChange={(e) => setEmergNum(e.target.value)}
+                     size="sm"
+                   />
+                 </Form.Group>
+                 <div className="grid-div">
+                   <div className="confirmChange-div item-2">
+                     <Button className="confirmChange-btn">
+                       Confirm new user
+                     </Button>
+                     <br />
+                     <a className="admin-link" onClick={showUsers}>
+                       Cancel
+                     </a>
+                   </div>
+                 </div>
+               </Form>
+             </div>
             )}
           </div>
         </div>
