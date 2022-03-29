@@ -1,11 +1,6 @@
 import mongoose from 'mongoose'
 import addressSchema from './address.Schema.js'
 import validator from 'validator'
-// import practitioner from './practitioner.Model.js'
-import {
-	completeVisitRequest,
-	deleteVisitRequest,
-} from '../api/service/request.service.js'
 
 const medicalFacility = new mongoose.Schema({
 	hospitalName: {
@@ -60,7 +55,7 @@ medicalFacility.methods.dequeue = async function () {
 	try {
 		if (this.waitList.length > 0) {
 			// moves request from visitRequest In DB to Completed request
-			await completeVisitRequest(this.waitList[0])
+			// await completeVisitRequest(this.waitList[0])
 			// remove the first request in the list
 			this.waitList.shift()
 		} else {
@@ -72,14 +67,13 @@ medicalFacility.methods.dequeue = async function () {
 }
 
 // cancel request
-medicalFacility.methods.cancel = async function (requestId) {
+medicalFacility.methods.cancelRequest = async function (requestId) {
 	try {
-		// deletes request from the visit request DB
-		await deleteVisitRequest(requestId)
 		// removes the request from the waitList
 		if (this.waitList[this.waitList.length - 1] === requestId) {
 			this.waitList.pop()
 		} else {
+			console.log(this.findIndexInWaitList(requestId))
 			this.waitList.splice(this.findIndexInWaitList(requestId), 1)
 		}
 	} catch (error) {
@@ -88,12 +82,12 @@ medicalFacility.methods.cancel = async function (requestId) {
 }
 
 // complete request from arbitrary position
-medicalFacility.methods.checkInSpecificRequest = async function (requestId) {
+medicalFacility.methods.completeRequest = async function (requestId) {
 	try {
-		// moves request from DB into completed request DB
-		await completeVisitRequest(requestId)
 		// removes the request Id from the waitList
-		this.waitList.splice(this.findIndexInWaitList(requestId), i)
+		// console.log('requestId: ' + requestId)
+		// console.log(this.findIndexInWaitList(requestId))
+		this.waitList.splice(this.findIndexInWaitList(requestId), 1)
 	} catch (error) {
 		console.log(error.message)
 	}
@@ -104,8 +98,15 @@ medicalFacility.methods.findIndexInWaitList = function (requestId) {
 	try {
 		// Search the waitList array for the requestId and return that index
 		for (let i = 0; i < this.waitList.length; i++) {
-			if (this.waitList.length[i] === requestId) {
-				return this.waitList[i]
+			// console.log(
+			// 	'Waitlist ' + this.waitList[i] + ' requestId ' + requestId
+			// )
+			// console.log('bool result ' + this.waitList[i].toString() == requestId.toString())
+
+			//TODO: Check this out, it shouldn't work, but it does.. who knows?
+			if (this.waitList[i].toString() == requestId.toString()) {
+				
+				return i
 			}
 		}
 	} catch (error) {

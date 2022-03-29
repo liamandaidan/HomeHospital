@@ -57,7 +57,6 @@
   width: "100vw";
 } */
 
-
 /* .bg-image{
   position: absolute;
 background: url("../images/bg.png");
@@ -91,7 +90,6 @@ background: url("../images/bg.png");
   /* identical to box height */
   width: 1000px;
   letter-spacing: 0.25em;
- 
 
   color: #616060;
 
@@ -112,11 +110,17 @@ background: url("../images/bg.png");
   text-align: center;
   /* background: rgba(244, 110, 253, 0.68); */
 }
-.labels{
+.labels {
   font-family: Arial;
   font-style: normal;
   font-weight: 500;
   font-size: 20px;
   color: #616060;
-  text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25)
+  text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+}
+
+.signup {
+  color: black;
+  background-color: rgba(113, 231, 202, 0.44);
+  border: none;
 }

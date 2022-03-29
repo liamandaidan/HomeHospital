@@ -14,6 +14,14 @@ const visitRequestSchema = new mongoose.Schema({
 		type: String,
 		required: [true, 'A Hospital Name is Required'],
 	},
+	latitude: {
+		type: Number,
+		immutable: true,
+	},
+	longitude: {
+		type: Number,
+		immutable: true,
+	},
 	patient: {
 		type: mongoose.Schema.Types.ObjectId,
 		ref: 'Patient',

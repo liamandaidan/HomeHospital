@@ -1,9 +1,13 @@
 import express from 'express'
 import patientModel from '../../models/patient.Model.js'
 import medicalFacilityModel from '../../models/medicalFacility.Model.js'
+import completedRequestModel from '../../models/completedRequest.model.js'
 import mongoose from 'mongoose'
 import visitRequestModel from '../../models/visitRequest.Model.js'
-import { completeVisitRequest } from '../service/request.service.js'
+import {
+	completeCurrentRequest,
+	cancelCurrentRequest,
+} from '../service/request.service.js'
 
 const route = express.Router()
 
@@ -52,6 +56,8 @@ route.post('/newRequest', async (req, res) => {
 					patientLastName: patient.user.lastName,
 					requestHospitalId: hospital._id, //hospitalId,
 					requestHospitalName: hospital.hospitalName,
+					latitude: hospital.latitude,
+					longitude: hospital.longitude,
 					// sets the patients address by default to the starting address
 					startAddress: {
 						streetAddress: address.streetAddress,
@@ -72,7 +78,7 @@ route.post('/newRequest', async (req, res) => {
 				)
 
 				// attach the new request Id to the patients requests list
-				patient.newRequest(request._id)
+				patient.newRequest(request._id, request.requestHospitalId)
 				await patient.save()
 
 				// Add the request to the hospitals waitList
@@ -120,9 +126,7 @@ route.get('/currentRequest', async (req, res) => {
 					patient.currentRequest
 				)
 				console.log('Sent patient their current request')
-				res.status(200).send({
-					request: currentRequest,
-				})
+				res.status(200).send(currentRequest)
 			}
 		} else {
 			throw new Error('Invalid User Id')
@@ -151,7 +155,7 @@ route.get('/allRequests', async (req, res) => {
 			const patient = await patientModel.findById(patientId)
 			// console.log(patient)
 
-			if (patient.requests.length == 0) {
+			if (patient.pastRequests.length == 0) {
 				console.log('No registered requests')
 				res.status(404).send({ message: 'No Current requests' })
 			} else {
@@ -159,15 +163,11 @@ route.get('/allRequests', async (req, res) => {
 				// send back to client
 
 				// find all DB entries with that patient id
-				const requestList = await visitRequestModel.find({
-					patient: patientId,
-				})
+				const requestList = await completedRequestModel.find({'request.patient': patientId})
+
 
 				console.log('Sent patient list of ALL requests')
-				res.status(200).send({
-					numOfRequests: requestList.length,
-					request: requestList,
-				})
+				res.status(200).send(requestList)
 			}
 		} else {
 			throw new Error('Invalid mongo object Id')
@@ -187,17 +187,13 @@ route.get('/targetRequest/:requestId', async (req, res) => {
 		// validate the users Id
 		const validUserId = mongoose.Types.ObjectId.isValid(requestId)
 		if (validUserId) {
-			// console.log(validUserId)
-			const request = await visitRequestModel.findById(requestId)
-			// console.log(patient)
+			const request = await completedRequestModel.findById(requestId)
 
 			if (request) {
 				console.log(
 					`Sent the patient the request with the Id: ${requestId}`
 				)
-				res.status(200).send({
-					request: request,
-				})
+				res.status(200).send(request)
 			} else {
 				console.log('No registered requests')
 				res.status(404).send({ message: 'Request not found' })
@@ -211,5 +207,22 @@ route.get('/targetRequest/:requestId', async (req, res) => {
 	}
 })
 
+route.delete('/cancel', async (req, res) => {
+	// check if they have a current request
+	const patientId = req.patientId
+	try {
+		// Ensure that the patientId is valid
+		if (await cancelCurrentRequest(patientId)) {
+			// Delete the visit request and all references to it
+			console.log('request was canceled')
+			res.status(200).send({ message: 'Request was canceled' })
+		} else {
+			res.status(400).send({ message: 'Cancel not processed' })
+		}
+	} catch (error) {
+		console.error('Cancel Request Error: ' + error.message)
+		res.status(400).send({ message: 'Cancel Request Error' })
+	}
+})
 
 export default route

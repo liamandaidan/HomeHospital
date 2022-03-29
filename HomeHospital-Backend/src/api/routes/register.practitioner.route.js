@@ -20,7 +20,7 @@ route.post('/', async (req, res) => {
 		}
 
 		if (!result.status) {
-			console.log('Error: Practitioner already exists')
+			//console.log('Error: Practitioner already exists')
 			res.status(422).send({
 				status: 'Error',
 				message:

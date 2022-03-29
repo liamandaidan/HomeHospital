@@ -17,4 +17,4 @@ const symptomSchema = new mongoose.Schema({
 	_id: false,
 }) 
 
-export default symptomSchema
+export default symptomSchema;

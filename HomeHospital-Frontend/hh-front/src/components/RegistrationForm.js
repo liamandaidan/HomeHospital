@@ -1,11 +1,16 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { Button, Container, Row, Col, Form } from "react-bootstrap";
 import classes from "./RegistrationForm.module.css";
 import { useNavigate } from "react-router-dom";
 import Axios from "axios";
+import { HomeHospitalContext } from "./HomeHospitalContext";
 
 function RegistrationForm() {
   let navigate = useNavigate();
+
+  // useContext to get new Request value
+  const { regSuccess } = useContext(HomeHospitalContext);
+  const [regSuccessValue, setRegSuccessValue] = regSuccess;
 
   // Declare React Variables
   const [firstNameValue, setFirstNameValue] = useState("");
@@ -19,7 +24,6 @@ function RegistrationForm() {
   const [dobValue, setDOBValue] = useState("");
   const [hcValue, setHCValue] = useState("");
   const [postalCodeValue, setPostalCodeValue] = useState("");
-  const [ageValue, setAgeValue] = useState(0);
   const [phoneValue, setPhoneValue] = useState("");
   const [emPhoneValue, setEmPhoneValue] = useState("");
   const [emailValue, setEmailValue] = useState("");
@@ -34,8 +38,7 @@ function RegistrationForm() {
   const [validHCValue, setValidHCValue] = useState(false);
   const [validPasswordValue, setValidPasswordValue] = useState(false);
   const [validClientFormValue, setValidClientFormValue] = useState(false);
-  const [resetAllFormValue, setResetAllFormValue] = useState(false);
-  const [modalShow, setModalShow] = useState(false);
+  const [resetAllFormValue] = useState(false);
 
   // check if the form is valid
   useEffect(() => {
@@ -76,7 +79,6 @@ function RegistrationForm() {
       setPostalCodeValue("");
       setPhoneValue("");
       setEmailValue("");
-      setAgeValue(0);
 
       document.getElementById("clientName").classList.remove("is-valid");
       document.getElementById("address").classList.remove("is-valid");
@@ -208,7 +210,9 @@ function RegistrationForm() {
   }
 
   function validateEmail() {
-    const pattern = new RegExp("^[a-zA-Z0-9_.-]+@[a-zA-Z]+[.][a-zA-Z]{2,}$");
+    const pattern = new RegExp(
+      "([!#-'*+/-9=?A-Z^-~-]+(.[!#-'*+/-9=?A-Z^-~-]+)*|\"([]!#-[^-~ \t]|(\\[\t -~]))+\")@([!#-'*+/-9=?A-Z^-~-]+(.[!#-'*+/-9=?A-Z^-~-]+)*|[[\t -Z^-~]*])"
+    );
     if (pattern.test(emailValue)) {
       document.getElementById("email").classList.add("is-valid");
       document.getElementById("email").classList.remove("is-invalid");
@@ -260,6 +264,7 @@ function RegistrationForm() {
       contactLastName: emLastNameValue,
       contactPhoneNumber: emPhoneValue,
     }).then((response) => {
+      setRegSuccessValue(true);
       console.log("Registration Successful");
       navigate("/login");
     });
@@ -268,6 +273,13 @@ function RegistrationForm() {
   return (
     <Container>
       <div>
+        <h3
+          className="text-center mt-4"
+          style={{ color: "#58adaf", textShadow: "1px 1px #C6C6C6" }}
+        >
+          Registration
+        </h3>
+        <hr />
         <form id="clientForm" action="">
           <Row>
             <Col>

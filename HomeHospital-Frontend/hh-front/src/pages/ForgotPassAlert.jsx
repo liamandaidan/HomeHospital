@@ -1,18 +1,17 @@
 import React, { Component } from "react";
-import { Row, Alert } from "react-bootstrap";
+import { Row, Alert, Button } from "react-bootstrap";
 import "../styles/forgotpass.css";
 import logo1 from "../images/hb1.png";
 import logo2 from "../images/hb2.png";
-import { useNavigate } from "react-router-dom";
 import bg from "../images/bg.png";
 
 export class ForgotPass extends Component {
-
+  
   /**
    * This class will be used return the alert notifying user to check their email.
    * @returns alert component
    */
-
+  
   render() {
     return (
       <div
@@ -45,6 +44,7 @@ export class ForgotPass extends Component {
                 </p>
               </Alert>
             </Row>
+              <Button className="signup" href="/">Back To Home Page</Button>
           </div>
 
           <div className="logo1">

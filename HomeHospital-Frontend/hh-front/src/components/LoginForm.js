@@ -1,9 +1,19 @@
 import React, { useEffect, useState } from "react";
-import { Button, Col, Container, Form, Modal, Row } from "react-bootstrap";
+import {
+  Button,
+  Col,
+  Container,
+  Form,
+  Modal,
+  Row,
+  Spinner,
+} from "react-bootstrap";
 import { Link, useNavigate } from "react-router-dom";
 import logo from "../images/heartbeat_logo_long.png";
 import classes from "./LoginForm.module.css";
-import Axios from "axios";
+import axios from "axios";
+
+axios.defaults.withCredentials = true;
 
 function LoginForm() {
   let navigate = useNavigate();
@@ -14,6 +24,7 @@ function LoginForm() {
   const [validPassword, setvalidPassword] = useState(false);
   const [validForm, setValidForm] = useState(false);
   const [modalShow, setModalShow] = useState(false);
+  const [loggedIn, setLoggedIn] = useState();
 
   const handleShow = () => setModalShow(true);
 
@@ -43,19 +54,34 @@ function LoginForm() {
   }
 
   const loginUser = () => {
-    Axios.post("http://localhost:4000/api/login", {
-      email: email,
-      password: password,
-    })
+    axios
+      .post("http://localhost:4000/api/login", {
+        email: email,
+        password: password,
+      })
       .then((response) => {
         console.log("You have logged in successfully");
-        navigate("/user");
+        navigate("/home");
       })
       .catch((err) => {
+        console.log(err);
         handleShow();
-        console.log("Error:" + err);
       });
   };
+
+  useEffect(() => {
+    axios
+      .post("http://localhost:4000/api/users/PatientInfoVisitRequest", {
+        withCredentials: true,
+      })
+      .then((response) => {
+        setLoggedIn(true);
+        navigate("/home");
+      })
+      .catch((err) => {
+        setLoggedIn(false);
+      });
+  }, [loggedIn]);
 
   function ErrorModal(props) {
     return (
@@ -83,6 +109,16 @@ function LoginForm() {
       setValidForm(true);
     }
   }, [validEmail, validPassword]);
+
+  if (loggedIn === undefined || loggedIn === null) {
+    return (
+      <div className={`${classes.spinner} text-center`}>
+        <Spinner animation="border" role="status">
+          <span className="visually-hidden">Loading...</span>
+        </Spinner>
+      </div>
+    );
+  }
 
   return (
     <React.Fragment>
@@ -167,6 +203,11 @@ function LoginForm() {
                 <Link className={classes.teal} to="/forget">
                   Forgot Password
                 </Link>
+                <div style={{ paddingTop: "5px" }}>
+                  <Link className={classes.teal} to="/">
+                    Cancel
+                  </Link>
+                </div>
               </Col>
             </Row>
             <Row>
