@@ -66,6 +66,7 @@ export const generateEmployeeAccessToken = (req, res, next) => {
 	next()
 }
 
+
 /**
  * This method is called by the generateEmployeeAccessToken method. It is passed the employee's email and simply returns
  * a new non-expiring token with the email as the payload for storage in the login database
@@ -107,7 +108,7 @@ export const checkEmployeeAccessToken = async (req, res, next) => {
 	}
 	// For dev purposes, we only want to get tokens from cookies, for ease of use. In production, we want to get tokens
 	//from both cookies and headers, and compare them
-	const accessToken = req.cookies['accessTokenCookie']
+	let accessToken = req.cookies['accessTokenCookie']
 	const refreshToken = req.cookies['refreshTokenCookie']
 
 	//get tokens production. Ensure variable names match throughout.
@@ -249,7 +250,7 @@ const refreshEmployeeAccessToken = (refreshToken, oldAccessToken) => {
 									newAccessToken = jwt.sign(
 										{ email: email, adminId: oldPayload.adminId },
 										EMPLOYEE_ACCESS_KEY,
-										{ expiresIn: '30s' }
+										{ expiresIn: '5m' }
 									)
 									console.log("User is an administrator, adminId is " + oldPayload.adminId);
 								} else if(isAPractitioner) {
