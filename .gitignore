@@ -1,2 +1,4 @@
 .DS_Store
 HomeHospital-Frontend/.env.local
+HomeHospital-Frontend/hh-front/src/components/LandingPage.module.css
+HomeHospital-Frontend/hh-front/src/components/LandingPage.js
