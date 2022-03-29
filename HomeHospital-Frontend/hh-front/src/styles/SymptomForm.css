@@ -153,6 +153,7 @@ p {
     color: #EC2BAA ; 
     font-size: 40px;
     font-weight: bold;
+    letter-spacing: .1rem;
     border: none;
 
 }
