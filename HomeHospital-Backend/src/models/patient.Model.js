@@ -48,7 +48,12 @@ const patientSchema = new mongoose.Schema({
 		phoneNumber: {
 			type: String,
 			default: null,
-			//validate:[validator.isMobilePhone, 'We need a real canadian phone number'],
+			/* validate:[
+			{			
+				validator: (value) => validator.isMobilePhone(value, ['en-CA']),	
+				msg: 'Please Enter A Canadian Number',	
+				},
+			], */
 		},
 	},
 	currentRequest: {

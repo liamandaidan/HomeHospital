@@ -20,8 +20,12 @@ const userSchema = new mongoose.Schema({
 	phoneNumber: {
 		type: String,
 		default: null,
-		validate:[validator.isMobilePhone, 'Please enter a Valid Phone Number']
-	},
+		validate: [
+			{			
+			validator: (value) => validator.isMobilePhone(value, ['en-CA']),	
+			msg: 'Please Enter A Canadian Number',	
+			},
+		],	},
 	createdAt: {
 		type: Date,
 		immutable: true,

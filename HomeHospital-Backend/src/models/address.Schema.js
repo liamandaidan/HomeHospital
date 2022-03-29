@@ -29,14 +29,18 @@ const addressSchema = new mongoose.Schema({
 		type: String,
 		required: [true, 'Please enter a Postal Code'],
 		minlength: [6,'Minimum Postal Code Length is 6  characters'],
-		maxlength:  [6,'Maximum Postal Code Length is 6  characters'],
-		//validate:[validator.isPostalCode, 'Please enter a Valid Postal Code']
+		maxlength:  [7,'Maximum Postal Code Length is 6  characters'],
+		validate: [
+			{
+			validator: (value) => validator.isPostalCode(value, ['CA']),	
+			msg: 'Invalid postal Code.',	
+			},
+		]
 	},
 	country: {
 		type: String,
 		default: 'Canada',
-		required: [true,'Please Enter a Country'],
-		//validate:[validator.isAlpha, 'Please enter a Valid Country, Letters Only']
+		required: [true,'Please Enter a Country']
 	},
 	_id: false,
 })
