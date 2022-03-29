@@ -9,11 +9,12 @@ route.post('/', async (req, res) => {
 	try {
 		const result = await registerPractitioner(req)
 
-		if(result == -1) {
-			console.log("registerPractitioner returned -1");
+		if (result == -1) {
+			console.log('registerPractitioner returned -1')
 			res.status(422).send({
 				status: 'Error',
-				message: 'Something went wrong with the registration, please try again.',
+				message:
+					'Something went wrong with the registration, please try again.',
 			})
 			return
 		}
@@ -22,7 +23,8 @@ route.post('/', async (req, res) => {
 			//console.log('Error: Practitioner already exists')
 			res.status(422).send({
 				status: 'Error',
-				message: 'Something went wrong with the registration, please try again.',
+				message:
+					'Something went wrong with the registration, please try again.',
 			})
 			return
 		}

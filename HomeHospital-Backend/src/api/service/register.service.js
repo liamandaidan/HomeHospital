@@ -38,12 +38,11 @@ export const registerUser = async (req) => {
 		contactPhoneNumber,
 	} = req.body
 
-	let valsFromBody = [firstName, lastName, email, password, streetAddress, cityName, provName, postalCode, HCnumber, gender, dateOfBirth, phoneNumber, contactFirstName, contactLastName, contactPhoneNumber];
+	let valsFromBody = [firstName, lastName, email, password, streetAddress, cityName, provName, postalCode, HCnumber, gender, dateOfBirth, phoneNumber];
 	if(valsFromBody.includes(undefined) || valsFromBody.includes(null) || valsFromBody.includes("")) {
 		console.log("Detected a missing field in registerUser");
 		return (regStatus.status = false);
 	}
-
 
 	// check if user exists
 	const result = await PatientModel.exists({ email: email })
@@ -109,8 +108,8 @@ export const registerPractitioner = async (req) => {
 	const {
 		firstName,
 		lastName,
-		email,
 		password,
+		email,
 		streetAddress,
 		cityName,
 		provName,
@@ -147,7 +146,6 @@ export const registerPractitioner = async (req) => {
 		console.log("Detected a missing field in registerPractitioner");
 		return (regStatus.status = false)
 	}
-
 
 	// check if practitioner exists
 	const result = await PractitionerModel.exists({ practitionerId })

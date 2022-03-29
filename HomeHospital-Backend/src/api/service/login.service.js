@@ -25,7 +25,12 @@ const { compare } = bcrypt
 export const logUserIn = async (req, res, next) => {
 	const { email, password } = req.body
 
-	if(email == null || email == undefined || password == null || password == undefined) {
+	if (
+		email == null ||
+		email == undefined ||
+		password == null ||
+		password == undefined
+	) {
 		res.status(403).send({ message: 'Login Failed!!!' })
 		console.log('One or more fields are missing')
 		return
@@ -111,13 +116,18 @@ export const logAdministratorIn = async (req, res, next) => {
 export const logPractitionerIn = async (req, res, next) => {
 	const { email, password } = req.body
 
-	if(email == null || email == undefined || password == null || password == undefined) {
+	if (
+		email == null ||
+		email == undefined ||
+		password == null ||
+		password == undefined
+	) {
 		res.status(403).send({ message: 'Login Failed!!!' })
 		console.log('One or more fields are missing')
 		return
 	}
 
-	const practitioner = await PractitionerModel.findOne({ email: email })//returns null if not found
+	const practitioner = await PractitionerModel.findOne({ email: email }) //returns null if not found
 
 	if (practitioner) {
 		const isAuthorized = await compare(password, practitioner.password)

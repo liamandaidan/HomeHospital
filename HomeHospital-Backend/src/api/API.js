@@ -12,9 +12,9 @@ import facilityActions from './routes/medicalFacility.route.js'
 import { checkAccessToken } from './service/token.service.js'
 import { checkEmployeeAccessToken } from './service/employee.token.service.js'
 import { checkMayAccessAdminPage, checkMayAccessPractitionerPage} from './service/authorization.service.js'
-import updateWaitTimesTemp from './routes/updateWaitTimeTemp.route.js'
 import users from './routes/users.route.js'
 import requestActions from './routes/request.route.js'
+import requestManager from './routes/requestManager.route.js'
 
 // Create the Router App
 const app = Router()
@@ -42,15 +42,19 @@ app.use('/forget', reset)
 
 // Add a facility, view list of all facilities
 app.use('/medicalFacility', checkAccessToken)
-app.use('/updateWaitTimesTemp', checkAccessToken)
 app.use('/medicalFacility', facilityActions)
-app.use('/updateWaitTimesTemp', updateWaitTimesTemp)
 
+// Get patient details
 app.use('/users', checkAccessToken)
-app.use('/visitRequest', checkAccessToken)
 app.use('/users', users)
-// Request endpoint
+
+// Patient hits these endpoints to perform actions on their requests
+app.use('/visitRequest', checkAccessToken)
 app.use('/visitRequest', requestActions)
+
+// add routes for 'manageRequests'
+// put middleware to check for practitioner
+app.use('/requestManager', checkEmployeeAccessToken, checkMayAccessPractitionerPage, requestManager)
 
 // exports the router application
 export default app

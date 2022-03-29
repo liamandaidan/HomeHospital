@@ -5,8 +5,6 @@ import {
 	accessOptions,
 	refreshOptions,
 } from '../../configure/cookie.configure.js'
-import PatientModel from '../../models/patient.Model.js'
-//import PractitionerModel from '../../models/practitioner.Model.js'
 
 const ACCESSTOKEN_KEY = ENV.PATIENTACCESSTOKEN_SECRET
 const REFRESHTOKEN_KEY = ENV.PATIENTREFRESHTOKEN_SECRET
