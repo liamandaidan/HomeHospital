@@ -112,7 +112,7 @@ function SymptomsForm() {
       });
     setNewRequestValue(true);
     console.log("the form has been sent to backoffice!");
-    navigate("/user");
+    navigate("/home");
   };
 
   const AlertModal = (props) => {
