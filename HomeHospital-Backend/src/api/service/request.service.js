@@ -84,4 +84,19 @@ export const cancelCurrentRequest = async (patientId) => {
 
 export const getHospitalWaitList = async (hospitalId) => {
 	
+	try {
+		const hospital = await hospitalModel.findById(hospitalId)
+		// console.log(hospital)
+
+		if(!hospital){
+			throw new Error('Hospital Not found.')
+		}
+		const { waitList } = hospital
+		const visitRequests = await visitRequestModel.find({ '_id': { $in: waitList }})
+		console.log(visitRequests)
+
+		return visitRequests
+	} catch(error) {
+		console.error(error.message)
+	}
 }
