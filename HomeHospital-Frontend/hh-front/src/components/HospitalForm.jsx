@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from "react";
-import { Container, Row, Col, Button, Form, Card } from "react-bootstrap";
+import { Container, Row, Button, Form, Card } from "react-bootstrap";
 import Axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { HomeHospitalContext } from "./HomeHospitalContext";
@@ -7,14 +7,14 @@ import "../styles/HospitalSelectionStyles.css";
 
 function SelectHospital() {
   //useContext here
-  const { _id, patient_id } = useContext(HomeHospitalContext);
-  const [patientID, setPatientID] = patient_id;
-
-  console.log("PatientID: " + patientID)
+  const { _id, longitude, latitude } = useContext(HomeHospitalContext);
 
   const [posts, setPosts] = useState([]);
   //grab the states of use context for the _id
   const [_idValue, set_idValue] = _id;
+  const [longitudeValue, setLongitudeValue] = longitude;
+  const [latitudeValue, setLatitudeValue] = latitude;
+
   let navigate = useNavigate();
 
   useEffect(() => {
@@ -27,12 +27,11 @@ function SelectHospital() {
   }, []);
 
   function test(e) {
-    //set_idValue(e.target.value);
-    // alert("Hospital Id = + " + _idValue);
     navigate("/symptoms");
   }
 
   const cancelRequest = () => {
+    console.log("hospitalID: " + _idValue)
     navigate("/home");
   }
   return (
@@ -64,8 +63,12 @@ function SelectHospital() {
                       <Button
                     id="btn"
                     className="selectHospital-btn"
-                    onClick={(event) => set_idValue(event.target.value)}
-                    value={post._id}
+                    onClick={() => {
+                      set_idValue(post._id)
+                      setLatitudeValue(post.latitude)
+                      setLongitudeValue(post.longitude)
+                    }
+                  }
                   >
                     Select hospital
                   </Button>
@@ -80,7 +83,7 @@ function SelectHospital() {
               Submit hospital
             </Button>
             <div className="cancel-link-div">
-              <a href="/home">Cancel request</a>
+              <Button variant="link" onClick={cancelRequest}>Cancel request</Button>
             </div>
           </div>
         </Row>

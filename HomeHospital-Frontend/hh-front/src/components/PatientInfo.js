@@ -1,5 +1,4 @@
-import React, { useState, useEffect, useContext } from "react";
-import logo from "../images/heartbeat.png";
+import React, { useState, useEffect } from "react";
 import profile from "../images/profilepicture.png";
 import hbar from "../images/hb2.png";
 import Row from "react-bootstrap/Row";
@@ -7,12 +6,8 @@ import Col from "react-bootstrap/Col";
 import Container from "react-bootstrap/Container";
 import "../styles/SymptomForm.css";
 import axios from "axios";
-import { HomeHospitalContext } from "./HomeHospitalContext";
 
 function PatientInfo() {
-  const { patient_id } = useContext(HomeHospitalContext);
-  const [patientID] = patient_id;
-
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [HCNumber, setHCNumber] = useState("");
@@ -23,9 +18,7 @@ function PatientInfo() {
 
   useEffect(() => {
     axios
-      .post("http://localhost:4000/api/users/PatientInfoVisitRequest", {
-        patientId: patientID,
-      })
+      .post("http://localhost:4000/api/users/PatientInfoVisitRequest")
       .then((response) => {
         setFirstName(response.data.data.user.firstName);
         setLastName(response.data.data.user.lastName);

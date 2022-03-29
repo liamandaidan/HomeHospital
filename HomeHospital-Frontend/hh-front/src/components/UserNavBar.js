@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Navbar,
   Container,
@@ -9,42 +9,21 @@ import {
 import classes from "./UserNavBar.module.css";
 import avatar from "../images/img_avatar.png";
 import { useNavigate } from "react-router-dom";
-import { HomeHospitalContext } from "./HomeHospitalContext";
 import axios from "axios";
+
+axios.defaults.withCredentials = true;
 
 function UserNavBar() {
   let navigate = useNavigate();
 
-  const [firstName, setFirstName] = useState("");
-  const [lastName, setLastName] = useState("");
-
-  const { patient_id } = useContext(HomeHospitalContext);
-  const [patientID, setPatientID] = patient_id;
-
-  useEffect(() => {
-    axios
-      .post("http://localhost:4000/api/users/PatientInfoVisitRequest", {
-        patientId: patientID,
-      })
-      .then((response) => {
-        setFirstName(response.data.data.user.firstName);
-        setLastName(response.data.data.user.lastName);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  }, []);
+  const [currentRequestExist, setCurrentRequestExist] = useState(false);
 
   function requestPage() {
     navigate("/hospitals");
   }
 
   const handleHome = () => {
-    if ((patientID !== null) | (patientID !== undefined)) {
-      navigate("/home");
-    } else {
-      navigate("/");
-    }
+    navigate("/home");
   };
 
   const onHospital = () => {
@@ -55,10 +34,50 @@ function UserNavBar() {
     navigate("/");
   };
 
+  function deleteAllCookies() {
+    const cookies = document.cookie.split(";");
+
+    for (let i = 0; i < cookies.length; i++) {
+      const cookie = cookies[i];
+      const eqPos = cookie.indexOf("=");
+      const name = eqPos > -1 ? cookie.substr(0, eqPos) : cookie;
+      document.cookie = name + "=;expires=Thu, 01 Jan 1970 00:00:00 GMT";
+    }
+  }
+
   const handleLogout = () => {
-    setPatientID(null);
-    navigate("/");
+    axios
+      .post("http://localhost:4000/api/logout")
+      .then((response) => {
+        deleteAllCookies();
+        navigate("/");
+      })
+      .catch((err) => {
+        console.log(err);
+        navigate("/");
+      });
   };
+
+  function currentRequest() {
+    axios
+      .get("http://localhost:4000/api/visitRequest/currentRequest", {
+        withCredentials: true,
+      })
+      .then((response) => {
+        if (response.status === 200) {
+          setCurrentRequestExist(true);
+        } else {
+          setCurrentRequestExist(false);
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }
+
+  useEffect(() => {
+    currentRequest();
+  }, []);
 
   return (
     <Navbar bg="light" expand="lg">
@@ -76,12 +95,13 @@ function UserNavBar() {
             <Nav.Link onClick={handleHome} className="ms-5">
               Home
             </Nav.Link>
-            <Nav.Link onClick={requestPage}>Requests</Nav.Link>
-            {/* <Nav.Link href="#action2">Symptoms</Nav.Link> */}
+            {!currentRequestExist && (
+              <Nav.Link onClick={requestPage}>Requests</Nav.Link>
+            )}
           </Nav>
           <div className="d-flex">
             <img src={avatar} alt="avatar" className={classes.avatar} />
-            <h6 className="me-3 mt-2 ps-2">{firstName} {lastName}</h6>
+            <h6 className="me-3 mt-2 ps-2">Username</h6>
             <DropdownButton
               variant="btn-outline-light"
               title={

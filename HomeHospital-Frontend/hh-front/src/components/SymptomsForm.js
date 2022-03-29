@@ -1,6 +1,7 @@
-import React, { useContext, useState, useEffect } from "react";
+import React, { useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Form from "react-bootstrap/Form";
+import Alert from "react-bootstrap/Alert";
 import Col from "react-bootstrap/Col";
 import Row from "react-bootstrap/Row";
 import Button from "react-bootstrap/Button";
@@ -12,13 +13,16 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import "../styles/SymptomForm.css";
 import { HomeHospitalContext } from "./HomeHospitalContext";
 
+axios.defaults.withCredentials = true;
+
 function SymptomsForm() {
   const [additionalInfo, setAdditionalInfo] = useState("");
   const [modalState, setModalState] = useState(false);
+  const [isValid, setIsValid] = useState(true);
 
-  const { _id, patient_id } = useContext(HomeHospitalContext);
-  const [hospitalID, setHospitalID] = _id;
-  const [patientID, setPatientID] = patient_id;
+  const { _id, newRequest } = useContext(HomeHospitalContext);
+  const [hospitalID] = _id;
+  const [newRequestValue, setNewRequestValue] = newRequest;
 
   const navigate = useNavigate();
 
@@ -48,9 +52,10 @@ function SymptomsForm() {
         },
       ]);
     } else {
-      alert(
-        "Please enter all details before added a new symptom. Thank you :) "
-      );
+      setIsValid(false);
+      // alert(
+      //   "Please enter all details before added a new symptom. Thank you :) "
+      // );
     }
   };
 
@@ -77,10 +82,6 @@ function SymptomsForm() {
   };
 
   const handleSubmit = () => {
-    console.log(patientID);
-    console.log(hospitalID);
-    console.log(symptomsList);
-    console.log(additionalInfo);
     const list = [...symptomsList];
 
     console.log("this is the last value " + list[list.length - 1].description);
@@ -98,8 +99,8 @@ function SymptomsForm() {
   const handleFormSubmit = () => {
     axios
       .post("http://localhost:4000/api/visitRequest/newRequest", {
-        patientID: patientID,
-        hospitalID: hospitalID,
+        withCredentials: true,
+        hospitalId: hospitalID,
         symptomList: symptomsList,
         additionalInfo: additionalInfo,
       })
@@ -109,7 +110,7 @@ function SymptomsForm() {
       .catch((err) => {
         console.log(err);
       });
-
+    setNewRequestValue(true);
     console.log("the form has been sent to backoffice!");
     navigate("/user");
   };
@@ -137,9 +138,13 @@ function SymptomsForm() {
               I Acknowledge
             </Button>
             <div>
-              <a className="cancel-lnk" onClick={props.onHide}>
+              <Button
+                variant="link"
+                className="cancel-lnk"
+                onClick={props.onHide}
+              >
                 cancel request
-              </a>
+              </Button>
             </div>
           </Modal.Footer>
         </Modal>
@@ -150,6 +155,14 @@ function SymptomsForm() {
   return (
     <>
       <Container className="symptoms-container">
+        {!isValid && (
+          <Alert variant="danger" onClose={() => setIsValid(true)} dismissible>
+            <Alert.Heading>
+              Please enter all details before adding a new symptom. Thank you!
+            </Alert.Heading>
+          </Alert>
+        )}
+
         <Row>
           <div className="title-div">
             <h2>Enter Symtoms</h2>
