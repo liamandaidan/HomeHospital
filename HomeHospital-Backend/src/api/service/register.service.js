@@ -108,8 +108,8 @@ export const registerPractitioner = async (req) => {
 	const {
 		firstName,
 		lastName,
-		email,
 		password,
+		email,
 		streetAddress,
 		cityName,
 		provName,

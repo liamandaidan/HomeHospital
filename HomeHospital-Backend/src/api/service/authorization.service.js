@@ -9,6 +9,7 @@ import jwt from 'jsonwebtoken'
  */
 export const checkMayAccessAdminPage = async (req, res, next) => {
     const accessToken = jwt.decode(req.cookies['accessTokenCookie'])
+    console.log("access token: " +accessToken.adminId)
     const adminId = accessToken.adminId
     if(adminId) {
         console.log("User is an admin, they may proceed");
