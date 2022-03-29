@@ -12,9 +12,8 @@ const symptomSchema = new mongoose.Schema({
 		type: Number,
 		min: [1,'Minimum Severity Level is 1'],
 		max: [5,'Maximum Severity Level is 5'],
-		required: [true,'Please enter a Severity level'],                                                     
-		validate:[validator.isNumeric, 'Please enter a Number!'],
-	},
+		required: [true,'Please enter a Severity level']
+		},
 	_id: false,
 }) 
 

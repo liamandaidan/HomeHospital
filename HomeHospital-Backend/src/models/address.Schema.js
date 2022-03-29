@@ -29,7 +29,7 @@ const addressSchema = new mongoose.Schema({
 		type: String,
 		required: [true, 'Please enter a Postal Code'],
 		minlength: [6,'Minimum Postal Code Length is 6  characters'],
-		maxlength:  [7,'Maximum Postal Code Length is 6  characters'],
+		maxlength:  [6,'Maximum Postal Code Length is 6  characters'],
 		validate: [
 			{
 			validator: (value) => validator.isPostalCode(value, ['CA']),	
