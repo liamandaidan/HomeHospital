@@ -1,6 +1,5 @@
 import mongoose from 'mongoose'
 import UserSchema from './user.Schema.js'
-//import HCPRole from './hcpRole.Model.js'
 
 const practitionerSchema = new mongoose.Schema({
 	practitionerId: {
@@ -10,7 +9,7 @@ const practitionerSchema = new mongoose.Schema({
 	role: {
 		type: String,
 		enum: ['Doctor', 'Nurse', 'Clerk'],
-		required: true
+		required: true,
 	},
 	email: {
 		type: String,
@@ -30,8 +29,8 @@ const practitionerSchema = new mongoose.Schema({
 	facilityId: {
 		type: mongoose.Schema.Types.ObjectId,
 		ref: 'MedicalFacility',
-		required: true
-	}
+		required: true,
+	},
 })
 
 export default mongoose.model('Practitioner', practitionerSchema)
