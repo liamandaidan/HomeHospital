@@ -6,7 +6,7 @@ const practitionerSchema = new mongoose.Schema({
 	practitionerId: {
 		type: Number,
 		required: [true, 'You must enter a Practitioner ID'],
-		validate:[validator.isNumeric, 'Please enter a Number'],
+		//validate:[validator.isAlphanumeric, 'Please enter a Number'],
 	},
 	role: {
 		type: String,
