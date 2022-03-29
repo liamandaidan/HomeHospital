@@ -147,6 +147,10 @@ function ManageUser() {
     setEditDisplay(false);
   };
 
+  const closeWindow = () => {
+    setMenuChoice("");
+  }
+
   return (
     <>
       {menuChoice === "manage" && (
@@ -243,6 +247,7 @@ function ManageUser() {
             )}
             {userDisplay && (
               <div className="userDisplay-div">
+                <div className="closeWindow"><a onClick={closeWindow}>close</a></div>
                 <Table className="userDisplay-table">
                   <thead>
                     <tr>

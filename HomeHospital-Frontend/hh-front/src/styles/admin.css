@@ -7,6 +7,14 @@ body {
   
 }
 
+.adminGreeting {
+  font-size: 60px;
+  color: #1f1f1f;
+  font-weight: 150;
+  font-family: "Inter", "sans-serif";
+  margin-top: 30px;
+}
+
 .admin-main-div {
   /* border: 1px solid #ec2baa; */
   margin-top: 35px;
@@ -157,5 +165,17 @@ body {
   font-size: 13px;
 }
 
+.closeWindow {
+  align-items: right;
+  justify-content: right;
+  text-align: right;
+}
 
+.landing-grid {
+  display:grid
+}
+
+.card-1{
+ 
+}
 

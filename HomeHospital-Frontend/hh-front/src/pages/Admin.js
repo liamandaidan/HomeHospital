@@ -3,6 +3,7 @@ import AdminMenu from "../components/AdminMenu";
 import AdminNav from "../components/AdminNav";
 import { Container, Row, Col } from "react-bootstrap";
 import ManageUser from "../components/ManageUser";
+import AdminLanding from "../components/AdminLanding";
 import "../styles/admin.css";
 import { AdminProvider } from "../components/AdminContext";
 // import { AdminContext } from "../components/AdminContext";
@@ -23,10 +24,8 @@ function Admin() {
               <AdminMenu />
             </Col>
             <Col sm={8}>
-              {/* <div className="manageuser-div">
-                <h2>Manage Users</h2> */}
+                <AdminLanding />
                 <ManageUser />
-              {/* </div> */}
             </Col>
           </Row>
         </AdminProvider>
