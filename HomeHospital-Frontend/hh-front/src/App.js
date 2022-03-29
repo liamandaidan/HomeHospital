@@ -14,6 +14,7 @@ import HospitalSelectionPage from "./pages/HospitalSelectionPage";
 import { HomeHospitalProvider } from "./components/HomeHospitalContext";
 import UserHomepage from "./pages/UserHomepage";
 import RequireAuth from "./components/RequireAuth";
+import Practitioner from "./pages/Practioner";
 
 function App() {
   useEffect(() => {
@@ -55,7 +56,7 @@ function App() {
             }
           />
           <Route path="/home" element={<UserHomepage />} />
-
+          <Route path="/practitioner" element={<Practitioner />} />
           <Route
             path="/register"
             element={<Register className="full-height" />}
