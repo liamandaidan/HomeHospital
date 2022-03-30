@@ -14,8 +14,10 @@ function Admin() {
   // console.log(displayUsers);
   // const [userDisplay, setUserDisplay] = displayUsers;
 
+
   return (
     <>
+    <div className="admin-page">
       <AdminNav />
       <Container className="admin-container">
         <AdminProvider>
@@ -30,6 +32,7 @@ function Admin() {
           </Row>
         </AdminProvider>
       </Container>
+    </div>
     </>
   );
 }
