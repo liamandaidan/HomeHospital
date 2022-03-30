@@ -4,7 +4,7 @@ import vitalsSchema from './vitals.Schema.js'
 import symptomSchema from './symptom.Schema.js'
 
 const visitRequestSchema = new mongoose.Schema({
-	requestHospitalId: {
+	requestHospitalID: {
 		type: mongoose.Schema.Types.ObjectId,
 		ref: 'MedicalFacility',
 		required: true,
@@ -12,14 +12,6 @@ const visitRequestSchema = new mongoose.Schema({
 	requestHospitalName: {
 		type: String,
 		required: true,
-	},
-	latitude: {
-		type: Number,
-		immutable: true,
-	},
-	longitude: {
-		type: Number,
-		immutable: true,
 	},
 	patient: {
 		type: mongoose.Schema.Types.ObjectId,
@@ -46,10 +38,6 @@ const visitRequestSchema = new mongoose.Schema({
 	startAddress: addressSchema,
 	vitals: {
 		type: vitalsSchema,
-		default: null,
-	},
-	waitListTime: {
-		type: String,
 		default: null,
 	},
 	dateTime: {

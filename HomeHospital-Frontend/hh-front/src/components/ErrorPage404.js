@@ -22,7 +22,7 @@ function ErrorPage404() {
             <div className="column-right">
               <img
                 src={errorpageimg}
-                alt="Error_page_Image"
+                alt="Error page Image"
                 className="errorimg"
               />
             </div>

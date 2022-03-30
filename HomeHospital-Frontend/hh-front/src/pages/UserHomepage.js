@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect } from "react";
 import UserNavBar from "../components/UserNavBar";
 import "../styles/UserHomepage.css";
 
@@ -12,41 +12,13 @@ import UserVisitDisplay from "../components/UserHomeVisitsDisplay";
 import { useNavigate } from "react-router-dom";
 import "../styles/UserHomepage.css";
 import { HomeHospitalContext } from "../components/HomeHospitalContext";
-import axios from "axios";
 
 function UserHomepage() {
   const navigate = useNavigate();
 
-  // useContext to get new Request value
-  const { newRequest } = useContext(HomeHospitalContext);
-  const [newRequestValue, setNewRequestValue] = newRequest;
-  const [currentRequestExist, setCurrentRequestExist] = useState(false);
-
   const createNewRequest = () => {
-    setNewRequestValue(false);
     navigate("/hospitals");
   };
-
-  function currentRequest() {
-    axios
-      .get("http://localhost:4000/api/visitRequest/currentRequest", {
-        withCredentials: true,
-      })
-      .then((response) => {
-        if (response.status === 200) {
-          setCurrentRequestExist(true);
-        } else {
-          setCurrentRequestExist(false);
-        }
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  }
-
-  useEffect(() => {
-    currentRequest();
-  }, []);
 
   return (
     <>
@@ -60,11 +32,9 @@ function UserHomepage() {
         <Row>
           <Col>
             <div className="request-btn-div">
-              {!currentRequestExist && (
-                <Button className="newRequest-btn" onClick={createNewRequest}>
-                  Create new request
-                </Button>
-              )}
+              <Button className="newRequest-btn" onClick={createNewRequest}>
+                Create new request
+              </Button>
             </div>
           </Col>
         </Row>

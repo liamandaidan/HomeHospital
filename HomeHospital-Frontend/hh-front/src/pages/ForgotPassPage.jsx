@@ -25,7 +25,7 @@ export default function ForgotPassPage() {
    * The html also validates, but this is safest practice!
    */
   function validateEmail() {
-    const pattern = new RegExp("([!#-'*+/-9=?A-Z^-~-]+(\.[!#-'*+/-9=?A-Z^-~-]+)*|\"\(\[\]!#-[^-~ \t]|(\\[\t -~]))+\")@([!#-'*+/-9=?A-Z^-~-]+(\.[!#-'*+/-9=?A-Z^-~-]+)*|\[[\t -Z^-~]*])");
+    const pattern = new RegExp("^[a-zA-Z0-9_.-]+@[a-zA-Z]+[.][a-zA-Z]{2,}$");
     if (!pattern.test(email)) {
       document.getElementById("email").classList.add("is-invalid");
       document.getElementById("email").classList.remove("is-valid");
@@ -51,10 +51,9 @@ export default function ForgotPassPage() {
       })
       .catch((err) => {
         //incase some unknown error occurs
-        console.log("Error! + " + err);
-        
+        alert("Error! + " + err);
+        navigate("/*");
       });
-      navigate("/fa");
   }
 
   return (
