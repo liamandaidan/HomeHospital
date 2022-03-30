@@ -1,12 +1,6 @@
 @import url("https://fonts.googleapis.com/css2?family=Inter:wght@900&display=swap");
 
-h1 {
-    position:absolute;
-    margin-top: 7%;
-    margin-left: 2%;
-    font-weight: bold;
-    font-family: "Inter", sans-serif;
-}
+
 
 .container-display {
     height:450px;
@@ -36,8 +30,18 @@ h1 {
     position:absolute;
     background-color: #E7FBF6;
     width: 250px;
-    margin-top: 13%;
+    margin-top: 14%;
     margin-left: 2%;
+}
+
+.greetings{
+    position:absolute;
+    font-size: 50px;
+    margin-top: 8%;
+    margin-left: 2%;
+    font-weight: bold;
+    font-family: "Inter", sans-serif;
+
 }
 
 
@@ -53,7 +57,7 @@ h1 {
         position:absolute;
         background-color: #E7FBF6;
         width: 230px;
-        margin-top: 14%;
+        margin-top: 15%;
         margin-left: 2%;
     }
     
@@ -86,7 +90,7 @@ h1 {
         font-size: small;
     }
 
-    h1 {
+    .greetings {
         font-size: 50px;
         margin-top: 7%;
         margin-left: 2%;
@@ -110,7 +114,7 @@ h1 {
     width: 100%;
 }
 
-.greetings {
+/* .greetings {
     position: relative;
     left: 690px;
     top: -560px;
@@ -118,7 +122,7 @@ h1 {
     margin-left: 25px;
     font-family: "Inter", sans-serif;
     font-weight: bolder;
-}
+} */
 
 
 
@@ -143,8 +147,5 @@ h1 {
     margin-bottom: 20px;
 }
 
-tr {
-    height: 50px;
-}
 
 

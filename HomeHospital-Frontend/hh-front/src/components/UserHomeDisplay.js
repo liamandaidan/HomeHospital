@@ -82,9 +82,12 @@ function UserHomeDisplay() {
             <Col sm={{order: 1}} md={3}  ></Col>
             <Col sm={{order: 2}} md={3} > 
                 <Image src={profile} className="user-profile-photo" fluid roundedCircle />
+      
             </Col>
             <Col sm={{order: 3}} md={3} >
-                <h1>Hi {firstName}!</h1>
+                  <div className="greetings">
+                  <h1>Hi {firstName}!</h1>
+                  </div>
               <Card className="card-currentVisit">
                 <Card.Body>
                 {moment(date).format("dddd, MMMM Do YYYY")}
