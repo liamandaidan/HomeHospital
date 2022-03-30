@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React from "react";
 import {
   Navbar,
   Container,
@@ -8,26 +8,31 @@ import {
 } from "react-bootstrap";
 import classes from "./UserNavBar.module.css";
 import avatar from "../images/img_avatar.png";
-import { useNavigate } from "react-router-dom";
-import { HomeHospitalContext } from "./HomeHospitalContext";
-import axios from "axios";
 
-function UserNavBar() {
-  let navigate = useNavigate();
-
-  const handleLogout = () => {
-    navigate("/");
-  };
-
+function PractNavBar() {
   return (
     <Navbar bg="light" expand="lg">
       <Container fluid>
         <Navbar.Brand className={classes.title}>
-          HomeHospital<span>Administrator</span>
+          HomeHospital<span>Practioner</span>
         </Navbar.Brand>
         <Navbar.Toggle aria-controls="navbarScroll" />
-        <Navbar.Collapse id="navbarScroll" className="justify-content-end">
+        <Navbar.Collapse id="navbarScroll">
+          <Nav
+            className="me-auto my-2 my-lg-0"
+            style={{ maxHeight: "100px" }}
+            navbarScroll
+          > 
+            <Nav.Link href="/user" className="ms-5">
+              Home
+            </Nav.Link>
+            <Nav.Link href="/reports">Reports</Nav.Link>
+            {/*  no need to add in logout as its in setting cog
+           <Nav.Link href="#action2">Logout</Nav.Link> */}
+          </Nav>
           <div className="d-flex">
+            <img src={avatar} alt="avatar" className={classes.avatar} />
+            <h6 className="me-3 mt-2 ps-2">Username</h6>
             <DropdownButton
               variant="btn-outline-light"
               title={
@@ -48,13 +53,10 @@ function UserNavBar() {
               className="me-5"
             >
               <Dropdown.Item href="#">Profile</Dropdown.Item>
+              <Dropdown.Item href="#">Hospitals</Dropdown.Item>
               <Dropdown.Item href="#">Notifications</Dropdown.Item>
               <Dropdown.Divider />
-              <Dropdown.Item
-                href="#"
-                className="text-danger"
-                onClick={handleLogout}
-              >
+              <Dropdown.Item href="#" className="text-danger">
                 Logout
               </Dropdown.Item>
             </DropdownButton>
@@ -65,4 +67,4 @@ function UserNavBar() {
   );
 }
 
-export default UserNavBar;
+export default PractNavBar;

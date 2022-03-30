@@ -1,0 +1,19 @@
+[
+	{
+	  "name": "Kanye West",
+	  "address": "123 My House",
+	  "contactNumber": "(403) 443-2311",
+	  "albertaHealthcareNo": "12345-0000",
+	  "emergencyContactName": "Pete Davidson",
+	  "emergencyContactNumber": "(403) 223-2311",
+	  "symptoms": [
+		"Cough (Severity: 3)",
+		"Runny nose (Severity: 2)",
+		"Shallow Breathing (Severity: 5)",
+		"Sore Throat (Severity: 2)",
+		"Headache (Severity: 5)"
+	  ],
+	  "additionalInfo" : "Help me I am sick *Cough",
+	  "queue": "1"
+	}
+  ]
