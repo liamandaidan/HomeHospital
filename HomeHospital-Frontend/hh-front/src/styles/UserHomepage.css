@@ -1,4 +1,4 @@
-@import url("https://fonts.googleapis.com/css2?family=Inter:wght@900&display=swap");
+/* @import url("https://fonts.googleapis.com/css2?family=Inter:wght@900&display=swap");
 
 h1 {
     position:absolute;
@@ -18,7 +18,7 @@ h1 {
     z-index: -1;
     opacity: 60%;
     float: none;
-    /* padding: 20px; */
+    /* padding: 20px; 
 }
 
 
@@ -70,7 +70,7 @@ h1 {
         opacity: 60%;
         float: none;
         margin-top: 25%;
-        /* padding: 20px; */
+        /* padding: 20px; 
     }
     
     .user-profile-photo {
