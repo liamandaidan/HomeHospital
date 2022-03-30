@@ -5,24 +5,18 @@ import {
 } from "@react-google-maps/api";
 import React, {
   useCallback,
-  useContext,
   useEffect,
   useMemo,
   useRef,
   useState,
 } from "react";
-import { HomeHospitalContext } from "./HomeHospitalContext";
 import classes from "./Map.module.css";
 
 function Map() {
-  // context variables
-  const { longitude, latitude } = useContext(HomeHospitalContext);
-  const [hospitalLongitude, setHospitalLongitude] = longitude;
-  const [hospitalLatitude, setHospitalLatitude] = latitude;
   // variables
   const [travelTime, setTravelTime] = useState("");
-  const [userLatitude, setLatitude] = useState(0);
-  const [userLongitude, setLongitude] = useState(0);
+  const [latitude, setLatitude] = useState(0);
+  const [longitude, setLongitude] = useState(0);
   const mapRef = useRef();
   const center = useMemo(() => ({ lat: 51.0447, lng: -114.0719 }), []);
   const options = useMemo(
@@ -34,28 +28,17 @@ function Map() {
   );
 
   useEffect(() => {
-    console.log("hospital longitude: " + hospitalLongitude);
-    console.log("hospital latitude: " + hospitalLatitude);
     if ("geolocation" in navigator) {
       navigator.geolocation.getCurrentPosition(function (position) {
-        setLatitude(position.coords.userLatitude);
-        setLongitude(position.coords.userLongitude);
-        if (
-          userLongitude === 0 ||
-          userLatitude === 0 ||
-          userLongitude === undefined ||
-          userLatitude === undefined
-        ) {
-          setLatitude(51.065934372560484);
-          setLongitude(-114.09079456099977);
-        }
-        console.log(userLatitude);
-        console.log(userLongitude);
+        setLatitude(position.coords.latitude);
+        setLongitude(position.coords.longitude);
+        console.log(latitude);
+        console.log(longitude);
       });
     } else {
       alert("Enable Geo-Location to get Travel Times");
     }
-  }, []);
+  }, [latitude, longitude]);
 
   const [responseData, setResponseData] = useState(null);
 
@@ -74,11 +57,11 @@ function Map() {
 
   const directionsServiceOptions = React.useMemo(() => {
     return {
-      destination: { lat: hospitalLatitude, lng: hospitalLongitude },
-      origin: { lat: userLatitude, lng: userLongitude },
+      destination: { lat: 51.07956590317617, lng: -113.9841688696898 },
+      origin: { lat: latitude, lng: longitude },
       travelMode: "DRIVING",
     };
-  }, [userLatitude, userLongitude, hospitalLatitude, hospitalLongitude]);
+  }, [latitude, longitude]);
 
   const onLoad = useCallback((map) => (mapRef.current = map), []);
 

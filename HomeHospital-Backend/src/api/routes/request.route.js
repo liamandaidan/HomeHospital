@@ -1,228 +1,148 @@
-import express from 'express'
-import patientModel from '../../models/patient.Model.js'
-import medicalFacilityModel from '../../models/medicalFacility.Model.js'
-import completedRequestModel from '../../models/completedRequest.model.js'
-import mongoose from 'mongoose'
-import visitRequestModel from '../../models/visitRequest.Model.js'
-import {
-	completeCurrentRequest,
-	cancelCurrentRequest,
-} from '../service/request.service.js'
+import express from "express";
+import patientModel from "../../models/patient.Model.js";
+import medicalFacilityModel from "../../models/medicalFacility.Model.js";
+import mongoose from "mongoose";
+import visitRequestModel from "../../models/visitRequest.Model.js";
+// import visitRequestModel from '../../models/visitRequest.Model.js'
 
-const route = express.Router()
+const app = express.Router();
 
 /*
-	This route creates a new request in the DB. The user must supply their user Id, the selected hospital Id,
+	This route creates a new request in the DB. The user must supply their user ID, the selected hospital ID,
 	along with the list of symptoms and any additional information about their request. 
 
 */
-route.post('/newRequest', async (req, res) => {
-	// get the HospitalId
-	// get patient Id
-	// get list of symptom's (array) and additional info
-	const { hospitalId, symptomList, additionalInfo } = req.body
-	const patientId = req.patientId
+app.post("/newRequest", async (req, res) => {
+  // get the HospitalID
+  // get patient ID
+  // get list of symptom's (array) and additional info
+  const { hospitalID, patientID, symptomList, additionalInfo } = req.body;
 
-	if (
-		!mongoose.Types.ObjectId.isValid(hospitalId) &&
-		!mongoose.Types.ObjectId.isValid(patientId)
-	) {
-		console.log('patientId or hospitalId not valid')
-		res.status(400).send({ message: 'Error' })
-	}
+  // Validates that the ID's for the hospital and patient are valid Mongo IDs
+  const validFacilityID = mongoose.Types.ObjectId.isValid(hospitalID);
+  const validUserID = mongoose.Types.ObjectId.isValid(patientID);
 
-	if (symptomList.length < 1) {
-		console.log('symptomList is not valid')
-		res.status(400).send({ message: 'Error' })
-	}
+  if (validFacilityID && validUserID) {
+    // Fetch the patients address
+    const patient = await patientModel.findById(patientID);
+    const hospital = await medicalFacilityModel.findById(hospitalID);
+    const { address } = patient.user;
 
-	// Validates that the Id's for the hospital and patient are valid Mongo Ids
-	const validFacilityId = mongoose.Types.ObjectId.isValid(hospitalId)
-	const validUserId = mongoose.Types.ObjectId.isValid(patientId)
-	console.log(`From the make request ${patientId}`)
+    if (patient && hospital) {
+      try {
+        // Create the new request
+        const request = await visitRequestModel.create({
+          patient: patient._id, //patientOID
+          patientFirstName: patient.user.firstName,
+          patientLastName: patient.user.lastName,
+          requestHospitalID: hospital._id, //hospitalID,
+          requestHospitalName: hospital.hospitalName,
+          // sets the patients address by default to the starting address
+          startAddress: {
+            streetAddress: address.streetAddress,
+            cityName: address.cityName,
+            provName: address.provName,
+            postalCode: address.postalCode,
+          },
+          symptoms: symptomList,
+          additionalInfo: additionalInfo,
+        });
 
-	if (validFacilityId && validUserId) {
-		// Fetch the patients address
-		const patient = await patientModel.findById(patientId)
-		const hospital = await medicalFacilityModel.findById(hospitalId)
-		const { address } = patient.user
+        // Save the request to the DB if all is OK
+        await request.save();
 
-		if (patient && hospital) {
-			try {
-				// Create the new request
-				const request = await visitRequestModel.create({
-					patient: patientId, //patientOId
-					patientFirstName: patient.user.firstName,
-					patientLastName: patient.user.lastName,
-					requestHospitalId: hospital._id, //hospitalId,
-					requestHospitalName: hospital.hospitalName,
-					latitude: hospital.latitude,
-					longitude: hospital.longitude,
-					// sets the patients address by default to the starting address
-					startAddress: {
-						streetAddress: address.streetAddress,
-						cityName: address.cityName,
-						provName: address.provName,
-						postalCode: address.postalCode,
-					},
-					waitListTime: hospital.waitTime,
-					symptoms: symptomList,
-					additionalInfo: additionalInfo,
-				})
+        console.log(
+          `New Patient request added to the DB, RequestID: ${request._id}`
+        );
 
-				// Save the request to the DB if all is OK
-				await request.save()
+        // attach the new request ID to the patients requests list
+        patient.requests.push(request._id);
+        await patient.save();
 
-				console.log(
-					`New Patient request added to the DB, RequestId: ${request._id}`
-				)
+        res.send({ message: "Request entered", RequestID: request._id });
+      } catch (error) {
+        console.log(`Error: ${error.message}`);
+        res.status(400).send({ message: "Error" });
+      }
+    } else {
+      console.log("Patient or hospital Do no exist");
+      res.status(400).send({ message: "Error" });
+    }
+  } else {
+    console.log("Object ID's are Not valid");
+    res.status(400).send({ message: "Error" });
+  }
+});
 
-				// attach the new request Id to the patients requests list
-				patient.newRequest(request._id, request.requestHospitalId)
-				await patient.save()
+app.get("/currentRequest/:patientId", async (req, res) => {
+  // return the current users request
+  const { patientId } = req.params;
 
-				// Add the request to the hospitals waitList
-				hospital.enqueue(request._id)
-				await hospital.save()
+  // find the patient
+  try {
+    // validate the users ID
+    const validUserID = mongoose.Types.ObjectId.isValid(patientId);
+    if (validUserID) {
+      // console.log(validUserID)
+      const patient = await patientModel.findById(patientId);
+      // console.log(patient)
 
-				res.send({ message: 'Request entered', RequestId: request._id })
-			} catch (error) {
-				console.log(`Error: ${error.message}`)
-				res.status(400).send({ message: 'Error' })
-			}
-		} else {
-			console.log('Patient or hospital Do no exist')
-			res.status(400).send({ message: 'Error' })
-		}
-	} else {
-		console.log("Object Id's are Not valid")
-		res.status(400).send({ message: 'Error' })
-	}
-})
+      if (patient.requests.length == 0) {
+        console.log("No registered requests");
+        res.status(404).send({ message: "No Current requests" });
+      } else {
+        // Get the request with the matching ID
+        const currentRequest = await visitRequestModel.findById(
+          patient.requests[patient.requests.length - 1]
+        );
+        // console.log(currentRequest)
+        console.log("Sent patient their current request");
+        res.status(200).send({
+          request: currentRequest,
+        });
+      }
+    } else {
+      throw new Error("Invalid User Id");
+    }
+  } catch (error) {
+    console.log(error.message);
+    res.status(400).send({ message: "Bad request" });
+  }
+});
 
-route.get('/currentRequest', async (req, res) => {
-	// return the current users request
-	const patientId = req.patientId
+app.get("/allRequests/:patientId", async (req, res) => {
+  // return the current users request
+  const { patientId } = req.params;
 
-	if (patientId == null || patientId == undefined || patientId == '') {
-		console.log('patientId is not valid')
-		res.status(400).send({ message: 'Error' })
-	}
+  // find the patient
+  try {
+    // validate the users ID
+    const validUserID = mongoose.Types.ObjectId.isValid(patientId);
+    // console.log(validUserID)
+    const patient = await patientModel.findById(patientId);
+    // console.log(patient)
 
-	// find the patient
-	try {
-		// validate the users Id
-		const validUserId = mongoose.Types.ObjectId.isValid(patientId)
-		if (validUserId) {
-			// console.log(validUserId)
-			const patient = await patientModel.findById(patientId)
-			// console.log(patient)
+    if (patient.requests.length == 0) {
+      console.log("No registered requests");
+      res.status(404).send({ message: "No Current requests" });
+    } else {
+      // for each requestId attached to the patient, loop through and query all requests, attach to an array,
+      // send back to client
 
-			if (patient.currentRequest == null) {
-				res.status(404).send({ message: 'No Current requests' })
-			} else {
-				// Get the request with the matching Id
-				const currentRequest = await visitRequestModel.findById(
-					patient.currentRequest
-				)
-				console.log('Sent patient their current request')
-				res.status(200).send(currentRequest)
-			}
-		} else {
-			throw new Error('Invalid User Id')
-		}
-	} catch (error) {
-		console.log(error.message)
-		res.status(400).send({ message: 'Bad request' })
-	}
-})
+      // find all DB entries with that patient id
+      const requestList = await visitRequestModel.find({
+        patient: patientId,
+      });
 
-route.get('/allRequests', async (req, res) => {
-	// return the current users request
-	const patientId = req.patientId
-
-	if (patientId == null || patientId == undefined || patientId == '') {
-		console.log('patientId is not valid')
-		res.status(400).send({ message: 'Error' })
-	}
-
-	// find the patient
-	try {
-		// validate the users Id
-		const validUserId = mongoose.Types.ObjectId.isValid(patientId)
-		if (validUserId) {
-			// console.log(validUserId)
-			const patient = await patientModel.findById(patientId)
-			// console.log(patient)
-
-			if (patient.pastRequests.length == 0) {
-				console.log('No registered requests')
-				res.status(404).send({ message: 'No Current requests' })
-			} else {
-				// for each requestId attached to the patient, loop through and query all requests, attach to an array,
-				// send back to client
-
-				// find all DB entries with that patient id
-				const requestList = await completedRequestModel.find({'request.patient': patientId})
-
-
-				console.log('Sent patient list of ALL requests')
-				res.status(200).send(requestList)
-			}
-		} else {
-			throw new Error('Invalid mongo object Id')
-		}
-	} catch (error) {
-		console.log(error.message)
-		res.status(400).send({ message: 'Bad request' })
-	}
-})
-
-route.get('/targetRequest/:requestId', async (req, res) => {
-	// return the current users request
-	const { requestId } = req.params
-
-	// find the patient
-	try {
-		// validate the users Id
-		const validUserId = mongoose.Types.ObjectId.isValid(requestId)
-		if (validUserId) {
-			const request = await completedRequestModel.findById(requestId)
-
-			if (request) {
-				console.log(
-					`Sent the patient the request with the Id: ${requestId}`
-				)
-				res.status(200).send(request)
-			} else {
-				console.log('No registered requests')
-				res.status(404).send({ message: 'Request not found' })
-			}
-		} else {
-			throw new Error('Invalid Request Id')
-		}
-	} catch (error) {
-		console.log(error.message)
-		res.status(400).send({ message: 'Bad request' })
-	}
-})
-
-route.delete('/cancel', async (req, res) => {
-	// check if they have a current request
-	const patientId = req.patientId
-	try {
-		// Ensure that the patientId is valid
-		if (await cancelCurrentRequest(patientId)) {
-			// Delete the visit request and all references to it
-			console.log('request was canceled')
-			res.status(200).send({ message: 'Request was canceled' })
-		} else {
-			res.status(400).send({ message: 'Cancel not processed' })
-		}
-	} catch (error) {
-		console.error('Cancel Request Error: ' + error.message)
-		res.status(400).send({ message: 'Cancel Request Error' })
-	}
-})
-
-export default route
+      console.log("Sent patient list of ALL requests");
+      res.status(200).send({
+        numOfRequests: requestList.length,
+        request: requestList,
+      });
+    }
+  } catch (error) {
+    console.log(error.message);
+    res.status(400).send({ message: "Bad request" });
+  }
+});
+export default app;

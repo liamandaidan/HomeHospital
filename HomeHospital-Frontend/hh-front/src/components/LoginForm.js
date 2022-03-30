@@ -1,30 +1,22 @@
-import React, { useEffect, useState } from "react";
-import {
-  Button,
-  Col,
-  Container,
-  Form,
-  Modal,
-  Row,
-  Spinner,
-} from "react-bootstrap";
+import React, { useContext, useEffect, useState } from "react";
+import { Button, Col, Container, Form, Modal, Row } from "react-bootstrap";
 import { Link, useNavigate } from "react-router-dom";
 import logo from "../images/heartbeat_logo_long.png";
 import classes from "./LoginForm.module.css";
-import axios from "axios";
-
-axios.defaults.withCredentials = true;
+import Axios from "axios";
+import { HomeHospitalContext } from "./HomeHospitalContext";
 
 function LoginForm() {
   let navigate = useNavigate();
 
+  const { patient_id } = useContext(HomeHospitalContext);
+  const [patientID, setPatientID] = patient_id;
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [validEmail, setValidEmail] = useState(false);
   const [validPassword, setvalidPassword] = useState(false);
   const [validForm, setValidForm] = useState(false);
   const [modalShow, setModalShow] = useState(false);
-  const [loggedIn, setLoggedIn] = useState();
 
   const handleShow = () => setModalShow(true);
 
@@ -54,34 +46,20 @@ function LoginForm() {
   }
 
   const loginUser = () => {
-    axios
-      .post("http://localhost:4000/api/login", {
-        email: email,
-        password: password,
-      })
+    Axios.post("http://localhost:4000/api/login", {
+      email: email,
+      password: password,
+    })
       .then((response) => {
+        setPatientID(response.data.patientId);
         console.log("You have logged in successfully");
         navigate("/home");
       })
       .catch((err) => {
-        console.log(err);
         handleShow();
+        console.log("Error:" + err);
       });
   };
-
-  useEffect(() => {
-    axios
-      .post("http://localhost:4000/api/users/PatientInfoVisitRequest", {
-        withCredentials: true,
-      })
-      .then((response) => {
-        setLoggedIn(true);
-        navigate("/home");
-      })
-      .catch((err) => {
-        setLoggedIn(false);
-      });
-  }, [loggedIn]);
 
   function ErrorModal(props) {
     return (
@@ -109,16 +87,6 @@ function LoginForm() {
       setValidForm(true);
     }
   }, [validEmail, validPassword]);
-
-  if (loggedIn === undefined || loggedIn === null) {
-    return (
-      <div className={`${classes.spinner} text-center`}>
-        <Spinner animation="border" role="status">
-          <span className="visually-hidden">Loading...</span>
-        </Spinner>
-      </div>
-    );
-  }
 
   return (
     <React.Fragment>

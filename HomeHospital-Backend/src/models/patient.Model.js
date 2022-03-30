@@ -43,79 +43,13 @@ const patientSchema = new mongoose.Schema({
 			default: null,
 		},
 	},
-	currentHospital: {
-		type: mongoose.Schema.Types.ObjectId,
-		ref: 'MedicalFacility',
-		default: null,
-	},
-	currentRequest: {
-		type: mongoose.Schema.Types.ObjectId,
-		ref: 'VisitRequest',
-		default: null,
-	},
-	pastRequests: {
+	requests: {
 		type: [mongoose.Schema.Types.ObjectId],
-		ref: 'CompletedRequest',
+		ref: 'VisitRequest',
 		default: null,
 	},
 })
 
-// Adds the new request to the Patients currentRequest spot
-patientSchema.methods.newRequest = function (requestId, requestHospitalId) {
-	try {
-		if (this.currentRequest != null) {
-			throw new Error('Patient already has an active request!!')
-		} else {
-			if (
-				mongoose.Types.ObjectId.isValid(requestId) &&
-				mongoose.Types.ObjectId.isValid(requestHospitalId)
-			) {
-				this.currentRequest = requestId
-				this.currentHospital = requestHospitalId
-				return
-			} else {
-				throw new Error(
-					'Invalid RequestId or HospitalId for the patients new Request'
-				)
-			}
-		}
-	} catch (error) {
-		console.log(error.message)
-	}
-}
-
-// moves the current request from the patients curret request spot and puts it in the list of past requests
-patientSchema.methods.completeRequest = function () {
-	try {
-		if (this.currentRequest) {
-			this.pastRequests.push(this.currentRequest)
-			this.currentRequest = null
-			this.currentHospital = null
-		} else {
-			throw new Error('Patient has no request to move to be completed')
-		}
-	} catch (error) {
-		console.log('completed Request from patient model')
-		console.log(error.message)
-	}
-}
-
-// Cancel the current request
-// Adds the new request to the Patients currentRequest spot
-patientSchema.methods.cancelRequest = function () {
-	try {
-		if (this.currentRequest) {
-			this.currentRequest = null
-			this.currentHospital = null
-		} else {
-			throw new Error('Patient Does not have an active request to cancel')
-		}
-	} catch (error) {
-		console.log(error.message)
-	}
-}
-
-// gets Details about the patient to be displayed on the site and returns them to the front end
 patientSchema.methods.getPatientRequestInfo = function () {
 	return {
 		user: this.user,
@@ -124,6 +58,8 @@ patientSchema.methods.getPatientRequestInfo = function () {
 		id: this._id,
 		email: this.email,
 	}
+	//HCnumber: HCNum,
+	//emergencyContact: { firstName: first, lastName: last }
 }
 
 export default mongoose.model('Patient', patientSchema)
