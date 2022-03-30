@@ -12,11 +12,11 @@ const userSchema = new mongoose.Schema({
 	},
 	address: {
 		type: addressSchema,
-		required: true
+		required: true,
 	},
 	phoneNumber: {
 		type: String,
-		default: null
+		default: null,
 	},
 	createdAt: {
 		type: Date,
@@ -27,7 +27,7 @@ const userSchema = new mongoose.Schema({
 		type: Date,
 		default: () => Date.now(),
 	},
-	_id: false
+	_id: false,
 })
 
 export default userSchema

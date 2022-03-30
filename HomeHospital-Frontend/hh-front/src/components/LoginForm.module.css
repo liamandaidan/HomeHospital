@@ -27,3 +27,8 @@
   padding-left: 30px;
   padding-right: 30px;
 }
+
+.spinner {
+  margin: auto;
+  width: 50%;
+}

@@ -1,21 +1,20 @@
-import React, { useContext } from "react";
+import React from "react";
 import { Button, Col, Row } from "react-bootstrap";
 import logo from "../images/heartbeat_logo_long.png";
 import classes from "./LandingPage.module.css";
 import landingImage from "../images/landingImage.png";
-import { Link, useNavigate } from "react-router-dom";
-import { HomeHospitalContext } from "./HomeHospitalContext";
+import { useNavigate } from "react-router-dom";
+import axios from "axios";
 
 function LandingPage() {
-  const { patient_id } = useContext(HomeHospitalContext);
-  const [patientID, setPatientID] = patient_id;
-
-  console.log("Landing patient Id: " + patientID);
-
   const navigate = useNavigate();
 
   const handleRegister = () => {
     navigate("/register");
+  };
+
+  const handleLogin = () => {
+    navigate("/login");
   };
 
   return (
@@ -36,12 +35,13 @@ function LandingPage() {
         </Col>
         <Col className={classes.columnSpace} md={{ offset: 3 }}>
           <div>
-            <Link
-              to={"/login"}
+            <Button
+              variant="link"
               style={{ paddingRight: "25px", fontSize: "15px" }}
+              onClick={handleLogin}
             >
               Login
-            </Link>
+            </Button>
             <Button
               className={`rounded-pill shadow ${classes.signup}`}
               onClick={handleRegister}
