@@ -110,6 +110,22 @@
     padding: 20px;
 }
 
+.userHome-grid {
+    display: grid;
+    margin-bottom: 10px;
+
+}
+.userHome-item-1 {
+    grid-column-start: 1;
+    grid-column-end: 2;
+}
+.userHome-item-2 {
+    grid-column-start: 2;
+    grid-column-end: 3;
+    justify-content: right;
+    text-align: right;
+}
+
 
 .table-fixed tbody {
     height: 300px;

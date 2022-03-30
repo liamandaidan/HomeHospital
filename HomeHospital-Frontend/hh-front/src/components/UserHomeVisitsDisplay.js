@@ -1,8 +1,7 @@
 import React, { useState, useContext, useEffect } from "react";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
-import Container from "react-bootstrap/Container";
-import Table from "react-bootstrap/Table";
+import { Container, Table, Button } from "react-bootstrap";
 import "../styles/UserHomepage.css";
 import axios from "axios";
 import moment from "moment";
@@ -43,46 +42,60 @@ function UserHomeVisitsDisplay() {
 
   console.log(visitList);
 
+  const createNewRequest = () => {
+    navigate("/hospitals");
+  };
+
   return (
     <>
-    <div> <h3>Previous Visits</h3></div>
+      <div className="userHome-grid">
+        <div className="userHome-item-1">
+          <h3>Previous Visits</h3>
+        </div>
+        <div className="userHome-item-2">
+          <Button className="newRequest-btn" onClick={createNewRequest}>
+            Create new request
+          </Button>
+        </div>
+      </div>
       <Container className="container-visits">
         <Row>
           <Col>
-          {visitList =="" ? <p>You have no previous visit history</p> : (
-            <>
-            
-            <Table
-              striped
-              bordered
-              hover
-              responsive
-              borderless
-              className="visit-table table-fixed"
-            >
-              <thead>
-                <tr>
-                  <th>#</th>
-                  <th>Date</th>
-                  <th>Reason</th>
-                  <th>Location</th>
-                </tr>
-              </thead>
-              <tbody>
-                {visitList.map((visit, index) => (
-                  <tr key={index} onClick={() => handleRequest(visit._id)}>
-                    <td>{index + 1}</td>
-                    <td>
-                      {moment(visit.dateTime).format("dddd, MMMM Do YYYY")}
-                    </td>
-                    <td>Emergency Room Visit</td>
-                    <td>{visit.requestHospitalName}</td>
-                  </tr>
-                ))}
-              </tbody>
-            </Table>
-            </>
-          )}
+            {visitList == "" ? (
+              <p>You have no previous visit history</p>
+            ) : (
+              <>
+                <Table
+                  striped
+                  bordered
+                  hover
+                  responsive
+                  borderless
+                  className="visit-table table-fixed"
+                >
+                  <thead>
+                    <tr>
+                      <th>#</th>
+                      <th>Date</th>
+                      <th>Reason</th>
+                      <th>Location</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {visitList.map((visit, index) => (
+                      <tr key={index} onClick={() => handleRequest(visit._id)}>
+                        <td>{index + 1}</td>
+                        <td>
+                          {moment(visit.dateTime).format("dddd, MMMM Do YYYY")}
+                        </td>
+                        <td>Emergency Room Visit</td>
+                        <td>{visit.requestHospitalName}</td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </Table>
+              </>
+            )}
           </Col>
         </Row>
       </Container>
