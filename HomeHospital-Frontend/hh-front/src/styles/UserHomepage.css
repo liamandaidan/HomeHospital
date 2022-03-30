@@ -104,7 +104,10 @@
 
 .container-visits {
     height:300px;
-    overflow-y: scroll;
+    overflow-y: auto;
+    border: 1px solid #8888885b;
+    border-radius: 6px;
+    padding: 20px;
 }
 
 

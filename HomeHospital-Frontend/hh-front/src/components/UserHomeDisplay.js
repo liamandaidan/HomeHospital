@@ -90,9 +90,12 @@ function UserHomeDisplay() {
                   </div>
               <Card className="card-currentVisit">
                 <Card.Body>
-                {moment(date).format("dddd, MMMM Do YYYY")}
-                  <p>{requestHospitalName}</p>
-
+                  {requestHospitalName == "" ? <p>You have no scheduled visits</p> : (
+                    <>     
+                    <p>{moment(date).format("dddd, MMMM Do YYYY")}</p>
+                    <p>{requestHospitalName}</p>
+                    </>
+                  )}
                 </Card.Body>
               </Card>
             </Col>

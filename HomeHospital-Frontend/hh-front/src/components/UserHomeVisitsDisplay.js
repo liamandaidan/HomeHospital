@@ -45,9 +45,13 @@ function UserHomeVisitsDisplay() {
 
   return (
     <>
+    <div> <h3>Previous Visits</h3></div>
       <Container className="container-visits">
         <Row>
           <Col>
+          {visitList =="" ? <p>You have no previous visit history</p> : (
+            <>
+            
             <Table
               striped
               bordered
@@ -77,6 +81,8 @@ function UserHomeVisitsDisplay() {
                 ))}
               </tbody>
             </Table>
+            </>
+          )}
           </Col>
         </Row>
       </Container>
