@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { AdminContext } from "./AdminContext";
 import "../styles/admin.css";
 import Users from "../data/users.json";
@@ -9,13 +9,21 @@ function AdminLanding() {
   const { menuSelection } = useContext(AdminContext);
   // console.log(displayUsers);
   const [menuChoice, setMenuChoice] = menuSelection;
+  const [userLength, setUserLength] = useState(0)
+
+ useEffect(() => {
+  setUserLength(Users.length);
+
+ })
+
+ console.log("this is the length of users " + userLength);
 
   //piechart to display users
   const data = [
     {
       id: "Patients",
       label: "Patients",
-      value: 195,
+      value: 150,
       color: "hsl(359, 70%, 50%)"
     },
     {
