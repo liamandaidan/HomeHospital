@@ -8,6 +8,7 @@ import loginP from './routes/login.practitioner.route.js'
 import loginA from './routes/login.administrator.route.js'
 import logout from './routes/logout.route.js'
 import reset from './routes/passReset.route.js'
+import empReset from './routes/passReset.employee.route.js'
 import facilityActions from './routes/medicalFacility.route.js'
 import { checkAccessToken } from './service/token.service.js'
 import { checkEmployeeAccessToken } from './service/employee.token.service.js'
@@ -55,6 +56,9 @@ app.use('/visitRequest', requestActions)
 // add routes for 'manageRequests'
 // put middleware to check for practitioner
 app.use('/requestManager', checkEmployeeAccessToken, checkMayAccessPractitionerPage, requestManager)
+
+//route for admins to reset passwords
+app.use('/admin/password', checkEmployeeAccessToken, checkMayAccessAdminPage, empReset)
 
 // exports the router application
 export default app
