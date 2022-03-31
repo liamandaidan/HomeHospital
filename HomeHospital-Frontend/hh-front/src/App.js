@@ -4,6 +4,7 @@ import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import Error from "./components/ErrorPage404";
 import Home from "./pages/Home";
 import Login from "./pages/Login";
+import LoginPractitioner from "./pages/LoginPractitioner";
 import Register from "./pages/Register";
 import Request from "./pages/Request";
 import Symptoms from "./pages/SymptomsPage";
@@ -61,6 +62,7 @@ function App() {
             path="/register"
             element={<Register className="full-height" />}
           />
+          <Route path="/login-practitioner" element={<LoginPractitioner />} />
         </Routes>
       </Router>
     </HomeHospitalProvider>
