@@ -15,6 +15,7 @@ import { checkMayAccessAdminPage, checkMayAccessPractitionerPage} from './servic
 import users from './routes/users.route.js'
 import requestActions from './routes/request.route.js'
 import requestManager from './routes/requestManager.route.js'
+import adminFunctions from './routes/adminFunctions.route.js'
 
 // Create the Router App
 const app = Router()
@@ -33,11 +34,15 @@ app.use('/testP', test)
 app.use('/register', register)
 app.use('/registerP', checkMayAccessAdminPage)
 app.use('/registerP', registerP)
-app.use('/registerA', registerA)
+app.use('/registerA',checkMayAccessAdminPage, registerA)
+// Patient login
 app.use('/login', login)
+//practitioner/admin login
 app.use('/loginP', loginP)
 app.use('/loginA', loginA)
+// lout works for all users
 app.use('/logout', logout)
+// 
 app.use('/forget', reset)
 
 // Add a facility, view list of all facilities
@@ -55,6 +60,9 @@ app.use('/visitRequest', requestActions)
 // add routes for 'manageRequests'
 // put middleware to check for practitioner
 app.use('/requestManager', checkEmployeeAccessToken, checkMayAccessPractitionerPage, requestManager)
+
+// admin functions
+app.use('/admin', checkMayAccessAdminPage, adminFunctions)
 
 // exports the router application
 export default app

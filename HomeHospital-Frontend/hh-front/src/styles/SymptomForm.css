@@ -2,6 +2,9 @@
     margin-top: 5%;
 }
 
+.patient-container{
+    margin-left: 5rem;
+}
 
 .title-div{
     margin-bottom: 0.3rem;
@@ -22,11 +25,21 @@
     
 }
 
+.add-btn-div {
+    text-align: right;
+    justify-content: right;
+}
+
 .submit-btn {
     color: #7878AB;
     border-radius: 1rem;
     background-color: #F5F5FA;
     margin-top: 1rem;
+}
+
+.submit-btn-div {
+    text-align: right;
+    justify-content: right;
 }
 
 .remove-btn {
@@ -45,7 +58,6 @@
     background-color: #7878AB;
 }
 
-
 .symptomGroup {
     margin-bottom: 1rem;
 }
@@ -60,12 +72,21 @@ textarea {
 
 .heartbeat-logo {
     width: 13rem;
-    height: 12rem;
+    height: 10.5rem;
+    opacity: 60%;
+}
+
+.hb-div {
+    align-items: right;
+    justify-content: right;
+    margin-right: 0;
 }
 
 .hb-bar {
-    height: 3rem;
-    width: 26rem;
+    height: 2.5rem;
+    width: 23rem;
+    opacity:60%;
+
 }
 
 .profilepic {
@@ -77,6 +98,7 @@ textarea {
 
 .patient-info-requestDetails {
     margin-top: 0.5rem;
+    margin-left: 0;
     align-content: left;
     font-size: small;
     line-height: 0.1em;
@@ -85,12 +107,13 @@ textarea {
 .patient-info-personalDetails {
     margin-top: 1rem;
     margin-bottom: 1rem;
+    margin-left: 1.5rem;
 }
 
 .patient-contactDetails {
     font-size: medium;
     line-height: 1rem;
-    margin-left: 1.5rem;
+    margin-left: 2.5rem;
 }
 
 .edit {
@@ -109,4 +132,90 @@ a:hover {
     color: #7878ab;
     text-decoration: none;
     cursor: pointer;
+}
+
+.alert-modal{
+    color: #F5F5FA;
+    border-radius: 1rem;
+    background-color: #7878ab40;
+    margin-left: auto;
+    margin-right: auto ;
+}
+
+p {
+    color: black ;
+
+}
+
+.modal-title {
+    margin-left: auto;
+    margin-right: auto;
+    color: #EC2BAA ; 
+    font-size: 40px;
+    font-weight: bold;
+    letter-spacing: .1rem;
+    border: none;
+
+}
+
+.modal-content {
+    margin-left: auto;
+    margin-right: auto;
+    text-align: center; 
+    border: none;
+}
+
+.modal-footer {
+    margin-left: auto ;
+    margin-right: auto ;
+    border: none;
+}
+
+.ack-btn {
+    margin-left: auto ;
+    margin-right: auto ;
+    color: #7878ab;
+    border-radius: 1rem;
+    background-color: #F5F5FA;
+    border-color: #F5F5FA;
+}
+
+.ack-btn:hover {
+    color: #F5F5FA;
+    border-radius: 1rem;
+    background-color: #7878ab;
+    border-color: #7878ab;
+
+}
+
+.div-footer {
+    margin-left: auto ;
+    margin-right: auto ;
+    align-items: center;
+    justify-content: center;
+}
+
+.cancel-lnk {
+    margin-left: auto ;
+    margin-right: auto ;
+    font-size: small;
+    color: #616060;
+    text-decoration: underline;
+    }
+
+.cancel-lnk:hover {
+    font-size: small;
+    color: #313131;
+    text-decoration: none;
+    cursor: pointer;
+    }
+
+
+.bg-custom {
+    background-color: #C1F4E8;
+    }
+
+.add-btn-div{
+    text-align: right;
+    justify-content: right;
 }
