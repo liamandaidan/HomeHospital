@@ -17,6 +17,7 @@ import UserHomepage from "./pages/UserHomepage";
 import RequireAuth from "./components/RequireAuth";
 import Practitioner from "./pages/Practioner";
 import Admin from "./pages/Admin.js";
+import AdminLogin from "./pages/AdminLogin.js";
 function App() {
   useEffect(() => {
     document.title = "HomeHospital";
@@ -29,6 +30,7 @@ function App() {
           <Route path="/" element={<Home />} />
           <Route path="/login" element={<Login />} />
           <Route path="/admin" element={<Admin />} />
+          <Route path="/adminlogin" element={<AdminLogin />} />
           <Route
             path="/request"
             element={
