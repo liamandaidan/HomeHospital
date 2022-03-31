@@ -12,7 +12,8 @@ export const checkMayAccessAdminPage = async (req, res, next) => {
     let codedAccessToken = req.cookies['accessTokenCookie']
     if(!codedAccessToken) {
         console.log("No access token present");
-        res.status(401).json({ message: 'Authorization Failed' })
+        res.status(401).send({ message: 'Authorization Failed' })
+        return
     }
     const accessToken = jwt.decode(codedAccessToken);
     const adminId = accessToken.adminId
@@ -29,7 +30,8 @@ export const checkMayAccessPractitionerPage = async (req, res, next) => {
     let codedAccessToken = req.cookies['accessTokenCookie']
     if(!codedAccessToken) {
         console.log("No access token present");
-        res.status(401).json({ message: 'Authorization Failed' })
+        res.status(401).send({ message: 'Authorization Failed' })
+        return;
     }
     const accessToken = jwt.decode(codedAccessToken);
     const practitionerId = accessToken.practitionerId
@@ -38,6 +40,6 @@ export const checkMayAccessPractitionerPage = async (req, res, next) => {
         next()
     } else {
         console.log("User is not a practitioner, they may not proceed");
-        res.status(401).json({ message: 'Authorization Failed' })
+        res.status(401).send({ message: 'Authorization Failed' })
     }
 }
