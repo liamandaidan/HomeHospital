@@ -126,4 +126,16 @@ patientSchema.methods.getPatientRequestInfo = function () {
 	}
 }
 
+patientSchema.methods.getPatientAdminInfo = function () {
+	return {
+		user: this.user,
+		HCnumber: this.HCnumber,
+		emergencyContact: this.emergencyContact,
+		id: this._id,
+		email: this.email,
+		gender: this.gender,
+		dateOfBirth: this.dateOfBirth
+	}
+}
+
 export default mongoose.model('Patient', patientSchema)
