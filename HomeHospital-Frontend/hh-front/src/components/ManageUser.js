@@ -199,11 +199,14 @@ function ManageUser() {
     setCreateDisplay(false);
   };
 
-  const closeWindow = () => {
-    setMenuChoice("");
+  const closeUserWindow = () => {
     setUserType("");
     setDisplayUserType(true);
   };
+
+  const closeManageUserWindow = () => {
+    setMenuChoice("");
+  }
 
   const showCreate = () => {
     setCreateDisplay(true);
@@ -556,8 +559,7 @@ function ManageUser() {
             </div>
           {displayUserType && (
             <>
-            <div><a onClick={closeWindow}>close</a></div>
-             <div>
+             <div className="userDisplay-div">
                <ListGroup>
                  <ListGroup.Item action onClick={showPatients}>
                    Patients
@@ -567,17 +569,30 @@ function ManageUser() {
                  </ListGroup.Item>
                </ListGroup>
              </div>
+             <div className="footer-2"><a onClick={closeManageUserWindow}>&lt; Back</a></div>
              </>
           )}
           <div>
-               {userType === "Practitioner" &&  
+               {userType === "Practitioner" &&  (
+                 <>        
                  <ManagePractitioner /> 
+                 <div className="footer-div">
+                  <div className="footer-1"><Button className="createNewUser-btn">Create new practitioner</Button></div>
+                 <div className="footer-2"><a onClick={closeUserWindow}>&lt; Back to users</a></div>
+                 </div>
+                 </>
+               )
                }
-               {userType === "Patient" &&  
+               {userType === "Patient" &&  (
+                 <>
                  <ManagePatient />
+                 <div className="footer-2"><a onClick={closeUserWindow}>&lt; Back to users</a></div>
+                 </>
+               )
                }
 
              </div>
+
         </div>
       )}
 

@@ -121,6 +121,9 @@
 }
 .userDisplay-div {
   padding: 20px;
+  height: 600px;
+  border: 1px solid #CCCCCC;
+  border-radius: 5px;
 }
 
 .confirmChange-btn {
@@ -222,15 +225,6 @@
   margin-top:-10px;
 }
 
-.createNewUser-btn {
-  margin-bottom: 5px;
-  color: #ffffff;
-  border-radius: 10px;
-  background-color: #7878AB;
-  border: #7878AB;
-  margin-top: 1rem;
-  width: 200px;
-}
 .createNewUser-btn:hover {
   color: #1b1b1b;
   border-radius: 10px;
@@ -251,4 +245,29 @@
 
 .currentUserDisplay {
   padding:30px;
+}
+
+.footer-div {
+  display: grid;
+}
+
+.createNewUser-btn {
+  margin-bottom: 5px;
+  color: #ffffff;
+  border-radius: 10px;
+  background-color: #7878AB;
+  border: #7878AB;
+  margin-top: 1rem;
+  width: 200px;
+}
+
+.footer-1 {
+  grid-column-start: 1;
+  grid-column-end: 2;
+}
+.footer-2 {
+  grid-column-start: 2;
+  grid-column-end: 3;
+  text-align: right;
+  margin-top: 20px;
 }

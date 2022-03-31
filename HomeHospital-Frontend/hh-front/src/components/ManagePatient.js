@@ -83,7 +83,7 @@ const [modalState, setModalState] = useState(false);
   //this component will show if the userType select is equal to patient
   return (
     <>
-    <div><a onClick={closeWindow}>x</a></div>
+    <div className="userDisplay-div">
       <Table className="userDisplay-table">
         <thead>
           <tr>
@@ -114,7 +114,7 @@ const [modalState, setModalState] = useState(false);
           })}
         </tbody>
       </Table>
-
+    </div>
       <AlertModal show={modalState} onHide={() => setModalState(false)} />
     </>
   );

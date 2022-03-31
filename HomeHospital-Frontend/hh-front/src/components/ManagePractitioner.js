@@ -136,6 +136,7 @@ function ManagePractitioner() {
   //this component will show if the userType select is equal to practitioner
   return (
     <>
+    <div className="userDisplay-div">
       <Table className="userDisplay-table">
         <thead>
           <tr>
@@ -174,6 +175,7 @@ function ManagePractitioner() {
           })}
         </tbody>
       </Table>
+    </div>
 
       <AlertModal show={modalState} onHide={() => setModalState(false)} />
     </>
