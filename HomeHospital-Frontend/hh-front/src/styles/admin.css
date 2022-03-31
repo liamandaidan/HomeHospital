@@ -1,11 +1,10 @@
 @import url("https://fonts.googleapis.com/css2?family=Inter:wght@900&display=swap");
 
-.admin-page {
+/* .admin-page {
   background-image: url("../images/adminbg.jpg");
   background-repeat: no-repeat;
   background-size: cover;
-  
-}
+} */
 
 .adminGreeting {
   font-size: 60px;
@@ -240,4 +239,16 @@
 
 .createUser-div {
   padding: 20px;
+}
+
+.responsivePie {
+  border: 1px solid #cccccccd;
+  height: 500px;
+  width: 700px;
+  border-radius: 5px;
+
+}
+
+.currentUserDisplay {
+  padding:30px;
 }
