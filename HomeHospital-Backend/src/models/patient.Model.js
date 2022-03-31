@@ -39,6 +39,7 @@ const patientSchema = new mongoose.Schema({
 			type: String,
 			default: null,
 			//validate:[validator.isAlpha, 'Only Letters allowed'],
+			
 		},
 		lastName: {
 			type: String,

@@ -10,12 +10,13 @@ const addressSchema = new mongoose.Schema({
 	streetAddress: {
 		type: String,
 		required: [true, 'Please enter a Street Address'], 
-		maxlength: [30, 'Please Keep the Address under 30 characters']
+		maxlength: [50, 'Please Keep the Address under 50 characters']
 	},
 	cityName: {
-		type: String,required: [true, 'Please enter a City'], 
+		type: String,
+		required: [true, 'Please enter a City'], 
 		minlength: [2, 'Minimum City Length is 2 characters'],
-		maxlength: [30, 'Maximum City Length is 30 Characters'],
+		maxlength: [40, 'Maximum City Length is 40 Characters'],
 		validate:[validator.isAlpha, 'Please enter a Valid City, Letters Only']
 	},
 	provName: {
