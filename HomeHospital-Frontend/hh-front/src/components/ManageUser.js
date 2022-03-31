@@ -1,8 +1,10 @@
 import React, { useEffect, useState, useContext } from "react";
-import { Table, Modal, Button, Form } from "react-bootstrap";
+import { Table, Modal, Button, Form, ListGroup } from "react-bootstrap";
 import Users from "../data/users.json";
 import { AdminContext } from "./AdminContext";
 import axios from "axios";
+import ManagePractitioner  from "../components/ManagePractitioner"
+import ManagePatient from "../components/ManagePatient"
 
 function ManageUser() {
   const [modalState, setModalState] = useState(false);
@@ -10,10 +12,14 @@ function ManageUser() {
   const [editDisplay, setEditDisplay] = useState(false);
   const [userDisplay, setUserDisplay] = useState(true);
   const [createDisplay, setCreateDisplay] = useState(false);
+  const [displayUserType, setDisplayUserType] = useState(true);
 
-  const { menuSelection } = useContext(AdminContext);
-  // console.log(displayUsers);
+  const { menuSelection, userTypeSelection, userSelectId  } = useContext(AdminContext);
+
+  console.log("this is from the context: " + userTypeSelection);
   const [menuChoice, setMenuChoice] = menuSelection;
+  const [userType, setUserType] = userTypeSelection;
+  const [userChoiceId, setUserChoiceId] = userSelectId;
 
   //selected user details to edit
   const [id, setId] = useState("");
@@ -195,6 +201,8 @@ function ManageUser() {
 
   const closeWindow = () => {
     setMenuChoice("");
+    setUserType("");
+    setDisplayUserType(true);
   };
 
   const showCreate = () => {
@@ -232,302 +240,344 @@ function ManageUser() {
     
   };
 
+  const showPractitioners = () => {
+    setUserType("Practitioner");
+    console.log("this is the user type: " + userType);
+    setDisplayUserType(false);
+
+  }
+  const showPatients = () => {
+    setUserType("Patient");
+    console.log("this is the user type: " + userType);
+    setDisplayUserType(false);
+
+  }
+  
   return (
     <>
       {menuChoice === "manage" && (
+        // <div className="admin-main-div">
+        //   <div className="header-div">
+        //     <div className="header-1">
+        //       <h2>Manage Users</h2>
+        //     </div>
+        //     <div className="header-2">
+        //       <Button className="createNewUser-btn" onClick={showCreate}>
+        //         Create new user
+        //       </Button>
+        //     </div>
+        //   </div>
+        //   <div className="manageuser-inner-div">
+        //     {editDisplay && (
+        //       <div className="editUser-div">
+        //         <h3>User ID: {id} </h3>
+        //         <Form>
+        //           <Form.Group>
+        //             <Form.Label>User type: </Form.Label>
+        //             <Form.Select
+        //               value={type}
+        //               onChange={(e) => setType(e.target.value)}
+        //               size="sm"
+        //             >
+        //               {" "}
+        //               <option defaultValue>{type}</option>
+        //               {type === "Patient" ? (
+        //                 <>
+        //                   <option>Practitioner</option>
+        //                   <option>Admin</option>
+        //                 </>
+        //               ) : (
+        //                 <>
+        //                   <option>Patient</option>
+        //                   <option>Admin</option>
+        //                 </>
+        //               )}
+        //             </Form.Select>
+        //             <Form.Label>Gender: </Form.Label>
+        //             <Form.Select
+        //               value={gender}
+        //               onChange={(e) => setGender(e.target.value)}
+        //               size="sm"
+        //             >
+        //               {" "}
+        //               <option defaultValue>{gender}</option>
+        //               {type === "Male" ? (
+        //                 <option>Female</option>
+        //               ) : (
+        //                 <option>Male</option>
+        //               )}
+        //             </Form.Select>
+        //             <Form.Label>First name: </Form.Label>
+        //             <Form.Control
+        //               value={firstName}
+        //               onChange={(e) => setFirstName(e.target.value)}
+        //               size="sm"
+        //             />
+        //             <Form.Label>Last name: </Form.Label>
+        //             <Form.Control
+        //               value={lastName}
+        //               onChange={(e) => setLastName(e.target.value)}
+        //               size="sm"
+        //             />
+        //             <Form.Label>Date of birth: </Form.Label>
+        //             <Form.Control
+        //               type="date"
+        //               value={DOB}
+        //               onChange={(e) => setDOB(e.target.value)}
+        //               size="sm"
+        //             />
+        //             <Form.Label>Email: </Form.Label>
+        //             <Form.Control
+        //               value={email}
+        //               onChange={(e) => setEmail(e.target.value)}
+        //               size="sm"
+        //             />
+        //             <Form.Label>Phone numer: </Form.Label>
+        //             <Form.Control
+        //               value={phoneNum}
+        //               onChange={(e) => setPhoneNum(e.target.value)}
+        //               size="sm"
+        //             />
+        //             <Form.Label>Address: </Form.Label>
+        //             <Form.Control
+        //               value={address}
+        //               onChange={(e) => setAddress(e.target.value)}
+        //               size="sm"
+        //             />
+        //             <Form.Label>City: </Form.Label>
+        //             <Form.Control
+        //               value={city}
+        //               onChange={(e) => setCity(e.target.value)}
+        //               size="sm"
+        //             />
+        //             <Form.Label>Prov: </Form.Label>
+        //             <Form.Control
+        //               value={prov}
+        //               onChange={(e) => setProv(e.target.value)}
+        //               size="sm"
+        //             />
+        //             <Form.Label>Postal code: </Form.Label>
+        //             <Form.Control
+        //               value={postalCode}
+        //               onChange={(e) => setPostalCode(e.target.value)}
+        //               size="sm"
+        //             />
+        //             <Form.Label>Alberta Health Care: </Form.Label>
+        //             <Form.Control
+        //               value={aHCNum}
+        //               onChange={(e) => setAHCNum(e.target.value)}
+        //               size="sm"
+        //             />
+        //             <Form.Label>Emergecy contact name: </Form.Label>
+        //             <Form.Control
+        //               value={emergName}
+        //               onChange={(e) => setEmergName(e.target.value)}
+        //               size="sm"
+        //             />
+        //             <Form.Label>Emergency contact number: </Form.Label>
+        //             <Form.Control
+        //               value={emergNum}
+        //               onChange={(e) => setEmergNum(e.target.value)}
+        //               size="sm"
+        //             />
+        //           </Form.Group>
+        //           <div className="grid-div">
+        //             <div className="item-1">
+        //               <a
+        //                 className="delete-link"
+        //                 onClick={(e) => handleDelete(id)}
+        //               >
+        //                 Delete User
+        //               </a>
+        //             </div>
+        //             <div className="confirmChange-div item-2">
+        //               <Button
+        //                 onClick={createUser}
+        //                 className="confirmChange-btn"
+        //               >
+        //                 Confirm Change
+        //               </Button>
+        //               <br />
+        //               <a className="admin-link" onClick={showUsers}>
+        //                 Cancel
+        //               </a>
+        //             </div>
+        //           </div>
+        //         </Form>
+        //       </div>
+        //     )}
+        //     {userDisplay && (
+        //       <div className="userDisplay-div">
+        //         <div className="closeWindow">
+        //           <a onClick={closeWindow}>close</a>
+        //         </div>
+        //         <Table className="userDisplay-table">
+        //           <thead>
+        //             <tr>
+        //               <th>#</th>
+        //               <th>First Name</th>
+        //               <th>Last Name</th>
+        //               <th>User Type</th>
+        //             </tr>
+        //           </thead>
+        //           <tbody>
+        //             {Users.map((user, index) => {
+        //               return (
+        //                 <tr className="table-row" key={user.id} value={user.id}>
+        //                   <td>{index + 1}</td>
+        //                   <td>{user.firstName}</td>
+        //                   <td>{user.lastName}</td>
+        //                   <td>{user.type}</td>
+        //                   <td>
+        //                     <a
+        //                       className="admin-link"
+        //                       onClick={(e) => selectEdit(user.id)}
+        //                     >
+        //                       Edit
+        //                     </a>
+        //                   </td>
+        //                   <td>
+        //                     <a
+        //                       className="admin-link"
+        //                       onClick={(e) => handleDelete(user.id)}
+        //                     >
+        //                       Delete
+        //                     </a>
+        //                   </td>
+        //                 </tr>
+        //               );
+        //             })}
+        //           </tbody>
+        //         </Table>
+        //       </div>
+        //     )}
+        //     {createDisplay && (
+        //       <div className="createUser-div">
+        //         {/* <h3>User ID: {id} </h3> */}
+        //         <Form>
+        //           <Form.Group>
+        //             <Form.Label>User type: </Form.Label>
+        //             <Form.Select
+        //               value={type}
+        //               onChange={(e) => setNewType(e.target.value)}
+        //               size="sm"
+        //             >
+        //               <option>Patient</option>
+        //               <option>Practitioner</option>
+        //               <option>Admin</option>
+        //             </Form.Select>
+        //             <Form.Label>Gender: </Form.Label>
+        //             <Form.Select
+        //               onChange={(e) => setNewGender(e.target.value)}
+        //               size="sm"
+        //             >
+        //               <option>Female</option>
+        //               <option>Male</option>
+        //             </Form.Select>
+        //             <Form.Label>First name: </Form.Label>
+        //             <Form.Control
+        //               onChange={(e) => setNewFirstName(e.target.value)}
+        //               size="sm"
+        //             />
+        //             <Form.Label>Last name: </Form.Label>
+        //             <Form.Control
+        //               onChange={(e) => setNewLastName(e.target.value)}
+        //               size="sm"
+        //             />
+        //             <Form.Label>Date of birth: </Form.Label>
+        //             <Form.Control
+        //               type="date"
+        //               onChange={(e) => setNewDOB(e.target.value)}
+        //               size="sm"
+        //             />
+        //             <Form.Label>Email: </Form.Label>
+        //             <Form.Control
+        //               onChange={(e) => setNewEmail(e.target.value)}
+        //               size="sm"
+        //             />
+        //             <Form.Label>Phone numer: </Form.Label>
+        //             <Form.Control
+        //               onChange={(e) => setNewPhoneNum(e.target.value)}
+        //               size="sm"
+        //             />
+        //             <Form.Label>Address: </Form.Label>
+        //             <Form.Control
+        //               onChange={(e) => setNewAddress(e.target.value)}
+        //               size="sm"
+        //             />
+        //             <Form.Label>City: </Form.Label>
+        //             <Form.Control
+        //               onChange={(e) => setNewCity(e.target.value)}
+        //               size="sm"
+        //             />
+        //             <Form.Label>Prov: </Form.Label>
+        //             <Form.Control
+        //               onChange={(e) => setNewProv(e.target.value)}
+        //               size="sm"
+        //             />
+        //             <Form.Label>Postal code: </Form.Label>
+        //             <Form.Control
+        //               onChange={(e) => setNewPostalCode(e.target.value)}
+        //               size="sm"
+        //             />
+        //             <Form.Label>Alberta Health Care: </Form.Label>
+        //             <Form.Control
+        //               onChange={(e) => setNewAHCNum(e.target.value)}
+        //               size="sm"
+        //             />
+        //             <Form.Label>Emergecy contact name: </Form.Label>
+        //             <Form.Control
+        //               onChange={(e) => setNewEmergName(e.target.value)}
+        //               size="sm"
+        //             />
+        //             <Form.Label>Emergency contact number: </Form.Label>
+        //             <Form.Control
+        //               onChange={(e) => setNewEmergNum(e.target.value)}
+        //               size="sm"
+        //             />
+        //           </Form.Group>
+        //           <div className="grid-div">
+        //             <div className="confirmChange-div item-2">
+        //               <Button className="confirmChange-btn">Create</Button>
+        //               <br />
+        //               <a className="admin-link" onClick={showUsers}>
+        //                 Cancel
+        //               </a>
+        //             </div>
+        //           </div>
+        //         </Form>
+        //       </div>
+        //     )}
+        //   </div>
+        // </div>
         <div className="admin-main-div">
-          <div className="header-div">
-            <div className="header-1">
-              <h2>Manage Users</h2>
+          <div className="header-1">
+            <div><h2>Manage Users</h2></div>
             </div>
-            <div className="header-2">
-              <Button className="createNewUser-btn" onClick={showCreate}>
-                Create new user
-              </Button>
-            </div>
-          </div>
-          <div className="manageuser-inner-div">
-            {editDisplay && (
-              <div className="editUser-div">
-                <h3>User ID: {id} </h3>
-                <Form>
-                  <Form.Group>
-                    <Form.Label>User type: </Form.Label>
-                    <Form.Select
-                      value={type}
-                      onChange={(e) => setType(e.target.value)}
-                      size="sm"
-                    >
-                      {" "}
-                      <option defaultValue>{type}</option>
-                      {type === "Patient" ? (
-                        <>
-                          <option>Practitioner</option>
-                          <option>Admin</option>
-                        </>
-                      ) : (
-                        <>
-                          <option>Patient</option>
-                          <option>Admin</option>
-                        </>
-                      )}
-                    </Form.Select>
-                    <Form.Label>Gender: </Form.Label>
-                    <Form.Select
-                      value={gender}
-                      onChange={(e) => setGender(e.target.value)}
-                      size="sm"
-                    >
-                      {" "}
-                      <option defaultValue>{gender}</option>
-                      {type === "Male" ? (
-                        <option>Female</option>
-                      ) : (
-                        <option>Male</option>
-                      )}
-                    </Form.Select>
-                    <Form.Label>First name: </Form.Label>
-                    <Form.Control
-                      value={firstName}
-                      onChange={(e) => setFirstName(e.target.value)}
-                      size="sm"
-                    />
-                    <Form.Label>Last name: </Form.Label>
-                    <Form.Control
-                      value={lastName}
-                      onChange={(e) => setLastName(e.target.value)}
-                      size="sm"
-                    />
-                    <Form.Label>Date of birth: </Form.Label>
-                    <Form.Control
-                      type="date"
-                      value={DOB}
-                      onChange={(e) => setDOB(e.target.value)}
-                      size="sm"
-                    />
-                    <Form.Label>Email: </Form.Label>
-                    <Form.Control
-                      value={email}
-                      onChange={(e) => setEmail(e.target.value)}
-                      size="sm"
-                    />
-                    <Form.Label>Phone numer: </Form.Label>
-                    <Form.Control
-                      value={phoneNum}
-                      onChange={(e) => setPhoneNum(e.target.value)}
-                      size="sm"
-                    />
-                    <Form.Label>Address: </Form.Label>
-                    <Form.Control
-                      value={address}
-                      onChange={(e) => setAddress(e.target.value)}
-                      size="sm"
-                    />
-                    <Form.Label>City: </Form.Label>
-                    <Form.Control
-                      value={city}
-                      onChange={(e) => setCity(e.target.value)}
-                      size="sm"
-                    />
-                    <Form.Label>Prov: </Form.Label>
-                    <Form.Control
-                      value={prov}
-                      onChange={(e) => setProv(e.target.value)}
-                      size="sm"
-                    />
-                    <Form.Label>Postal code: </Form.Label>
-                    <Form.Control
-                      value={postalCode}
-                      onChange={(e) => setPostalCode(e.target.value)}
-                      size="sm"
-                    />
-                    <Form.Label>Alberta Health Care: </Form.Label>
-                    <Form.Control
-                      value={aHCNum}
-                      onChange={(e) => setAHCNum(e.target.value)}
-                      size="sm"
-                    />
-                    <Form.Label>Emergecy contact name: </Form.Label>
-                    <Form.Control
-                      value={emergName}
-                      onChange={(e) => setEmergName(e.target.value)}
-                      size="sm"
-                    />
-                    <Form.Label>Emergency contact number: </Form.Label>
-                    <Form.Control
-                      value={emergNum}
-                      onChange={(e) => setEmergNum(e.target.value)}
-                      size="sm"
-                    />
-                  </Form.Group>
-                  <div className="grid-div">
-                    <div className="item-1">
-                      <a
-                        className="delete-link"
-                        onClick={(e) => handleDelete(id)}
-                      >
-                        Delete User
-                      </a>
-                    </div>
-                    <div className="confirmChange-div item-2">
-                      <Button
-                        onClick={createUser}
-                        className="confirmChange-btn"
-                      >
-                        Confirm Change
-                      </Button>
-                      <br />
-                      <a className="admin-link" onClick={showUsers}>
-                        Cancel
-                      </a>
-                    </div>
-                  </div>
-                </Form>
-              </div>
-            )}
-            {userDisplay && (
-              <div className="userDisplay-div">
-                <div className="closeWindow">
-                  <a onClick={closeWindow}>close</a>
-                </div>
-                <Table className="userDisplay-table">
-                  <thead>
-                    <tr>
-                      <th>#</th>
-                      <th>First Name</th>
-                      <th>Last Name</th>
-                      <th>User Type</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {Users.map((user, index) => {
-                      return (
-                        <tr className="table-row" key={user.id} value={user.id}>
-                          <td>{index + 1}</td>
-                          <td>{user.firstName}</td>
-                          <td>{user.lastName}</td>
-                          <td>{user.type}</td>
-                          <td>
-                            <a
-                              className="admin-link"
-                              onClick={(e) => selectEdit(user.id)}
-                            >
-                              Edit
-                            </a>
-                          </td>
-                          <td>
-                            <a
-                              className="admin-link"
-                              onClick={(e) => handleDelete(user.id)}
-                            >
-                              Delete
-                            </a>
-                          </td>
-                        </tr>
-                      );
-                    })}
-                  </tbody>
-                </Table>
-              </div>
-            )}
-            {createDisplay && (
-              <div className="createUser-div">
-                {/* <h3>User ID: {id} </h3> */}
-                <Form>
-                  <Form.Group>
-                    <Form.Label>User type: </Form.Label>
-                    <Form.Select
-                      value={type}
-                      onChange={(e) => setNewType(e.target.value)}
-                      size="sm"
-                    >
-                      <option>Patient</option>
-                      <option>Practitioner</option>
-                      <option>Admin</option>
-                    </Form.Select>
-                    <Form.Label>Gender: </Form.Label>
-                    <Form.Select
-                      onChange={(e) => setNewGender(e.target.value)}
-                      size="sm"
-                    >
-                      <option>Female</option>
-                      <option>Male</option>
-                    </Form.Select>
-                    <Form.Label>First name: </Form.Label>
-                    <Form.Control
-                      onChange={(e) => setNewFirstName(e.target.value)}
-                      size="sm"
-                    />
-                    <Form.Label>Last name: </Form.Label>
-                    <Form.Control
-                      onChange={(e) => setNewLastName(e.target.value)}
-                      size="sm"
-                    />
-                    <Form.Label>Date of birth: </Form.Label>
-                    <Form.Control
-                      type="date"
-                      onChange={(e) => setNewDOB(e.target.value)}
-                      size="sm"
-                    />
-                    <Form.Label>Email: </Form.Label>
-                    <Form.Control
-                      onChange={(e) => setNewEmail(e.target.value)}
-                      size="sm"
-                    />
-                    <Form.Label>Phone numer: </Form.Label>
-                    <Form.Control
-                      onChange={(e) => setNewPhoneNum(e.target.value)}
-                      size="sm"
-                    />
-                    <Form.Label>Address: </Form.Label>
-                    <Form.Control
-                      onChange={(e) => setNewAddress(e.target.value)}
-                      size="sm"
-                    />
-                    <Form.Label>City: </Form.Label>
-                    <Form.Control
-                      onChange={(e) => setNewCity(e.target.value)}
-                      size="sm"
-                    />
-                    <Form.Label>Prov: </Form.Label>
-                    <Form.Control
-                      onChange={(e) => setNewProv(e.target.value)}
-                      size="sm"
-                    />
-                    <Form.Label>Postal code: </Form.Label>
-                    <Form.Control
-                      onChange={(e) => setNewPostalCode(e.target.value)}
-                      size="sm"
-                    />
-                    <Form.Label>Alberta Health Care: </Form.Label>
-                    <Form.Control
-                      onChange={(e) => setNewAHCNum(e.target.value)}
-                      size="sm"
-                    />
-                    <Form.Label>Emergecy contact name: </Form.Label>
-                    <Form.Control
-                      onChange={(e) => setNewEmergName(e.target.value)}
-                      size="sm"
-                    />
-                    <Form.Label>Emergency contact number: </Form.Label>
-                    <Form.Control
-                      onChange={(e) => setNewEmergNum(e.target.value)}
-                      size="sm"
-                    />
-                  </Form.Group>
-                  <div className="grid-div">
-                    <div className="confirmChange-div item-2">
-                      <Button className="confirmChange-btn">Create</Button>
-                      <br />
-                      <a className="admin-link" onClick={showUsers}>
-                        Cancel
-                      </a>
-                    </div>
-                  </div>
-                </Form>
-              </div>
-            )}
-          </div>
+          {displayUserType && (
+            <>
+            <div><a onClick={closeWindow}>close</a></div>
+             <div>
+               <ListGroup>
+                 <ListGroup.Item action onClick={showPatients}>
+                   Patients
+                 </ListGroup.Item>
+                 <ListGroup.Item action onClick={showPractitioners}>
+                   Practitioners
+                 </ListGroup.Item>
+               </ListGroup>
+             </div>
+             </>
+          )}
+          <div>
+               {userType === "Practitioner" &&  
+                 <ManagePractitioner /> 
+               }
+               {userType === "Patient" &&  
+                 <ManagePatient />
+               }
+
+             </div>
         </div>
       )}
 
