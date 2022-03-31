@@ -108,7 +108,7 @@
     },
     {
         "id": 77777,
-        "type": "Admin",
+        "type": "Doctor",
         "gender": "Female",
         "firstName": "Jen",
         "lastName": "Barber",

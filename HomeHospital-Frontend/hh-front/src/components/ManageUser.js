@@ -576,10 +576,7 @@ function ManageUser() {
                {userType === "Practitioner" &&  (
                  <>        
                  <ManagePractitioner /> 
-                 <div className="footer-div">
-                  <div className="footer-1"><Button className="createNewUser-btn">Create new practitioner</Button></div>
                  <div className="footer-2"><a onClick={closeUserWindow}>&lt; Back to users</a></div>
-                 </div>
                  </>
                )
                }
@@ -590,9 +587,7 @@ function ManageUser() {
                  </>
                )
                }
-
              </div>
-
         </div>
       )}
 

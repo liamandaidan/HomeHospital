@@ -84,7 +84,7 @@ const [modalState, setModalState] = useState(false);
   return (
     <>
     <div className="userDisplay-div">
-      <Table className="userDisplay-table">
+      <Table>
         <thead>
           <tr>
             <th>#</th>

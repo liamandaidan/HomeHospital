@@ -64,29 +64,6 @@
     height: 500px;
 }
 
-.create-btn {
-  color: #7878AB;
-  border-radius: 10px;
-  background-color: #E7FBF6;
-  border: #E7FBF6;
-  margin-top: 1rem;
-}
-.restore-btn {
-  color: #7878AB;
-  border-radius: 10px;
-  background-color: #E7FBF6;
-  border: #E7FBF6;
-  margin-top: 1rem;
-}
-.backup-btn {
-  color: #7878AB;
-  border-radius: 10px;
-  background-color: #E7FBF6;
-  border: #E7FBF6;
-  margin-top: 1rem;
-}
-
-
 .create-btn:hover {
   color: #F5F5FA;
   border-radius: 10px;
@@ -103,21 +80,11 @@
   background-color: #7878AB;
 }
 
-.manageuser-inner-div {
-  height: 600px;
-  border: 1px solid #CCCCCC;
-  border-radius: 5px;
-  margin-top: 20px;
-  overflow-y: auto;
-}
-
-/* .manageuser-div {
-  margin-top: 35px;
-  margin-bottom: 40px;
-} */
 
 .editUser-div {
-  padding: 20px;
+  padding: 10px;
+  height: 550px;
+  overflow-y: auto;
 }
 .userDisplay-div {
   padding: 20px;
@@ -167,46 +134,6 @@
   font-size: 13px;
 }
 
-.closeWindow {
-  align-items: right;
-  justify-content: right;
-  text-align: right;
-}
-
-.landing-grid {
-  display:grid;
-  margin-top: 150px;
-  margin-left: 40px;
-  grid-gap: 10px;
- 
-}
-
-.card-1{
-  grid-column-start: 1;
-  grid-column-end: 2;
-  grid-row-start: 1;
-  grid-row-end: 2;
-  padding: 15px;
-  background-color: #ec2ba865;
-
-}
-.card-2{
-  grid-column-start: 2;
-  grid-column-end: 3;
-  grid-row-start: 1;
-  grid-row-end: 2;
-  padding: 15px;
-
-}
-.card-3{
-  grid-column-start: 1;
-  grid-column-end: 2;
-  grid-row-start: 2 ;
-  grid-row-end: 3 ;
-  padding: 15px;
-
-}
-
 .header-div {
   display: grid;
 }
@@ -232,7 +159,9 @@
 }
 
 .createUser-div {
-  padding: 20px;
+  height: 550px;
+  overflow-y: auto;
+  padding: 15px;
 }
 
 .responsivePie {
@@ -264,6 +193,7 @@
 .footer-1 {
   grid-column-start: 1;
   grid-column-end: 2;
+  text-align: right;
 }
 .footer-2 {
   grid-column-start: 2;
@@ -271,3 +201,9 @@
   text-align: right;
   margin-top: 20px;
 }
+
+.userDisplay-table {
+  height: 500px;
+  overflow-y: auto;
+}
+
