@@ -29,7 +29,7 @@ function LoginFormPractitioner() {
   const handleShow = () => setModalShow(true);
 
   function validateEmail() {
-    const pattern = new RegExp("^[a-zA-Z0-9_.-]+@[a-zA-Z]+[.][a-zA-Z]{2,}$");
+    const pattern = new RegExp("([!#-'*+/-9=?A-Z^-~-]+(\.[!#-'*+/-9=?A-Z^-~-]+)*|\"\(\[\]!#-[^-~ \t]|(\\[\t -~]))+\")@([!#-'*+/-9=?A-Z^-~-]+(\.[!#-'*+/-9=?A-Z^-~-]+)*|\[[\t -Z^-~]*])");
     if (!pattern.test(email)) {
       document.getElementById("email").classList.add("is-invalid");
       document.getElementById("email").classList.remove("is-valid");
@@ -55,13 +55,13 @@ function LoginFormPractitioner() {
 
   const loginUser = () => {
     axios
-      .post("http://localhost:4000/api/login", {
+      .post("http://localhost:4000/api/loginP", {
         email: email,
         password: password,
       })
       .then((response) => {
         console.log("You have logged in successfully");
-        navigate("/home");
+        navigate("/practitioner");
       })
       .catch((err) => {
         console.log(err);
@@ -74,9 +74,9 @@ function LoginFormPractitioner() {
       .post("http://localhost:4000/api/users/PatientInfoVisitRequest", {
         withCredentials: true,
       })
-      .then((response) => {
+      .then((response) => { 
         setLoggedIn(true);
-        navigate("/home");
+        navigate("/practitioner");
       })
       .catch((err) => {
         setLoggedIn(false);
@@ -153,7 +153,6 @@ function LoginFormPractitioner() {
                 onChange={(e) => setEmail(e.target.value)}
                 required
                 placeholder="yourName@gmail.com"
-                pattern="^[a-zA-Z0-9_.-]+@[a-zA-Z]+[\.][a-zA-Z]{2,}$"
                 autoFocus
               />
               <div className="valid-feedback"></div>
