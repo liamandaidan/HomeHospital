@@ -47,7 +47,6 @@ app.use('/logout', logout)
 app.use('/forget', reset)
 
 // Add a facility, view list of all facilities
-app.use('/medicalFacility', checkAccessToken)
 app.use('/medicalFacility', facilityActions)
 
 // Get patient details
