@@ -9,6 +9,8 @@ function ManagePatient() {
   const [modalState, setModalState] = useState(false);
   const [selectedUser, setSelectedUser] = useState("");
 
+  const [patientList, setPatientList] = useState([]);
+
 
   //get all info from the context
   const { menuSelection,  userTypeSelection } = useContext(AdminContext);
@@ -18,6 +20,20 @@ function ManagePatient() {
   
   //get the user type that was select
   const [userType, setUserType] = userTypeSelection;
+
+   // load all users
+    useEffect(() => {
+      axios
+        .get("http://localhost:4000/api/admin/patientList")
+        .then((response) => {
+            console.log(response);
+            setPatientList(response.data);
+
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    }, []);
 
 
     //alert model when admin request to delete a user
@@ -56,9 +72,9 @@ function ManagePatient() {
     console.log("this is the if of the user to delete: " + e);
 
     {
-      Users.map((user) => {
-        if (user._id === e) {
-          setSelectedUser(user.firstName);
+      patientList.map((patient) => {
+        if (patient._id === e) {
+          setSelectedUser(patient.user.firstName);
           setModalState(true);
         }
       });
@@ -88,16 +104,16 @@ function ManagePatient() {
           </tr>
         </thead>
         <tbody>
-          {Users.map((user, index) => {
+          {patientList.map((patient, index) => {
             return (
-              <tr className="table-row" key={user._id} value={user._id}>
+              <tr className="table-row" key={patient._id} value={patient._id}>
                 <td>{index + 1}</td>
-                <td>{user.firstName}</td>
-                <td>{user.lastName}</td>
+                <td>{patient.user.firstName}</td>
+                <td>{patient.user.lastName}</td>
                 <td>
                   <a
                     className="admin-link"
-                    onClick={(e) => handleDelete(user._id)}
+                    onClick={(e) => handleDelete(patient._id)}
                   >
                     Delete
                   </a>

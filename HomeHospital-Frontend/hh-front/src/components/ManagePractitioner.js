@@ -12,6 +12,8 @@ function ManagePractitioner() {
   const [createDisplay, setCreateDisplay] = useState(false);
   const [displayUserType, setDisplayUserType] = useState(true);
 
+  const [practitionerList, setPractitionerList] = useState([]);
+
   //get all info from the context
   const { userTypeSelection } = useContext(AdminContext);
 
@@ -23,6 +25,7 @@ function ManagePractitioner() {
   const [id, setId] = useState("");
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
+  const [password, setPasword] = useState("");
   const [email, setEmail] = useState("");
   const [address, setAddress] = useState("");
   const [city, setCity] = useState("");
@@ -38,6 +41,7 @@ function ManagePractitioner() {
   const [new_role, setNewRole] = useState("");
   const [new_firstName, setNewFirstName] = useState("");
   const [new_lastName, setNewLastName] = useState("");
+  const [new_password, setNewPassword] = useState("");
   const [new_email, setNewEmail] = useState("");
   const [new_address, setNewAddress] = useState("");
   const [new_city, setNewCity] = useState("");
@@ -61,6 +65,21 @@ function ManagePractitioner() {
         console.log(err);
       });
   }, []);
+
+
+    //load all users
+    useEffect(() => {
+      axios
+        .get("http://localhost:4000/api/admin/practitionerList")
+        .then((response) => {
+            console.log(response);
+            setPractitionerList(response.data);
+
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    }, []);
 
   //alert model when admin request to delete a user
   const AlertModal = (props) => {
@@ -99,19 +118,20 @@ function ManagePractitioner() {
     setCreateDisplay(false);
 
     {
-      Users.map((user) => {
-        console.log(user._id);
-        if (user._id === e) {
-          setId(user._id);
-          setRole(user.role);
-          setFirstName(user.firstName);
-          setLastName(user.lastName);
-          setEmail(user.email);
-          setPhoneNum(user.phoneNumber);
-          setAddress(user.address);
-          setCity(user.cityName);
-          setProv(user.provName);
-          setPostalCode(user.postalCode);
+      practitionerList.map((prac) => {
+        console.log(prac._id);
+        if (prac._id === e) {
+          setId(prac._id);
+          setRole(prac.role);
+          setFirstName(prac.user.firstName);
+          setLastName(prac.user.lastName);
+          setPasword(prac.password);
+          setEmail(prac.email);
+          setPhoneNum(prac.user.phoneNumber);
+          setAddress(prac.user.address.streetAddress);
+          setCity(prac.user.address.cityName);
+          setProv(prac.user.address.provName);
+          setPostalCode(prac.user.address.postalCode);
         }
       });
     }
@@ -120,9 +140,9 @@ function ManagePractitioner() {
   //this will be called once the user selects delete beside the practitioner
   const handleDelete = (e) => {
     {
-      Users.map((user) => {
-        if (user._id === e) {
-          setSelectedUser(user.firstName);
+      practitionerList.map((prac) => {
+        if (prac._id === e) {
+          setSelectedUser(prac.user.firstName);
           setModalState(true);
         }
       });
@@ -153,27 +173,42 @@ function ManagePractitioner() {
   const createUser = () => {
     alert("We created a new user!");
 
-    // axios
-    //   .post("http://localhost:4000/api/users/PatientInfoVisitRequest", {
-    //     new_id,
-    //     new_gender,
-    //     new_role,
-    //     new_firstName,
-    //     new_DOB,
-    //     new_email,
-    //     new_phoneNum,
-    //     new_address,
-    //     new_city,
-    //     new_prov,
-    //     new_postalCode,
-    //   })
-    //   .then((response) => {
-    //     console.log(response);
-    //   })
-    //   .catch((err) => {
-    //     console.log(err);
-    //   });
+    axios
+      .post("http://localhost:4000/api/registerP/", {
+          firstName: new_firstName,
+          lastName: new_lastName,
+          password: new_password,
+          email: new_email,
+          streetAddress: new_address,
+          cityName: new_city,
+          provName: new_prov,
+          postalCode: new_postalCode,
+          phoneNumber: new_phoneNum,
+          practitionerId: new_practitionerId,
+          role: new_role,
+          facilityId: new_facilityId,
+      })
+      .then((response) => {
+        console.log(response);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   };
+
+
+  // "firstName": new_firstName,
+  // "lastName": new_lastName,
+  // "password": new_password,
+  // "email": new_email,
+  // "streetAddress": new_address,
+  // "cityName": new_city,
+  // "provName": new_prov,
+  // "postalCode": new_postalCode,
+  // "phoneNumber": new_phoneNum,
+  // "practitionerId": new_practitionerId,
+  // "role": new_role,
+  // "facilityId": new_facilityId
 
   //this component will show if the userType select is equal to practitioner
   //editDisplay - edit window for the selected user
@@ -287,16 +322,16 @@ function ManagePractitioner() {
                   </tr>
                 </thead>
                 <tbody>
-                  {Users.map((user, index) => {
+                  {practitionerList.map((prac, index) => {
                     return (
-                      <tr className="table-row" key={user._id} value={user._id}>
+                      <tr className="table-row" key={prac._id} value={prac._id}>
                         <td>{index + 1}</td>
-                        <td>{user.firstName}</td>
-                        <td>{user.lastName}</td>
+                        <td>{prac.user.firstName}</td>
+                        <td>{prac.user.lastName}</td>
                         <td>
                           <a
                             className="admin-link"
-                            onClick={(e) => selectEdit(user._id)}
+                            onClick={(e) => selectEdit(prac._id)}
                           >
                             Edit
                           </a>
@@ -304,7 +339,7 @@ function ManagePractitioner() {
                         <td>
                           <a
                             className="admin-link"
-                            onClick={(e) => handleDelete(user._id)}
+                            onClick={(e) => handleDelete(prac._id)}
                           >
                             Delete
                           </a>
@@ -355,6 +390,11 @@ function ManagePractitioner() {
                   <Form.Label>Email: </Form.Label>
                   <Form.Control
                     onChange={(e) => setNewEmail(e.target.value)}
+                    size="sm"
+                  />
+                  <Form.Label>Password: </Form.Label>
+                  <Form.Control
+                    onChange={(e) => setNewPassword(e.target.value)}
                     size="sm"
                   />
                   <Form.Label>Phone number: </Form.Label>

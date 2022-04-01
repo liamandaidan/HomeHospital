@@ -55,7 +55,7 @@ function LoginAdminForm() {
 
   const loginUser = () => {
     axios
-      .post("http://localhost:4000/api/login", {
+      .post("http://localhost:4000/api/loginA", {
         email: email,
         password: password,
       })

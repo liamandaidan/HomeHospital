@@ -91,6 +91,7 @@
   height: 600px;
   border: 1px solid #CCCCCC;
   border-radius: 5px;
+  overflow-y: auto;
 }
 
 .confirmChange-btn {
