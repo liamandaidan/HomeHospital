@@ -1,10 +1,10 @@
 [
     {
-        "_id:": "1111",
+        "_id": "1111",
         "firstName": "Ben",
         "lastName": "Davis",
         "email": "benson.davis@edu.sait.ca",
-        "streetAddress": "1 raymond street",
+        "address": "1 raymond street",
         "cityName": "Calgary",
         "provName": "AB",
         "postalCode": "H0H0H0",
@@ -12,31 +12,32 @@
         "practitionerId": "87654321",
         "role": "Doctor",
         "facilityId": "6216f062baa205c9cab2f5fc"
-    },{
-        "_id:": "2222",
+    },
+    {
+        "_id": "2222",
         "firstName": "Justin",
         "lastName": "Beaver",
         "email": "j.b@gmail.com",
-        "streetAddress": "1 sings street",
+        "address": "1 sings street",
         "cityName": "Calgary",
         "provName": "AB",
         "postalCode": "B2B1B1",
         "phoneNumber": "111-444-5555",
-        "practitionerId": "87654321",
+        "practitionerId": "56455345",
         "role": "Nurse",
         "facilityId": "6216f062baa205c9cab2f5fc"
     },
     {
-        "_id:": "3333",
-        "firstName": "Ben",
-        "lastName": "Davis",
-        "email": "benson.davis@edu.sait.ca",
-        "streetAddress": "1 raymond street",
+        "_id": "3333",
+        "firstName": "Valerie",
+        "lastName": "DaFrizzlevis",
+        "email": "thefrizz@magic.com",
+        "address": "1 bus street",
         "cityName": "Calgary",
         "provName": "AB",
-        "postalCode": "H0H0H0",
+        "postalCode": "M2M1M1",
         "phoneNumber": "111-444-5555",
-        "practitionerId": "87654321",
+        "practitionerId": "23423454",
         "role": "Doctor",
         "facilityId": "6216f062baa205c9cab2f5fc"
     }

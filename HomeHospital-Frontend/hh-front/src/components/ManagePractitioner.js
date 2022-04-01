@@ -33,7 +33,7 @@ function ManagePractitioner() {
    const [phoneNum, setPhoneNum] = useState("");
    const [role, setRole] = useState("");
    const [facilityId, setFacilityId] = useState("");
-   const [practitionerId, setPractitionerId] = useState(0);
+   const [practitionerId, setPractitionerId] = useState("");
  
    //information for new user
    const [new_id, setNewId] = useState("");
@@ -47,8 +47,23 @@ function ManagePractitioner() {
    const [new_postalCode, setNewPostalCode] = useState("");
    const [new_phoneNum, setNewPhoneNum] = useState("");
    const [new_facilityId, setNewFacilityId] = useState("");
+   const [new_practitionerId, setNewPractitionerId] = useState("");
 
- 
+   const [hospitals, setHospitals] = useState([]);
+
+
+  //get the list of hospitals
+   useEffect(() => {
+    axios.get("http://localhost:4000/api/medicalFacility/viewFacilities")
+    .then((response) => {
+        //console.log("these are the hospitals: " + response.data.hospitalList);
+        setHospitals(response.data);
+      })
+    .catch(err => {
+      console.log(err);
+    })
+  }, []);
+
 
   //alert model when admin request to delete a user
   const AlertModal = (props) => {
@@ -88,15 +103,16 @@ function ManagePractitioner() {
 
     {
       Users.map((user) => {
-        if (user.id === e) {
-          setId(user.id);
+        console.log(user._id);
+        if (user._id === e) {
+          setId(user._id);
           setRole(user.role);
           setFirstName(user.firstName);
           setLastName(user.lastName);
           setEmail(user.email);
           setPhoneNum(user.phoneNumber);
           setAddress(user.address);
-          setCity(user.city);
+          setCity(user.cityName);
           setProv(user.provName);
           setPostalCode(user.postalCode);
         }
@@ -110,7 +126,7 @@ function ManagePractitioner() {
 
     {
       Users.map((user) => {
-        if (user.id === e) {
+        if (user._id === e) {
           setSelectedUser(user.firstName);
           setModalState(true);
         }
@@ -274,19 +290,21 @@ function ManagePractitioner() {
             <th>#</th>
             <th>First Name</th>
             <th>Last Name</th>
+            <th>ID</th>
           </tr>
         </thead>
         <tbody>
           {Users.map((user, index) => {
             return (
-              <tr className="table-row" key={user.id} value={user.id}>
+              <tr className="table-row" key={user._id} value={user._id}>
                 <td>{index + 1}</td>
                 <td>{user.firstName}</td>
                 <td>{user.lastName}</td>
+                <td>{user._id}</td>
                 <td>
                   <a
                     className="admin-link"
-                    onClick={(e) => selectEdit(user.id)}
+                    onClick={(e) => selectEdit(user._id)}
                   >
                     Edit
                   </a>
@@ -294,7 +312,7 @@ function ManagePractitioner() {
                 <td>
                   <a
                     className="admin-link"
-                    onClick={(e) => handleDelete(user.id)}
+                    onClick={(e) => handleDelete(user._id)}
                   >
                     Delete
                   </a>
@@ -315,7 +333,7 @@ function ManagePractitioner() {
                    {/* <h3>User ID: {id} </h3> */}
                    <Form>
                      <Form.Group>
-                       <Form.Label>User role: </Form.Label>
+                       <Form.Label>Role: </Form.Label>
                        <Form.Select
                          value={role}
                          onChange={(e) => setNewRole(e.target.value)}
@@ -324,6 +342,10 @@ function ManagePractitioner() {
                          <option>Doctor</option>
                          <option>Nurse</option>
                        </Form.Select>
+                       <Form.Label>Practitioner Id:</Form.Label>
+                       <Form.Control  
+                       onChange={(e) => setNewPractitionerId(e.target.value)} 
+                       size="sm" />
                        <Form.Label>First name: </Form.Label>
                        <Form.Control
                          onChange={(e) => setNewFirstName(e.target.value)}
@@ -339,7 +361,7 @@ function ManagePractitioner() {
                          onChange={(e) => setNewEmail(e.target.value)}
                          size="sm"
                        />
-                       <Form.Label>Phone numer: </Form.Label>
+                       <Form.Label>Phone number: </Form.Label>
                        <Form.Control
                          onChange={(e) => setNewPhoneNum(e.target.value)}
                          size="sm"
@@ -364,6 +386,15 @@ function ManagePractitioner() {
                          onChange={(e) => setNewPostalCode(e.target.value)}
                          size="sm"
                        />
+                       <Form.Label>Hospital:</Form.Label>
+                       <Form.Select
+                       onChange={(e) => setFacilityId(e.target.value)}>
+                        {hospitals.hospitalList?.map((hospital, index) => {
+                          return (
+                            <option key={index} value={hospital._id}>{hospital.hospitalName}</option>
+                          )
+                        })}
+                       </Form.Select>
                      </Form.Group>
                      <div className="grid-div">
                        <div className="confirmChange-div item-2">
