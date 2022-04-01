@@ -121,8 +121,6 @@ function ManagePractitioner() {
 
   //this will be called once the user selects delete beside the practitioner
   const handleDelete = (e) => {
-    console.log("this is the if of the user to delete: " + e);
-
     {
       Users.map((user) => {
         if (user._id === e) {

@@ -1,7 +1,6 @@
 [
     {
-        "id": 12345,
-        "type": "Patient",
+        "_id": 12345,
         "gender": "Male",
         "firstName": "Dwight",
         "lastName": "Shrute",
@@ -17,8 +16,7 @@
         "emergencyConactNumber": "403-441-4343"
     },
     {
-        "id": 11111,
-        "type": "Patient",
+        "_id": 11111,
         "firstName": "Bob",
         "gender": "Male",
         "lastName": "Belcher",
@@ -34,8 +32,7 @@
         "emergencyConactNumber": "403-441-4343"
     },
     {
-        "id": 22222,
-        "type": "Practitioner",
+        "_id": 22222,
         "gender": "Male",
         "firstName": "James",
         "lastName": "May",
@@ -53,28 +50,7 @@
         "facilityId": "6216f062baa205c9cab2f5fc"
     },
     {
-        "id": 33333,
-        "type": "Practitioner",
-        "gender": "Male",
-        "firstName": "Justin",
-        "lastName": "Beaver",
-        "email": "bever@gmail.com",
-        "dateOfBirth": "1970-03-03",
-        "phoneNumber": "403-222-2211",
-        "address": "123 Purple ave",
-        "city": "Toronto",
-        "provName": "AB",
-        "postalCode": "T2T 1T1",
-        "aHCNumber": "13333-33",
-        "emergencyContactName": "Hailey",
-        "emergencyConactNumber": "403-555-4444",
-        "practitionerId": "87654321",
-        "role": "Doctor",
-        "facilityId": "6216f062baa205c9cab2f5fc"
-    },
-    {
-        "id": 44444,
-        "type": "Patient",
+        "_id": 44444,
         "gender": "Male",
         "firstName": "Greg",
         "lastName": "House",
@@ -90,25 +66,7 @@
         "emergencyConactNumber": "403-455-3543"
     },
     {
-        "id": 55555,
-        "type": "Patient",
-        "gender": "Female",
-        "firstName": "Valerie",
-        "lastName": "Frizzle",
-        "email": "frizzle@gmail.com",
-        "dateOfBirth": "1970-03-03",
-        "phoneNumber": "403-101-1010",
-        "address": "123 Magic ave",
-        "city": "Edmonton",
-        "provName": "AB",
-        "postalCode": "F2F 1F1",
-        "aHCNumber": "1222-22",
-        "emergencyContactName": "Brad",
-        "emergencyConactNumber": "403-444-3333"
-    },
-    {
-        "id": 77777,
-        "type": "Doctor",
+        "_id": 77777,
         "gender": "Female",
         "firstName": "Jen",
         "lastName": "Barber",

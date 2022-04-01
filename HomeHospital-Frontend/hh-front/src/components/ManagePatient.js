@@ -62,7 +62,7 @@ const [modalState, setModalState] = useState(false);
 
     {
       Users.map((user) => {
-        if (user.id === e) {
+        if (user._id === e) {
           setSelectedUser(user.firstName);
           setModalState(true);
         }
@@ -90,21 +90,19 @@ const [modalState, setModalState] = useState(false);
             <th>#</th>
             <th>First Name</th>
             <th>Last Name</th>
-            <th>User Type</th>
           </tr>
         </thead>
         <tbody>
           {Users.map((user, index) => {
             return (
-              <tr className="table-row" key={user.id} value={user.id}>
+              <tr className="table-row" key={user._id} value={user._id}>
                 <td>{index + 1}</td>
                 <td>{user.firstName}</td>
                 <td>{user.lastName}</td>
-                <td>{user.type}</td>
                 <td>
                   <a
                     className="admin-link"
-                    onClick={(e) => handleDelete(user.id)}
+                    onClick={(e) => handleDelete(user._id)}
                   >
                     Delete
                   </a>
