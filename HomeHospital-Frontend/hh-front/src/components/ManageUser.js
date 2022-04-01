@@ -82,13 +82,13 @@ function ManageUser() {
     <>
       {menuChoice === "manage" && (
         <div className="admin-main-div">
-          <div className="header-1">
-            <div>
-              <h2>Manage Users</h2>
-            </div>
-          </div>
           {displayUserType && (
             <>
+            <div className="header-1">
+              <div>
+                <h2>Manage Users</h2>
+              </div>
+            </div>
               <div className="userDisplay-div">
                 <ListGroup>
                   <ListGroup.Item action onClick={showPatients}>

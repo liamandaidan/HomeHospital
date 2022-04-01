@@ -17,7 +17,7 @@
 .admin-main-div {
   /* border: 1px solid #ec2baa; */
   margin-top: 35px;
-  margin-bottom: 40px;
+
 }
 
 .admin-link {
@@ -200,7 +200,7 @@
   grid-column-start: 2;
   grid-column-end: 3;
   text-align: right;
-  margin-top: 20px;
+  margin-top: 10px;
 }
 
 .userDisplay-table {
