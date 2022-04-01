@@ -92,13 +92,5 @@ route.post('/', async (req, res) => {
     }
 })
 
-route.get('/', (req, res, next) => {
-	let name = req.query.uemail
-	let tokenstring = req.query.tokenstring
-	console.log('Successfully reached route')
-	console.log('Name: ' + name)
-	console.log('Tokenstring: ' + tokenstring)
-	res.status(201)
-})
 
 export default route
