@@ -1,22 +1,24 @@
 import mongoose from 'mongoose'
 import UserSchema from './user.Schema.js'
-
+/**
+ * Admin Levels
+ *  3 = senior admin, can affect any admin/practitioner/patient
+ *  2 = admin, can affect practitioner/patient
+ *  1 = jr admin, can affect patient
+ * 
+ */
 const administratorSchema = new mongoose.Schema({
 	adminId: {
 		type: Number,
-		required: true,
+		required: [true, 'Please enter an Admin ID'],
 	},
 	permissions: {
 		type: Number,
+		enum: [1, 2, 3] /*Permission levels increase in privilege from 1 to 3 */,
 		required: true,
 	},
-    permissions: {
-        type: Number,
-		enum: [1, 2, 3],/*Permission levels increase in privilege from 1 to 3 */
-		required: true
-    },
 	user: {
-		type: UserSchema
+		type: UserSchema,
 	},
 	email: {
 		type: String,
@@ -25,7 +27,7 @@ const administratorSchema = new mongoose.Schema({
 		lowercase: true,
 		unique: true,
 	},
-    password: {
+	password: {
 		type: String,
 		required: true,
 		minlength: 10,
