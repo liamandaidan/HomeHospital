@@ -13,13 +13,11 @@ function ManagePractitioner() {
   const [displayUserType, setDisplayUserType] = useState(true);
 
   //get all info from the context
-  const { userTypeSelection, userSelectId } = useContext(AdminContext);
+  const { userTypeSelection } = useContext(AdminContext);
 
   //get the user type that was select
   const [userType, setUserType] = userTypeSelection;
 
-  //get the user id that was selected from the list
-  const [userChoiceId, setUserChoiceId] = userSelectId;
 
   //selected user details to edit
   const [id, setId] = useState("");

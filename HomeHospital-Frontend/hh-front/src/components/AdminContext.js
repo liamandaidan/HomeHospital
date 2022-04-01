@@ -6,14 +6,12 @@ export const AdminContext = createContext();
 export const AdminProvider = (props) => {
   const [menuSelection, setMenuSelection] = useState("");
   const [userTypeSelection, setUserTypeSelection] = useState("");
-  const [userSelectId, setUserSelectId] = useState("");
 
   return (
     <AdminContext.Provider
       value={{
         menuSelection: [menuSelection, setMenuSelection],
-        userTypeSelection: [userTypeSelection, setUserTypeSelection],
-        userSelectId: [userSelectId, setUserSelectId]
+        userTypeSelection: [userTypeSelection, setUserTypeSelection]
 
       }}
     >

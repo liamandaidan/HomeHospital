@@ -6,15 +6,12 @@ import axios from "axios";
 
 function ManagePatient() {
 
-const [modalState, setModalState] = useState(false);
+  const [modalState, setModalState] = useState(false);
   const [selectedUser, setSelectedUser] = useState("");
-  const [editDisplay, setEditDisplay] = useState(false);
-  const [userDisplay, setUserDisplay] = useState(true);
-  const [createDisplay, setCreateDisplay] = useState(false);
-  const [displayUserType, setDisplayUserType] = useState(true);
+
 
   //get all info from the context
-  const { menuSelection,  userTypeSelection, userSelectId } = useContext(AdminContext);
+  const { menuSelection,  userTypeSelection } = useContext(AdminContext);
 
     //get the menu selection from context
   const [menuChoice, setMenuChoice] = menuSelection;
@@ -22,8 +19,6 @@ const [modalState, setModalState] = useState(false);
   //get the user type that was select
   const [userType, setUserType] = userTypeSelection;
 
-  //get the user id that was selected from the list
-  const [userChoiceId, setUserChoiceId] = userSelectId;
 
     //alert model when admin request to delete a user
     const AlertModal = (props) => {
