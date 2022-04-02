@@ -91,7 +91,7 @@ export const checkAccessToken = async (req, res, next) => {
 
 		if (allTokensPresent) {
 			try {
-
+				// try {
 						const validAccessToken = jwt.verify(
 					accessToken,
 					ACCESSTOKEN_KEY
