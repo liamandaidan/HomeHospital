@@ -2,14 +2,17 @@ import express from 'express' // Creates Router
 import MedicalFacility from '../../models/medicalFacility.Model.js'
 import { checkAccessToken } from '../service/token.service.js'
 import { checkEmployeeAccessToken } from '../service/employee.token.service.js'
-import { checkMayAccessAdminPage } from '../service/authorization.service.js'
+import {
+	checkMayAccessAdminPage,
+	checkMayAccessPractitionerPage,
+} from '../service/authorization.service.js'
 import { getHospitalList } from '../service/getHospitalList.service.js'
 
 const route = express.Router()
 
 // Used to created a new medical facility
 // This was just used to manually enter a new facility
-route.post('/newFacility',checkMayAccessAdminPage, async (req, res) => {
+route.post('/newFacility', checkMayAccessAdminPage, async (req, res) => {
 	const {
 		hospitalName,
 		streetAddress,
@@ -78,16 +81,25 @@ route.get('/viewFacilities', checkAccessToken, async (req, res) => {
 })
 
 // get the list from the pracitioner view
-route.get('/viewFacilitiesPractitioner', checkEmployeeAccessToken, async (req, res) => {
-	getHospitalList(res)
-	return
-})
+route.get(
+	'/viewFacilitiesPractitioner',
+	checkEmployeeAccessToken,
+	checkMayAccessPractitionerPage,
+	async (req, res) => {
+		getHospitalList(res)
+		return
+	}
+)
 //get the list from the admin view
-route.get('/viewFacilitiesAdmin',checkMayAccessAdminPage,  async (req, res) => {
-	getHospitalList(res)
-	return
-})
-
+route.get(
+	'/viewFacilitiesAdmin',
+	checkEmployeeAccessToken,
+	checkMayAccessAdminPage,
+	async (req, res) => {
+		getHospitalList(res)
+		return
+	}
+)
 
 // export this route
 export default route
