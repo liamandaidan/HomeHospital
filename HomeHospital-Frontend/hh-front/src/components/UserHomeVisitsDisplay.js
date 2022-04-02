@@ -88,13 +88,13 @@ function UserHomeVisitsDisplay() {
     setIsCurrent(true);
     setRequestIdValue(request._id);
     setNewRequestValue(false);
-    navigate("/request");
+    navigate(`/request/${request._id}`);
   }
 
   function handlePastRequest(request) {
     setRequestIdValue(request);
     setNewRequestValue(false);
-    navigate("/request");
+    navigate(`/request/${request}`);
   }
 
   useEffect(() => {

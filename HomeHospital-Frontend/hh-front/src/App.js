@@ -28,7 +28,7 @@ function App() {
           <Route path="/" element={<Home />} />
           <Route path="/login" element={<Login />} />
           <Route
-            path="/request"
+            path="/request/:id"
             element={
               <RequireAuth>
                 <Request />
