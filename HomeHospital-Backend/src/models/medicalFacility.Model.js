@@ -1,14 +1,15 @@
 import mongoose from 'mongoose'
 import addressSchema from './address.Schema.js'
+import validator from 'validator'
 
 const medicalFacility = new mongoose.Schema({
 	hospitalName: {
 		type: String,
-		required: true,
+		required: [true, 'Hospital Name is required'],
 	},
 	address: {
 		type: addressSchema,
-		required: true,
+		required: [true,'An Address is required'],
 	},
 	latitude: {
 		type: Number,
@@ -21,6 +22,12 @@ const medicalFacility = new mongoose.Schema({
 	phoneNumber: {
 		type: String,
 		default: null,
+		validate:[
+			{			
+			validator: (value) => validator.isMobilePhone(value, ['en-CA']),	
+			msg: 'Please Enter A Canadian Number',	
+			},
+		],
 	},
 	waitTime: {
 		type: String,
@@ -28,7 +35,7 @@ const medicalFacility = new mongoose.Schema({
 	},
 	hospitalDesc: {
 		type: String,
-		maxlength: 100,
+		maxlength: [100,'Maximum Length is 100'],
 		defult: null,
 	},
 	practitioners: {
