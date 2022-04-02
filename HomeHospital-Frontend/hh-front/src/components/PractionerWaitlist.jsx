@@ -1,6 +1,7 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Button, Label } from "react-bootstrap";
 import PatientData from "../components/patientData.json";
+import axios from "axios";
 
 export default function PractionerWaitlist({ childToParent }) {
   const [selectHospital, setSelectHospital] = useState([
@@ -21,6 +22,16 @@ export default function PractionerWaitlist({ childToParent }) {
     console.log(selectHospital[e.target.value]);
     setHospital(selectHospital[e.target.value]);
   };
+
+
+  useEffect(() => {
+    axios.get("http://localhost:4000/api/requestManager/hospitalWaitList/6216f18abaa205c9cab2f608").then(
+      (response) => {
+        console.log(response.data);
+      }
+    );
+  }, []);
+
 
   /**
    * This will be used to render table rows based off of a dummy json file i created
