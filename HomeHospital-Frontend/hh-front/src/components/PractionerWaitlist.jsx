@@ -9,6 +9,9 @@ export default function PractionerWaitlist({ childToParent }) {
     "Childerns",
     "Foothills",
   ]);
+
+  const [practPatientInfo, setPractPatientInfo] = useState([]);
+
   const [hospital, setHospital] = useState("none");
   //this will map our selection of hospitals
   const Add = selectHospital.map((Add) => Add);
@@ -24,24 +27,27 @@ export default function PractionerWaitlist({ childToParent }) {
   };
 
 
-  useEffect(() => {
-    axios.get("http://localhost:4000/api/requestManager/hospitalWaitList/6216f18abaa205c9cab2f608").then(
-      (response) => {
-        console.log(response.data);
-      }
-    );
-  }, []);
+//   useEffect(() => {
+//     axios
+// 	.get("http://localhost:4000/api/requestManager/hospitalWaitList/6216f18abaa205c9cab2f608")
+// 	.then(
+//       (response) => {
+//         console.log(response.data);
+// 		setPractPatientInfo(response.data);
+//       }
+//     );
+//   }, []);
 
 
   /**
    * This will be used to render table rows based off of a dummy json file i created
    */
-  const DisplayTableRows = PatientData.map((data) => {
+  const DisplayTableRows = practPatientInfo.map((data) => {
     return (
       <tr>
         <td>{data.id}</td>
-        <td>{data.first}</td>
-        <td>{data.last}</td>
+        <td>{data.patientFirstName}</td>
+        <td>{data.patientLastName}</td>
         <td>
           <Button
             value={data.id}

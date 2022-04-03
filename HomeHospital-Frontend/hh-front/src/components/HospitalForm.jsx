@@ -10,6 +10,7 @@ function SelectHospital() {
   const { _id, longitude, latitude } = useContext(HomeHospitalContext);
 
   const [posts, setPosts] = useState([]);
+  
   //grab the states of use context for the _id
   const [_idValue, set_idValue] = _id;
   const [longitudeValue, setLongitudeValue] = longitude;

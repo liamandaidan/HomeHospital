@@ -12,10 +12,22 @@ import axios from "axios";
 import { HomeHospitalContext } from "./HomeHospitalContext";
 
 export class PractitionerPatientInfo extends Component {
+	state = {
+		patientsInfo: []
+	};
+
+	componentDidMount() {
+		axios.get("http://localhost:4000/api/requestManager/hospitalWaitList/6216f18abaa205c9cab2f608")
+		.then(res=> {
+			console.log(res);
+			this.setState({patientsInfo: res.data});
+		})
+	}
+
+
   render() {
     return (
       <>
-	  
         <Container className="patient-container">
           <Row>
             <Row>
@@ -34,9 +46,7 @@ export class PractitionerPatientInfo extends Component {
             </Col>
             <Col md={8}>
               <div className="practitioner-patientRequestDetails">
-			  {patientData2.map((patientDetail, index) => {
-		  		return <h3>{patientDetail.name}</h3>
-	  		 })}
+			   {this.state.patientsInfo.map(patient => <h3>{patient.patientFirstName} {patient.patientLastName}</h3>)}
               </div>
             </Col>
             <Col></Col>
@@ -53,7 +63,7 @@ export class PractitionerPatientInfo extends Component {
           </Row>
           <Row>
             <Col className="practitioner-patientContactDetails ">
-			  {patientData2.map((patientDetail, index) => {
+			  {/* {patientData2.map((patientDetail, index) => {
 		  		return (
 					<><p>Address: {patientDetail.address}</p>
 					<p>Contact Number: {patientDetail.contactNumber}</p>
@@ -69,7 +79,14 @@ export class PractitionerPatientInfo extends Component {
 					<h5>Place in queue: {patientDetail.queue}</h5>
 					</>
 				  )		
-	  		 })}
+	  		 })} */}
+			   {this.state.patientsInfo.map(patient => 
+			   <>
+			   <p>Address: {patient.startAddress.streetAddress}</p>
+			   <h5>Additional Info</h5>
+					<p>{patient.additionalInfo}</p> 
+			   </>
+				)}
             </Col>
           </Row>
           <Row>
