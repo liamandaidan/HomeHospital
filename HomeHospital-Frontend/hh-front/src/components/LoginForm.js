@@ -21,7 +21,6 @@ function LoginForm() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [validEmail, setValidEmail] = useState(false);
-  const [validPassword, setvalidPassword] = useState(false);
   const [validForm, setValidForm] = useState(false);
   const [modalShow, setModalShow] = useState(false);
   const [loggedIn, setLoggedIn] = useState();
@@ -29,7 +28,9 @@ function LoginForm() {
   const handleShow = () => setModalShow(true);
 
   function validateEmail() {
-    const pattern = new RegExp("^[a-zA-Z0-9_.-]+@[a-zA-Z]+[.][a-zA-Z]{2,}$");
+    const pattern = new RegExp(
+      "([!#-'*+/-9=?A-Z^-~-]+(.[!#-'*+/-9=?A-Z^-~-]+)*|\"([]!#-[^-~ \t]|(\\[\t -~]))+\")@([!#-'*+/-9=?A-Z^-~-]+(.[!#-'*+/-9=?A-Z^-~-]+)*|[[\t -Z^-~]*])"
+    );
     if (!pattern.test(email)) {
       document.getElementById("email").classList.add("is-invalid");
       document.getElementById("email").classList.remove("is-valid");
@@ -38,18 +39,6 @@ function LoginForm() {
       document.getElementById("email").classList.remove("is-invalid");
       document.getElementById("email").classList.add("is-valid");
       setValidEmail(true);
-    }
-  }
-
-  function validatePassword() {
-    if (!password.length > 10) {
-      document.getElementById("password").classList.add("is-invalid");
-      document.getElementById("password").classList.remove("is-valid");
-      setvalidPassword(false);
-    } else {
-      document.getElementById("password").classList.remove("is-invalid");
-      document.getElementById("password").classList.add("is-valid");
-      setvalidPassword(true);
     }
   }
 
@@ -105,10 +94,10 @@ function LoginForm() {
   }
 
   useEffect(() => {
-    if (validEmail && validPassword) {
+    if (validEmail) {
       setValidForm(true);
     }
-  }, [validEmail, validPassword]);
+  }, [validEmail]);
 
   if (loggedIn === undefined || loggedIn === null) {
     return (
@@ -136,7 +125,8 @@ function LoginForm() {
                   marginLeft: "35px",
                 }}
               >
-                <h1 className={classes.header}>LOGIN</h1>
+                <h2 className={classes.headerTop}>Patient</h2>
+                <h2 className={classes.header}>Login</h2>
               </div>
             </div>
             <div style={{ marginTop: "-25px" }}>
@@ -163,7 +153,6 @@ function LoginForm() {
                   Password
                 </label>
                 <input
-                  onBlur={validatePassword}
                   type="password"
                   className={`form-control bg-transparent  shadow-none `}
                   id="password"

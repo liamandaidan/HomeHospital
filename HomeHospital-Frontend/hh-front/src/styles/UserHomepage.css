@@ -68,3 +68,18 @@ h1 {
   width: 50%;
   margin: auto;
 }
+
+.cancel-lnk {
+  margin-left: auto;
+  margin-right: auto;
+  font-size: small;
+  color: #bcbcff;
+  text-decoration: underline;
+}
+
+.cancel-lnk:hover {
+  font-size: small;
+  color: #313131;
+  text-decoration: none;
+  cursor: pointer;
+}

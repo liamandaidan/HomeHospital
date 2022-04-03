@@ -8,7 +8,7 @@ import axios from "axios";
 import moment from "moment";
 import { useNavigate } from "react-router-dom";
 import { HomeHospitalContext } from "./HomeHospitalContext";
-import { Spinner } from "react-bootstrap";
+import { Button, Modal, Spinner } from "react-bootstrap";
 
 axios.defaults.withCredentials = true;
 
@@ -30,6 +30,7 @@ function UserHomeVisitsDisplay() {
   const [currentSpinner, setCurrentSpinner] = useState(true);
   const [noRequest, setNoRequest] = useState(false);
   const [noCurrent, setNoCurrent] = useState(false);
+  const [modalState, setModalState] = useState(false);
 
   function pastRequest() {
     axios
@@ -97,6 +98,30 @@ function UserHomeVisitsDisplay() {
     navigate(`/request/${request}`);
   }
 
+  function handleCancelRequest(patientId) {
+    setModalState(true);
+  }
+
+  const cancelRequest = (patientId) => {
+    console.log(patientId);
+    axios
+      .delete("http://localhost:4000/api/visitRequest/cancel", {
+        withCredentials: true,
+      })
+      .then((response) => {
+        // console.log(response.data.request);
+        if (response.status === 200) {
+          setIsCurrent(false);
+          setNoCurrent(true);
+        }
+      })
+      .catch((err) => {
+        setNoCurrent(true);
+        setCurrentSpinner(false);
+        console.log(err);
+      });
+  };
+
   useEffect(() => {
     setCurrentSpinner(true);
     if (newRequestValue) {
@@ -107,6 +132,43 @@ function UserHomeVisitsDisplay() {
       currentRequest();
     }
   }, []);
+
+  const AlertModal = (props, patientId) => {
+    return (
+      <>
+        <Modal {...props} centered>
+          <Modal.Header className="modal-title">
+            <Modal.Title>Cancel Request</Modal.Title>
+          </Modal.Header>
+          <Modal.Body className="modal-content">
+            <p>
+              Are you sure you want to cancel your request? If you cancel this
+              request you will need to fill out a new request and will lose the
+              current spot that you are in right now!
+            </p>
+          </Modal.Body>
+          <Modal.Footer className="modal-footer">
+            <Button
+              className="ack-btn"
+              onClick={cancelRequest(patientId)}
+              variant="primary"
+            >
+              Cancel Request
+            </Button>
+            <div>
+              <Button
+                variant="link"
+                className="cancel-lnk"
+                onClick={props.onHide}
+              >
+                Go Back
+              </Button>
+            </div>
+          </Modal.Footer>
+        </Modal>
+      </>
+    );
+  };
 
   return (
     <>
@@ -142,10 +204,11 @@ function UserHomeVisitsDisplay() {
                     <th>Date</th>
                     <th>Reason</th>
                     <th>Location</th>
+                    <th>Request</th>
                   </tr>
                 </thead>
                 <tbody>
-                  <tr onClick={() => handleCurrentRequest(currentList)}>
+                  <tr>
                     <td>1</td>
                     <td>
                       {moment(currentList.dateTime).format(
@@ -154,6 +217,22 @@ function UserHomeVisitsDisplay() {
                     </td>
                     <td>Emergency Room currentList</td>
                     <td>{currentList.requestHospitalName}</td>
+                    <td className="text-center">
+                      <Button
+                        variant="link"
+                        className="newRequest-btn"
+                        onClick={() => AlertModal(currentList.patient)}
+                      >
+                        cancel request
+                      </Button>
+                      <Button
+                        variant="link"
+                        className="newRequest-btn"
+                        onClick={() => handleCurrentRequest(currentList)}
+                      >
+                        view request
+                      </Button>
+                    </td>
                   </tr>
                 </tbody>
               </Table>
@@ -192,6 +271,7 @@ function UserHomeVisitsDisplay() {
                     <th>Date</th>
                     <th>Reason</th>
                     <th>Location</th>
+                    <th>Cancel</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -214,6 +294,7 @@ function UserHomeVisitsDisplay() {
           </Col>
         </Row>
       </Container>
+      <AlertModal show={modalState} onHide={() => setModalState(false)} />
     </>
   );
 }

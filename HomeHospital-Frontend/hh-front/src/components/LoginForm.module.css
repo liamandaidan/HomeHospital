@@ -8,9 +8,14 @@
   box-shadow: 10px 5px 5px rgb(83, 83, 83);
 }
 
-.header {
+.headerTop {
   text-align: center;
   padding-top: 60px;
+  margin-left: 115px;
+}
+
+.header {
+  text-align: center;
   margin-left: 115px;
 }
 
