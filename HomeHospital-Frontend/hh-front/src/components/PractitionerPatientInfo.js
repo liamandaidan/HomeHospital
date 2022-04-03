@@ -24,7 +24,6 @@ export class PractitionerPatientInfo extends Component {
 		})
 	}
 
-
   render() {
     return (
       <>
@@ -83,8 +82,14 @@ export class PractitionerPatientInfo extends Component {
 			   {this.state.patientsInfo.map(patient => 
 			   <>
 			   <p>Address: {patient.startAddress.streetAddress}</p>
+			   <h5>Symptoms:</h5>
+			   <ul>
+				   <li>
+				   		{patient.symptoms[0].description} Severity:{patient.symptoms[0].severity}
+					</li>
+				   </ul>
 			   <h5>Additional Info</h5>
-					<p>{patient.additionalInfo}</p> 
+				<p>{patient.additionalInfo}</p> 
 			   </>
 				)}
             </Col>
