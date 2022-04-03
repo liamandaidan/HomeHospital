@@ -1,9 +1,10 @@
 import React, { useEffect, useState, useContext } from "react";
-import { ListGroup } from "react-bootstrap";
+import { ListGroup, ListGroupItem } from "react-bootstrap";
 import { AdminContext } from "./AdminContext";
 import axios from "axios";
 import ManagePractitioner from "../components/ManagePractitioner";
 import ManagePatient from "../components/ManagePatient";
+import ManageAdmin from "../components/ManageAdmin";
 
 function ManageUser() {
 
@@ -78,6 +79,13 @@ function ManageUser() {
     setDisplayUserType(false);
   };
 
+  //show list of administrators
+  const showAdmins = () => {
+    setUserType("Admin");
+    console.log("this is the user type: " + userType);
+    setDisplayUserType(false);
+  };
+
   return (
     <>
       {menuChoice === "manage" && (
@@ -96,6 +104,9 @@ function ManageUser() {
                   </ListGroup.Item>
                   <ListGroup.Item action onClick={showPractitioners}>
                     Practitioners
+                  </ListGroup.Item>
+                  <ListGroup.Item action onClick={showAdmins}>
+                    Administrators
                   </ListGroup.Item>
                 </ListGroup>
               </div>
@@ -116,6 +127,14 @@ function ManageUser() {
             {userType === "Patient" && (
               <>
                 <ManagePatient />
+                <div className="footer-2">
+                  <a onClick={closeUserWindow}>&lt; Back to users</a>
+                </div>
+              </>
+            )}
+            {userType === "Admin" && (
+              <>
+              <ManageAdmin />
                 <div className="footer-2">
                   <a onClick={closeUserWindow}>&lt; Back to users</a>
                 </div>

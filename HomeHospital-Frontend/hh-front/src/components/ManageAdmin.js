@@ -13,7 +13,7 @@ import axios from "axios";
 
 axios.defaults.withCredentials = true;
 
-function ManagePractitioner() {
+function ManageAdmin() {
   const [modalState, setModalState] = useState(false);
   const [selectedUser, setSelectedUser] = useState("");
   const [editDisplay, setEditDisplay] = useState(false);
@@ -21,7 +21,7 @@ function ManagePractitioner() {
   const [createDisplay, setCreateDisplay] = useState(false);
   const [displayUserType, setDisplayUserType] = useState(true);
 
-  const [practitionerList, setPractitionerList] = useState([]);
+  const [adminLlist, setAdminList] = useState([]);
 
   //get all info from the context
   const { userTypeSelection } = useContext(AdminContext);
@@ -40,12 +40,10 @@ function ManagePractitioner() {
   const [prov, setProv] = useState("");
   const [postalCode, setPostalCode] = useState("");
   const [phoneNum, setPhoneNum] = useState("");
-  const [role, setRole] = useState("");
-  const [facilityId, setFacilityId] = useState("");
-  const [practitionerId, setPractitionerId] = useState("");
+  const [adminId, setAdminId] = useState("");
+  const [permission, setPermission] = useState("");
 
   //information for new user
-  const [new_id, setNewId] = useState("");
   const [new_role, setNewRole] = useState("");
   const [new_firstName, setNewFirstName] = useState("");
   const [new_lastName, setNewLastName] = useState("");
@@ -56,38 +54,16 @@ function ManagePractitioner() {
   const [new_prov, setNewProv] = useState("");
   const [new_postalCode, setNewPostalCode] = useState("");
   const [new_phoneNum, setNewPhoneNum] = useState("");
-  const [new_facilityId, setNewFacilityId] = useState("");
-  const [new_practitionerId, setNewPractitionerId] = useState("");
+  const [new_adminId, setNewAdminId] = useState("");
+  const [new_permission, setNewPermission] = useState("");
 
-  const [hospitals, setHospitals] = useState([]);
-
-  console.log(
-    "Just testing - this is the entered role: " +
-      new_role +
-      " and this is the facility id: " +
-      new_facilityId
-  );
-
-  //get the list of hospitals
+  //load all admins
   useEffect(() => {
     axios
-      .get("http://localhost:4000/api/medicalFacility/viewFacilitiesAdmin")
-      .then((response) => {
-        //console.log("these are the hospitals: " + response.data.hospitalList);
-        setHospitals(response.data);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  }, []);
-
-  //load all users
-  useEffect(() => {
-    axios
-      .get("http://localhost:4000/api/admin/practitionerList")
+      .get("http://localhost:4000/api/admin/adminList")
       .then((response) => {
         console.log(response);
-        setPractitionerList(response.data);
+        setAdminList(response.data);
       })
       .catch((err) => {
         console.log(err);
@@ -131,20 +107,20 @@ function ManagePractitioner() {
     setCreateDisplay(false);
 
     {
-      practitionerList.map((prac) => {
-        console.log(prac._id);
-        if (prac._id === e) {
-          setId(prac._id);
-          setRole(prac.role);
-          setFirstName(prac.user.firstName);
-          setLastName(prac.user.lastName);
-          setPasword(prac.password);
-          setEmail(prac.email);
-          setPhoneNum(prac.user.phoneNumber);
-          setAddress(prac.user.address.streetAddress);
-          setCity(prac.user.address.cityName);
-          setProv(prac.user.address.provName);
-          setPostalCode(prac.user.address.postalCode);
+      adminLlist.map((admin) => {
+        console.log(admin.adminId);
+        if (admin.adminId === e) {
+          setAdminId(admin.adminId);
+          setFirstName(admin.user.firstName);
+          setLastName(admin.user.lastName);
+          setPasword(admin.password);
+          setEmail(admin.email);
+          setPhoneNum(admin.user.phoneNumber);
+          setAddress(admin.user.address.streetAddress);
+          setCity(admin.user.address.cityName);
+          setProv(admin.user.address.provName);
+          setPostalCode(admin.user.address.postalCode);
+          setPermission(admin.user.permission);
         }
       });
     }
@@ -153,9 +129,9 @@ function ManagePractitioner() {
   //this will be called once the user selects delete beside the practitioner
   const handleDelete = (e) => {
     {
-      practitionerList.map((prac) => {
-        if (prac._id === e) {
-          setSelectedUser(prac.user.firstName);
+      adminLlist.map((admin) => {
+        if (admin.adminId === e) {
+          setSelectedUser(admin.user.firstName);
           setModalState(true);
         }
       });
@@ -170,6 +146,7 @@ function ManagePractitioner() {
 
   //show list of practitioners when you close the edit window
   const showUserList = () => {
+    setAdminId("");
     setNewFirstName("");
     setNewLastName("");
     setNewPassword("");
@@ -179,9 +156,7 @@ function ManagePractitioner() {
     setNewProv("");
     setNewPostalCode("");
     setNewPhoneNum("");
-    setNewPractitionerId("");
-    setNewRole("");
-    setNewFacilityId("");
+    setNewPermission("");
 
     setCreateDisplay(false);
     setEditDisplay(false);
@@ -198,7 +173,7 @@ function ManagePractitioner() {
   //creates a new preactitioner and sends to the back end
   const createUser = () => {
     axios
-      .post("http://localhost:4000/api/registerP/", {
+      .post("http://localhost:4000/api/registerA/", {
         withCredentials: true,
         firstName: new_firstName,
         lastName: new_lastName,
@@ -209,9 +184,8 @@ function ManagePractitioner() {
         provName: new_prov,
         postalCode: new_postalCode,
         phoneNumber: new_phoneNum,
-        practitionerId: new_practitionerId,
-        role: new_role,
-        facilityId: new_facilityId,
+        adminId: new_adminId,
+        permissionLevel: new_permission,
       })
       .then((response) => {
         console.log(response);
@@ -219,23 +193,22 @@ function ManagePractitioner() {
       .catch((err) => {
         console.log(err);
       });
-    alert("We created a new user!");
+    alert("We created a new admin!");
     setCreateDisplay(false);
     setUserDisplay(true);
   };
 
-  // "firstName": new_firstName,
-  // "lastName": new_lastName,
-  // "password": new_password,
-  // "email": new_email,
-  // "streetAddress": new_address,
-  // "cityName": new_city,
-  // "provName": new_prov,
-  // "postalCode": new_postalCode,
-  // "phoneNumber": new_phoneNum,
-  // "practitionerId": new_practitionerId,
-  // "role": new_role,
-  // "facilityId": new_facilityId
+  //   "firstName": "Ben",
+  //   "lastName": "Davis",
+  //   "password": "password",
+  //   "email": "b.davis_117@hotmail.ca",
+  //   "streetAddress": "1 raymond street",
+  //   "cityName": "Calgary",
+  //   "provName": "AB",
+  //   "postalCode": "H0H0H0",
+  //   "phoneNumber": "111-444-5555",
+  //   "adminId": "1234567",
+  //   "permissionLevel": "3"
 
   //this component will show if the userType select is equal to practitioner
   //editDisplay - edit window for the selected user
@@ -246,36 +219,36 @@ function ManagePractitioner() {
       <div className="admin-main-div">
         <div className="header-1">
           <div>
-            <h2>Manage Practitioners</h2>
+            <h2>Manage Administrators</h2>
           </div>
         </div>
         <div className="userDisplay-div">
           {editDisplay && (
             <>
               <div className="editUser-div">
-                <h3>User ID: {id} </h3>
+                <h3>User ID: {adminId} </h3>
                 <br />
                 <Form>
                   <Form.Group>
                     <FloatingLabel
-                      label="Role"
+                      label="Permission"
                       controlId="floatingInput"
                       className="mb-3"
                     >
                       <Form.Select
-                        value={role}
-                        onChange={(e) => setRole(e.target.value)}
+                        value={permission}
+                        onChange={(e) => setPermission(e.target.value)}
                         size="sm"
                       >
-                        {" "}
-                        <option defaultValue>{role}</option>
-                        {role === "Nurse" ? (
+                        {permission === "1" ? (
                           <>
-                            <option>Doctor</option>
+                            <option>2</option>
+                            <option>3</option>
                           </>
                         ) : (
                           <>
-                            <option>Nurse</option>
+                            <option>1</option>
+                            <option>3</option>
                           </>
                         )}
                       </Form.Select>
@@ -401,20 +374,20 @@ function ManagePractitioner() {
                     </tr>
                   </thead>
                   <tbody>
-                    {practitionerList.map((prac, index) => {
+                    {adminLlist.map((admin, index) => {
                       return (
                         <tr
                           className="table-row"
-                          key={prac._id}
-                          value={prac._id}
+                          key={admin.adminId}
+                          value={admin.adminId}
                         >
                           <td>{index + 1}</td>
-                          <td>{prac.user.firstName}</td>
-                          <td>{prac.user.lastName}</td>
+                          <td>{admin.user.firstName}</td>
+                          <td>{admin.user.lastName}</td>
                           <td>
                             <a
                               className="admin-link"
-                              onClick={(e) => selectEdit(prac._id)}
+                              onClick={(e) => selectEdit(admin.adminId)}
                             >
                               Edit
                             </a>
@@ -422,7 +395,7 @@ function ManagePractitioner() {
                           <td>
                             <a
                               className="admin-link"
-                              onClick={(e) => handleDelete(prac._id)}
+                              onClick={(e) => handleDelete(admin.adminId)}
                             >
                               Delete
                             </a>
@@ -445,32 +418,37 @@ function ManagePractitioner() {
               <div className="createUser-div">
                 <Form>
                   <Form.Group>
-                    <FloatingLabel
-                      label="Role"
-                      controlId="floatingInput"
-                      className="mb-3"
-                    >
-                      <Form.Select
-                        onChange={(e) => setNewRole(e.target.value)}
-                        size="sm"
-                      >
-                        <option>Please select a role</option>
-                        <option value="Doctor">Doctor</option>
-                        <option value="Nurse">Nurse</option>
-                        <option value="Clerk">Clerk</option>
-                      </Form.Select>
-                    </FloatingLabel>
-                    <FloatingLabel
-                      label="Practitioner Id"
+                  <FloatingLabel
+                      label="Admin Identification Number"
                       controlId="floatingInput"
                       className="mb-3"
                     >
                       <Form.Control
-                        value={new_practitionerId}
-                        placeholder="12345678"
-                        onChange={(e) => setNewPractitionerId(e.target.value)}
+                        value={new_adminId}
+                        pattern="[A-Za-z- ]+"
+                        onChange={(e) => setNewAdminId(e.target.value)}
                         size="sm"
+                        maxLength={7}
+                        aria-describedby="permissionsHelp"
                       />
+                      <Form.Text id="permissionsHelp" muted>
+                        The admin identification is an 7 digit number
+                      </Form.Text>
+                    </FloatingLabel>
+                    <FloatingLabel
+                      label="Permission"
+                      controlId="floatingInput"
+                      className="mb-3"
+                    >
+                      <Form.Select
+                        onChange={(e) => setNewPermission(e.target.value)}
+                        size="sm"
+                      >
+                        <option>Please select a permission level</option>
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                      </Form.Select>
                     </FloatingLabel>
                     <FloatingLabel
                       label="First Name"
@@ -589,24 +567,6 @@ function ManagePractitioner() {
                       />
                     </FloatingLabel>
                     <FloatingLabel
-                      label="Facility"
-                      controlId="floatingInput"
-                      className="mb-3"
-                    >
-                      <Form.Select
-                        onChange={(e) => setNewFacilityId(e.target.value)}
-                      >
-                        <option>Please select a hospital</option>
-                        {hospitals.hospitalList?.map((hospital, index) => {
-                          return (
-                            <option key={index} value={hospital._id}>
-                              {hospital.hospitalName}
-                            </option>
-                          );
-                        })}
-                      </Form.Select>
-                    </FloatingLabel>
-                    <FloatingLabel
                       label="Password"
                       controlId="floatingInput"
                       className="mb-3"
@@ -617,7 +577,13 @@ function ManagePractitioner() {
                         minLength={10}
                         onChange={(e) => setNewPassword(e.target.value)}
                         size="sm"
+                        aria-describedby="passwordHelp"
                       />
+                      <Form.Text id="passwordHelp" muted>
+                        Your password must be 8-20 characters long, contain
+                        letters and numbers, and must not contain spaces,
+                        special characters, or emoji.
+                      </Form.Text>
                     </FloatingLabel>
                   </Form.Group>
                   <div className="grid-div">
@@ -645,4 +611,4 @@ function ManagePractitioner() {
   );
 }
 
-export default ManagePractitioner;
+export default ManageAdmin;
