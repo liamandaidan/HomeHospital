@@ -7,7 +7,7 @@ import { ResponsivePie } from "@nivo/pie";
 
 function AdminLanding() {
   const { menuSelection } = useContext(AdminContext);
-  // console.log(displayUsers);
+
   const [menuChoice, setMenuChoice] = menuSelection;
   const [userLength, setUserLength] = useState(0)
 
@@ -15,8 +15,6 @@ function AdminLanding() {
   setUserLength(Users.length);
 
  })
-
- console.log("this is the length of users " + userLength);
 
   //piechart to display users
   const data = [
@@ -89,24 +87,3 @@ function AdminLanding() {
 }
 
 export default AdminLanding;
-
-          // <div className="landing-grid">
-          //     <Card className="card-1">
-          //         <Card.Title>Current Users</Card.Title>
-          //         <Card.Body>
-          //               <p>Total Users: {Users.length} </p>
-          //         </Card.Body>
-          //     </Card>
-          //     <Card className="card-2">
-          //         <Card.Title>Current Users</Card.Title>
-          //         <Card.Body>
-          //               <p>Total Users: {Users.length} </p>
-          //         </Card.Body>
-          //     </Card>
-          //     <Card className="card-3">
-          //         <Card.Title>Current Users</Card.Title>
-          //         <Card.Body>
-          //               <p>Total Users: {Users.length} </p>
-          //         </Card.Body>
-          //     </Card>
-          // </div>

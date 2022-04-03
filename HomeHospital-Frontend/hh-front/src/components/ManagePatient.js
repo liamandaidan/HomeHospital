@@ -7,6 +7,7 @@ import axios from "axios";
 function ManagePatient() {
   const [modalState, setModalState] = useState(false);
   const [selectedUser, setSelectedUser] = useState("");
+  const [selectedUserName, setSelectedUserName] = useState("");
 
   const [patientList, setPatientList] = useState([]);
 
@@ -41,7 +42,7 @@ function ManagePatient() {
             <Modal.Title>Attention!</Modal.Title>
           </Modal.Header>
           <Modal.Body className="modal-content">
-            <label>Are you sure you want to delete {selectedUser} ?</label>
+            <label>Are you sure you want to delete {selectedUserName} ?</label>
           </Modal.Body>
           <Modal.Footer className="modal-footer">
             <div className="confirm-btn-div">
@@ -65,21 +66,34 @@ function ManagePatient() {
 
   //this will be called once the user selects delete beside the patient
   const handleDelete = (e) => {
-    console.log("this is the if of the user to delete: " + e);
+    console.log("this is the id of the user to delete: " + e);
 
     {
       patientList.map((patient) => {
         if (patient._id === e) {
-          setSelectedUser(patient.user.firstName);
+          setSelectedUser(patient._id);
+          setSelectedUserName(patient.user.firstName);
           setModalState(true);
         }
       });
     }
   };
 
-  //delete the user once confirmed
+  //delete the patient once confirmed
   const confirmDelete = () => {
-    alert({ selectedUser } + " has been deleted!");
+
+    axios
+    .delete("http://localhost:4000/api/admin/patient", {
+      withCredentials: true,
+      patientId: selectedUser,
+    })
+    .then((response) => {
+      alert({ selectedUser } + " has been deleted!");
+    })
+    .catch((err) => {
+      console.log(err);
+    })
+
     setModalState(false);
   };
 

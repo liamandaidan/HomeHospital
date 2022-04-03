@@ -12,7 +12,7 @@ function ManageUser() {
 
   const { menuSelection, userTypeSelection } = useContext(AdminContext);
 
-  console.log("this is from the context: " + userTypeSelection);
+  // console.log("this is from the context: " + userTypeSelection);
   const [menuChoice, setMenuChoice] = menuSelection;
   const [userType, setUserType] = userTypeSelection;
 
@@ -68,21 +68,21 @@ function ManageUser() {
   //shows list of practitioners when selected
   const showPractitioners = () => {
     setUserType("Practitioner");
-    console.log("this is the user type: " + userType);
+    // console.log("this is the user type: " + userType);
     setDisplayUserType(false);
   };
 
   //shows list of patients when slected
   const showPatients = () => {
     setUserType("Patient");
-    console.log("this is the user type: " + userType);
+    // console.log("this is the user type: " + userType);
     setDisplayUserType(false);
   };
 
   //show list of administrators
   const showAdmins = () => {
     setUserType("Admin");
-    console.log("this is the user type: " + userType);
+    // console.log("this is the user type: " + userType);
     setDisplayUserType(false);
   };
 

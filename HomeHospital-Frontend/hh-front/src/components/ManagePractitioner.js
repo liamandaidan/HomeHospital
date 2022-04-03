@@ -16,6 +16,7 @@ axios.defaults.withCredentials = true;
 function ManagePractitioner() {
   const [modalState, setModalState] = useState(false);
   const [selectedUser, setSelectedUser] = useState("");
+  const [selectedUserName, setSelectedUserName] = useState("");
   const [editDisplay, setEditDisplay] = useState(false);
   const [userDisplay, setUserDisplay] = useState(true);
   const [createDisplay, setCreateDisplay] = useState(false);
@@ -61,12 +62,12 @@ function ManagePractitioner() {
 
   const [hospitals, setHospitals] = useState([]);
 
-  console.log(
-    "Just testing - this is the entered role: " +
-      new_role +
-      " and this is the facility id: " +
-      new_facilityId
-  );
+  // console.log(
+  //   "Just testing - this is the entered role: " +
+  //     new_role +
+  //     " and this is the facility id: " +
+  //     new_facilityId
+  // );
 
   //get the list of hospitals
   useEffect(() => {
@@ -103,7 +104,7 @@ function ManagePractitioner() {
             <Modal.Title>Attention!</Modal.Title>
           </Modal.Header>
           <Modal.Body className="modal-content">
-            <label>Are you sure you want to delete {selectedUser} ?</label>
+            <label>Are you sure you want to delete {selectedUserName} ?</label>
           </Modal.Body>
           <Modal.Footer className="modal-footer">
             <div className="confirm-btn-div">
@@ -155,7 +156,8 @@ function ManagePractitioner() {
     {
       practitionerList.map((prac) => {
         if (prac._id === e) {
-          setSelectedUser(prac.user.firstName);
+          setSelectedUser(prac._id);
+          setSelectedUserName(prac.user.firstName);
           setModalState(true);
         }
       });
@@ -164,7 +166,20 @@ function ManagePractitioner() {
 
   //delete the user once confirmed
   const confirmDelete = () => {
-    alert({ selectedUser } + " has been deleted!");
+    // console.log("this is the practitioner we are deleting: " + selectedUser)
+
+    axios
+    .delete("http://localhost:4000/api/admin/practitioner", {
+      withCredentials: true,
+      patientId: selectedUser,
+    })
+    .then((response) => {
+      alert({ selectedUser } + " has been deleted!");
+    })
+    .catch((err) => {
+      console.log(err);
+    })
+
     setModalState(false);
   };
 

@@ -41,7 +41,7 @@ function ManageAdmin() {
   const [postalCode, setPostalCode] = useState("");
   const [phoneNum, setPhoneNum] = useState("");
   const [adminId, setAdminId] = useState("");
-  const [permission, setPermission] = useState("");
+  const [permissionLevel, setPermissionLevel] = useState("");
 
   //information for new user
   const [new_role, setNewRole] = useState("");
@@ -56,6 +56,7 @@ function ManageAdmin() {
   const [new_phoneNum, setNewPhoneNum] = useState("");
   const [new_adminId, setNewAdminId] = useState("");
   const [new_permission, setNewPermission] = useState("");
+
 
   //load all admins
   useEffect(() => {
@@ -108,7 +109,7 @@ function ManageAdmin() {
 
     {
       adminLlist.map((admin) => {
-        console.log(admin.adminId);
+        console.log("this is the permission level: " + admin.permissionLevel);
         if (admin.adminId === e) {
           setAdminId(admin.adminId);
           setFirstName(admin.user.firstName);
@@ -120,7 +121,7 @@ function ManageAdmin() {
           setCity(admin.user.address.cityName);
           setProv(admin.user.address.provName);
           setPostalCode(admin.user.address.postalCode);
-          setPermission(admin.user.permission);
+          setPermissionLevel(admin.permissionLevel);
         }
       });
     }
@@ -236,11 +237,11 @@ function ManageAdmin() {
                       className="mb-3"
                     >
                       <Form.Select
-                        value={permission}
-                        onChange={(e) => setPermission(e.target.value)}
+                        value={permissionLevel}
+                        onChange={(e) => setPermissionLevel(e.target.value)}
                         size="sm"
                       >
-                        {permission === "1" ? (
+                        {permissionLevel === "1" ? (
                           <>
                             <option>2</option>
                             <option>3</option>
