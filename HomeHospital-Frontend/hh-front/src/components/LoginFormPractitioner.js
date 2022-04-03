@@ -29,7 +29,9 @@ function LoginFormPractitioner() {
   const handleShow = () => setModalShow(true);
 
   function validateEmail() {
-    const pattern = new RegExp("([!#-'*+/-9=?A-Z^-~-]+(\.[!#-'*+/-9=?A-Z^-~-]+)*|\"\(\[\]!#-[^-~ \t]|(\\[\t -~]))+\")@([!#-'*+/-9=?A-Z^-~-]+(\.[!#-'*+/-9=?A-Z^-~-]+)*|\[[\t -Z^-~]*])");
+    const pattern = new RegExp(
+      "([!#-'*+/-9=?A-Z^-~-]+(.[!#-'*+/-9=?A-Z^-~-]+)*|\"([]!#-[^-~ \t]|(\\[\t -~]))+\")@([!#-'*+/-9=?A-Z^-~-]+(.[!#-'*+/-9=?A-Z^-~-]+)*|[[\t -Z^-~]*])"
+    );
     if (!pattern.test(email)) {
       document.getElementById("email").classList.add("is-invalid");
       document.getElementById("email").classList.remove("is-valid");
@@ -42,7 +44,7 @@ function LoginFormPractitioner() {
   }
 
   function validatePassword() {
-    if (!password.length > 10) {
+    if (!password.length > 5) {
       document.getElementById("password").classList.add("is-invalid");
       document.getElementById("password").classList.remove("is-valid");
       setvalidPassword(false);
@@ -74,7 +76,7 @@ function LoginFormPractitioner() {
       .post("http://localhost:4000/api/users/PatientInfoVisitRequest", {
         withCredentials: true,
       })
-      .then((response) => { 
+      .then((response) => {
         setLoggedIn(true);
         navigate("/practitioner");
       })
@@ -175,7 +177,7 @@ function LoginFormPractitioner() {
                 />
                 <div className="valid-feedback"></div>
                 <div className="invalid-feedback">
-                  Password must be minimum of 10 characters
+                  Please enter a valid password
                 </div>
               </div>
               <div className="d-grid gap-2 mt-4">
@@ -209,7 +211,6 @@ function LoginFormPractitioner() {
                 </div>
               </Col>
             </Row>
-
           </div>
         </div>
       </Container>

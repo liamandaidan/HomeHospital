@@ -22,14 +22,7 @@ function PractNavBar() {
             className="me-auto my-2 my-lg-0"
             style={{ maxHeight: "100px" }}
             navbarScroll
-          > 
-            <Nav.Link href="/user" className="ms-5">
-              Home
-            </Nav.Link>
-            <Nav.Link href="/reports">Reports</Nav.Link>
-            {/*  no need to add in logout as its in setting cog
-           <Nav.Link href="#action2">Logout</Nav.Link> */}
-          </Nav>
+          ></Nav>
           <div className="d-flex">
             <img src={avatar} alt="avatar" className={classes.avatar} />
             <h6 className="me-3 mt-2 ps-2">Username</h6>
@@ -52,11 +45,7 @@ function PractNavBar() {
               align="end"
               className="me-5"
             >
-              <Dropdown.Item href="#">Profile</Dropdown.Item>
-              <Dropdown.Item href="#">Hospitals</Dropdown.Item>
-              <Dropdown.Item href="#">Notifications</Dropdown.Item>
-              <Dropdown.Divider />
-              <Dropdown.Item href="#" className="text-danger">
+              <Dropdown.Item href="/login-practitioner" className="text-danger">
                 Logout
               </Dropdown.Item>
             </DropdownButton>
