@@ -1,9 +1,12 @@
 import PatientModel from '../../models/patient.Model.js'
 import PractitionerModel from '../../models/practitioner.Model.js'
 import AdministratorModel from '../../models/administrator.Model.js'
+import ENV from '../../configure/configure.js'
 import bcrypt from 'bcryptjs'
 import jwt from 'jsonwebtoken'
+import validator from 'validator'
 
+const whitelist_string = ENV.WHITELIST_STRINGS;
 
 const regStatus = {
 	status: false,
@@ -43,9 +46,42 @@ export const registerUser = async (req) => {
 		console.log("Detected a missing field in registerUser");
 		return (regStatus.status = false);
 	}
+	// valsFromBody.forEach(element => {
+	// 	console.log(element);
+	// })
+	//these get added here because we don't want them to be mandatory
+	if(contactFirstName)valsFromBody.push(contactFirstName);
+	if(contactLastName)valsFromBody.push(contactLastName);
+	if(contactPhoneNumber)valsFromBody.push(contactPhoneNumber);
+	
+	//sanitize all inputs to contain only alphanumeric charcters and a few necessary punctuation marks
+
+	let sanitizedVals = []
+	valsFromBody.forEach(element => {
+		if(valsFromBody[2] === element || valsFromBody[3] === element) {
+			console.log("Found email or password");
+			console.log(element);
+			sanitizedVals.push(element);
+			return;
+		}
+		if(valsFromBody[10] === element) {
+			if(validator.isDate(element)) {
+				sanitizedVals.push(element);
+				return;
+			}
+		}
+		let sanElement = validator.whitelist(element, whitelist_string);
+		sanitizedVals.push(sanElement);
+	})
+	
+
+	// sanitizedVals.forEach(element => {
+	// 	console.log(element);
+	// })
+	
 
 	// check if user exists
-	const result = await PatientModel.exists({ email: email })
+	const result = await PatientModel.exists({ email: sanitizedVals[2] })
 	// If they exist return an error status code
 	if (result?._id) {
 		console.log("User already exists!");
@@ -59,30 +95,30 @@ export const registerUser = async (req) => {
 	const salt = await genSalt(10)
 
 	// hash with salt
-	const hashedPassword = await hash(password, salt)
+	const hashedPassword = await hash(sanitizedVals[3], salt)
 
 	// verify user object
 	const newUser = await PatientModel.create({
-		HCnumber: HCnumber,
-		gender: gender,
-		dateOfBirth: new Date(dateOfBirth),
-		email: email,
+		HCnumber: sanitizedVals[8],
+		gender: sanitizedVals[9],
+		dateOfBirth: new Date(sanitizedVals[10]),
+		email: sanitizedVals[2],
 		password: hashedPassword,
 		user: {
-			firstName: firstName,
-			lastName: lastName,
+			firstName: sanitizedVals[0],
+			lastName: sanitizedVals[1],
 			address: {
-				streetAddress: streetAddress,
-				cityName: cityName,
-				provName: provName,
-				postalCode: postalCode,
+				streetAddress: sanitizedVals[4],
+				cityName: sanitizedVals[5],
+				provName: sanitizedVals[6],
+				postalCode: sanitizedVals[7],
 			},
-			phoneNumber: phoneNumber,
+			phoneNumber: sanitizedVals[11],
 		},
 		emergencyContact: {
-			firstName: contactFirstName,
-			lastName: contactLastName,
-			phoneNumber: contactPhoneNumber,
+			firstName: sanitizedVals[12],
+			lastName: sanitizedVals[13],
+			phoneNumber: sanitizedVals[14],
 		},
 	})
 	newUser.save()
