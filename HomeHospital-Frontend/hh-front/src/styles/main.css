@@ -1,0 +1,22 @@
+.main-container {
+    margin-top: 3rem;
+}
+
+.user-nav {
+    margin-right: 40px;
+}
+
+.progress-div {
+    margin-top: 1.5rem;
+}
+
+.symptoms-div {
+    margin-top: 2.5rem;
+}
+
+.symptomsProgress {
+    color:#7878AB;
+    background-image: #7878AB;
+}
+
+

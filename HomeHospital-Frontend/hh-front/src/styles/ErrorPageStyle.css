@@ -1,0 +1,54 @@
+.fourOhFour-container {
+  height: 90vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: auto;
+  max-width: 100%;
+}
+
+.column-left {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  color: black;
+  padding: 0rem 1em;
+}
+
+.column-left h1 {
+  font-size: 110px;
+}
+
+.column-left h3 {
+  font-size: 30px;
+}
+
+.column-left p {
+  margin-bottom: 0.5rem;
+  font-size: 16px;
+}
+
+.errorimg {
+  padding-left: 10em;
+  width: 900px;
+  height: auto;
+}
+
+.btnErrorPg {
+  color: #f8f8f8;
+  border-radius: 1rem;
+  background-color: #ba91ef;
+  font-size: 12px;
+  box-shadow: 3px 5px 8px #c7c3c3;
+  width: 150px;
+  height: 32px;
+  text-align: center;
+  text-decoration: none;
+  line-height: 30px;
+}
+
+.btnErrorPg:hover {
+  background: #ec66f6;
+  color: black;
+}
