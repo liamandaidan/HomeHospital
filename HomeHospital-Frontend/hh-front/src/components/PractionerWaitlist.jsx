@@ -6,7 +6,7 @@ import axios from "axios";
 export default function PractionerWaitlist({ childToParent }) {
   const [selectHospital, setSelectHospital] = useState([
     "Rockyview",
-    "Childerns",
+    "Childrens",
     "Foothills",
   ]);
 
@@ -27,16 +27,16 @@ export default function PractionerWaitlist({ childToParent }) {
   };
 
 
-//   useEffect(() => {
-//     axios
-// 	.get("http://localhost:4000/api/requestManager/hospitalWaitList/6216f18abaa205c9cab2f608")
-// 	.then(
-//       (response) => {
-//         console.log(response.data);
-// 		setPractPatientInfo(response.data);
-//       }
-//     );
-//   }, []);
+  useEffect(() => {
+    axios
+	.get("http://localhost:4000/api/requestManager/hospitalWaitList/6216f18abaa205c9cab2f608")
+	.then(
+      (response) => {
+        console.log(response.data);
+		setPractPatientInfo(response.data);
+      }
+    );
+  }, []);
 
 
   /**

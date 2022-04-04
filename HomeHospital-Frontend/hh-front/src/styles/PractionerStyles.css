@@ -45,24 +45,27 @@
 }
 
 /* Css for check in button when needed*/
-.checkInBtn {
-	border: 1px solid #71E7CA;
-	box-sizing: border-box;
-	filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
-	border-radius: 16px;
-	background-color: white;
-	color: rgb(99, 99, 99);
-}
+/* .checkInBtn  {
+	color: #000000;
+	border-radius: 1rem;
+	background-color: #ffffff;
+	font-size: 12px;
+	box-shadow: 3px 5px 8px #c7c3c3;
+	width: 80px;
+	height: 32px;
+	text-align: center;
+	text-decoration: none;
+	line-height: 10px;
+	border-color: #71E7CA;
+	font-size: 14px;
+  }
 
-/* Css for  detail button when needed*/
-.patientDetailBtn {
-	border: 1px solid #71E7CA;
-	box-sizing: border-box;
-	filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
-	border-radius: 16px;
-	background-color: white;
-	color: rgb(99, 99, 99);
-}
+  .checkInBtn:hover {
+	background: #66f6d7;
+	color: black;
+  } */
+
+
 
 
 

@@ -62,34 +62,21 @@ export class PractitionerPatientInfo extends Component {
           </Row>
           <Row>
             <Col className="practitioner-patientContactDetails ">
-			  {/* {patientData2.map((patientDetail, index) => {
-		  		return (
-					<><p>Address: {patientDetail.address}</p>
-					<p>Contact Number: {patientDetail.contactNumber}</p>
-					<p>Alberta Health Care no: {patientDetail.albertaHealthcareNo}</p>
-					<p>Emergency Contact Name: {patientDetail.emergencyContactName}</p>
-					<p>Emergency Contact No:{patientDetail.emergencyContactNumber}</p>
-					<h5>Symptoms</h5>
-					<ul>
-						<li>{patientDetail.symptoms}</li>
-              		</ul>
-					<h5>Additional Info</h5>
-						<p>{patientDetail.additionalInfo}</p>
-					<h5>Place in queue: {patientDetail.queue}</h5>
-					</>
-				  )		
-	  		 })} */}
 			   {this.state.patientsInfo.map(patient => 
 			   <>
 			   <p>Address: {patient.startAddress.streetAddress}</p>
 			   <h5>Symptoms:</h5>
 			   <ul>
 				   <li>
-				   		{patient.symptoms[0].description} Severity:{patient.symptoms[0].severity}
+				   		{patient.symptoms[0].description} (Severity: {patient.symptoms[0].severity})
 					</li>
-				   </ul>
+					<li>
+				   		{patient.symptoms[1].description} (Severity: {patient.symptoms[1].severity})
+					</li>			
+				</ul>
 			   <h5>Additional Info</h5>
-				<p>{patient.additionalInfo}</p> 
+				<p>{patient.additionalInfo}</p>
+				<h5>Place in queue: </h5>
 			   </>
 				)}
             </Col>
