@@ -27,7 +27,9 @@ function LoginFormPractitioner() {
   const [loggedIn, setLoggedIn] = useState();
 
   const handleShow = () => setModalShow(true);
-
+  /**
+   * Here we provide regex for the email before going to backend.
+   */
   function validateEmail() {
     const pattern = new RegExp(
       "([!#-'*+/-9=?A-Z^-~-]+(.[!#-'*+/-9=?A-Z^-~-]+)*|\"([]!#-[^-~ \t]|(\\[\t -~]))+\")@([!#-'*+/-9=?A-Z^-~-]+(.[!#-'*+/-9=?A-Z^-~-]+)*|[[\t -Z^-~]*])"
@@ -42,7 +44,9 @@ function LoginFormPractitioner() {
       setValidEmail(true);
     }
   }
-
+  /**
+   * Here we validate that the password is legal.
+   */
   function validatePassword() {
     if (!password.length > 5) {
       document.getElementById("password").classList.add("is-invalid");
@@ -54,7 +58,9 @@ function LoginFormPractitioner() {
       setvalidPassword(true);
     }
   }
-
+  /**
+   * This will provide the post request to the server with a users credentials.
+   */
   const loginUser = () => {
     axios
       .post("http://localhost:4000/api/loginP", {
@@ -70,7 +76,10 @@ function LoginFormPractitioner() {
         handleShow();
       });
   };
-
+  /**
+   * The main feature of this is to provide login utility.
+   * This will need to be changed if a practioner account differs from a patient. Right now they are the same.
+   */
   useEffect(() => {
     axios
       .post("http://localhost:4000/api/users/PatientInfoVisitRequest", {
@@ -84,7 +93,12 @@ function LoginFormPractitioner() {
         setLoggedIn(false);
       });
   }, [loggedIn]);
-
+  
+  /**
+   * This will handle errors
+   * @param {*} props 
+   * @returns 
+   */
   function ErrorModal(props) {
     return (
       <Modal
@@ -105,7 +119,9 @@ function LoginFormPractitioner() {
       </Modal>
     );
   }
-
+  /**
+   * As long as email and passwords are valid this will allow access to the submission of the form.
+   */
   useEffect(() => {
     if (validEmail && validPassword) {
       setValidForm(true);
