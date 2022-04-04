@@ -32,19 +32,21 @@
 .hb-bar-practitioner1 {
 	margin-left: -100px;
 	height: 3.0rem;
-    width: 30rem;
+    width: 33rem;
+	max-width: 110%;
     opacity:70%;
 }
 
 .hb-bar-practitioner2 {
 	margin-left: -85px;
 	height: 3.0rem;
-    width: 30rem;
+    width: 33rem;
     opacity:70%;
+	max-width: 100%;
 	transform:scaleX(-1);
 }
 
-/* Css for check in button when needed*/
+/* Css for check in button if needed*/
 /* .checkInBtn  {
 	color: #000000;
 	border-radius: 1rem;
