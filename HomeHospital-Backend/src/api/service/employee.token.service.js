@@ -103,7 +103,7 @@ export const checkEmployeeAccessToken = async (req, res, next) => {
 	}
 	// For dev purposes, we only want to get tokens from cookies, for ease of use. In production, we want to get tokens
 	//from both cookies and headers, and compare them
-	const accessToken = req.cookies['accessTokenCookie']
+	let accessToken = req.cookies['accessTokenCookie']
 	const refreshToken = req.cookies['refreshTokenCookie']
 
 	//get tokens production. Ensure variable names match throughout.
@@ -128,10 +128,18 @@ export const checkEmployeeAccessToken = async (req, res, next) => {
 
 	if (allTokensPresent) {
 		try {
+			// let validAccessToken
+			// try {
 			const validAccessToken = jwt.verify(
 				accessToken,
 				EMPLOYEE_ACCESS_KEY
 			)
+			// )
+			// } catch (error) {
+			// 	console.log('Caught a crash!')
+			// 	res.status(500).send({message: 'Error in the Server!'})
+			// 	return
+			// }
 
 			//jwt.verify returns the entire token. By accessing valid.email, we get only the payload of the token, the user's email
 			// console.log(`Access token still valid: ${validAccessToken.email}`)
@@ -140,8 +148,8 @@ export const checkEmployeeAccessToken = async (req, res, next) => {
 			// if(!checkAccessAuthorized(jwt.decode(validAccessToken))) {
 			// 	return res.status(401).json({ message: 'Authorization Failed' })
 			// }
-			const isAnAdmin = validAccessToken.adminId
-			const isAPractitioner = validAccessToken.practitionerId
+			const isAnAdmin = validAccessToken?.adminId
+			const isAPractitioner = validAccessToken?.practitionerId
 			console.log('validAccessToken is: ' + validAccessToken)
 			if (isAnAdmin) {
 				req.adminId = validAccessToken.adminId
@@ -161,6 +169,7 @@ export const checkEmployeeAccessToken = async (req, res, next) => {
 			}
 			next()
 		} catch (err) {
+			console.log(err)
 			if (err.name == 'TokenExpiredError') {
 				console.log(
 					'Access Token is expired, time to check refresh token'
@@ -182,11 +191,9 @@ export const checkEmployeeAccessToken = async (req, res, next) => {
 							} else if (practitionerId) {
 								req.practitionerId = practitionerId
 							} else {
-								return res
-									.status(401)
-									.json({
-										message: 'No idea what happened here',
-									})
+								return res.status(401).json({
+									message: 'No idea what happened here',
+								})
 							}
 							res.locals.accessT = newAccessToken //res.locals is an object that carries on through all middleware
 							res.locals.refreshT = refreshToken
@@ -202,9 +209,10 @@ export const checkEmployeeAccessToken = async (req, res, next) => {
 							)
 							next()
 						} else {
-							return res
-								.status(401)
-								.json({ message: 'Authorization Failed' })
+							res.status(401).json({
+								message: 'Authorization Failed',
+							})
+							return
 						}
 					}
 				)
@@ -213,7 +221,8 @@ export const checkEmployeeAccessToken = async (req, res, next) => {
 					'Someone fiddled with the access token. No soup for you!'
 				)
 				console.log(err)
-				return res.status(401).send({ message: 'Authorization Failed' })
+				res.status(401).send({ message: 'Authorization Failed' })
+				return
 			}
 		}
 	} else {
@@ -274,7 +283,7 @@ const refreshEmployeeAccessToken = (refreshToken, oldAccessToken) => {
 											adminId: oldPayload.adminId,
 										},
 										EMPLOYEE_ACCESS_KEY,
-										{ expiresIn: '30s' }
+										{ expiresIn: '5m' }
 									)
 									console.log(
 										'User is an administrator, adminId is ' +
