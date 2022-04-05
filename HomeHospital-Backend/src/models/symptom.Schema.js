@@ -1,11 +1,10 @@
 import mongoose from 'mongoose'
-import validator from 'validator'
 
 const symptomSchema = new mongoose.Schema({
 	description: {
 		type: String,
 		minlength:[1,'Minimum Length for Description is 1'],
-		maxlength: [50,'Maximum Length for Description is 50'],
+		maxlength: [280,'Maximum Length for Description is 280'], // tweet length
 		required: [true,'Description can not be empty'],
 	},
 	severity: {

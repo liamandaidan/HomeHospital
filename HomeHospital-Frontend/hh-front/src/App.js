@@ -4,6 +4,7 @@ import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import Error from "./components/ErrorPage404";
 import Home from "./pages/Home";
 import Login from "./pages/Login";
+import LoginPractitioner from "./pages/LoginPractitioner";
 import Register from "./pages/Register";
 import Request from "./pages/Request";
 import Symptoms from "./pages/SymptomsPage";
@@ -15,7 +16,7 @@ import { HomeHospitalProvider } from "./components/HomeHospitalContext";
 import UserHomepage from "./pages/UserHomepage";
 import RequireAuth from "./components/RequireAuth";
 import Practitioner from "./pages/Practioner";
-
+import Admin from "./pages/Admin.js";
 function App() {
   useEffect(() => {
     document.title = "HomeHospital";
@@ -27,6 +28,7 @@ function App() {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/login" element={<Login />} />
+          <Route path="/admin" element={<Admin />} />
           <Route
             path="/request"
             element={
@@ -61,6 +63,7 @@ function App() {
             path="/register"
             element={<Register className="full-height" />}
           />
+          <Route path="/login-practitioner" element={<LoginPractitioner />} />
         </Routes>
       </Router>
     </HomeHospitalProvider>
