@@ -225,7 +225,7 @@ function RegistrationForm() {
   }
 
   function validatePassword() {
-    if (passwordValue.length > 9) {
+    if (passwordValue.length > 5) {
       document.getElementById("password").classList.add("is-valid");
       document.getElementById("password").classList.remove("is-invalid");
     } else {
