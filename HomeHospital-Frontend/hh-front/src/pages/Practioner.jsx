@@ -19,6 +19,7 @@ export default function Practioner() {
     setPatientData(childData);
   }
 
+  
   return (
     <div>
       <PractNav />
