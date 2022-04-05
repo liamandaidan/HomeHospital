@@ -62,22 +62,22 @@ export class PractitionerPatientInfo extends Component {
           </Row>
           <Row>
             <Col className="practitioner-patientContactDetails ">
-			   {this.state.patientsInfo.map(patient => 
-			   <>
+			   {this.state.patientsInfo.map((patient, index) => 
+			   <div key={index}>
 			   <p>Address: {patient.startAddress.streetAddress}</p>
 			   <h5>Symptoms:</h5>
-			   <ul>
-				   <li>
-				   		{patient.symptoms[0].description} (Severity: {patient.symptoms[0].severity})
-					</li>
-					<li>
-				   		{patient.symptoms[1].description} (Severity: {patient.symptoms[1].severity})
-					</li>			
-				</ul>
+				{patient.symptoms.map((p, i)=> (
+					<div key={i}>
+						<ul>
+							<li>{p.description} (Severity: {p.severity})</li>
+						</ul>
+					</div>
+				
+				))}
 			   <h5>Additional Info</h5>
 				<p>{patient.additionalInfo}</p>
 				<h5>Place in queue: </h5>
-			   </>
+			   </div>
 				)}
             </Col>
           </Row>

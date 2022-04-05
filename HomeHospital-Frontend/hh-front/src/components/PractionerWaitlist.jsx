@@ -76,8 +76,8 @@ export default function PractionerWaitlist({ childToParent }) {
     console.log("this is the id of the user to check in: " + e);
     {
 		practPatientInfo.map((data) => {
-        if (practPatientInfo._id === e) {
-          setSelectedUser(practPatientInfo.patientFirstName);
+        if (data._id === e) {
+          setSelectedUser(data.patientFirstName);
           setModalState(true);
         }
       });
@@ -108,7 +108,7 @@ export default function PractionerWaitlist({ childToParent }) {
           </Button>
         </td>
         <td>
-          <Button onClick={(e) => handleCheckIn(practPatientInfo._id)}>Check In</Button>
+          <Button onClick={(e) => handleCheckIn(data._id)}>Check In</Button>
         </td>
       </tr>
     );
