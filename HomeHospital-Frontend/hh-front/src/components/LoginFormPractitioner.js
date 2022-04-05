@@ -48,7 +48,7 @@ function LoginFormPractitioner() {
    * Here we validate that the password is legal.
    */
   function validatePassword() {
-    if (!password.length > 5) {
+    if (!password.length > 5 || password.length == 0) {
       document.getElementById("password").classList.add("is-invalid");
       document.getElementById("password").classList.remove("is-valid");
       setvalidPassword(false);
