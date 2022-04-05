@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Button, Label, Modal } from "react-bootstrap";
-import PatientData from "../components/patientData.json";
+import PatientData from "../data/patientData.json";
 import axios from "axios";
 
 export default function PractionerWaitlist({ childToParent }) {
