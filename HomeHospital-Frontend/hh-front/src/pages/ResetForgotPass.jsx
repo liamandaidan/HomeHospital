@@ -22,7 +22,7 @@ export default function ResetForgotPass() {
    */
   function validatePassword() {
     //pass must be a min length of 5
-    if (password === verifyPassword && password.length > 4) {
+    if (password === verifyPassword && password.length > 5) {
       document.getElementById("password").classList.remove("is-invalid");
       document.getElementById("password").classList.add("is-valid");
       document.getElementById("passwordVer").classList.remove("is-invalid");

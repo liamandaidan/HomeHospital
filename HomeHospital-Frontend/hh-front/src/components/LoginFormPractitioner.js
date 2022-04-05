@@ -42,7 +42,7 @@ function LoginFormPractitioner() {
   }
 
   function validatePassword() {
-    if (!password.length > 10) {
+    if (!password.length > 5) {
       document.getElementById("password").classList.add("is-invalid");
       document.getElementById("password").classList.remove("is-valid");
       setvalidPassword(false);
