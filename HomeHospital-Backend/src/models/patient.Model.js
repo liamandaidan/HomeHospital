@@ -139,7 +139,7 @@ patientSchema.methods.getPatientRequestInfo = function () {
 	}
 }
 
-patientSchema.methods.getPatientAdminInfo = function () {
+patientSchema.methods.getPatientInfo = function () {
 	return {
 		user: this.user,
 		HCnumber: this.HCnumber,
@@ -149,6 +149,26 @@ patientSchema.methods.getPatientAdminInfo = function () {
 		gender: this.gender,
 		dateOfBirth: this.dateOfBirth
 	}
+}
+
+patientSchema.methods.getInfoForAdmin = function () {
+	return {
+		firstName: this.user.firstName,
+		lastName: this.user.lastName,
+		email: this.email,
+		_id: this.id
+	}
+}
+
+patientSchema.methods.modifyPatient = function (patientInfo) {
+	this.user.firstName 	= patientInfo.user.firstName
+	this.user.lastName 		= patientInfo.user.lastName
+	this.user.address 		= patientInfo.user.address
+	this.user.phoneNumber 	= patientInfo.user.phoneNumber
+	this.email 				= patientInfo.email
+	this.emergencyContact 	= patientInfo.emergencyContact
+	this.gender 			= patientInfo.gender
+	this.HCnumber 			= patientInfo.HCnumber
 }
 
 export default mongoose.model('Patient', patientSchema)

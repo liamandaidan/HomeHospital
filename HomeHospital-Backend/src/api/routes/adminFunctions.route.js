@@ -2,6 +2,7 @@ import express from 'express'
 import administratorModel from '../../models/administrator.Model.js'
 import patientModel from '../../models/patient.Model.js'
 import practitionerModel from '../../models/practitioner.Model.js'
+import mongoose from 'mongoose'
 
 const route = express()
 
@@ -50,6 +51,22 @@ route.get('/adminList', async (req, res) => {
 	} catch (error) {
 		console.log(error.message)
 		res.status(400).send({ message: 'Error retrieving Admin List' })
+	}
+})
+
+route.get('/patientInfo/:patientId', async (req, res) => {
+	try {
+		const { patientId } = req.params;
+		if (!mongoose.Types.ObjectId.isValid(patientId))
+		{
+			throw new Error("Patient Id is not valid or doesnt exist!")			
+		}
+
+		const patient = await patientModel.findById(patientId)
+		res.status(200).send(patient.getInfoForAdmin())
+	} catch (error) {
+		console.error("Error: " + error.message)
+		res.status(400).send( {message: "Patient Id is not valid or doesnt exist!"} )
 	}
 })
 
