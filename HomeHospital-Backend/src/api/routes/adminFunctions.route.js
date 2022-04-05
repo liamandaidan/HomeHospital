@@ -100,7 +100,7 @@ route.post('/modifyPractitioner', async (req, res) => {
 
 			const practitioner = await practitionerModel.findById(practitionerInfo.id);
 			practitioner.modifyPractitioner(practitionerInfo)
-			practitioner.save()
+			await practitioner.save()
 			res.status(200).send({message: "Edit Complete!"})
 		} else {
 			throw new Error("Invalid PractionerId!")
@@ -138,7 +138,7 @@ route.post('/modifyAdmin', async (req, res) => {
 
 			const admin = await administratorModel.findById(adminInfo.id);
 			admin.modifyAdmin(adminInfo)
-			admin.save()
+			await admin.save()
 			res.status(200).send({message: "Edit Complete!"})
 		} else {
 			throw new Error("Invalid adminId!")
