@@ -49,7 +49,7 @@ export default function PractionerWaitlist({ childToParent }) {
             <Modal.Title>Attention!</Modal.Title>
           </Modal.Header>
           <Modal.Body className="modal-content">
-            <label>Are you sure you want to check in {selectedUser} ?</label>
+            <label>Please confirm check in for patient {selectedUser} ?</label>
           </Modal.Body>
           <Modal.Footer className="modal-footer">
             <div className="confirm-btn-div">
@@ -77,7 +77,7 @@ export default function PractionerWaitlist({ childToParent }) {
     {
 		practPatientInfo.map((data) => {
         if (data._id === e) {
-          setSelectedUser(data.patientFirstName);
+          setSelectedUser(data.patientFirstName +" "+ data.patientLastName);
           setModalState(true);
         }
       });

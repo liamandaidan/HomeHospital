@@ -72,7 +72,6 @@ export class PractitionerPatientInfo extends Component {
 							<li>{p.description} (Severity: {p.severity})</li>
 						</ul>
 					</div>
-				
 				))}
 			   <h5>Additional Info</h5>
 				<p>{patient.additionalInfo}</p>
