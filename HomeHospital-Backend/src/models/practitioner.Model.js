@@ -37,4 +37,24 @@ const practitionerSchema = new mongoose.Schema({
 	}
 })
 
+practitionerSchema.methods.getPractitionerInfo = function () {
+	return {
+		user: this.user,
+		id: this._id,
+		email: this.email,
+		role: this.role,
+		facilityId: this.facilityId
+	}
+}
+
+practitionerSchema.methods.modifyPractitioner = function (practitionerInfo) {
+	this.user.firstName 	= practitionerInfo.user.firstName
+	this.user.lastName 		= practitionerInfo.user.lastName
+	this.user.address 		= practitionerInfo.user.address
+	this.user.phoneNumber 	= practitionerInfo.user.phoneNumber
+	this.email 				= practitionerInfo.email
+	this.role 				= practitionerInfo.role
+	this.facilityId 		= practitionerInfo.facilityId
+}
+
 export default mongoose.model('Practitioner', practitionerSchema)
