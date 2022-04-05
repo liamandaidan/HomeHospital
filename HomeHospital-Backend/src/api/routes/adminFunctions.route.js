@@ -150,13 +150,14 @@ route.post('/modifyAdmin', async (req, res) => {
 })
 
 // delete patient
-route.delete('/patient', async (req, res) => {
+route.delete('/patient/:patientId', async (req, res) => {
 	try {
-		const { patientId } = req.body
+		const { patientId } = req.params
+		console.log(patientId)
 		const validId = mongoose.Types.ObjectId.isValid(patientId)
 		if (validId) {
 			await patientModel.findByIdAndDelete(patientId)
-			res.send('This worked')
+			res.status(200).send({message: "Patient Deleted!"})
 		} else {
 			throw new Error('There was an error deleting the patient')
 		}
@@ -167,14 +168,14 @@ route.delete('/patient', async (req, res) => {
 })
 
 // delete practitioner
-route.delete('/practitioner', async (req, res) => {
+route.delete('/practitioner/:practitionerId', async (req, res) => {
 	//TODO: check for admin level 2
 	try {
-		const { practitionerId } = req.body
+		const { practitionerId } = req.params
 		const validId = mongoose.Types.ObjectId.isValid(practitionerId)
 		if (validId) {
-			await practitionerId.findByIdAndDelete(practitionerId)
-			res.send('This worked')
+			await practitionerModel.findByIdAndDelete(practitionerId)
+			res.status(200).send({message: "Practitoner Deleted!"})
 		} else {
 			throw new Error('There was an error deleting the practitioner')
 		}
@@ -184,14 +185,14 @@ route.delete('/practitioner', async (req, res) => {
 	}
 })
 // delete admin
-route.delete('/admin', async (req, res) => {
+route.delete('/admin/:adminId', async (req, res) => {
 	//TODO: check for admin level 3
 	try {
-		const { adminId } = req.body
+		const { adminId } = req.params
 		const validId = mongoose.Types.ObjectId.isValid(adminId)
 		if (validId) {
 			await administratorModel.findByIdAndDelete(adminId)
-			res.send('This worked')
+			res.status(200).send({message: "Admin Deleted!"})
 		} else {
 			throw new Error('There was an error deleting the admin')
 		}
