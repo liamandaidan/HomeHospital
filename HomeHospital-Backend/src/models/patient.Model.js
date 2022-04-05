@@ -1,45 +1,44 @@
 import mongoose from 'mongoose'
-import UserSchema from './user.Schema.js'
+import peopleSchema from './people.Schema.js'
 import validator from 'validator'
 
 const patientSchema = new mongoose.Schema({
 	email: {
 		type: String,
-		minlength: [8,'Minimum Email Length is 8'],
+		minlength: [8, 'Minimum Email Length is 8'],
 		required: [true, 'Please enter an Email'],
 		lowercase: true,
-		unique: [true, 'This Email is already in use'], 
-		validate:[validator.isEmail, 'Please enter a Valid Email'],
+		unique: [true, 'This Email is already in use'],
+		validate: [validator.isEmail, 'Please enter a Valid Email'],
 	},
 	password: {
 		type: String,
-		required: [true,'Please enter a Password'],                                                     
+		required: [true, 'Please enter a Password'],
 		minlength: [10, 'Password must be at least a length of 10'],
 		//validate:[isStrongPassword, 'This password is weaksauce bruh, take it to the gym n strengthen it up'],
 	},
 	HCnumber: {
 		type: String,
-		required: [true, 'Please enter a Health Care Number'], 
-		unique: [true, 'This Health Care Number is already in use'], 
-		},
+		required: [true, 'Please enter a Health Care Number'],
+		unique: [true, 'This Health Care Number is already in use'],
+	},
 	gender: {
 		type: String,
-		required: [true, 'Please Enter your Gender'], 
+		required: [true, 'Please Enter your Gender'],
 	},
 	dateOfBirth: {
 		type: Date,
-		required: [true, 'Please enter your Date of Birth'], 
-		validate:[validator.isDate, 'This amazingly was not a date'],
+		required: [true, 'Please enter your Date of Birth'],
+		validate: [validator.isDate, 'This amazingly was not a date'],
 	},
 	user: {
-		type: UserSchema,
+		type: peopleSchema,
 	},
 	emergencyContact: {
 		firstName: {
 			type: String,
 			default: null,
 			//validate:[validator.isAlpha, 'Only Letters allowed'],
-			
 		},
 		lastName: {
 			type: String,
@@ -138,6 +137,38 @@ patientSchema.methods.getPatientRequestInfo = function () {
 		id: this._id,
 		email: this.email,
 	}
+}
+
+patientSchema.methods.getPatientInfo = function () {
+	return {
+		user: this.user,
+		HCnumber: this.HCnumber,
+		emergencyContact: this.emergencyContact,
+		id: this._id,
+		email: this.email,
+		gender: this.gender,
+		dateOfBirth: this.dateOfBirth
+	}
+}
+
+patientSchema.methods.getInfoForAdmin = function () {
+	return {
+		firstName: this.user.firstName,
+		lastName: this.user.lastName,
+		email: this.email,
+		_id: this.id
+	}
+}
+
+patientSchema.methods.modifyPatient = function (patientInfo) {
+	this.user.firstName 	= patientInfo.user.firstName
+	this.user.lastName 		= patientInfo.user.lastName
+	this.user.address 		= patientInfo.user.address
+	this.user.phoneNumber 	= patientInfo.user.phoneNumber
+	this.email 				= patientInfo.email
+	this.emergencyContact 	= patientInfo.emergencyContact
+	this.gender 			= patientInfo.gender
+	this.HCnumber 			= patientInfo.HCnumber
 }
 
 export default mongoose.model('Patient', patientSchema)

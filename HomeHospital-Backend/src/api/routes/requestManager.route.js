@@ -74,4 +74,37 @@ route.get('/hospitalWaitList/:hospitalId', async (req, res) => {
 		res.status(400).send({ message: 'Error getting hospital wait list' })
 	}
 })
+
+
+route.get('/patientInfo', async (req, res) => {
+	// return the current users request
+	const {patientId} = req.body
+
+	if (patientId == null || patientId == undefined || patientId == '') {
+		console.log('patientId is not valid')
+		res.status(400).send({ message: 'Error' })
+		return
+	}
+
+	// find the patient
+	try {
+		// validate the users Id
+		const validUserId = mongoose.Types.ObjectId.isValid(patientId)
+		if (validUserId) {
+			const patient = await patientModel.findById(patientId).select({
+				password: 0,
+				__v: 0
+			})
+			res.status(200).send(patient);
+
+		} else {
+			throw new Error('Invalid mongo object Id')
+		}
+	} catch (error) {
+		console.log(error.message)
+		res.status(400).send({ message: 'Bad request' })
+	}
+})
+
+
 export default route
