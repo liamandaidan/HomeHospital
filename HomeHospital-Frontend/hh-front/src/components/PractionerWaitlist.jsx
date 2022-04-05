@@ -6,17 +6,13 @@ import axios from "axios";
 export default function PractionerWaitlist({ childToParent }) {
   const [modalState, setModalState] = useState(false);
   const [selectedUser, setSelectedUser] = useState("");
-  const [selectHospital, setSelectHospital] = useState([
-    "Rockyview",
-    "Childrens",
-    "Foothills",
-  ]);
+  const [selectHospital, setSelectHospital] = useState();
 
   const [practPatientInfo, setPractPatientInfo] = useState([]);
 
   const [hospital, setHospital] = useState("none");
   //this will map our selection of hospitals
-  const Add = selectHospital.map((Add) => Add);
+  //const Add = selectHospital.map((Add) => Add.hospitalList.hospitalName);
   /**
    * This will handle the selection of a hospitals use state and set the hospital.
    * TODO -> figure out how to pass in a key value of hospital ID. I am close.
@@ -27,7 +23,7 @@ export default function PractionerWaitlist({ childToParent }) {
     console.log(selectHospital[e.target.value]);
     setHospital(selectHospital[e.target.value]);
   };
-
+  //localhost:4000/api/medicalFacility/viewFacilitiesPractitioner
 
   useEffect(() => {
     axios
@@ -39,7 +35,23 @@ export default function PractionerWaitlist({ childToParent }) {
       }
     );
   }, []);
-
+//get view
+  useEffect(() => {
+    axios
+	.get("http://localhost:4000/api/medicalFacility/viewFacilitiesPractitioner")
+	.then(
+      (response) => {
+        console.clear();
+        console.log("I AM A TEST " + response.data.hospitalList);
+        setSelectHospital(response.data.hospitalList);
+      }
+    );
+  }, []);
+  const UseFunction = (props) =>{
+    selectHospital.map((data) => {
+      console.log(data.hospitalName)
+    });
+  }
 //alert model when practitioner request to check in a user
   const AlertModal = (props) => {
     return (
@@ -116,6 +128,7 @@ export default function PractionerWaitlist({ childToParent }) {
 
   return (
     <div className="table-structure">
+      <Button onClick={UseFunction}>TEST</Button>
       <div className="select-hospital">
         <div class="form-floating">
           <select
@@ -125,11 +138,11 @@ export default function PractionerWaitlist({ childToParent }) {
             onChange={(e) => handleHospitalChange(e)}
           >
             <option selected hidden>Choose one:</option>
-            {Add.map((address, key) => (
+            {/* {Add.map((address, key) => (
               <option key={key} value={key}>
                 {address}
               </option>
-            ))}
+            ))} */}
           </select>
           <label for="floatingSelect">Select a Hospital</label>
         </div>
