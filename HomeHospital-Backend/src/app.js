@@ -3,7 +3,7 @@ import ENV from './configure/configure.js'
 import { RunApp } from './loaders/loaders.js'
 
 
-const PORT = process.env.PORT || APP_PORT
+const PORT = process.env.PORT || ENV.APP_PORT
 
 // Create Express App Instance
 const app = express()
@@ -11,7 +11,6 @@ const app = express()
 // Run the application
 try {
 	await RunApp(app)
-
 } catch (error) {
 	console.error(error.message)
   console.log('A Major error happened and the Server Stopped!')

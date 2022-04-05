@@ -1,5 +1,5 @@
 import mongoose from 'mongoose'
-import UserSchema from './user.Schema.js'
+import peopleSchema from './people.Schema.js'
 /**
  * Admin Levels
  *  3 = senior admin, can affect any admin/practitioner/patient
@@ -18,7 +18,7 @@ const administratorSchema = new mongoose.Schema({
 		required: true,
 	},
 	user: {
-		type: UserSchema,
+		type: peopleSchema,
 	},
 	email: {
 		type: String,
