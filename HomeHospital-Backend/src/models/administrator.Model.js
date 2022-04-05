@@ -34,4 +34,22 @@ const administratorSchema = new mongoose.Schema({
 	},
 })
 
+administratorSchema.methods.getAdminInfo = function () {
+	return {
+		user: this.user,
+		id: this._id,
+		email: this.email,
+		permissions: this.permissions
+	}
+}
+
+administratorSchema.methods.modifyAdmin = function (adminInfo) {
+	this.user.firstName 	= adminInfo.user.firstName
+	this.user.lastName 		= adminInfo.user.lastName
+	this.user.address 		= adminInfo.user.address
+	this.user.phoneNumber 	= adminInfo.user.phoneNumber
+	this.email 				= adminInfo.email
+	this.permissions 		= adminInfo.permissions
+}
+
 export default mongoose.model('Administrator', administratorSchema)

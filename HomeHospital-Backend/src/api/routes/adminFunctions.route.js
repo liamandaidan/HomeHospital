@@ -56,6 +56,99 @@ route.get('/adminList', async (req, res) => {
 	}
 })
 
+
+route.get('/patientInfo/:patientId', async (req, res) => {
+	try {
+		const { patientId } = req.params;
+		if (!mongoose.Types.ObjectId.isValid(patientId))
+		{
+			throw new Error("Patient Id is not valid or doesnt exist!")			
+		}
+
+		const patient = await patientModel.findById(patientId)
+		res.status(200).send(patient.getInfoForAdmin())
+	} catch (error) {
+		console.error("Error: " + error.message)
+		res.status(400).send( {message: "Patient Id is not valid or doesnt exist!"} )
+	}
+})
+
+route.get('/practitionerInfo/:practitionerId', async (req, res) => {
+	const { practitionerId } = req.params;
+
+	try {
+		if(mongoose.Types.ObjectId.isValid(practitionerId) && 
+			await practitionerModel.exists({_id: practitionerId})) {
+
+			const practitioner = await practitionerModel.findById(practitionerId);		
+			res.status(200).send(practitioner.getPractitionerInfo())
+		} else {
+			throw new Error("Invalid PractionerId!")
+		}
+	}catch(error) {
+		console.error('Error: ' + error.message)
+		res.status(406).send({message: "Failed to edit Practioner!"})
+	}
+})
+
+route.post('/modifyPractitioner', async (req, res) => {
+	const practitionerInfo = req.body;
+
+	try {
+		if(mongoose.Types.ObjectId.isValid(practitionerInfo.id) && 
+			await practitionerModel.exists({_id: practitionerInfo.id})) {
+
+			const practitioner = await practitionerModel.findById(practitionerInfo.id);
+			practitioner.modifyPractitioner(practitionerInfo)
+			practitioner.save()
+			res.status(200).send({message: "Edit Complete!"})
+		} else {
+			throw new Error("Invalid PractionerId!")
+		}
+	}catch(error) {
+		console.error('Error: ' + error.message)
+		res.status(406).send({message: "Failed to edit Practioner!"})
+	}
+})
+
+route.get('/adminInfo/:adminId', async (req, res) => {
+	const { adminId } = req.params;
+
+	try {
+		if(mongoose.Types.ObjectId.isValid(adminId) && 
+			await administratorModel.exists({_id: adminId})) {
+
+			const admin = await administratorModel.findById(adminId);		
+			res.status(200).send(admin.getAdminInfo())
+		} else {
+			throw new Error("Invalid PractionerId!")
+		}
+	}catch(error) {
+		console.error('Error: ' + error.message)
+		res.status(406).send({message: "Failed to get admin!"})
+	}
+})
+
+route.post('/modifyAdmin', async (req, res) => {
+	const adminInfo = req.body;
+
+	try {
+		if(mongoose.Types.ObjectId.isValid(adminInfo.id) && 
+			await administratorModel.exists({_id: adminInfo.id})) {
+
+			const admin = await administratorModel.findById(adminInfo.id);
+			admin.modifyAdmin(adminInfo)
+			admin.save()
+			res.status(200).send({message: "Edit Complete!"})
+		} else {
+			throw new Error("Invalid adminId!")
+		}
+	}catch(error) {
+		console.error('Error: ' + error.message)
+		res.status(406).send({message: "Failed to edit admin!"})
+	}
+})
+
 // delete patient
 route.delete('/patient', async (req, res) => {
 	try {
@@ -109,4 +202,5 @@ route.delete('/admin', async (req, res) => {
 		})
 	}
 })
+
 export default route
