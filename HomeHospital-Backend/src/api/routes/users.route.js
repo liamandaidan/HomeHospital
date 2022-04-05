@@ -29,7 +29,7 @@ route.post('/modifyPatientInfo', async (req, res) => {
 		if(mongoose.Types.ObjectId.isValid(patientId) && await patientModel.exists({_id: patientId})) {
 			const patient = await patientModel.findById(patientId);
 			patient.modifyPatient(patientInfo)
-			patient.save()
+			await patient.save()
 			res.status(200).send({message: "Edit Complete!"})
 		} else {
 			throw new Error("Invalid PatientId!")
