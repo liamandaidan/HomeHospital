@@ -39,8 +39,7 @@ administratorSchema.methods.getAdminInfo = function () {
 		user: this.user,
 		id: this._id,
 		email: this.email,
-		role: this.role,
-		facilityId: this.facilityId
+		permissions: this.permissions
 	}
 }
 
