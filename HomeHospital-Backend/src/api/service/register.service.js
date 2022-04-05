@@ -54,7 +54,7 @@ export const registerUser = async (req) => {
 	if(contactLastName)valsFromBody.push(contactLastName);
 	if(contactPhoneNumber)valsFromBody.push(contactPhoneNumber);
 	
-	//sanitize all inputs to contain only alphanumeric charcters and a few necessary punctuation marks
+	//sanitize all inputs to contain only alphanumeric charcters and a few necessary punctuation marks. Validator documentation at: https://github.com/validatorjs/validator.js#sanitizers
 
 	let sanitizedVals = []
 	valsFromBody.forEach(element => {
