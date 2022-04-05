@@ -80,19 +80,19 @@ function LoginFormPractitioner() {
    * The main feature of this is to provide login utility.
    * This will need to be changed if a practioner account differs from a patient. Right now they are the same.
    */
-  useEffect(() => {
-    axios
-      .post("http://localhost:4000/api/users/PatientInfoVisitRequest", {
-        withCredentials: true,
-      })
-      .then((response) => {
-        setLoggedIn(true);
-        navigate("/practitioner");
-      })
-      .catch((err) => {
-        setLoggedIn(false);
-      });
-  }, [loggedIn]);
+  // useEffect(() => {
+  //   axios
+  //     .post("http://localhost:4000/api/users/PatientInfoVisitRequest", {
+  //       withCredentials: true,
+  //     })
+  //     .then((response) => {
+  //       setLoggedIn(true);
+  //       navigate("/practitioner");
+  //     })
+  //     .catch((err) => {
+  //       setLoggedIn(false);
+  //     });
+  // }, [loggedIn]);
   
   /**
    * This will handle errors
@@ -128,15 +128,15 @@ function LoginFormPractitioner() {
     }
   }, [validEmail, validPassword]);
 
-  if (loggedIn === undefined || loggedIn === null) {
-    return (
-      <div className={`${classes.spinner} text-center`}>
-        <Spinner animation="border" role="status">
-          <span className="visually-hidden">Loading...</span>
-        </Spinner>
-      </div>
-    );
-  }
+  // if (loggedIn === undefined || loggedIn === null) {
+  //   return (
+  //     <div className={`${classes.spinner} text-center`}>
+  //       <Spinner animation="border" role="status">
+  //         <span className="visually-hidden">Loading...</span>
+  //       </Spinner>
+  //     </div>
+  //   );
+  // }
 
   return (
     <React.Fragment>
