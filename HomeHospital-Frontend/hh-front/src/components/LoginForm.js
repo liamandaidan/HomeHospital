@@ -190,14 +190,34 @@ function LoginForm() {
                 </Button>
               </div>
             </div>
+            <div className="footer">
+              <Row>
+                <Col className={` mt-3 ${classes.smallFont}`}>
+                  <Link to="/register">Register</Link>
+                </Col>
+                <Col className={`mt-3 ${classes.smallFont}`}>
+                  <Link className={classes.teal} to="/forget">
+                    Forgot Password
+                  </Link>
+                  <div style={{ paddingTop: "5px" }}>
+                    <Link className={classes.teal} to="/">
+                      Cancel
+                    </Link>
+                  </div>
+                </Col>
+              </Row>
+            </div>
+
+            {/* 
+            //PREVIOUS (sorry lance we can add this back later if we use it's functionality)
             <Row>
               <Col>
-                <Form.Check
+                 <Form.Check
                   className={`mt-3 ${classes.smallFont}`}
                   type="switch"
                   id="custom-switch"
                   label="Remember Me"
-                />
+                /> 
               </Col>
               <Col className={`ms-5 mt-3 ${classes.smallFont}`}>
                 <Link className={classes.teal} to="/forget">
@@ -214,7 +234,7 @@ function LoginForm() {
               <Col className={`${classes.smallFont}`}>
                 <Link to="/register">Register</Link>
               </Col>
-            </Row>
+            </Row> */}
           </div>
         </div>
       </Container>
