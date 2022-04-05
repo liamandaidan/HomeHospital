@@ -18,6 +18,7 @@ route.post('/', async (req, res) => {
 	if (email) {
 		if (typeof email != 'string') {
 			res.status(406).send({ message: 'Password update failed' })
+            return
 		}
 		if (newPass && newPassConfirm) {
 			//these parameters will only exist if user has entered a new password and confirmed
@@ -28,6 +29,7 @@ route.post('/', async (req, res) => {
 			) {
 				console.log("One or more fields isn't a string")
 				res.status(406).send({ message: 'Password update failed' })
+				return
 			}
 			let tokenEmail = jwt.verify(token, resetKey)
 			console.log('tokenEmail is: ' + tokenEmail.email)
@@ -43,10 +45,12 @@ route.post('/', async (req, res) => {
 					})
 				} else {
 					res.status(406).send({ message: 'Password update failed' })
+					return
 				}
 			} else {
 				console.log("they don't match")
 				res.status(406).send({ message: 'Password update failed' })
+				return
 			}
 		} else {
 			try {
@@ -69,10 +73,12 @@ route.post('/', async (req, res) => {
 			} catch (e) {
 				console.error(e.message)
 				res.status(406).send('Request Failed')
+				return
 			}
 		}
 	} else {
 		res.status(401).send('Information is required')
+		return
 	}
 })
 
