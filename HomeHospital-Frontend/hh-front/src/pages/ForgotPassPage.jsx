@@ -87,7 +87,6 @@ export default function ForgotPassPage() {
                   placeholder="yourName@gmail.com"
                   onBlur={validateEmail}
                   required
-                  autoFocus
                 />
                 <div className="valid-feedback"></div>
                 <div className="invalid-feedback">
