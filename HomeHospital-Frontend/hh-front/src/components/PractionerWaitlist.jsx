@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from "react";
-import { Button, Label } from "react-bootstrap";
+import { Button, Label, Modal } from "react-bootstrap";
 import PatientData from "../components/patientData.json";
 import axios from "axios";
 
 export default function PractionerWaitlist({ childToParent }) {
+  const [modalState, setModalState] = useState(false);
+  const [selectedUser, setSelectedUser] = useState("");
   const [selectHospital, setSelectHospital] = useState([
     "Rockyview",
     "Childrens",
@@ -38,6 +40,55 @@ export default function PractionerWaitlist({ childToParent }) {
     );
   }, []);
 
+//alert model when practitioner request to check in a user
+  const AlertModal = (props) => {
+    return (
+      <>
+        <Modal {...props} centered>
+          <Modal.Header className="modal-title">
+            <Modal.Title>Attention!</Modal.Title>
+          </Modal.Header>
+          <Modal.Body className="modal-content">
+            <label>Are you sure you want to check in {selectedUser} ?</label>
+          </Modal.Body>
+          <Modal.Footer className="modal-footer">
+            <div className="confirm-btn-div">
+              <Button
+                className="ack-btn"
+                variant="primary"
+                onClick={confirmCheckIn}
+              >
+                Confirm Check In
+              </Button>
+              <br />
+              <a className="cancel-lnk" onClick={props.onHide}>
+                cancel
+              </a>
+            </div>
+          </Modal.Footer>
+        </Modal>
+      </>
+    );
+  };
+
+  //check the id, display alert to confirm
+  const handleDelete = (e) => {
+    console.log("this is the id of the user to delete: " + e);
+    {
+		practPatientInfo.map((data) => {
+        if (practPatientInfo._id === e) {
+          setSelectedUser(practPatientInfo.patientFirstName);
+          setModalState(true);
+        }
+      });
+    }
+  };
+
+  //delete the user once confirmed
+  const confirmCheckIn = () => {
+    alert("Patient has been Checked in!");
+    setModalState(false);
+  };
 
   /**
    * This will be used to render table rows based off of a dummy json file i created
@@ -57,7 +108,7 @@ export default function PractionerWaitlist({ childToParent }) {
           </Button>
         </td>
         <td>
-          <Button>Check In</Button>
+          <Button onClick={(e) => handleDelete(practPatientInfo._id)}>Check In</Button>
         </td>
       </tr>
     );
@@ -97,6 +148,7 @@ export default function PractionerWaitlist({ childToParent }) {
           <tbody>{DisplayTableRows}</tbody>
         </table>
       </div>
+	<AlertModal show={modalState} onHide={() => setModalState(false)} />
     </div>
   );
 }
