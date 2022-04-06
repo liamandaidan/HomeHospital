@@ -3,6 +3,7 @@ import { Button, Label, Modal } from "react-bootstrap";
 import PatientData from "../data/patientData.json";
 import axios from "axios";
 import PractionerHospitalSelect from "./PractionerHospitalSelect";
+
 export default function PractionerWaitlist({ childToParent }) {
   const [modalState, setModalState] = useState(false);
   const [selectedUser, setSelectedUser] = useState("");
