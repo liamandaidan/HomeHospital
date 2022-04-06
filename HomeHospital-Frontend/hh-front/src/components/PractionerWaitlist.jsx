@@ -157,7 +157,7 @@ export default function PractionerWaitlist({ childToParent }) {
               <option>{data.name}</option>;
             })}
           </select> */}
-          <PractionerHospitalSelect/>
+          <PractionerHospitalSelect />
           {/* <label for="floatingSelect">Select a Hospital</label> */}
         </div>
       </div>

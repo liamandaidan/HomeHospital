@@ -24,9 +24,9 @@ export default class PractionerHospitalSelect extends Component {
       label: data.hospitalName,
     }));
     //setstate selectOptions
-    
+
     this.setState({ selectOptions: options });
-    console.log(this.state.selectOptions);
+    //console.log(this.state.selectOptions);
   }
   /**
    * On user select we will setState
@@ -43,22 +43,15 @@ export default class PractionerHospitalSelect extends Component {
   }
 
   render() {
-    /**
-     * Here we display our table rows
-     */
-    // const DisplaySelect = this.state.selectOptions.map((data) => {
-    //   return (
-    //     <option key={data._id} id={data._id} name={data.hospitalName}>
-    //      hello
-    //     </option>
-    //   );
-    // });
 
     return (
       <div>
         <Select
           onChange={this.handleSelect.bind(this)}
           options={this.state.selectOptions}
+          isSearchable={true}
+          autoFocus
+          placeholder="Select Hospital"
         ></Select>
       </div>
     );
