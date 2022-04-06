@@ -1,7 +1,9 @@
 import express from 'express'
 import ENV from './configure/configure.js'
 import { RunApp } from './loaders/loaders.js'
-import { populateWaitlists } from './api/service/populateWaitlists.service.js'
+
+
+const PORT = process.env.PORT || ENV.APP_PORT
 
 // Create Express App Instance
 const app = express()
@@ -9,7 +11,6 @@ const app = express()
 // Run the application
 try {
 	await RunApp(app)
-	// await populateWaitlists()
 } catch (error) {
 	console.error(error.message)
   console.log('A Major error happened and the Server Stopped!')
@@ -17,6 +18,6 @@ try {
 }
 
 // Set the app to listen on environment Port
-app.listen(ENV.APP_PORT, () => {
-	console.log(`🚀 Server is running on http://localhost:${ENV.APP_PORT}`)
+app.listen(PORT, () => {
+	console.log(`🚀 Server is running on http://localhost:${PORT}`)
 })
