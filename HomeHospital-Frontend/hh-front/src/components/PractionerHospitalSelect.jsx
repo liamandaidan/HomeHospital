@@ -12,34 +12,53 @@ export default class PractionerHospitalSelect extends Component {
   }
 
   async getOptions() {
+    //get all hospitals
     const res = await axios.get(
       "http://localhost:4000/api/medicalFacility/viewFacilitiesPractitioner"
     );
+    //store all data from hospital request in a list
     const info = res.data.hospitalList;
+    //options will be used to set state
     const options = info.map((data) => ({
       _id: data._id,
-      hHame: data.hospitalName,
+      hospitalName: data.hospitalName,
     }));
+    //setstate selectOptions
     this.setState({ selectOptions: options });
   }
+  /**
+   * On user select we will setState
+   * @param {*} e
+   */
   handleSelect(e) {
-    this.setState({ id: e._id, name: e.hName });
+    this.setState({ id: e._id, name: e.hospitalName });
+    alert("State is now: " + e._id + ", " + e.hospitalName);
   }
 
   componentDidMount() {
-    console.log("Mounted");
+    // console.log("Mounted");
     this.getOptions();
   }
 
   render() {
-    //console.clear();
-    console.log("here we go: " + this.state.selectOptions);
+    /**
+     * Here we display our table rows
+     */
+    const DisplaySelect = this.state.selectOptions.map((data) => {
+      return (
+        <option key={data._id} id={data._id} name={data.hospitalName}>
+          {data.hospitalName}
+        </option>
+      );
+    });
+
     return (
       <div>
-        {/* <select
-          options={this.state.selectOptions}
+         <Select
           onChange={this.handleSelect.bind(this)}
-        ></select> */}
+          options={this.state.selectOptions}
+          isClearable={true}
+        ></Select> 
       </div>
     );
   }
