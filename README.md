@@ -16,7 +16,7 @@ npm i --prefix ./HomeHospital-Frontend/hh-front/
 npm i --prefix ./WebScraper/
 </code></pre>
 
-To get the application running locally, you need to run each one of these commands in a different command shell. Start them in order, and then your web browser will with the application. 
+To get the application running locally, you need to run each one of these commands in a different command shell. Start them in order, and then your web browser will open with the application. 
 <pre><code>
 ### start backend
 npm start --prefix ./HomeHospital-Backend/
