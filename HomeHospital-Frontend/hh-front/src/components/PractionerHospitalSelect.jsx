@@ -6,8 +6,8 @@ export default class PractionerHospitalSelect extends Component {
     super(props);
     this.state = {
       selectOptions: [],
-      id: "",
-      name: "",
+      value: "",
+      label: "",
     };
   }
 
@@ -20,19 +20,21 @@ export default class PractionerHospitalSelect extends Component {
     const info = res.data.hospitalList;
     //options will be used to set state
     const options = info.map((data) => ({
-      _id: data._id,
-      hospitalName: data.hospitalName,
+      value: data._id,
+      label: data.hospitalName,
     }));
     //setstate selectOptions
+    
     this.setState({ selectOptions: options });
+    console.log(this.state.selectOptions);
   }
   /**
    * On user select we will setState
    * @param {*} e
    */
   handleSelect(e) {
-    this.setState({ id: e._id, name: e.hospitalName });
-    alert("State is now: " + e._id + ", " + e.hospitalName);
+    this.setState({ value: e.value, label: e.label });
+    //alert("State is now: " + e.value + ", " + e.label);
   }
 
   componentDidMount() {
@@ -44,21 +46,20 @@ export default class PractionerHospitalSelect extends Component {
     /**
      * Here we display our table rows
      */
-    const DisplaySelect = this.state.selectOptions.map((data) => {
-      return (
-        <option key={data._id} id={data._id} name={data.hospitalName}>
-          {data.hospitalName}
-        </option>
-      );
-    });
+    // const DisplaySelect = this.state.selectOptions.map((data) => {
+    //   return (
+    //     <option key={data._id} id={data._id} name={data.hospitalName}>
+    //      hello
+    //     </option>
+    //   );
+    // });
 
     return (
       <div>
-         <Select
+        <Select
           onChange={this.handleSelect.bind(this)}
           options={this.state.selectOptions}
-          isClearable={true}
-        ></Select> 
+        ></Select>
       </div>
     );
   }
