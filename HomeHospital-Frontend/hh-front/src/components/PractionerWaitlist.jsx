@@ -2,45 +2,28 @@ import React, { useState, useEffect } from "react";
 import { Button, Label, Modal } from "react-bootstrap";
 import PatientData from "../data/patientData.json";
 import axios from "axios";
-
+import PractionerHospitalSelect from "./PractionerHospitalSelect";
 export default function PractionerWaitlist({ childToParent }) {
   const [modalState, setModalState] = useState(false);
   const [selectedUser, setSelectedUser] = useState("");
-  const [selectHospital, setSelectHospital] = useState([
-    "Rockyview",
-    "Childrens",
-    "Foothills",
-  ]);
+
 
   const [practPatientInfo, setPractPatientInfo] = useState([]);
 
-  const [hospital, setHospital] = useState("none");
-  //this will map our selection of hospitals
-  const Add = selectHospital.map((Add) => Add);
-  /**
-   * This will handle the selection of a hospitals use state and set the hospital.
-   * TODO -> figure out how to pass in a key value of hospital ID. I am close.
-   * @param {*} e event to be passed in
-   */
-  const handleHospitalChange = (e) => {
-    console.clear();
-    console.log(selectHospital[e.target.value]);
-    setHospital(selectHospital[e.target.value]);
-  };
-
+  const [hospital, setHospital] = useState({});
 
   useEffect(() => {
     axios
-	.get("http://localhost:4000/api/requestManager/hospitalWaitList/6216f18abaa205c9cab2f608")
-	.then(
-      (response) => {
+      .get(
+        "http://localhost:4000/api/requestManager/hospitalWaitList/6216f18abaa205c9cab2f608"
+      )
+      .then((response) => {
         console.log(response.data);
-		setPractPatientInfo(response.data);
-      }
-    );
+        setPractPatientInfo(response.data);
+      });
   }, []);
 
-//alert model when practitioner request to check in a user
+  //alert model when practitioner request to check in a user
   const AlertModal = (props) => {
     return (
       <>
@@ -75,9 +58,9 @@ export default function PractionerWaitlist({ childToParent }) {
   const handleCheckIn = (e) => {
     console.log("this is the id of the user to check in: " + e);
     {
-		practPatientInfo.map((data) => {
+      practPatientInfo.map((data) => {
         if (data._id === e) {
-          setSelectedUser(data.patientFirstName +" "+ data.patientLastName);
+          setSelectedUser(data.patientFirstName + " " + data.patientLastName);
           setModalState(true);
         }
       });
@@ -118,20 +101,7 @@ export default function PractionerWaitlist({ childToParent }) {
     <div className="table-structure">
       <div className="select-hospital">
         <div class="form-floating">
-          <select
-            className="form-select"
-            id="floatingSelect"
-            aria-label="Floating label select example"
-            onChange={(e) => handleHospitalChange(e)}
-          >
-            <option selected hidden>Choose one:</option>
-            {Add.map((address, key) => (
-              <option key={key} value={key}>
-                {address}
-              </option>
-            ))}
-          </select>
-          <label for="floatingSelect">Select a Hospital</label>
+          <PractionerHospitalSelect />
         </div>
       </div>
       <div className="table-data" hidden={!(hospital !== "none")}>
@@ -148,7 +118,7 @@ export default function PractionerWaitlist({ childToParent }) {
           <tbody>{DisplayTableRows}</tbody>
         </table>
       </div>
-	<AlertModal show={modalState} onHide={() => setModalState(false)} />
+      <AlertModal show={modalState} onHide={() => setModalState(false)} />
     </div>
   );
 }
