@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Button, Label, Modal } from "react-bootstrap";
 import PatientData from "../data/patientData.json";
 import axios from "axios";
-
+import PractionerHospitalSelect from "./PractionerHospitalSelect";
 export default function PractionerWaitlist({ childToParent }) {
   const [modalState, setModalState] = useState(false);
   const [selectedUser, setSelectedUser] = useState("");
@@ -10,9 +10,8 @@ export default function PractionerWaitlist({ childToParent }) {
 
   const [practPatientInfo, setPractPatientInfo] = useState([]);
 
-  const [hospital, setHospital] = useState("none");
-  //this will map our selection of hospitals
-  const Add = selectHospital.map((Add) => Add.hospitalList.hospitalName);
+  const [hospital, setHospital] = useState({});
+
   /**
    * This will handle the selection of a hospitals use state and set the hospital.
    * TODO -> figure out how to pass in a key value of hospital ID. I am close.
@@ -44,14 +43,27 @@ export default function PractionerWaitlist({ childToParent }) {
         "http://localhost:4000/api/medicalFacility/viewFacilitiesPractitioner"
       )
       .then((response) => {
-        setSelectHospital(response.data.hospitalList);
+        const data = response.data.hospitalList;
+        const options = data.map((d) => ({
+          value: d._id,
+          name: d.hospitalName,
+        }));
+        setSelectHospital(options);
       });
   }, []);
   const UseFunction = (props) => {
     selectHospital.map((data) => {
-      console.log(data.hospitalName);
+      console.log(data.name);
     });
   };
+
+  //=====================================================
+  // const SelectItems = selectHospital.map((data) => {
+  //   return <option>Test</option>;
+  // });
+
+  //=====================================================
+
   //alert model when practitioner request to check in a user
   const AlertModal = (props) => {
     return (
@@ -131,7 +143,7 @@ export default function PractionerWaitlist({ childToParent }) {
       <Button onClick={UseFunction}>TEST</Button>
       <div className="select-hospital">
         <div class="form-floating">
-          <select
+          {/* <select
             className="form-select"
             id="floatingSelect"
             aria-label="Floating label select example"
@@ -140,12 +152,12 @@ export default function PractionerWaitlist({ childToParent }) {
             <option selected hidden>
               Choose one:
             </option>
-            {Add.map((address, key) => (
-              <option key={key} value={key}>
-                {address}
-              </option>
-            ))}
-          </select>
+            <option>Default</option>
+            {selectHospital?.map((data) => {
+              <option>{data.name}</option>;
+            })}
+          </select> */}
+          <PractionerHospitalSelect/>
           <label for="floatingSelect">Select a Hospital</label>
         </div>
       </div>
