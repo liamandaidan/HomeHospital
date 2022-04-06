@@ -12,7 +12,7 @@ export default function PractionerWaitlist({ childToParent }) {
 
   const [hospital, setHospital] = useState("none");
   //this will map our selection of hospitals
-  //const Add = selectHospital.map((Add) => Add.hospitalList.hospitalName);
+  const Add = selectHospital.map((Add) => Add.hospitalList.hospitalName);
   /**
    * This will handle the selection of a hospitals use state and set the hospital.
    * TODO -> figure out how to pass in a key value of hospital ID. I am close.
@@ -27,32 +27,32 @@ export default function PractionerWaitlist({ childToParent }) {
 
   useEffect(() => {
     axios
-	.get("http://localhost:4000/api/requestManager/hospitalWaitList/6216f18abaa205c9cab2f608")
-	.then(
-      (response) => {
+      .get(
+        "http://localhost:4000/api/requestManager/hospitalWaitList/6216f18abaa205c9cab2f608"
+      )
+      .then((response) => {
         console.log(response.data);
-		setPractPatientInfo(response.data);
-      }
-    );
+        setPractPatientInfo(response.data);
+      });
   }, []);
-//get view
+  /**
+   * This will get all hospitals from our end point and save the data into our list.
+   */
   useEffect(() => {
     axios
-	.get("http://localhost:4000/api/medicalFacility/viewFacilitiesPractitioner")
-	.then(
-      (response) => {
-        console.clear();
-        console.log("I AM A TEST " + response.data.hospitalList);
+      .get(
+        "http://localhost:4000/api/medicalFacility/viewFacilitiesPractitioner"
+      )
+      .then((response) => {
         setSelectHospital(response.data.hospitalList);
-      }
-    );
+      });
   }, []);
-  const UseFunction = (props) =>{
+  const UseFunction = (props) => {
     selectHospital.map((data) => {
-      console.log(data.hospitalName)
+      console.log(data.hospitalName);
     });
-  }
-//alert model when practitioner request to check in a user
+  };
+  //alert model when practitioner request to check in a user
   const AlertModal = (props) => {
     return (
       <>
@@ -87,9 +87,9 @@ export default function PractionerWaitlist({ childToParent }) {
   const handleCheckIn = (e) => {
     console.log("this is the id of the user to check in: " + e);
     {
-		practPatientInfo.map((data) => {
+      practPatientInfo.map((data) => {
         if (data._id === e) {
-          setSelectedUser(data.patientFirstName +" "+ data.patientLastName);
+          setSelectedUser(data.patientFirstName + " " + data.patientLastName);
           setModalState(true);
         }
       });
@@ -137,12 +137,14 @@ export default function PractionerWaitlist({ childToParent }) {
             aria-label="Floating label select example"
             onChange={(e) => handleHospitalChange(e)}
           >
-            <option selected hidden>Choose one:</option>
-            {/* {Add.map((address, key) => (
+            <option selected hidden>
+              Choose one:
+            </option>
+            {Add.map((address, key) => (
               <option key={key} value={key}>
                 {address}
               </option>
-            ))} */}
+            ))}
           </select>
           <label for="floatingSelect">Select a Hospital</label>
         </div>
@@ -161,7 +163,7 @@ export default function PractionerWaitlist({ childToParent }) {
           <tbody>{DisplayTableRows}</tbody>
         </table>
       </div>
-	<AlertModal show={modalState} onHide={() => setModalState(false)} />
+      <AlertModal show={modalState} onHide={() => setModalState(false)} />
     </div>
   );
 }
