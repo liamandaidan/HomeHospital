@@ -1,10 +1,10 @@
-import { chromium } from 'playwright'
-import MedicalFacility from '../models/medicalFacility.Model.js'
+import { firefox } from 'playwright'
+import MedicalFacility from './models/medicalFacility.model.js'
 
 export const webScraper = async () => {
 	console.log('About to WebScrape')
 	// Launch browser;
-	const browser = await chromium.launch()
+	const browser = await firefox.launch()
 
 	// Create pages, interact with UI elements, assert values
 	const page = await browser.newPage()
@@ -29,8 +29,6 @@ export const webScraper = async () => {
 	for (let i = 0; i < hospitals.name.length; i++) {
 		fullList.push({ name: hospitals.name[i], waitTime: hospitals.time[i] })
 	}
-
-	// console.log(fullList)
 
 	// Update the DB with new wait times
 	fullList.forEach(async (hospitalObj) => {
