@@ -409,7 +409,7 @@ function ManageAdmin() {
               </div>
               <div className="footer-1">
                 <Button className="createNewUser-btn" onClick={showCreate}>
-                  Create new practitioner
+                  Create new admin
                 </Button>
               </div>
             </>
@@ -433,7 +433,7 @@ function ManageAdmin() {
                         aria-describedby="permissionsHelp"
                       />
                       <Form.Text id="permissionsHelp" muted>
-                        The admin identification is an 7 digit number
+                        The admin identification is a 7 digit number
                       </Form.Text>
                     </FloatingLabel>
                     <FloatingLabel

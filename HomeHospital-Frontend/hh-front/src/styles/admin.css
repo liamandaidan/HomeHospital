@@ -208,3 +208,18 @@
   overflow-y: auto;
 }
 
+.change-btn {
+  margin-bottom: 5px;
+  color: #ffffff;
+  border-radius: 10px;
+  background-color: #7878AB;
+  border: #7878AB;
+  margin-top: 1rem;
+  width: 200px;
+}
+
+.change-btn:hover {
+  color: #1b1b1b;
+  border-radius: 10px;
+  background-color: #E7FBF6;
+}

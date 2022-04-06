@@ -81,20 +81,23 @@ function ManagePatient() {
 
   //delete the patient once confirmed
   const confirmDelete = () => {
+    const deleteRoute = "http://localhost:4000/api/admin/patient/";
 
     axios
-    .delete("http://localhost:4000/api/admin/patient", {
+    .delete( deleteRoute + selectedUser, {
       withCredentials: true,
-      patientId: selectedUser,
+      // patientId: selectedUser,
     })
     .then((response) => {
-      alert({ selectedUser } + " has been deleted!");
+      console.log({selectedUserName} + "has been deleted");
     })
     .catch((err) => {
       console.log(err);
     })
 
     setModalState(false);
+    
+
   };
 
   const closeWindow = () => {

@@ -44,6 +44,7 @@ function ManagePractitioner() {
   const [role, setRole] = useState("");
   const [facilityId, setFacilityId] = useState("");
   const [practitionerId, setPractitionerId] = useState("");
+  const [defaultHospital, setDefaultHospital] = useState("");
 
   //information for new user
   const [new_id, setNewId] = useState("");
@@ -146,6 +147,7 @@ function ManagePractitioner() {
           setCity(prac.user.address.cityName);
           setProv(prac.user.address.provName);
           setPostalCode(prac.user.address.postalCode);
+          setPractitionerId(prac.practitionerId)
         }
       });
     }
@@ -166,12 +168,12 @@ function ManagePractitioner() {
 
   //delete the user once confirmed
   const confirmDelete = () => {
-    // console.log("this is the practitioner we are deleting: " + selectedUser)
+    const deleteRoute = "http://localhost:4000/api/admin/practitioner/";
 
     axios
-    .delete("http://localhost:4000/api/admin/practitioner", {
+    .delete( deleteRoute + selectedUser, {
       withCredentials: true,
-      patientId: selectedUser,
+      // patientId: selectedUser,
     })
     .then((response) => {
       alert({ selectedUser } + " has been deleted!");
@@ -182,6 +184,43 @@ function ManagePractitioner() {
 
     setModalState(false);
   };
+
+  const confirmChanges = (idToChange) => {
+
+    console.log(idToChange);
+    console.log(firstName);
+
+    axios
+    .post("http://localhost:4000/api/admin/modifyPractitioner", {
+      withCredentials: true,
+      id: id,
+      practitionerId: practitionerId,
+      role: role,
+      user : { 
+        firstName: firstName,
+        lastName: lastName,
+        address: {
+          streetAddress: address,
+          cityName: city,
+          provName: prov,
+          postalCode: postalCode,
+        },
+        phoneNumber: phoneNum,
+      },
+      email: email,
+      facilityId: facilityId,
+    })
+    .then((response) => {
+      alert({ selectedUser } + "has been changed!");
+    })
+    .catch((err) => {
+      console.log(err);
+    })
+
+    setEditDisplay(false);
+    setUserDisplay(true);
+
+  }
 
   //show list of practitioners when you close the edit window
   const showUserList = () => {
@@ -239,18 +278,11 @@ function ManagePractitioner() {
     setUserDisplay(true);
   };
 
-  // "firstName": new_firstName,
-  // "lastName": new_lastName,
-  // "password": new_password,
-  // "email": new_email,
-  // "streetAddress": new_address,
-  // "cityName": new_city,
-  // "provName": new_prov,
-  // "postalCode": new_postalCode,
-  // "phoneNumber": new_phoneNum,
-  // "practitionerId": new_practitionerId,
-  // "role": new_role,
-  // "facilityId": new_facilityId
+  //VALIDATION
+  //validate prac id
+  const validatePractitionerId = () => {
+    
+  }
 
   //this component will show if the userType select is equal to practitioner
   //editDisplay - edit window for the selected user
@@ -268,7 +300,7 @@ function ManagePractitioner() {
           {editDisplay && (
             <>
               <div className="editUser-div">
-                <h3>User ID: {id} </h3>
+                <h3>User ID: {practitionerId} </h3>
                 <br />
                 <Form>
                   <Form.Group>
@@ -383,6 +415,29 @@ function ManagePractitioner() {
                         size="sm"
                       />
                     </FloatingLabel>
+                    <FloatingLabel
+                      label="Facility"
+                      controlId="floatingInput"
+                      className="mb-3"
+                    >
+                      <Form.Select
+                        value={facilityId}
+                        onChange={(e) => setFacilityId(e.target.value)}
+                      >
+                        {hospitals.hospitalList?.map((hospital, index) => {
+                          {hospital._id === facilityId && (
+                            <option select>{hospital.hospitalName}</option>
+                          )}
+                          return (
+                            <>     
+                            <option key={index} value={hospital._id}>
+                              {hospital.hospitalName}
+                            </option> 
+                            </>
+                          );
+                        })}
+                      </Form.Select>
+                    </FloatingLabel>
                   </Form.Group>
                   <div className="grid-div">
                     <div className="item-1">
@@ -394,6 +449,7 @@ function ManagePractitioner() {
                       </a>
                     </div>
                     <div className="confirmChange-div item-2">
+                      <Button className="change-btn" onClick={(e) => confirmChanges(id)}>Confirm changes</Button>
                       <br />
                       <a className="admin-link" onClick={showUserList}>
                         Cancel
@@ -481,11 +537,17 @@ function ManagePractitioner() {
                       className="mb-3"
                     >
                       <Form.Control
+                        onBlur={validatePractitionerId}
                         value={new_practitionerId}
                         placeholder="12345678"
                         onChange={(e) => setNewPractitionerId(e.target.value)}
                         size="sm"
+                        id="idHelp"
+                        min={7}
                       />
+                       <Form.Text id="idHelp" muted>
+                        The practitioner identification is a 7 digit number
+                      </Form.Text>
                     </FloatingLabel>
                     <FloatingLabel
                       label="First Name"
