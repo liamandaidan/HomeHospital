@@ -91,18 +91,18 @@ export const checkAccessToken = async (req, res, next) => {
 
 		if (allTokensPresent) {
 			try {
-				try {
+				// try {
 						const validAccessToken = jwt.verify(
 					accessToken,
 					ACCESSTOKEN_KEY
 				) //jwt.verify returns the entire token. By accessing valid.email, we get only the payload of the token, the user's email
-				} catch (error) {
-						console.log('Caught a crash!')
-						res.status(500).send({
-							message: 'Error in the Server!',
-						})
-						return
-				}
+				// } catch (error) {
+				// 		console.log('Caught a crash!')
+				// 		res.status(500).send({
+				// 			message: 'Error in the Server!',
+				// 		})
+				// 		return
+				// }
 			
 
 				// check to ensure that the type of user making the request is a patient

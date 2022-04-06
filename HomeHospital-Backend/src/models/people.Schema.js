@@ -2,7 +2,7 @@ import mongoose from 'mongoose'
 import addressSchema from './address.Schema.js'
 import validator from 'validator'
 
-const userSchema = new mongoose.Schema({
+const peopleSchema = new mongoose.Schema({
 	firstName: {
 		type: String,
 		required: [true,'Please enter a First Name'],
@@ -38,4 +38,4 @@ const userSchema = new mongoose.Schema({
 	_id: false,
 })
 
-export default userSchema
+export default peopleSchema

@@ -1,7 +1,5 @@
 import { ExpressLoader } from './expressLoad.js'
 import DBConnect from './database.js'
-import { webScraper } from '../webScraper/webScraper.js'
-import { refreshTime } from '../configure/cookie.configure.js'
 
 /**
  * Takes in an express App object
@@ -13,7 +11,6 @@ const RunApp = async (app) => {
 	try {
 		await DBConnect()
 		new ExpressLoader(app)
-		setInterval(webScraper, refreshTime)
 	} catch (error) {
 		console.error(error.message)
 	}
