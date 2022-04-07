@@ -381,7 +381,7 @@ function ManageAdmin() {
                     <div className="item-1">
                       <a
                         className="delete-link"
-                        onClick={(e) => handleDelete(id)}
+                        onClick={(e) => handleDelete(adminId)}
                       >
                         Delete User
                       </a>
