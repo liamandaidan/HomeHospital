@@ -2,16 +2,20 @@ import React, { useState, useEffect } from "react";
 import { Button, Label, Modal } from "react-bootstrap";
 import PatientData from "../data/patientData.json";
 import axios from "axios";
-import PractionerHospitalSelect from "./PractionerHospitalSelect";
+//import PractionerHospitalSelect from "./PractionerHospitalSelect";
+
+axios.defaults.withCredentials = true;
 
 export default function PractionerWaitlist({ childToParent }) {
   const [modalState, setModalState] = useState(false);
-  const [selectedUser, setSelectedUser] = useState("");
 
+  const [selectedUser, setSelectedUser] = useState("");
 
   const [practPatientInfo, setPractPatientInfo] = useState([]);
 
   const [hospital, setHospital] = useState({});
+
+  const [id, setId] = useState("")
 
   useEffect(() => {
     axios
@@ -68,8 +72,11 @@ export default function PractionerWaitlist({ childToParent }) {
     }
   };
 
-  //delete the user once confirmed
+  //check in the user once confirmed
   const confirmCheckIn = () => {
+	// axios.put(`http://localhost:4000/api/requestManager/completeRequest/`), {
+	// 	withCredentials: true,
+	// }
     alert("Patient has been Checked in!");
     setModalState(false);
   };
@@ -85,7 +92,7 @@ export default function PractionerWaitlist({ childToParent }) {
         <td>{data.patientLastName}</td>
         <td>
           <Button
-            value={data.id}
+            value={data._id}
             onClick={(e) => childToParent(e.target.value)}
           >
             Select
@@ -102,7 +109,7 @@ export default function PractionerWaitlist({ childToParent }) {
     <div className="table-structure">
       <div className="select-hospital">
         <div class="form-floating">
-          <PractionerHospitalSelect />
+          {/* <PractionerHospitalSelect /> */}
         </div>
       </div>
       <div className="table-data" hidden={!(hospital !== "none")}>

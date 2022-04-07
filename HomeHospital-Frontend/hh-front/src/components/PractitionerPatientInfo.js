@@ -7,9 +7,8 @@ import Col from "react-bootstrap/Col";
 import Container from "react-bootstrap/Container";
 import "../styles/SymptomForm.css";
 import "../styles/PractionerStyles.css";
-import patientData2 from "../components/TempVisitRequest.json";
 import axios from "axios";
-import { HomeHospitalContext } from "./HomeHospitalContext";
+
 
 export class PractitionerPatientInfo extends Component {
 	state = {
