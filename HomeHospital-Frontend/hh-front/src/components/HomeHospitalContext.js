@@ -10,6 +10,7 @@ export const HomeHospitalProvider = (props) => {
   const [longitude, setLongitude] = useState();
   const [requestId, setRequestId] = useState();
   const [regSuccess, setRegSuccess] = useState(false);
+  const [requestButtonOn, setRequestButtonOn] = useState(false);
 
   return (
     <HomeHospitalContext.Provider
@@ -21,6 +22,7 @@ export const HomeHospitalProvider = (props) => {
         requestId: [requestId, setRequestId],
         isCurrentRequest: [isCurrentRequest, setIsCurrentRequest],
         regSuccess: [regSuccess, setRegSuccess],
+        requestButtonOn: [requestButtonOn, setRequestButtonOn],
       }}
     >
       {props.children}

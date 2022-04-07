@@ -16,9 +16,10 @@ function UserHomeVisitsDisplay() {
   const navigate = useNavigate();
 
   // useContext to get new Request value
-  const { newRequest, requestId, isCurrentRequest } =
+  const { newRequest, requestId, isCurrentRequest, requestButtonOn } =
     useContext(HomeHospitalContext);
   const [newRequestValue, setNewRequestValue] = newRequest;
+  const [reqButton, setReqButton] = requestButtonOn;
   const [requestIdValue, setRequestIdValue] = requestId;
   const [isCurrent, setIsCurrent] = isCurrentRequest;
 
@@ -41,6 +42,7 @@ function UserHomeVisitsDisplay() {
         // console.log(response.data.request);
         if (response.status === 200) {
           console.log("200 Success!");
+          console.log(response.data);
           setVisitList(response.data);
           setSpinner(false);
         }
@@ -64,11 +66,13 @@ function UserHomeVisitsDisplay() {
           console.log(response.data);
           setCurrentList(response.data);
           setCurrentSpinner(false);
+          setReqButton(false);
         }
       })
       .catch((err) => {
         setNoCurrent(true);
         setCurrentSpinner(false);
+        setReqButton(true);
         console.log(err);
       });
   }
@@ -113,6 +117,7 @@ function UserHomeVisitsDisplay() {
           setIsCurrent(false);
           setNoCurrent(true);
           setModalState(false);
+          setReqButton(false);
         }
       })
       .catch((err) => {
@@ -204,7 +209,9 @@ function UserHomeVisitsDisplay() {
                     <th>Date</th>
                     <th>Reason</th>
                     <th>Location</th>
-                    <th>Request</th>
+                    <th>Time</th>
+                    <th className="text-center">Cancel</th>
+                    <th className="text-center">View</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -215,8 +222,9 @@ function UserHomeVisitsDisplay() {
                         "dddd, MMMM Do YYYY"
                       )}
                     </td>
-                    <td>Emergency Room currentList</td>
+                    <td>Emergency Room Visit</td>
                     <td>{currentList.requestHospitalName}</td>
+                    <td>{currentList.waitListTime}</td>
                     <td className="text-center">
                       <Button
                         variant="link"
@@ -225,6 +233,8 @@ function UserHomeVisitsDisplay() {
                       >
                         cancel request
                       </Button>
+                    </td>
+                    <td>
                       <Button
                         variant="link"
                         className="newRequest-btn"
@@ -271,21 +281,31 @@ function UserHomeVisitsDisplay() {
                     <th>Date</th>
                     <th>Reason</th>
                     <th>Location</th>
-                    <th>Cancel</th>
+                    <th className="text-center">Status</th>
+                    <th className="text-center">View</th>
                   </tr>
                 </thead>
                 <tbody>
                   {visitList.map((visit, index) => (
-                    <tr
-                      key={index}
-                      onClick={() => handlePastRequest(visit._id)}
-                    >
+                    <tr key={index}>
                       <td>{index + 1}</td>
                       <td>
-                        {moment(visit.dateTime).format("dddd, MMMM Do YYYY")}
+                        {moment(visit.request.dateTime).format(
+                          "dddd, MMMM Do YYYY"
+                        )}
                       </td>
                       <td>Emergency Room Visit</td>
-                      <td>{visit.requestHospitalName}</td>
+                      <td>{visit.request.requestHospitalName}</td>
+                      <td className="text-success text-center">Complete</td>
+                      <td className="text-center">
+                        <Button
+                          variant="link"
+                          className="newRequest-btn"
+                          onClick={() => handlePastRequest(visit._id)}
+                        >
+                          view request
+                        </Button>
+                      </td>
                     </tr>
                   ))}
                 </tbody>

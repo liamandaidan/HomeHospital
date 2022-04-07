@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import {
   Navbar,
   Container,
@@ -10,13 +10,15 @@ import classes from "./UserNavBar.module.css";
 import avatar from "../images/profilepicture.png";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import { HomeHospitalContext } from "./HomeHospitalContext";
 
 axios.defaults.withCredentials = true;
 
 function UserNavBar() {
   let navigate = useNavigate();
+  const { requestButtonOn } = useContext(HomeHospitalContext);
 
-  const [currentRequestExist, setCurrentRequestExist] = useState(false);
+  const [currentRequestExist, setCurrentRequestExist] = requestButtonOn;
   const [userName, setUserName] = useState();
 
   function requestPage() {
@@ -118,7 +120,7 @@ function UserNavBar() {
             <Nav.Link onClick={handleHome} className="ms-5">
               Home
             </Nav.Link>
-            {!currentRequestExist && (
+            {currentRequestExist && (
               <Nav.Link onClick={requestPage}>Requests</Nav.Link>
             )}
           </Nav>
