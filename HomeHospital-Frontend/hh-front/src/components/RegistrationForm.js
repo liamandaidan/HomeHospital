@@ -225,7 +225,7 @@ function RegistrationForm() {
   }
 
   function validatePassword() {
-    if (passwordValue.length > 9) {
+    if (passwordValue.length > 7) {
       document.getElementById("password").classList.add("is-valid");
       document.getElementById("password").classList.remove("is-invalid");
     } else {
@@ -650,7 +650,7 @@ function RegistrationForm() {
             />
             <div className="valid-feedback">Looks good!</div>
             <div className="invalid-feedback">
-              Password must be minimum of 10 characters
+              Password must be minimum of 8 characters
             </div>
           </div>
           <div>
