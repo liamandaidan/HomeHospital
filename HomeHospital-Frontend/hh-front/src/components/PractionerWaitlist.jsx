@@ -2,19 +2,15 @@ import React, { useState, useEffect } from "react";
 import { Button, Label, Modal } from "react-bootstrap";
 import PatientData from "../data/patientData.json";
 import axios from "axios";
-//import PractionerHospitalSelect from "./PractionerHospitalSelect";
+import PractionerHospitalSelect from "./PractionerHospitalSelect";
 
 axios.defaults.withCredentials = true;
 
 export default function PractionerWaitlist({ childToParent }) {
   const [modalState, setModalState] = useState(false);
-
   const [selectedUser, setSelectedUser] = useState("");
-
   const [practPatientInfo, setPractPatientInfo] = useState([]);
-
   const [hospital, setHospital] = useState({});
-
   const [id, setId] = useState("")
 
   useEffect(() => {
@@ -109,7 +105,7 @@ export default function PractionerWaitlist({ childToParent }) {
     <div className="table-structure">
       <div className="select-hospital">
         <div class="form-floating">
-          {/* <PractionerHospitalSelect /> */}
+           <PractionerHospitalSelect /> 
         </div>
       </div>
       <div className="table-data" hidden={!(hospital !== "none")}>
