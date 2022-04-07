@@ -136,7 +136,7 @@ function ManagePractitioner() {
     setUserDisplay(false);
     setEditDisplay(true);
     setCreateDisplay(false);
-
+    
     {
       practitionerList.map((prac) => {
         console.log(prac._id);
@@ -191,8 +191,9 @@ function ManagePractitioner() {
 
   const confirmChanges = (idToChange) => {
 
-    console.log(idToChange);
-    console.log(firstName);
+    // console.log(idToChange);
+    // console.log(firstName);
+
 
     axios
     .post("http://localhost:4000/api/admin/modifyPractitioner", {

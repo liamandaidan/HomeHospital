@@ -16,6 +16,7 @@ axios.defaults.withCredentials = true;
 function ManageAdmin() {
   const [modalState, setModalState] = useState(false);
   const [selectedUser, setSelectedUser] = useState("");
+  const [selectedUserName, setSelectedUserName] = useState("");
   const [editDisplay, setEditDisplay] = useState(false);
   const [userDisplay, setUserDisplay] = useState(true);
   const [createDisplay, setCreateDisplay] = useState(false);
@@ -33,7 +34,7 @@ function ManageAdmin() {
   const [id, setId] = useState("");
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
-  const [password, setPasword] = useState("");
+  // const [password, setPassword] = useState("");
   const [email, setEmail] = useState("");
   const [address, setAddress] = useState("");
   const [city, setCity] = useState("");
@@ -44,7 +45,7 @@ function ManageAdmin() {
   const [permissionLevel, setPermissionLevel] = useState("");
 
   //information for new user
-  const [new_role, setNewRole] = useState("");
+
   const [new_firstName, setNewFirstName] = useState("");
   const [new_lastName, setNewLastName] = useState("");
   const [new_password, setNewPassword] = useState("");
@@ -80,7 +81,7 @@ function ManageAdmin() {
             <Modal.Title>Attention!</Modal.Title>
           </Modal.Header>
           <Modal.Body className="modal-content">
-            <label>Are you sure you want to delete {selectedUser} ?</label>
+            <label>Are you sure you want to delete {selectedUserName} ?</label>
           </Modal.Body>
           <Modal.Footer className="modal-footer">
             <div className="confirm-btn-div">
@@ -109,20 +110,19 @@ function ManageAdmin() {
 
     {
       adminLlist.map((admin) => {
-        console.log("this is the permission level: " + admin.permissionLevel);
         if (admin.adminId === e) {
           setAdminId(admin.adminId);
           setFirstName(admin.user.firstName);
           setLastName(admin.user.lastName);
-          setPasword(admin.password);
           setEmail(admin.email);
           setPhoneNum(admin.user.phoneNumber);
           setAddress(admin.user.address.streetAddress);
           setCity(admin.user.address.cityName);
           setProv(admin.user.address.provName);
           setPostalCode(admin.user.address.postalCode);
-          setPermissionLevel(admin.permissionLevel);
+          setPermissionLevel(admin.permissions);
           setId(admin._id);
+          
         }
       });
     }
@@ -130,10 +130,13 @@ function ManageAdmin() {
 
   //this will be called once the user selects delete beside the practitioner
   const handleDelete = (e) => {
+    console.log("We made it into the handle delete!" + e)
     {
       adminLlist.map((admin) => {
+        console.log("this is the admin " + admin._id)
         if (admin.adminId === e) {
-          setSelectedUser(admin.user.firstName);
+          setSelectedUser(admin._id);
+          setSelectedUserName(admin.user.firstName);
           setModalState(true);
         }
       });
@@ -142,16 +145,27 @@ function ManageAdmin() {
 
   //delete the user once confirmed
   const confirmDelete = () => {
-    alert({ selectedUser } + " has been deleted!");
-    setModalState(false);
+    const deleteRoute = "http://localhost:4000/api/admin/admin/";
+
+    axios
+    .delete( deleteRoute + selectedUser, {
+      withCredentials: true,
+    })
+    .then((response) => {
+      alert({ selectedUser } + " has been deleted!");
+    })
+    .catch((err) => {
+      console.log(err);
+    })
+
+    setModalState(false)
   };
 
-  //show list of practitioners when you close the edit window
+  //show list of admins when you close the edit window
   const showUserList = () => {
     setAdminId("");
     setNewFirstName("");
     setNewLastName("");
-    setNewPassword("");
     setNewEmail("");
     setNewAddress("");
     setNewCity("");
@@ -235,17 +249,7 @@ function ManageAdmin() {
     setUserDisplay(true);
 
   }
-  //   "firstName": "Ben",
-  //   "lastName": "Davis",
-  //   "password": "password",
-  //   "email": "b.davis_117@hotmail.ca",
-  //   "streetAddress": "1 raymond street",
-  //   "cityName": "Calgary",
-  //   "provName": "AB",
-  //   "postalCode": "H0H0H0",
-  //   "phoneNumber": "111-444-5555",
-  //   "adminId": "1234567",
-  //   "permissionLevel": "3"
+
 
   //this component will show if the userType select is equal to practitioner
   //editDisplay - edit window for the selected user
@@ -277,7 +281,10 @@ function ManageAdmin() {
                         onChange={(e) => setPermissionLevel(e.target.value)}
                         size="sm"
                       >
-                        {/* {permissionLevel === "1"} */}
+                        <option select>{permissionLevel}</option>
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
 
                       </Form.Select>
                     </FloatingLabel>
