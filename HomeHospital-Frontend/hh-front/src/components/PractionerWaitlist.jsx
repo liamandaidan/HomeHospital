@@ -66,7 +66,7 @@ export default function PractionerWaitlist({ childToParent }) {
       practPatientInfo.map((data) => {
         if (data._id === e) {
           setSelectedUser(data.patientFirstName + " " + data.patientLastName);
-		  setId(e);
+		      setId(e);
           setModalState(true);
         }
       });
@@ -75,9 +75,9 @@ export default function PractionerWaitlist({ childToParent }) {
 
   //check in the user once confirmed
   const confirmCheckIn = () => {
-	axios.put('http://localhost:4000/api/requestManager/completeRequest', {
+	axios.put("http://localhost:4000/api/requestManager/completeRequest", {
 		withCredentials: true,
-		patientId: id
+		_id: id,
 	})
 	.then((response) => {
         response.setModalState(false);
