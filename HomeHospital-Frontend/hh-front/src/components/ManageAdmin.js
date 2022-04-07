@@ -122,6 +122,7 @@ function ManageAdmin() {
           setProv(admin.user.address.provName);
           setPostalCode(admin.user.address.postalCode);
           setPermissionLevel(admin.permissionLevel);
+          setId(admin._id);
         }
       });
     }
@@ -198,7 +199,42 @@ function ManageAdmin() {
     setCreateDisplay(false);
     setUserDisplay(true);
   };
+  
+  const confirmChanges = (idToChange) => {
 
+    console.log(idToChange);
+    console.log(firstName);
+
+    axios
+    .post("http://localhost:4000/api/admin/modifyAdmin", {
+      withCredentials: true,
+      id: id,
+      adminId: adminId,
+      permissions: permissionLevel,
+      user : { 
+        firstName: firstName,
+        lastName: lastName,
+        address: {
+          streetAddress: address,
+          cityName: city,
+          provName: prov,
+          postalCode: postalCode,
+        },
+        phoneNumber: phoneNum,
+      },
+      email: email,
+    })
+    .then((response) => {
+      alert({ selectedUser } + "has been changed!");
+    })
+    .catch((err) => {
+      console.log(err);
+    })
+
+    setEditDisplay(false);
+    setUserDisplay(true);
+
+  }
   //   "firstName": "Ben",
   //   "lastName": "Davis",
   //   "password": "password",
@@ -241,17 +277,8 @@ function ManageAdmin() {
                         onChange={(e) => setPermissionLevel(e.target.value)}
                         size="sm"
                       >
-                        {permissionLevel === "1" ? (
-                          <>
-                            <option>2</option>
-                            <option>3</option>
-                          </>
-                        ) : (
-                          <>
-                            <option>1</option>
-                            <option>3</option>
-                          </>
-                        )}
+                        {/* {permissionLevel === "1"} */}
+
                       </Form.Select>
                     </FloatingLabel>
                     <FloatingLabel
@@ -353,6 +380,7 @@ function ManageAdmin() {
                       </a>
                     </div>
                     <div className="confirmChange-div item-2">
+                      <Button onClick={(e) => confirmChanges(id)} className="change-btn">Confirm changes</Button>
                       <br />
                       <a className="admin-link" onClick={showUserList}>
                         Cancel
@@ -574,8 +602,9 @@ function ManageAdmin() {
                     >
                       <Form.Control
                         value={new_password}
-                        placeholder="Minimum 10 characters"
-                        minLength={10}
+                        placeholder="Minimum 8 characters"
+                        minLength={8}
+                        maxLength={20}
                         onChange={(e) => setNewPassword(e.target.value)}
                         size="sm"
                         aria-describedby="passwordHelp"
