@@ -1,0 +1,45 @@
+[
+    {
+        "_id:": "0001",
+        "firstName": "jane",
+        "lastName": "blow",
+        "email": "janeblow@gmail.com",
+        "streetAddress": "1 raymond street",
+        "cityName": "Calgary",
+        "provName": "AB",
+        "postalCode": "H0H0H0",
+        "phoneNumber": "1114445555",
+        "HCnumber": "4444-44444",
+        "gender": "Female",
+        "dateOfBirth": "1970-03-03"
+    },
+    {
+        "_id:": "0002",
+        "firstName": "jane",
+        "lastName": "blow",
+        "email": "janeblow@gmail.com",
+        "streetAddress": "1 raymond street",
+        "cityName": "Calgary",
+        "provName": "AB",
+        "postalCode": "H0H0H0",
+        "phoneNumber": "1114445555",
+        "HCnumber": "4444-44444",
+        "gender": "Female",
+        "dateOfBirth": "1970-03-03"
+    }, 
+    {
+        "_id:": "0003",
+        "password": "password",
+        "firstName": "jane",
+        "lastName": "blow",
+        "email": "janeblow@gmail.com",
+        "streetAddress": "1 raymond street",
+        "cityName": "Calgary",
+        "provName": "AB",
+        "postalCode": "H0H0H0",
+        "phoneNumber": "1114445555",
+        "HCnumber": "4444-44444",
+        "gender": "Female",
+        "dateOfBirth": "1970-03-03"
+    }
+]

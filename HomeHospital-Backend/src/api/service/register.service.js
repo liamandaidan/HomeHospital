@@ -218,6 +218,8 @@ export const registerAdministrator = async (req) => {
 	} = req.body
 
 	let valsFromBody = [firstName, lastName, email, password, streetAddress, cityName, provName, postalCode, adminId, permissionLevel, phoneNumber];
+	console.log('adminId Type: ' + typeof adminId)
+		console.log('permission Type: ' + typeof permissionLevel)
 	if(valsFromBody.includes(undefined) || valsFromBody.includes(null) || valsFromBody.includes("")) {
 		console.log("Detected a missing field in registerPractitioner");
 		return (regStatus.status = false)

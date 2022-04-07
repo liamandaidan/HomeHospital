@@ -96,6 +96,7 @@ export const logAdministratorIn = async (req, res, next) => {
 			} else {
 				req.adminId = administrator.adminId
 				res.locals.adminId = administrator.id
+				console.log('From the login '  + req.adminPermission)
 				next();
 			}
 			

@@ -9,7 +9,7 @@ const medicalFacility = new mongoose.Schema({
 	},
 	address: {
 		type: addressSchema,
-		required: [true,'An Address is required'],
+		required: [true, 'An Address is required'],
 	},
 	latitude: {
 		type: Number,
@@ -22,10 +22,10 @@ const medicalFacility = new mongoose.Schema({
 	phoneNumber: {
 		type: String,
 		default: null,
-		validate:[
-			{			
-			validator: (value) => validator.isMobilePhone(value, ['en-CA']),	
-			msg: 'Please Enter A Canadian Number',	
+		validate: [
+			{
+				validator: (value) => validator.isMobilePhone(value, ['en-CA']),
+				msg: 'Please Enter A Canadian Number',
 			},
 		],
 	},
@@ -35,7 +35,7 @@ const medicalFacility = new mongoose.Schema({
 	},
 	hospitalDesc: {
 		type: String,
-		maxlength: [100,'Maximum Length is 100'],
+		maxlength: [100, 'Maximum Length is 100'],
 		defult: null,
 	},
 	practitioners: {
@@ -110,7 +110,6 @@ medicalFacility.methods.findIndexInWaitList = function (requestId) {
 
 			//TODO: Check this out, it shouldn't work, but it does.. who knows?
 			if (this.waitList[i].toString() == requestId.toString()) {
-				
 				return i
 			}
 		}
@@ -133,19 +132,5 @@ medicalFacility.methods.moveWaitListPosition = function (requestId, position) {
 		console.log(error.message)
 	}
 }
-
-// // insert a request at a specific index in the waitList
-// medicalFacility.methods.insertIntoWaitList = function (requestId, position) {
-// 	try {
-// 		if(position  >= 0 && position < this.waitList.length ){
-// 			this.waitList.splice(position, 0, requestId)
-// 		} else {
-// 			throw new Error('Position outside of Index range')
-// 		}
-
-// 	} catch (error) {
-// 		console.log(error.message)
-// 	}
-// }
 
 export default mongoose.model('MedicalFacility', medicalFacility)

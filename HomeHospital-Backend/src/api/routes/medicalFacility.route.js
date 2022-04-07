@@ -1,11 +1,18 @@
 import express from 'express' // Creates Router
 import MedicalFacility from '../../models/medicalFacility.Model.js'
+import { checkAccessToken } from '../service/token.service.js'
+import { checkEmployeeAccessToken } from '../service/employee.token.service.js'
+import {
+	checkMayAccessAdminPage,
+	checkMayAccessPractitionerPage,
+} from '../service/authorization.service.js'
+import { getHospitalList } from '../service/getHospitalList.service.js'
 
 const route = express.Router()
 
 // Used to created a new medical facility
 // This was just used to manually enter a new facility
-route.post('/newFacility', async (req, res) => {
+route.post('/newFacility', checkMayAccessAdminPage, async (req, res) => {
 	const {
 		hospitalName,
 		streetAddress,
@@ -67,28 +74,32 @@ route.post('/newFacility', async (req, res) => {
 })
 
 // Get a list of all of the hospitals with their wait times
-route.get('/viewFacilities', async (req, res) => {
-	try {
-		// Fetch the list of hospitals from the database without the list of practitioners or V number
-		const hospitalList = await MedicalFacility.find()
-			.select({
-				practitioners: 0,
-				__v: 0,
-				waitList: 0,
-			})
-			.exec()
-
-		// console.log(hospitalList)
-		// Sent the user an array of objects containing the hospitals and info
-		res.status(200).send({
-			message: 'Successful Request',
-			hospitalList: hospitalList,
-		})
-	} catch (error) {
-		console.log(error)
-		res.status(400).send({ message: 'Error in the request' })
-	}
+// From the patient view
+route.get('/viewFacilities', checkAccessToken, async (req, res) => {
+	getHospitalList(res)
+	return
 })
+
+// get the list from the pracitioner view
+route.get(
+	'/viewFacilitiesPractitioner',
+	checkEmployeeAccessToken,
+	checkMayAccessPractitionerPage,
+	async (req, res) => {
+		getHospitalList(res)
+		return
+	}
+)
+//get the list from the admin view
+route.get(
+	'/viewFacilitiesAdmin',
+	checkEmployeeAccessToken,
+	checkMayAccessAdminPage,
+	async (req, res) => {
+		getHospitalList(res)
+		return
+	}
+)
 
 // export this route
 export default route
