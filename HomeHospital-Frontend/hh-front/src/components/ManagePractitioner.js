@@ -63,12 +63,17 @@ function ManagePractitioner() {
 
   const [hospitals, setHospitals] = useState([]);
 
-  // console.log(
-  //   "Just testing - this is the entered role: " +
-  //     new_role +
-  //     " and this is the facility id: " +
-  //     new_facilityId
-  // );
+  //form validation
+  const [validNameValue, setValidNameValue] = useState(false);
+  const [validAddressValue, setValidAddressValue] = useState(false);
+  const [validCityValue, setValidCityValue] = useState(false);
+  const [validPostalValue, setValidPostalValue] = useState(false);
+  const [validPhoneValue, setValidPhoneValue] = useState(false);
+  const [validEmailValue, setValidEmailValue] = useState(false);
+  const [validPasswordValue, setValidPasswordValue] = useState(false);
+  const [validClientFormValue, setValidClientFormValue] = useState(false);
+  const [resetAllFormValue] = useState(false);
+
 
   //get the list of hospitals
   useEffect(() => {
@@ -173,7 +178,6 @@ function ManagePractitioner() {
     axios
     .delete( deleteRoute + selectedUser, {
       withCredentials: true,
-      // patientId: selectedUser,
     })
     .then((response) => {
       alert({ selectedUser } + " has been deleted!");
@@ -278,11 +282,133 @@ function ManagePractitioner() {
     setUserDisplay(true);
   };
 
-  //VALIDATION
-  //validate prac id
-  const validatePractitionerId = () => {
-    
+  // check if the form is valid
+  useEffect(() => {
+    if (
+      validNameValue &&
+      validAddressValue &&
+      validCityValue &&
+      validPostalValue &&
+      validPhoneValue &&
+      validEmailValue 
+    ) {
+      setValidClientFormValue(true);
+    } else {
+      setValidClientFormValue(false);
+    }
+  }, [
+    validNameValue,
+    validAddressValue,
+    validCityValue,
+    validPostalValue,
+    validPhoneValue,
+    validEmailValue,
+    setValidClientFormValue,
+    validClientFormValue,
+  ]);
+
+  function validateFirstName() {
+    const symbols = /[`!@#$%^&*()_+\-=[]{};':"\|,.<>\?~]/;
+    const namePattern = new RegExp(symbols);
+    const isName = isNaN(new_firstName);
+    if (
+      isName === false ||
+      new_firstName === "" ||
+      new_firstName === undefined
+    ) {
+      console.log("the first name is empty!");
+      setValidNameValue(false);
+    } else if (namePattern.test(new_firstName)) {
+      console.log("the first name isnt valid!");
+      setValidNameValue(false);
+    } else {
+      console.log("the first name is good!");
+      setValidNameValue(true);
+    }
   }
+
+  function validateLastName() {
+    const symbols = /[`!@#$%^&*()_+\-=[]{};':"\|,.<>\?~]/;
+    const namePattern = new RegExp(symbols);
+    const isName = isNaN(new_lastName);
+    if (
+      isName === false ||
+      new_lastName === "" ||
+      new_lastName === undefined
+    ) {
+      console.log("last name is good!");
+      setValidNameValue(false);
+    } else if (namePattern.test(new_lastName)) {
+      setValidNameValue(false);
+    } else {
+      setValidNameValue(true);
+    }
+  }
+
+  function validateAddress() {
+    const pattern = new RegExp("^[a-zA-Z0-9- ]+$");
+    if (new_address === "" || new_address === undefined) {
+
+      setValidAddressValue(false);
+    } else if (pattern.test(new_address)) {
+
+      setValidAddressValue(true);
+    } else {
+
+      setValidAddressValue(false);
+    }
+  }
+
+  function validateCity() {
+    const pattern = new RegExp("^[a-zA-Z0-9- ]+$");
+    if (new_city === "" || new_city === undefined) {
+
+      setValidCityValue(false);
+    } else if (pattern.test(new_city)) {
+
+      setValidCityValue(true);
+    } else {
+
+      setValidCityValue(false);
+    }
+  }
+
+  function validatePostalCode() {
+    const pattern = new RegExp("^[a-zA-Z][0-9][a-zA-Z][0-9][a-zA-Z][0-9]$");
+    if (pattern.test(new_postalCode)) {
+  
+      setValidPostalValue(true);
+    } else {
+
+      setValidPostalValue(false);
+    }
+  }
+
+  function validatePhone() {
+    // Regex found here https://stackoverflow.com/questions/9776231/regular-expression-to-validate-us-phone-numbers
+    const pattern = new RegExp("^[0-9]{3}-[0-9]{3}-[0-9]{4}$");
+    if (pattern.test(new_phoneNum)) {
+
+      setValidPhoneValue(true);
+    } else {
+
+      setValidPhoneValue(false);
+    }
+  }
+
+  function validateEmail() {
+    const pattern = new RegExp(
+      "([!#-'*+/-9=?A-Z^-~-]+(.[!#-'*+/-9=?A-Z^-~-]+)*|\"([]!#-[^-~ \t]|(\\[\t -~]))+\")@([!#-'*+/-9=?A-Z^-~-]+(.[!#-'*+/-9=?A-Z^-~-]+)*|[[\t -Z^-~]*])"
+    );
+    if (pattern.test(new_email)) {
+ 
+      setValidEmailValue(true);
+    } else {
+
+      setValidEmailValue(false);
+    }
+  }
+
 
   //this component will show if the userType select is equal to practitioner
   //editDisplay - edit window for the selected user
@@ -336,7 +462,7 @@ function ManagePractitioner() {
                         value={firstName}
                         onChange={(e) => setFirstName(e.target.value)}
                         size="sm"
-                      />
+                      />  
                     </FloatingLabel>
                     <FloatingLabel
                       label="Last Name"
@@ -532,17 +658,17 @@ function ManagePractitioner() {
                       </Form.Select>
                     </FloatingLabel>
                     <FloatingLabel
+                      required
                       label="Practitioner Id"
-                      controlId="floatingInput"
+                      controlId="floatingInput idHelp"
                       className="mb-3"
                     >
                       <Form.Control
-                        onBlur={validatePractitionerId}
                         value={new_practitionerId}
                         placeholder="12345678"
+                        pattern="[0-9]"
                         onChange={(e) => setNewPractitionerId(e.target.value)}
                         size="sm"
-                        id="idHelp"
                         min={7}
                       />
                        <Form.Text id="idHelp" muted>
@@ -555,11 +681,13 @@ function ManagePractitioner() {
                       className="mb-3"
                     >
                       <Form.Control
+                        onBlur={validateFirstName}
                         value={new_firstName}
                         pattern="[A-Za-z- ]+"
                         placeholder="John"
                         onChange={(e) => setNewFirstName(e.target.value)}
                         size="sm"
+                        required
                       />
                     </FloatingLabel>
                     <FloatingLabel
@@ -568,11 +696,13 @@ function ManagePractitioner() {
                       className="mb-3"
                     >
                       <Form.Control
+                        onBlur={validateLastName}
                         value={new_lastName}
                         pattern="[A-Za-z- ]+"
                         placeholder="Smith"
                         onChange={(e) => setNewLastName(e.target.value)}
                         size="sm"
+                        required
                       />
                     </FloatingLabel>
                     <FloatingLabel
@@ -581,11 +711,13 @@ function ManagePractitioner() {
                       className="mb-3"
                     >
                       <Form.Control
+                        onBlur={validateEmail}
                         value={new_email}
                         placeholder="smith@email.com"
                         pattern="^[a-zA-Z0-9_.-]+@[a-zA-Z]+[\.][a-zA-Z]{2,}$"
                         onChange={(e) => setNewEmail(e.target.value)}
                         size="sm"
+                        required
                       />
                     </FloatingLabel>
                     <FloatingLabel
@@ -594,11 +726,13 @@ function ManagePractitioner() {
                       className="mb-3"
                     >
                       <Form.Control
+                        onBlur={validatePhone}
                         value={new_phoneNum}
                         onChange={(e) => setNewPhoneNum(e.target.value)}
                         placeholder="123-456-1234"
                         pattern="\d{3}[\-]\d{3}[\-]\d{4}"
                         size="sm"
+                        required
                       />
                     </FloatingLabel>
                     <FloatingLabel
@@ -607,11 +741,13 @@ function ManagePractitioner() {
                       className="mb-3"
                     >
                       <Form.Control
+                        onBlur={validateAddress}
                         value={new_address}
                         pattern="^[a-zA-Z0-9- ]+$"
                         placeholder="123 Street"
                         onChange={(e) => setNewAddress(e.target.value)}
                         size="sm"
+                        required
                       />
                     </FloatingLabel>
                     <FloatingLabel
@@ -620,11 +756,13 @@ function ManagePractitioner() {
                       className="mb-3"
                     >
                       <Form.Control
+                        onBlur={validateCity}
                         value={new_city}
                         pattern="^[a-zA-Z]+$"
                         placeholder="City name"
                         onChange={(e) => setNewCity(e.target.value)}
                         size="sm"
+                        required
                       />
                     </FloatingLabel>
                     <FloatingLabel
@@ -658,11 +796,13 @@ function ManagePractitioner() {
                       className="mb-3"
                     >
                       <Form.Control
+                        onBlur={validatePostalCode}
                         value={new_postalCode}
                         placeholder="L9L9L9"
                         pattern="[a-zA-Z][0-9][a-zA-Z][0-9][a-zA-Z][0-9]"
                         onChange={(e) => setNewPostalCode(e.target.value)}
                         size="sm"
+                        required
                       />
                     </FloatingLabel>
                     <FloatingLabel
@@ -694,12 +834,14 @@ function ManagePractitioner() {
                         minLength={10}
                         onChange={(e) => setNewPassword(e.target.value)}
                         size="sm"
+                        required
                       />
                     </FloatingLabel>
                   </Form.Group>
                   <div className="grid-div">
                     <div className="confirmChange-div item-2">
                       <Button
+                        disabled={!validClientFormValue}
                         className="confirmChange-btn"
                         onClick={createUser}
                       >
