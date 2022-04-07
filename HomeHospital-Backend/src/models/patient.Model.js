@@ -28,6 +28,7 @@ const patientSchema = new mongoose.Schema({
 	},
 	dateOfBirth: {
 		type: Date,
+		max:[Date.now(), 'Please enter a valid Date, not in the future'],
 		required: [true, 'Please enter your Date of Birth'],
 		validate: [validator.isDate, 'This amazingly was not a date'],
 	},
