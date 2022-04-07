@@ -19,7 +19,6 @@ function RequireAuth({ children }) {
         withCredentials: true,
       })
       .then((response) => {
-        console.log("In the response");
         setAuthed(true);
       })
       .catch((err) => {

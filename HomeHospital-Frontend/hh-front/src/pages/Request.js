@@ -34,11 +34,11 @@ function Request() {
             <Col>
               <SymptomsTable />
             </Col>
-            <Row>
+            {/* <Row>
               <Col>
                 <PatientVital />
               </Col>
-            </Row>
+            </Row> */}
           </Col>
         </Row>
       </Container>

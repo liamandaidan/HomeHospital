@@ -93,26 +93,26 @@ function UserHomeVisitsDisplay() {
   }
 
   function handlePastRequest(request) {
+    setIsCurrent(false);
     setRequestIdValue(request);
     setNewRequestValue(false);
     navigate(`/request/${request}`);
   }
 
-  function handleCancelRequest(patientId) {
+  function handleCancelRequest() {
     setModalState(true);
   }
 
-  const cancelRequest = (patientId) => {
-    console.log(patientId);
+  function cancelRequest() {
     axios
       .delete("http://localhost:4000/api/visitRequest/cancel", {
         withCredentials: true,
       })
       .then((response) => {
-        // console.log(response.data.request);
         if (response.status === 200) {
           setIsCurrent(false);
           setNoCurrent(true);
+          setModalState(false);
         }
       })
       .catch((err) => {
@@ -120,7 +120,7 @@ function UserHomeVisitsDisplay() {
         setCurrentSpinner(false);
         console.log(err);
       });
-  };
+  }
 
   useEffect(() => {
     setCurrentSpinner(true);
@@ -133,7 +133,7 @@ function UserHomeVisitsDisplay() {
     }
   }, []);
 
-  const AlertModal = (props, patientId) => {
+  const AlertModal = (props) => {
     return (
       <>
         <Modal {...props} centered>
@@ -150,7 +150,7 @@ function UserHomeVisitsDisplay() {
           <Modal.Footer className="modal-footer">
             <Button
               className="ack-btn"
-              onClick={cancelRequest(patientId)}
+              onClick={() => cancelRequest()}
               variant="primary"
             >
               Cancel Request
@@ -221,7 +221,7 @@ function UserHomeVisitsDisplay() {
                       <Button
                         variant="link"
                         className="newRequest-btn"
-                        onClick={() => AlertModal(currentList.patient)}
+                        onClick={() => handleCancelRequest(currentList.patient)}
                       >
                         cancel request
                       </Button>
