@@ -13,6 +13,7 @@ import { Button, Modal, Spinner } from "react-bootstrap";
 axios.defaults.withCredentials = true;
 
 function UserHomeVisitsDisplay() {
+  const history = useHistory()
   const navigate = useNavigate();
 
   // useContext to get new Request value
@@ -118,6 +119,7 @@ function UserHomeVisitsDisplay() {
           setNoCurrent(true);
           setModalState(false);
           setReqButton(false);
+          navigate(.)
         }
       })
       .catch((err) => {
