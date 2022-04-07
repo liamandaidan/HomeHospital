@@ -11,7 +11,7 @@ import {
 const route = express.Router()
 
 //
-route.put('/completeRequest', async (req, res) => {
+route.post('/completeRequest', async (req, res) => {
 	const { patientId } = req.body
 
 	if (await completeCurrentRequest(patientId)) {
