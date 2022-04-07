@@ -12,6 +12,12 @@ export default function PractionerWaitlist({ childToParent }) {
   const [practPatientInfo, setPractPatientInfo] = useState([]);
   const [hospital, setHospital] = useState({});
   const [id, setId] = useState("")
+  const [hospitalSelected, setHospitalSelected] = useState("");
+
+  const updateHospitalState = (childData) => {
+    setHospitalSelected(childData);
+  }
+
 
   useEffect(() => {
     axios
@@ -105,8 +111,9 @@ export default function PractionerWaitlist({ childToParent }) {
     <div className="table-structure">
       <div className="select-hospital">
         <div class="form-floating">
-           <PractionerHospitalSelect /> 
+           <PractionerHospitalSelect childToParent={updateHospitalState}/> 
         </div>
+        <p>Hospital Selected is: {hospitalSelected}</p>
       </div>
       <div className="table-data" hidden={!(hospital !== "none")}>
         <table class="table table-hover">
