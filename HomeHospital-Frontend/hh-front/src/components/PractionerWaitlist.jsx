@@ -15,7 +15,7 @@ export default function PractionerWaitlist({ childToParent }) {
 
   const [hospital, setHospital] = useState({});
 
-  const [id, setId] = useState("")
+  const [id, setId] = useState("");
 
   useEffect(() => {
     axios
@@ -44,7 +44,7 @@ export default function PractionerWaitlist({ childToParent }) {
               <Button
                 className="ack-btn"
                 variant="primary"
-                onClick={confirmCheckIn}
+                onClick= {(e) => confirmCheckIn(id)}
               >
                 Confirm Check In
               </Button>
@@ -66,6 +66,7 @@ export default function PractionerWaitlist({ childToParent }) {
       practPatientInfo.map((data) => {
         if (data._id === e) {
           setSelectedUser(data.patientFirstName + " " + data.patientLastName);
+		  setId(e);
           setModalState(true);
         }
       });
@@ -74,11 +75,16 @@ export default function PractionerWaitlist({ childToParent }) {
 
   //check in the user once confirmed
   const confirmCheckIn = () => {
-	// axios.put(`http://localhost:4000/api/requestManager/completeRequest/`), {
-	// 	withCredentials: true,
-	// }
-    alert("Patient has been Checked in!");
-    setModalState(false);
+	axios.put('http://localhost:4000/api/requestManager/completeRequest', {
+		withCredentials: true,
+		patientId: id
+	})
+	.then((response) => {
+        response.setModalState(false);
+      })
+	  .catch((err) => {
+        console.log(err);
+      })
   };
 
   /**
@@ -92,7 +98,7 @@ export default function PractionerWaitlist({ childToParent }) {
         <td>{data.patientLastName}</td>
         <td>
           <Button
-            value={data._id}
+            value={data.startAddress.streetAddress}
             onClick={(e) => childToParent(e.target.value)}
           >
             Select

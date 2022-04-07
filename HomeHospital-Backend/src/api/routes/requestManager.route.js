@@ -13,6 +13,7 @@ const route = express.Router()
 //
 route.put('/completeRequest', async (req, res) => {
 	const { patientId } = req.body
+	console.log("This is" + patientId)
 
 	if (await completeCurrentRequest(patientId)) {
 		res.status(200).send({ message: 'Request Completed' })

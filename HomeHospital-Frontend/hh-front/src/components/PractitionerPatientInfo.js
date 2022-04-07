@@ -53,8 +53,8 @@ export class PractitionerPatientInfo extends Component {
             <Col>
               <div className="practitioner-patientDetails">
                 <h4>Patient Details</h4>
-                <div class="alert alert-primary" role="alert">
-                  #This is temporary, waitlist ID: {this.props.patientDataGiven}
+                <div>
+                  <p>Address: {this.props.patientDataGiven}</p>
                 </div>
               </div>
             </Col>
@@ -63,7 +63,7 @@ export class PractitionerPatientInfo extends Component {
             <Col className="practitioner-patientContactDetails ">
 			   {this.state.patientsInfo.map((patient, index) => 
 			   <div key={index}>
-			   <p>Address: {patient.startAddress.streetAddress}</p>
+			   {/* <p>Address: {patient.startAddress.streetAddress}</p> */}
 			   <h5>Symptoms:</h5>
 				{patient.symptoms.map((p, i)=> (
 					<div key={i}>
