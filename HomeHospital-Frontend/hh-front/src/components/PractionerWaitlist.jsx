@@ -8,7 +8,8 @@ axios.defaults.withCredentials = true;
 
 export default function PractionerWaitlist({ childToParent }) {
   const [modalState, setModalState] = useState(false);
-  const [selectedUser, setSelectedUser] = useState("");
+  const [id, setId] = useState("");
+  const [selectedUsername, setSelectedUsername] = useState("");
   const [practPatientInfo, setPractPatientInfo] = useState([]);
   const [hospitalSelected, setHospitalSelected] = useState("none");
   const [url, setUrl] = useState(
@@ -54,14 +55,14 @@ export default function PractionerWaitlist({ childToParent }) {
             <Modal.Title>Attention!</Modal.Title>
           </Modal.Header>
           <Modal.Body className="modal-content">
-            <label>Please confirm check in for patient {selectedUser} ?</label>
+            <label>Please confirm check in for patient {selectedUsername} ?</label>
           </Modal.Body>
           <Modal.Footer className="modal-footer">
             <div className="confirm-btn-div">
               <Button
                 className="ack-btn"
                 variant="primary"
-                onClick={confirmCheckIn}
+                onClick={(e) => confirmCheckIn(id)}
               >
                 Confirm Check In
               </Button>
@@ -81,8 +82,9 @@ export default function PractionerWaitlist({ childToParent }) {
     console.log("this is the id of the user to check in: " + e);
     {
       practPatientInfo.map((data) => {
-        if (data._id === e) {
-          setSelectedUser(data.patientFirstName + " " + data.patientLastName);
+        if (data.patient === e) {
+		  setId(e)
+          setSelectedUsername(data.patientFirstName + " " + data.patientLastName);
           setModalState(true);
         }
       });
@@ -91,11 +93,18 @@ export default function PractionerWaitlist({ childToParent }) {
 
   //check in the user once confirmed
   const confirmCheckIn = () => {
-    // axios.put(`http://localhost:4000/api/requestManager/completeRequest/`), {
-    // 	withCredentials: true,
-    // }
-    alert("Patient has been Checked in!");
-    setModalState(false);
+	const checkInRoute = "http://localhost:4000/api/requestManager/completeRequest/";
+    axios
+	.post( checkInRoute, {
+		withCredentials: true,
+		patientId: id,
+	})
+	.then((response) => {
+		setModalState(false);
+	})
+    .catch((err) => {
+		console.log(err)
+	})
   };
 
   /**
@@ -117,7 +126,7 @@ export default function PractionerWaitlist({ childToParent }) {
             </Button>
           </td>
           <td>
-            <Button onClick={(e) => handleCheckIn(data._id)}>Check In</Button>
+            <Button onClick={(e) => handleCheckIn(data.patient)}>Check In</Button>
           </td>
         </tr>
       );
