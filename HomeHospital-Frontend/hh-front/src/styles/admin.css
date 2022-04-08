@@ -153,12 +153,6 @@
   margin-top:-10px;
 }
 
-.createNewUser-btn:hover {
-  color: #1b1b1b;
-  border-radius: 10px;
-  background-color: #E7FBF6;
-}
-
 .createUser-div {
   height: 550px;
   overflow-y: auto;
@@ -189,6 +183,16 @@
   border: #7878AB;
   margin-top: 1rem;
   width: 200px;
+}
+.createNewUser-btn:hover {
+  color: #1b1b1b;
+  border-radius: 10px;
+  background-color: #E7FBF6;
+}
+.createNewUser-btn:active {
+  color: #1b1b1b;
+  border-radius: 10px;
+  background-color: #E7FBF6;
 }
 
 .footer-1 {
@@ -222,4 +226,9 @@
   color: #1b1b1b;
   border-radius: 10px;
   background-color: #E7FBF6;
+}
+
+.createUser-div p {
+  color:#ec2baa;
+  font-size: x-small;
 }

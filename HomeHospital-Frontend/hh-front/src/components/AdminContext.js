@@ -6,12 +6,14 @@ export const AdminContext = createContext();
 export const AdminProvider = (props) => {
   const [menuSelection, setMenuSelection] = useState("");
   const [userTypeSelection, setUserTypeSelection] = useState("");
+  const [confirmCreate, setConfirmCreate] = useState(false);
 
   return (
     <AdminContext.Provider
       value={{
         menuSelection: [menuSelection, setMenuSelection],
-        userTypeSelection: [userTypeSelection, setUserTypeSelection]
+        userTypeSelection: [userTypeSelection, setUserTypeSelection],
+        confirmCreate: [confirmCreate, setConfirmCreate]
 
       }}
     >

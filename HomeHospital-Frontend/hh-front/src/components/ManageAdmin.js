@@ -10,6 +10,8 @@ import {
 import Users from "../data/practitioners.json";
 import { AdminContext } from "./AdminContext";
 import axios from "axios";
+import useForm from "./useForm"
+import validate from "./validateInfo"
 
 axios.defaults.withCredentials = true;
 
@@ -25,10 +27,12 @@ function ManageAdmin() {
   const [adminLlist, setAdminList] = useState([]);
 
   //get all info from the context
-  const { userTypeSelection } = useContext(AdminContext);
+  const { userTypeSelection, confirmCreate } = useContext(AdminContext);
 
   //get the user type that was select
   const [userType, setUserType] = userTypeSelection;
+
+  const [confirm, setConfirm] = confirmCreate;
 
   //selected user details to edit
   const [id, setId] = useState("");
@@ -57,6 +61,9 @@ function ManageAdmin() {
   const [new_phoneNum, setNewPhoneNum] = useState("");
   const [new_adminId, setNewAdminId] = useState("");
   const [new_permission, setNewPermission] = useState("");
+
+  //trying something!! 
+  const { handleChange, values, handleCancel, handleSubmit, errors } = useForm(validate);
 
 
   //load all admins
@@ -162,17 +169,9 @@ function ManageAdmin() {
   };
 
   //show list of admins when you close the edit window
-  const showUserList = () => {
-    setAdminId("");
-    setNewFirstName("");
-    setNewLastName("");
-    setNewEmail("");
-    setNewAddress("");
-    setNewCity("");
-    setNewProv("");
-    setNewPostalCode("");
-    setNewPhoneNum("");
-    setNewPermission("");
+  const showUserList = (e) => {
+    
+    handleCancel();
 
     setCreateDisplay(false);
     setEditDisplay(false);
@@ -187,32 +186,63 @@ function ManageAdmin() {
   };
 
   //creates a new preactitioner and sends to the back end
-  const createUser = () => {
-    axios
-      .post("http://localhost:4000/api/registerA/", {
-        withCredentials: true,
-        firstName: new_firstName,
-        lastName: new_lastName,
-        password: new_password,
-        email: new_email,
-        streetAddress: new_address,
-        cityName: new_city,
-        provName: new_prov,
-        postalCode: new_postalCode,
-        phoneNumber: new_phoneNum,
-        adminId: new_adminId,
-        permissionLevel: new_permission,
-      })
-      .then((response) => {
-        console.log(response);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-    alert("We created a new admin!");
-    setCreateDisplay(false);
-    setUserDisplay(true);
-  };
+  // const createUser = () => {
+  //   axios
+  //     .post("http://localhost:4000/api/registerA/", {
+  //       withCredentials: true,
+  //       firstName: new_firstName,
+  //       lastName: new_lastName,
+  //       password: new_password,
+  //       email: new_email,
+  //       streetAddress: new_address,
+  //       cityName: new_city,
+  //       provName: new_prov,
+  //       postalCode: new_postalCode,
+  //       phoneNumber: new_phoneNum,
+  //       adminId: new_adminId,
+  //       permissionLevel: new_permission,
+  //     })
+  //     .then((response) => {
+  //       console.log(response);
+  //     })
+  //     .catch((err) => {
+  //       console.log(err);
+  //     });
+  //   alert("We created a new admin!");
+  //   setCreateDisplay(false);
+  //   setUserDisplay(true);
+  // };
+
+
+  //this will check if there are no errors in the form, if no errors remain the form will be submitted
+  useEffect(() => {
+    if(Object.keys(errors).length === 0 ) {
+        axios
+        .post("http://localhost:4000/api/registerA/", {
+          withCredentials: true,
+          firstName: values.firstName,
+          lastName: values.lastName,
+          password: values.password,
+          email: values.email,
+          streetAddress: values.address,
+          cityName: values.city,
+          provName: values.province,
+          postalCode: values.postalCode,
+          phoneNumber: values.phoneNum,
+          adminId: values.adminId,
+          permissionLevel: values.permission,
+        })
+        .then((response) => {
+          console.log(response);
+          setCreateDisplay(false);
+          setUserDisplay(true);
+
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    }
+}, [errors])
   
   const confirmChanges = (idToChange) => {
 
@@ -452,7 +482,7 @@ function ManageAdmin() {
           {createDisplay && (
             <>
               <div className="createUser-div">
-                <Form>
+                <Form onSubmit={handleSubmit} id="createUserForm">
                   <Form.Group>
                   <FloatingLabel
                       label="Admin Identification Number"
@@ -460,16 +490,16 @@ function ManageAdmin() {
                       className="mb-3"
                     >
                       <Form.Control
-                        value={new_adminId}
-                        pattern="[A-Za-z- ]+"
-                        onChange={(e) => setNewAdminId(e.target.value)}
+                        defaultValue={values.adminId}
+                        onChange={handleChange}
                         size="sm"
-                        maxLength={7}
                         aria-describedby="permissionsHelp"
+                        name="adminId"
                       />
                       <Form.Text id="permissionsHelp" muted>
                         The admin identification is a 7 digit number
                       </Form.Text>
+                      {errors.adminId && <p>{errors.adminId}</p>}
                     </FloatingLabel>
                     <FloatingLabel
                       label="Permission"
@@ -477,7 +507,9 @@ function ManageAdmin() {
                       className="mb-3"
                     >
                       <Form.Select
-                        onChange={(e) => setNewPermission(e.target.value)}
+                        defaultValue={values.permission}
+                        onChange={handleChange}
+                        name="permission"
                         size="sm"
                       >
                         <option>Please select a permission level</option>
@@ -486,84 +518,92 @@ function ManageAdmin() {
                         <option value="3">3</option>
                       </Form.Select>
                     </FloatingLabel>
+                    {errors.permission && <p>{errors.permission}</p>}
                     <FloatingLabel
                       label="First Name"
                       controlId="floatingInput"
                       className="mb-3"
                     >
                       <Form.Control
-                        value={new_firstName}
-                        pattern="[A-Za-z- ]+"
+                        defaultValue={values.firstName}
+                        onChange={handleChange}
+                        name="firstName"
                         placeholder="John"
-                        onChange={(e) => setNewFirstName(e.target.value)}
                         size="sm"
                       />
                     </FloatingLabel>
+                    {errors.firstName && <p>{errors.firstName}</p>}
                     <FloatingLabel
                       label="Last Name"
                       controlId="floatingInput"
                       className="mb-3"
                     >
                       <Form.Control
-                        value={new_lastName}
-                        pattern="[A-Za-z- ]+"
+                        defaultValue={values.lastName}
+                        onChange={handleChange}
+                        name="lastName"
                         placeholder="Smith"
-                        onChange={(e) => setNewLastName(e.target.value)}
                         size="sm"
                       />
                     </FloatingLabel>
+                    {errors.lastName && <p>{errors.lastName}</p>}
                     <FloatingLabel
                       label="Email Address"
                       controlId="floatingInput"
                       className="mb-3"
                     >
                       <Form.Control
-                        value={new_email}
+                        defaultValue={values.email}
                         placeholder="smith@email.com"
-                        pattern="^[a-zA-Z0-9_.-]+@[a-zA-Z]+[\.][a-zA-Z]{2,}$"
-                        onChange={(e) => setNewEmail(e.target.value)}
+                        onChange={handleChange}
+                        name="email"
                         size="sm"
                       />
                     </FloatingLabel>
+                    {errors.email && <p>{errors.email}</p>}
                     <FloatingLabel
                       label="Phone Number"
                       controlId="floatingInput"
                       className="mb-3"
                     >
                       <Form.Control
-                        value={new_phoneNum}
-                        onChange={(e) => setNewPhoneNum(e.target.value)}
+                        defaultValue={values.phoneNum}
+                        onChange={handleChange}
                         placeholder="123-456-1234"
-                        pattern="\d{3}[\-]\d{3}[\-]\d{4}"
+                        name="phoneNum"
                         size="sm"
                       />
                     </FloatingLabel>
+                    {errors.phoneNum && <p>{errors.phoneNum}</p>}
                     <FloatingLabel
                       label="Street Address"
                       controlId="floatingInput"
                       className="mb-3"
                     >
                       <Form.Control
-                        value={new_address}
-                        pattern="^[a-zA-Z0-9- ]+$"
+                        defaultValue={values.address}
                         placeholder="123 Street"
-                        onChange={(e) => setNewAddress(e.target.value)}
+                        onChange={handleChange}
+                        name="address"
                         size="sm"
                       />
                     </FloatingLabel>
+                    {errors.address && <p>{errors.address}</p>}
+
                     <FloatingLabel
                       label="City"
                       controlId="floatingInput"
                       className="mb-3"
                     >
                       <Form.Control
-                        value={new_city}
-                        pattern="^[a-zA-Z]+$"
+                        defaultValue={values.city}
                         placeholder="City name"
-                        onChange={(e) => setNewCity(e.target.value)}
+                        onChange={handleChange}
+                        name="city"
                         size="sm"
                       />
                     </FloatingLabel>
+                    {errors.city && <p>{errors.city}</p>}
                     <FloatingLabel
                       label="Province"
                       controlId="floatingInput"
@@ -571,8 +611,8 @@ function ManageAdmin() {
                     >
                       <Form.Select
                         name="province"
-                        value={new_prov}
-                        onChange={(e) => setNewProv(e.target.value)}
+                        defaultValue={values.province}
+                        onChange={handleChange}
                       >
                         <option>Please select province</option>
                         <option value="AB">AB</option>
@@ -589,32 +629,36 @@ function ManageAdmin() {
                         <option value="YT">YT</option>
                       </Form.Select>
                     </FloatingLabel>
+                    {errors.province && <p>{errors.province}</p>}
                     <FloatingLabel
                       label="Postal Code"
                       controlId="floatingInput"
                       className="mb-3"
                     >
                       <Form.Control
-                        value={new_postalCode}
+                        defaultValue={values.postalCode}
                         placeholder="L9L9L9"
-                        pattern="[a-zA-Z][0-9][a-zA-Z][0-9][a-zA-Z][0-9]"
-                        onChange={(e) => setNewPostalCode(e.target.value)}
+                        onChange={handleChange}
+                        name="postalCode"
                         size="sm"
                       />
                     </FloatingLabel>
+                    {errors.postalCode && <p>{errors.postalCode}</p>}
                     <FloatingLabel
                       label="Password"
                       controlId="floatingInput"
                       className="mb-3"
                     >
                       <Form.Control
-                        value={new_password}
+                        defaultValue={values.password}
                         placeholder="Minimum 8 characters"
                         minLength={8}
                         maxLength={20}
-                        onChange={(e) => setNewPassword(e.target.value)}
+                        onChange={handleChange}
+                        name="password"
                         size="sm"
                         aria-describedby="passwordHelp"
+                        type="password"
                       />
                       <Form.Text id="passwordHelp" muted>
                         Your password must be 8-20 characters long, contain
@@ -622,12 +666,31 @@ function ManageAdmin() {
                         special characters, or emoji.
                       </Form.Text>
                     </FloatingLabel>
+                    {errors.password && <p>{errors.password}</p>}
+                    <FloatingLabel
+                      label="Confirm Password"
+                      controlId="floatingInput"
+                      className="mb-3"
+                    >
+                      <Form.Control
+                        defaultValue={values.confirmPassword}
+                        placeholder="Minimum 8 characters"
+                        minLength={8}
+                        maxLength={20}
+                        onChange={handleChange}
+                        name="confirmPassword"
+                        size="sm"
+                        aria-describedby="passwordHelp"
+                        type="password"
+                      />
+                  </FloatingLabel>
+                  {errors.confirmPassword && <p>{errors.confirmPassword}</p>}
                   </Form.Group>
                   <div className="grid-div">
                     <div className="confirmChange-div item-2">
                       <Button
                         className="confirmChange-btn"
-                        onClick={createUser}
+                        type="submit"
                       >
                         Submit
                       </Button>
