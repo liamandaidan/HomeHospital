@@ -77,9 +77,9 @@ route.get('/hospitalWaitList/:hospitalId', async (req, res) => {
 })
 
 
-route.get('/patientInfo', async (req, res) => {
+route.get('/patientInfo/:patientId', async (req, res) => {
 	// return the current users request
-	const {patientId} = req.body
+	const {patientId} = req.params
 
 	if (patientId == null || patientId == undefined || patientId == '') {
 		console.log('patientId is not valid')
