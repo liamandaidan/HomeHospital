@@ -114,12 +114,12 @@ export default function PractionerWaitlist({ childToParent }) {
     if (flag === false) {
       return (
         <tr>
-          <td>{data.id}</td>
+          <td>{data.patient}</td>
           <td>{data.patientFirstName}</td>
           <td>{data.patientLastName}</td>
           <td>
             <Button
-              value={data._id}
+              value={data.patient}
               onClick={(e) => childToParent(e.target.value)}
             >
               Select
