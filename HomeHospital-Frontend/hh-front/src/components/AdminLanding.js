@@ -11,10 +11,14 @@ function AdminLanding() {
   const [menuChoice, setMenuChoice] = menuSelection;
   const [userLength, setUserLength] = useState(0)
 
+  const [adminList, setAdminList] = useState([]);
+
  useEffect(() => {
   setUserLength(Users.length);
 
  })
+
+
 
   //piechart to display users
   const data = [
@@ -73,7 +77,7 @@ function AdminLanding() {
     <>
       {menuChoice == "" && (
         <>
-          <h1 className="adminGreeting">Welcome Robyn!</h1>
+          <h1 className="adminGreeting">Welcome Administrator!</h1>
             <div className="currentUserDisplay">
             <p>Current user details</p>
               <div className="responsivePie">

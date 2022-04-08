@@ -1,13 +1,12 @@
-import React, {useState , useEffect, useContext } from 'react'
+import React, {useState, useEffect, useContext } from 'react'
 import axios from "axios"
 import { AdminContext } from "./AdminContext";
 
+
 axios.defaults.withCredentials = true;
 
-const useForm = (validate) => {
+const usePracForm = (validate) => {
     const [values, setValues] = useState({
-        adminId: "",
-        permission: 0,
         firstName: "",
         lastName: "",
         email: "",
@@ -17,12 +16,16 @@ const useForm = (validate) => {
         province: "",
         postalCode: "",
         password: "",
-        confirmPassword: ""
-    })
+        confirmPassword: "",
+        practitionerId: "",
+        role: "",
+        facilityId: "",
+     })
     
-    console.log(values.firstName);
+    // console.log(values.firstName);
     
     const [errors, setErrors] = useState({})
+
     const [isSubitting, setIsSubmitting] = useState(false);
     
     const handleChange = (e) => {
@@ -36,7 +39,7 @@ const useForm = (validate) => {
     }
 
     const handleSubmit = (e) => {
-        e.preventDefault();
+         e.preventDefault();
 
         setErrors(validate(values))
         setIsSubmitting(true)
@@ -50,4 +53,4 @@ const useForm = (validate) => {
     return {handleChange, values, handleSubmit, errors, handleCancel }
 }
 
-export default useForm
+export default usePracForm

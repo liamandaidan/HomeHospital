@@ -10,6 +10,8 @@ import {
 import Users from "../data/practitioners.json";
 import { AdminContext } from "./AdminContext";
 import axios from "axios";
+import usePracForm from "./usePracForm"
+import validate from "./validatePracInfo"
 
 axios.defaults.withCredentials = true;
 
@@ -74,6 +76,10 @@ function ManagePractitioner() {
   const [validClientFormValue, setValidClientFormValue] = useState(false);
   const [resetAllFormValue] = useState(false);
 
+  //import function from useForm
+  const { handleChange, values, handleCancel, handleSubmit, errors } = usePracForm(validate);
+
+  console.log(errors.length)
 
   //get the list of hospitals
   useEffect(() => {
@@ -189,11 +195,8 @@ function ManagePractitioner() {
     setModalState(false);
   };
 
+  //confirm changes made to user profile
   const confirmChanges = (idToChange) => {
-
-    // console.log(idToChange);
-    // console.log(firstName);
-
 
     axios
     .post("http://localhost:4000/api/admin/modifyPractitioner", {
@@ -229,18 +232,7 @@ function ManagePractitioner() {
 
   //show list of practitioners when you close the edit window
   const showUserList = () => {
-    setNewFirstName("");
-    setNewLastName("");
-    setNewPassword("");
-    setNewEmail("");
-    setNewAddress("");
-    setNewCity("");
-    setNewProv("");
-    setNewPostalCode("");
-    setNewPhoneNum("");
-    setNewPractitionerId("");
-    setNewRole("");
-    setNewFacilityId("");
+    handleCancel();
 
     setCreateDisplay(false);
     setEditDisplay(false);
@@ -255,160 +247,191 @@ function ManagePractitioner() {
   };
 
   //creates a new preactitioner and sends to the back end
-  const createUser = () => {
-    axios
-      .post("http://localhost:4000/api/registerP/", {
-        withCredentials: true,
-        firstName: new_firstName,
-        lastName: new_lastName,
-        password: new_password,
-        email: new_email,
-        streetAddress: new_address,
-        cityName: new_city,
-        provName: new_prov,
-        postalCode: new_postalCode,
-        phoneNumber: new_phoneNum,
-        practitionerId: new_practitionerId,
-        role: new_role,
-        facilityId: new_facilityId,
-      })
-      .then((response) => {
-        console.log(response);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-    alert("We created a new user!");
-    setCreateDisplay(false);
-    setUserDisplay(true);
-  };
+  // const createUser = () => {
+  //   axios
+  //     .post("http://localhost:4000/api/registerP/", {
+  //       withCredentials: true,
+  //       firstName: new_firstName,
+  //       lastName: new_lastName,
+  //       password: new_password,
+  //       email: new_email,
+  //       streetAddress: new_address,
+  //       cityName: new_city,
+  //       provName: new_prov,
+  //       postalCode: new_postalCode,
+  //       phoneNumber: new_phoneNum,
+  //       practitionerId: new_practitionerId,
+  //       role: new_role,
+  //       facilityId: new_facilityId,
+  //     })
+  //     .then((response) => {
+  //       console.log(response);
+  //     })
+  //     .catch((err) => {
+  //       console.log(err);
+  //     });
+  //   alert("We created a new user!");
+  //   setCreateDisplay(false);
+  //   setUserDisplay(true);
+  // };
+
+    //this will check if there are no errors in the form, if no errors remain the form will be submitted
+    useEffect(() => {
+      if(Object.keys(errors).length === 0 ) {
+          axios
+          .post("http://localhost:4000/api/registerP/", {
+            withCredentials: true,
+            firstName: values.firstName,
+            lastName: values.lastName,
+            password: values.password,
+            email: values.email,
+            streetAddress: values.address,
+            cityName: values.city,
+            provName: values.province,
+            postalCode: values.postalCode,
+            phoneNumber: values.phoneNum,
+            practitionerId: values.practitionerId,
+            role: values.role,
+            facilityId: values.facilityId,
+          })
+          .then((response) => {
+            console.log(response);
+            setCreateDisplay(false);
+            setUserDisplay(true);
+  
+          })
+          .catch((err) => {
+            console.log(err);
+          });
+      }
+  }, [errors])
 
   // check if the form is valid
-  useEffect(() => {
-    if (
-      validNameValue &&
-      validAddressValue &&
-      validCityValue &&
-      validPostalValue &&
-      validPhoneValue &&
-      validEmailValue 
-    ) {
-      setValidClientFormValue(true);
-    } else {
-      setValidClientFormValue(false);
-    }
-  }, [
-    validNameValue,
-    validAddressValue,
-    validCityValue,
-    validPostalValue,
-    validPhoneValue,
-    validEmailValue,
-    setValidClientFormValue,
-    validClientFormValue,
-  ]);
+  // useEffect(() => {
+  //   if (
+  //     validNameValue &&
+  //     validAddressValue &&
+  //     validCityValue &&
+  //     validPostalValue &&
+  //     validPhoneValue &&
+  //     validEmailValue 
+  //   ) {
+  //     setValidClientFormValue(true);
+  //   } else {
+  //     setValidClientFormValue(false);
+  //   }
+  // }, [
+  //   validNameValue,
+  //   validAddressValue,
+  //   validCityValue,
+  //   validPostalValue,
+  //   validPhoneValue,
+  //   validEmailValue,
+  //   setValidClientFormValue,
+  //   validClientFormValue,
+  // ]);
 
-  function validateFirstName() {
-    const symbols = /[`!@#$%^&*()_+\-=[]{};':"\|,.<>\?~]/;
-    const namePattern = new RegExp(symbols);
-    const isName = isNaN(new_firstName);
-    if (
-      isName === false ||
-      new_firstName === "" ||
-      new_firstName === undefined
-    ) {
-      console.log("the first name is empty!");
-      setValidNameValue(false);
-    } else if (namePattern.test(new_firstName)) {
-      console.log("the first name isnt valid!");
-      setValidNameValue(false);
-    } else {
-      console.log("the first name is good!");
-      setValidNameValue(true);
-    }
-  }
+  // function validateFirstName() {
+  //   const symbols = /[`!@#$%^&*()_+\-=[]{};':"\|,.<>\?~]/;
+  //   const namePattern = new RegExp(symbols);
+  //   const isName = isNaN(new_firstName);
+  //   if (
+  //     isName === false ||
+  //     new_firstName === "" ||
+  //     new_firstName === undefined
+  //   ) {
+  //     console.log("the first name is empty!");
+  //     setValidNameValue(false);
+  //   } else if (namePattern.test(new_firstName)) {
+  //     console.log("the first name isnt valid!");
+  //     setValidNameValue(false);
+  //   } else {
+  //     console.log("the first name is good!");
+  //     setValidNameValue(true);
+  //   }
+  // }
 
-  function validateLastName() {
-    const symbols = /[`!@#$%^&*()_+\-=[]{};':"\|,.<>\?~]/;
-    const namePattern = new RegExp(symbols);
-    const isName = isNaN(new_lastName);
-    if (
-      isName === false ||
-      new_lastName === "" ||
-      new_lastName === undefined
-    ) {
-      console.log("last name is good!");
-      setValidNameValue(false);
-    } else if (namePattern.test(new_lastName)) {
-      setValidNameValue(false);
-    } else {
-      setValidNameValue(true);
-    }
-  }
+  // function validateLastName() {
+  //   const symbols = /[`!@#$%^&*()_+\-=[]{};':"\|,.<>\?~]/;
+  //   const namePattern = new RegExp(symbols);
+  //   const isName = isNaN(new_lastName);
+  //   if (
+  //     isName === false ||
+  //     new_lastName === "" ||
+  //     new_lastName === undefined
+  //   ) {
+  //     console.log("last name is good!");
+  //     setValidNameValue(false);
+  //   } else if (namePattern.test(new_lastName)) {
+  //     setValidNameValue(false);
+  //   } else {
+  //     setValidNameValue(true);
+  //   }
+  // }
 
-  function validateAddress() {
-    const pattern = new RegExp("^[a-zA-Z0-9- ]+$");
-    if (new_address === "" || new_address === undefined) {
+  // function validateAddress() {
+  //   const pattern = new RegExp("^[a-zA-Z0-9- ]+$");
+  //   if (new_address === "" || new_address === undefined) {
 
-      setValidAddressValue(false);
-    } else if (pattern.test(new_address)) {
+  //     setValidAddressValue(false);
+  //   } else if (pattern.test(new_address)) {
 
-      setValidAddressValue(true);
-    } else {
+  //     setValidAddressValue(true);
+  //   } else {
 
-      setValidAddressValue(false);
-    }
-  }
+  //     setValidAddressValue(false);
+  //   }
+  // }
 
-  function validateCity() {
-    const pattern = new RegExp("^[a-zA-Z0-9- ]+$");
-    if (new_city === "" || new_city === undefined) {
+  // function validateCity() {
+  //   const pattern = new RegExp("^[a-zA-Z0-9- ]+$");
+  //   if (new_city === "" || new_city === undefined) {
 
-      setValidCityValue(false);
-    } else if (pattern.test(new_city)) {
+  //     setValidCityValue(false);
+  //   } else if (pattern.test(new_city)) {
 
-      setValidCityValue(true);
-    } else {
+  //     setValidCityValue(true);
+  //   } else {
 
-      setValidCityValue(false);
-    }
-  }
+  //     setValidCityValue(false);
+  //   }
+  // }
 
-  function validatePostalCode() {
-    const pattern = new RegExp("^[a-zA-Z][0-9][a-zA-Z][0-9][a-zA-Z][0-9]$");
-    if (pattern.test(new_postalCode)) {
+  // function validatePostalCode() {
+  //   const pattern = new RegExp("^[a-zA-Z][0-9][a-zA-Z][0-9][a-zA-Z][0-9]$");
+  //   if (pattern.test(new_postalCode)) {
   
-      setValidPostalValue(true);
-    } else {
+  //     setValidPostalValue(true);
+  //   } else {
 
-      setValidPostalValue(false);
-    }
-  }
+  //     setValidPostalValue(false);
+  //   }
+  // }
 
-  function validatePhone() {
-    // Regex found here https://stackoverflow.com/questions/9776231/regular-expression-to-validate-us-phone-numbers
-    const pattern = new RegExp("^[0-9]{3}-[0-9]{3}-[0-9]{4}$");
-    if (pattern.test(new_phoneNum)) {
+  // function validatePhone() {
+  //   // Regex found here https://stackoverflow.com/questions/9776231/regular-expression-to-validate-us-phone-numbers
+  //   const pattern = new RegExp("^[0-9]{3}-[0-9]{3}-[0-9]{4}$");
+  //   if (pattern.test(new_phoneNum)) {
 
-      setValidPhoneValue(true);
-    } else {
+  //     setValidPhoneValue(true);
+  //   } else {
 
-      setValidPhoneValue(false);
-    }
-  }
+  //     setValidPhoneValue(false);
+  //   }
+  // }
 
-  function validateEmail() {
-    const pattern = new RegExp(
-      "([!#-'*+/-9=?A-Z^-~-]+(.[!#-'*+/-9=?A-Z^-~-]+)*|\"([]!#-[^-~ \t]|(\\[\t -~]))+\")@([!#-'*+/-9=?A-Z^-~-]+(.[!#-'*+/-9=?A-Z^-~-]+)*|[[\t -Z^-~]*])"
-    );
-    if (pattern.test(new_email)) {
+  // function validateEmail() {
+  //   const pattern = new RegExp(
+  //     "([!#-'*+/-9=?A-Z^-~-]+(.[!#-'*+/-9=?A-Z^-~-]+)*|\"([]!#-[^-~ \t]|(\\[\t -~]))+\")@([!#-'*+/-9=?A-Z^-~-]+(.[!#-'*+/-9=?A-Z^-~-]+)*|[[\t -Z^-~]*])"
+  //   );
+  //   if (pattern.test(new_email)) {
  
-      setValidEmailValue(true);
-    } else {
+  //     setValidEmailValue(true);
+  //   } else {
 
-      setValidEmailValue(false);
-    }
-  }
+  //     setValidEmailValue(false);
+  //   }
+  // }
 
 
   //this component will show if the userType select is equal to practitioner
@@ -641,7 +664,7 @@ function ManagePractitioner() {
           {createDisplay && (
             <>
               <div className="createUser-div">
-                <Form>
+                <Form onSubmit={handleSubmit} id="createUserForm">
                   <Form.Group>
                     <FloatingLabel
                       label="Role"
@@ -649,8 +672,10 @@ function ManagePractitioner() {
                       className="mb-3"
                     >
                       <Form.Select
-                        onChange={(e) => setNewRole(e.target.value)}
+                        defaultValue={values.role}
+                        onChange={handleChange}
                         size="sm"
+                        name="role"
                       >
                         <option>Please select a role</option>
                         <option value="Doctor">Doctor</option>
@@ -658,114 +683,123 @@ function ManagePractitioner() {
                         <option value="Clerk">Clerk</option>
                       </Form.Select>
                     </FloatingLabel>
+                    {errors.role && <p>{errors.role}</p>}
                     <FloatingLabel
-                      required
+                       
                       label="Practitioner Id"
                       controlId="floatingInput idHelp"
                       className="mb-3"
                     >
                       <Form.Control
-                        value={new_practitionerId}
+                        defaultValue={values.practitionerId}
+                        onChange={handleChange}
                         placeholder="12345678"
-                        pattern="[0-9]"
-                        onChange={(e) => setNewPractitionerId(e.target.value)}
                         size="sm"
                         min={7}
+                        name="practitionerId"
                       />
                        <Form.Text id="idHelp" muted>
                         The practitioner identification is a 7 digit number
                       </Form.Text>
                     </FloatingLabel>
+                    {errors.practitionerId && <p>{errors.practitionerId}</p>}
+
                     <FloatingLabel
                       label="First Name"
                       controlId="floatingInput"
                       className="mb-3"
-                    >
+                      >
                       <Form.Control
-                        onBlur={validateFirstName}
-                        value={new_firstName}
-                        pattern="[A-Za-z- ]+"
+                        defaultValue={values.firstName}
+                        onChange={handleChange}
                         placeholder="John"
-                        onChange={(e) => setNewFirstName(e.target.value)}
                         size="sm"
-                        required
+                        name="firstName"
+                         
                       />
                     </FloatingLabel>
+                    {errors.firstName && <p>{errors.firstName}</p>}
+
                     <FloatingLabel
                       label="Last Name"
                       controlId="floatingInput"
                       className="mb-3"
                     >
                       <Form.Control
-                        onBlur={validateLastName}
-                        value={new_lastName}
-                        pattern="[A-Za-z- ]+"
+                        defaultValue={values.lastName}
+                        onChange={handleChange}
                         placeholder="Smith"
-                        onChange={(e) => setNewLastName(e.target.value)}
                         size="sm"
-                        required
+                        name="lastName"
+                         
                       />
                     </FloatingLabel>
+                    {errors.lastName && <p>{errors.lastName}</p>}
+
                     <FloatingLabel
                       label="Email Address"
                       controlId="floatingInput"
                       className="mb-3"
                     >
                       <Form.Control
-                        onBlur={validateEmail}
-                        value={new_email}
+                        defaultValue={values.email}
+                        onChange={handleChange}
                         placeholder="smith@email.com"
-                        pattern="^[a-zA-Z0-9_.-]+@[a-zA-Z]+[\.][a-zA-Z]{2,}$"
-                        onChange={(e) => setNewEmail(e.target.value)}
                         size="sm"
-                        required
+                        name="email"
+                         
                       />
                     </FloatingLabel>
+                    {errors.email && <p>{errors.email}</p>}
+
                     <FloatingLabel
                       label="Phone Number"
                       controlId="floatingInput"
                       className="mb-3"
                     >
                       <Form.Control
-                        onBlur={validatePhone}
-                        value={new_phoneNum}
-                        onChange={(e) => setNewPhoneNum(e.target.value)}
+                        defaultValue={values.phoneNum}
+                        onChange={handleChange}
                         placeholder="123-456-1234"
-                        pattern="\d{3}[\-]\d{3}[\-]\d{4}"
                         size="sm"
-                        required
+                        name="phoneNum"
+                         
                       />
                     </FloatingLabel>
+                    {errors.phoneNum && <p>{errors.phoneNum}</p>}
+
                     <FloatingLabel
                       label="Street Address"
                       controlId="floatingInput"
                       className="mb-3"
                     >
                       <Form.Control
-                        onBlur={validateAddress}
-                        value={new_address}
-                        pattern="^[a-zA-Z0-9- ]+$"
+                        defaultValue={values.address}
+                        onChange={handleChange}
                         placeholder="123 Street"
-                        onChange={(e) => setNewAddress(e.target.value)}
                         size="sm"
-                        required
+                        name="address"
+                         
                       />
                     </FloatingLabel>
+                    {errors.address && <p>{errors.address}</p>}
+
                     <FloatingLabel
                       label="City"
                       controlId="floatingInput"
                       className="mb-3"
                     >
                       <Form.Control
-                        onBlur={validateCity}
-                        value={new_city}
-                        pattern="^[a-zA-Z]+$"
+                        defaultValue={values.city}
+                        onChange={handleChange}
                         placeholder="City name"
-                        onChange={(e) => setNewCity(e.target.value)}
                         size="sm"
-                        required
+                        name="city"
+                         
                       />
                     </FloatingLabel>
+                    {errors.city && <p>{errors.city}</p>}
+
                     <FloatingLabel
                       label="Province"
                       controlId="floatingInput"
@@ -773,8 +807,8 @@ function ManagePractitioner() {
                     >
                       <Form.Select
                         name="province"
-                        value={new_prov}
-                        onChange={(e) => setNewProv(e.target.value)}
+                        defaultValue={values.province}
+                        onChange={handleChange}
                       >
                         <option>Please select province</option>
                         <option value="AB">AB</option>
@@ -791,28 +825,33 @@ function ManagePractitioner() {
                         <option value="YT">YT</option>
                       </Form.Select>
                     </FloatingLabel>
+                    {errors.province && <p>{errors.province}</p>}
+
                     <FloatingLabel
                       label="Postal Code"
                       controlId="floatingInput"
                       className="mb-3"
                     >
                       <Form.Control
-                        onBlur={validatePostalCode}
-                        value={new_postalCode}
+                        defaultValue={values.postalCode}
+                        onChange={handleChange}
                         placeholder="L9L9L9"
-                        pattern="[a-zA-Z][0-9][a-zA-Z][0-9][a-zA-Z][0-9]"
-                        onChange={(e) => setNewPostalCode(e.target.value)}
                         size="sm"
-                        required
+                        name="postalCode"
+                         
                       />
                     </FloatingLabel>
+                    {errors.postalCode && <p>{errors.postalCode}</p>}
+
                     <FloatingLabel
                       label="Facility"
                       controlId="floatingInput"
                       className="mb-3"
                     >
                       <Form.Select
-                        onChange={(e) => setNewFacilityId(e.target.value)}
+                        defaultValue={values.facilityId}
+                        onChange={handleChange}
+                        name="facilityId"
                       >
                         <option>Please select a hospital</option>
                         {hospitals.hospitalList?.map((hospital, index) => {
@@ -824,27 +863,52 @@ function ManagePractitioner() {
                         })}
                       </Form.Select>
                     </FloatingLabel>
+                    {errors.facilityId && <p>{errors.facilityId}</p>}
+
                     <FloatingLabel
                       label="Password"
                       controlId="floatingInput"
                       className="mb-3"
                     >
                       <Form.Control
-                        value={new_password}
+                        defaultValue={values.password}
+                        onChange={handleChange}
                         placeholder="Minimum 10 characters"
-                        minLength={10}
-                        onChange={(e) => setNewPassword(e.target.value)}
                         size="sm"
-                        required
+                        name="password"
+                         
                       />
                     </FloatingLabel>
+                    {errors.password && <p>{errors.password}</p>}
+
+                    <FloatingLabel
+                      label="Confirm Password"
+                      controlId="floatingInput"
+                      className="mb-3"
+                    >
+                      <Form.Control
+                        defaultValue={values.confirmPassword}
+                        onChange={handleChange}
+                        placeholder="Minimum 10 characters"
+                        size="sm"
+                        aria-describedby="passwordHelp"
+                        name="confirmPassword"
+                         
+                      />
+                    <Form.Text id="passwordHelp" muted>
+                        Your password must be 8-20 characters long, contain
+                        letters and numbers, and must not contain spaces,
+                        special characters, or emoji.
+                      </Form.Text>
+                    </FloatingLabel>
+                    {errors.confirmPassword && <p>{errors.confirmPassword}</p>}
+
                   </Form.Group>
                   <div className="grid-div">
                     <div className="confirmChange-div item-2">
                       <Button
-                        disabled={!validClientFormValue}
                         className="confirmChange-btn"
-                        onClick={createUser}
+                        type="submit"
                       >
                         Submit
                       </Button>

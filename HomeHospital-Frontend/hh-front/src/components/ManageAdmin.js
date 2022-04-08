@@ -10,8 +10,8 @@ import {
 import Users from "../data/practitioners.json";
 import { AdminContext } from "./AdminContext";
 import axios from "axios";
-import useForm from "./useForm"
-import validate from "./validateInfo"
+import useAdminForm from "./useAdminForm"
+import validateAdmin from "./validateAdminInfo"
 
 axios.defaults.withCredentials = true;
 
@@ -49,21 +49,22 @@ function ManageAdmin() {
   const [permissionLevel, setPermissionLevel] = useState("");
 
   //information for new user
-
-  const [new_firstName, setNewFirstName] = useState("");
-  const [new_lastName, setNewLastName] = useState("");
-  const [new_password, setNewPassword] = useState("");
-  const [new_email, setNewEmail] = useState("");
-  const [new_address, setNewAddress] = useState("");
-  const [new_city, setNewCity] = useState("");
-  const [new_prov, setNewProv] = useState("");
-  const [new_postalCode, setNewPostalCode] = useState("");
-  const [new_phoneNum, setNewPhoneNum] = useState("");
-  const [new_adminId, setNewAdminId] = useState("");
-  const [new_permission, setNewPermission] = useState("");
+  // const [new_firstName, setNewFirstName] = useState("");
+  // const [new_lastName, setNewLastName] = useState("");
+  // const [new_password, setNewPassword] = useState("");
+  // const [new_email, setNewEmail] = useState("");
+  // const [new_address, setNewAddress] = useState("");
+  // const [new_city, setNewCity] = useState("");
+  // const [new_prov, setNewProv] = useState("");
+  // const [new_postalCode, setNewPostalCode] = useState("");
+  // const [new_phoneNum, setNewPhoneNum] = useState("");
+  // const [new_adminId, setNewAdminId] = useState("");
+  // const [new_permission, setNewPermission] = useState("");
 
   //trying something!! 
-  const { handleChange, values, handleCancel, handleSubmit, errors } = useForm(validate);
+  const { handleChange, values, handleCancel, handleSubmit, errors } = useAdminForm(validateAdmin);
+
+  console.log("this many errors left: " + errors.length)
 
 
   //load all admins
