@@ -46,35 +46,37 @@ function ManagePractitioner() {
   const [role, setRole] = useState("");
   const [facilityId, setFacilityId] = useState("");
   const [practitionerId, setPractitionerId] = useState("");
-  const [defaultHospital, setDefaultHospital] = useState("");
-
-  //information for new user
-  const [new_id, setNewId] = useState("");
-  const [new_role, setNewRole] = useState("");
-  const [new_firstName, setNewFirstName] = useState("");
-  const [new_lastName, setNewLastName] = useState("");
-  const [new_password, setNewPassword] = useState("");
-  const [new_email, setNewEmail] = useState("");
-  const [new_address, setNewAddress] = useState("");
-  const [new_city, setNewCity] = useState("");
-  const [new_prov, setNewProv] = useState("");
-  const [new_postalCode, setNewPostalCode] = useState("");
-  const [new_phoneNum, setNewPhoneNum] = useState("");
-  const [new_facilityId, setNewFacilityId] = useState("");
-  const [new_practitionerId, setNewPractitionerId] = useState("");
 
   const [hospitals, setHospitals] = useState([]);
 
+  const [updatedPrac, setUpdatedPrac] = useState(false);
+
+  //information for new user
+  // const [new_id, setNewId] = useState("");
+  // const [new_role, setNewRole] = useState("");
+  // const [new_firstName, setNewFirstName] = useState("");
+  // const [new_lastName, setNewLastName] = useState("");
+  // const [new_password, setNewPassword] = useState("");
+  // const [new_email, setNewEmail] = useState("");
+  // const [new_address, setNewAddress] = useState("");
+  // const [new_city, setNewCity] = useState("");
+  // const [new_prov, setNewProv] = useState("");
+  // const [new_postalCode, setNewPostalCode] = useState("");
+  // const [new_phoneNum, setNewPhoneNum] = useState("");
+  // const [new_facilityId, setNewFacilityId] = useState("");
+  // const [new_practitionerId, setNewPractitionerId] = useState("");
+
+
   //form validation
-  const [validNameValue, setValidNameValue] = useState(false);
-  const [validAddressValue, setValidAddressValue] = useState(false);
-  const [validCityValue, setValidCityValue] = useState(false);
-  const [validPostalValue, setValidPostalValue] = useState(false);
-  const [validPhoneValue, setValidPhoneValue] = useState(false);
-  const [validEmailValue, setValidEmailValue] = useState(false);
-  const [validPasswordValue, setValidPasswordValue] = useState(false);
-  const [validClientFormValue, setValidClientFormValue] = useState(false);
-  const [resetAllFormValue] = useState(false);
+  // const [validNameValue, setValidNameValue] = useState(false);
+  // const [validAddressValue, setValidAddressValue] = useState(false);
+  // const [validCityValue, setValidCityValue] = useState(false);
+  // const [validPostalValue, setValidPostalValue] = useState(false);
+  // const [validPhoneValue, setValidPhoneValue] = useState(false);
+  // const [validEmailValue, setValidEmailValue] = useState(false);
+  // const [validPasswordValue, setValidPasswordValue] = useState(false);
+  // const [validClientFormValue, setValidClientFormValue] = useState(false);
+  // const [resetAllFormValue] = useState(false);
 
   //import function from useForm
   const { handleChange, values, handleCancel, handleSubmit, errors } = usePracForm(validate);
@@ -95,17 +97,30 @@ function ManagePractitioner() {
   }, []);
 
   //load all users
-  useEffect(() => {
+  // useEffect(() => {
+  //   axios
+  //     .get("http://localhost:4000/api/admin/practitionerList")
+  //     .then((response) => {
+  //       console.log(response);
+  //       setPractitionerList(response.data);
+  //     })
+  //     .catch((err) => {
+  //       console.log(err);
+  //     });
+  // }, []);
+
+  //load all pracs
+  const loadPracs = () => {
     axios
-      .get("http://localhost:4000/api/admin/practitionerList")
-      .then((response) => {
-        console.log(response);
-        setPractitionerList(response.data);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  }, []);
+    .get("http://localhost:4000/api/admin/practitionerList")
+    .then((response) => {
+      console.log(response);
+      setPractitionerList(response.data);
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+  }
 
   //alert model when admin request to delete a user
   const AlertModal = (props) => {
@@ -158,7 +173,8 @@ function ManagePractitioner() {
           setCity(prac.user.address.cityName);
           setProv(prac.user.address.provName);
           setPostalCode(prac.user.address.postalCode);
-          setPractitionerId(prac.practitionerId)
+          setPractitionerId(prac.practitionerId);
+          setFacilityId(prac.facilityId);
         }
       });
     }
@@ -219,7 +235,7 @@ function ManagePractitioner() {
       facilityId: facilityId,
     })
     .then((response) => {
-      alert({ selectedUser } + "has been changed!");
+      setUpdatedPrac(true);
     })
     .catch((err) => {
       console.log(err);
@@ -298,6 +314,7 @@ function ManagePractitioner() {
             console.log(response);
             setCreateDisplay(false);
             setUserDisplay(true);
+            setUpdatedPrac(true);
   
           })
           .catch((err) => {
@@ -306,132 +323,17 @@ function ManagePractitioner() {
       }
   }, [errors])
 
-  // check if the form is valid
-  // useEffect(() => {
-  //   if (
-  //     validNameValue &&
-  //     validAddressValue &&
-  //     validCityValue &&
-  //     validPostalValue &&
-  //     validPhoneValue &&
-  //     validEmailValue 
-  //   ) {
-  //     setValidClientFormValue(true);
-  //   } else {
-  //     setValidClientFormValue(false);
-  //   }
-  // }, [
-  //   validNameValue,
-  //   validAddressValue,
-  //   validCityValue,
-  //   validPostalValue,
-  //   validPhoneValue,
-  //   validEmailValue,
-  //   setValidClientFormValue,
-  //   validClientFormValue,
-  // ]);
 
-  // function validateFirstName() {
-  //   const symbols = /[`!@#$%^&*()_+\-=[]{};':"\|,.<>\?~]/;
-  //   const namePattern = new RegExp(symbols);
-  //   const isName = isNaN(new_firstName);
-  //   if (
-  //     isName === false ||
-  //     new_firstName === "" ||
-  //     new_firstName === undefined
-  //   ) {
-  //     console.log("the first name is empty!");
-  //     setValidNameValue(false);
-  //   } else if (namePattern.test(new_firstName)) {
-  //     console.log("the first name isnt valid!");
-  //     setValidNameValue(false);
-  //   } else {
-  //     console.log("the first name is good!");
-  //     setValidNameValue(true);
-  //   }
-  // }
-
-  // function validateLastName() {
-  //   const symbols = /[`!@#$%^&*()_+\-=[]{};':"\|,.<>\?~]/;
-  //   const namePattern = new RegExp(symbols);
-  //   const isName = isNaN(new_lastName);
-  //   if (
-  //     isName === false ||
-  //     new_lastName === "" ||
-  //     new_lastName === undefined
-  //   ) {
-  //     console.log("last name is good!");
-  //     setValidNameValue(false);
-  //   } else if (namePattern.test(new_lastName)) {
-  //     setValidNameValue(false);
-  //   } else {
-  //     setValidNameValue(true);
-  //   }
-  // }
-
-  // function validateAddress() {
-  //   const pattern = new RegExp("^[a-zA-Z0-9- ]+$");
-  //   if (new_address === "" || new_address === undefined) {
-
-  //     setValidAddressValue(false);
-  //   } else if (pattern.test(new_address)) {
-
-  //     setValidAddressValue(true);
-  //   } else {
-
-  //     setValidAddressValue(false);
-  //   }
-  // }
-
-  // function validateCity() {
-  //   const pattern = new RegExp("^[a-zA-Z0-9- ]+$");
-  //   if (new_city === "" || new_city === undefined) {
-
-  //     setValidCityValue(false);
-  //   } else if (pattern.test(new_city)) {
-
-  //     setValidCityValue(true);
-  //   } else {
-
-  //     setValidCityValue(false);
-  //   }
-  // }
-
-  // function validatePostalCode() {
-  //   const pattern = new RegExp("^[a-zA-Z][0-9][a-zA-Z][0-9][a-zA-Z][0-9]$");
-  //   if (pattern.test(new_postalCode)) {
-  
-  //     setValidPostalValue(true);
-  //   } else {
-
-  //     setValidPostalValue(false);
-  //   }
-  // }
-
-  // function validatePhone() {
-  //   // Regex found here https://stackoverflow.com/questions/9776231/regular-expression-to-validate-us-phone-numbers
-  //   const pattern = new RegExp("^[0-9]{3}-[0-9]{3}-[0-9]{4}$");
-  //   if (pattern.test(new_phoneNum)) {
-
-  //     setValidPhoneValue(true);
-  //   } else {
-
-  //     setValidPhoneValue(false);
-  //   }
-  // }
-
-  // function validateEmail() {
-  //   const pattern = new RegExp(
-  //     "([!#-'*+/-9=?A-Z^-~-]+(.[!#-'*+/-9=?A-Z^-~-]+)*|\"([]!#-[^-~ \t]|(\\[\t -~]))+\")@([!#-'*+/-9=?A-Z^-~-]+(.[!#-'*+/-9=?A-Z^-~-]+)*|[[\t -Z^-~]*])"
-  //   );
-  //   if (pattern.test(new_email)) {
- 
-  //     setValidEmailValue(true);
-  //   } else {
-
-  //     setValidEmailValue(false);
-  //   }
-  // }
+//will check if the list of practitioners has changes, if so rerender
+  useEffect(() => {
+    if (updatedPrac) {
+      const timer = setTimeout(() => {
+        loadPracs();
+      }, 500);
+    } else {
+      loadPracs();
+    }
+  }, []);
 
 
   //this component will show if the userType select is equal to practitioner
@@ -576,7 +478,7 @@ function ManagePractitioner() {
                       >
                         {hospitals.hospitalList?.map((hospital, index) => {
                           {hospital._id === facilityId && (
-                            <option select>{hospital.hospitalName}</option>
+                            <option defaultChecked>{hospital.hospitalName}</option>
                           )}
                           return (
                             <>     
