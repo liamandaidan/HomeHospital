@@ -68,7 +68,7 @@ function UserNavBar() {
       })
       .then((response) => {
         if (response.status === 200) {
-          setCurrentRequestExist(true);
+          setCurrentRequestExist(false);
           console.log(response);
         } else {
           setCurrentRequestExist(false);

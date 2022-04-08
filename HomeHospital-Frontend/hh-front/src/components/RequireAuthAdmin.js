@@ -9,13 +9,13 @@ function RequireAuth({ children }) {
   useEffect(() => {
     // const timer = setTimeout(() => {
     console.log(children);
-    makePatientRequest();
+    makeAdminRequest();
     // }, 500);
   }, []);
 
-  const makePatientRequest = () => {
+  const makeAdminRequest = () => {
     axios
-      .post("http://localhost:4000/api/users/PatientInfoVisitRequest", {
+      .post("http://localhost:4000/api/admin/adminList", {
         withCredentials: true,
       })
       .then((response) => {

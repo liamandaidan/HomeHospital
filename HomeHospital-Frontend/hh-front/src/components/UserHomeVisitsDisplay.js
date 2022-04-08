@@ -93,6 +93,7 @@ function UserHomeVisitsDisplay() {
     setIsCurrent(true);
     setRequestIdValue(request._id);
     setNewRequestValue(false);
+    setReqButton(false);
     navigate(`/request/${request._id}`);
   }
 
@@ -210,6 +211,7 @@ function UserHomeVisitsDisplay() {
                     <th>Date</th>
                     <th>Reason</th>
                     <th>Location</th>
+                    <th>Phone#</th>
                     <th>Time</th>
                     <th className="text-center">Cancel</th>
                     <th className="text-center">View</th>
@@ -225,12 +227,13 @@ function UserHomeVisitsDisplay() {
                     </td>
                     <td>Emergency Room Visit</td>
                     <td>{currentList.requestHospitalName}</td>
+                    <td>{currentList.phoneNumber}</td>
                     <td>{currentList.waitListTime}</td>
                     <td className="text-center">
                       <Button
                         variant="link"
                         className="newRequest-btn"
-                        onClick={() => handleCancelRequest(currentList.patient)}
+                        onClick={() => handleCancelRequest()}
                       >
                         cancel request
                       </Button>

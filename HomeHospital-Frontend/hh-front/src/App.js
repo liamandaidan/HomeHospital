@@ -15,6 +15,8 @@ import HospitalSelectionPage from "./pages/HospitalSelectionPage";
 import { HomeHospitalProvider } from "./components/HomeHospitalContext";
 import UserHomepage from "./pages/UserHomepage";
 import RequireAuth from "./components/RequireAuth";
+import RequireAuthAdmin from "./components/RequireAuthAdmin";
+import RequireAuthPractitioner from "./components/RequireAuthPractitioner";
 import Practitioner from "./pages/Practioner";
 import Admin from "./pages/Admin.js";
 function App() {
@@ -28,7 +30,14 @@ function App() {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/login" element={<Login />} />
-          <Route path="/admin" element={<Admin />} />
+          <Route
+            path="/admin"
+            element={
+              <RequireAuthAdmin>
+                <Admin />
+              </RequireAuthAdmin>
+            }
+          />
           <Route
             path="/request/:id"
             element={
@@ -57,8 +66,22 @@ function App() {
               </RequireAuth>
             }
           />
-          <Route path="/home" element={<UserHomepage />} />
-          <Route path="/practitioner" element={<Practitioner />} />
+          <Route
+            path="/home"
+            element={
+              <RequireAuth>
+                <UserHomepage />
+              </RequireAuth>
+            }
+          />
+          <Route
+            path="/practitioner"
+            element={
+              <RequireAuthPractitioner>
+                <Practitioner />
+              </RequireAuthPractitioner>
+            }
+          />
           <Route
             path="/register"
             element={<Register className="full-height" />}

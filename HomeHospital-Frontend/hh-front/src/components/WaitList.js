@@ -1,15 +1,21 @@
 import axios from "axios";
 import React, { useContext, useEffect, useState } from "react";
-import { Button, Spinner, Table } from "react-bootstrap";
+import { Button, Modal, Spinner, Table } from "react-bootstrap";
+import { useNavigate } from "react-router-dom";
 import { HomeHospitalContext } from "./HomeHospitalContext";
 
 function WaitList() {
-  const { requestId, isCurrentRequest } = useContext(HomeHospitalContext);
+  const { requestId, isCurrentRequest, requestButtonOn } =
+    useContext(HomeHospitalContext);
+
+  const navigate = useNavigate();
 
   const [requestValue, setRequestValue] = useState({ patient: "No One" });
   const [isCurrent, setIsCurrent] = isCurrentRequest;
   const [requestIdValue, setRequestIdValue] = requestId;
   const [spinner, setSpinner] = useState(true);
+  const [modalState, setModalState] = useState(false);
+  const [reqButton, setReqButton] = requestButtonOn;
 
   useEffect(() => {
     if (isCurrent) {
@@ -19,6 +25,7 @@ function WaitList() {
           console.log("in the current request");
           setRequestValue(response.data);
           setSpinner(false);
+          console.log(response.data);
         })
         .catch((err) => {
           console.log(err);
@@ -40,6 +47,65 @@ function WaitList() {
         });
     }
   }, []);
+
+  function handleCancelRequest() {
+    setModalState(true);
+  }
+
+  function cancelRequest() {
+    axios
+      .delete("http://localhost:4000/api/visitRequest/cancel", {
+        withCredentials: true,
+      })
+      .then((response) => {
+        if (response.status === 200) {
+          setIsCurrent(false);
+          setModalState(false);
+          setReqButton(false);
+          navigate("/home");
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }
+
+  const AlertModal = (props) => {
+    return (
+      <>
+        <Modal {...props} centered>
+          <Modal.Header className="modal-title">
+            <Modal.Title>Cancel Request</Modal.Title>
+          </Modal.Header>
+          <Modal.Body className="modal-content">
+            <p>
+              Are you sure you want to cancel your request? If you cancel this
+              request you will need to fill out a new request and will lose the
+              current spot that you are in right now!
+            </p>
+          </Modal.Body>
+          <Modal.Footer className="modal-footer">
+            <Button
+              className="ack-btn"
+              onClick={() => cancelRequest()}
+              variant="primary"
+            >
+              Cancel Request
+            </Button>
+            <div>
+              <Button
+                variant="link"
+                className="cancel-lnk"
+                onClick={props.onHide}
+              >
+                Go Back
+              </Button>
+            </div>
+          </Modal.Footer>
+        </Modal>
+      </>
+    );
+  };
 
   return (
     <div className="mt-5">
@@ -84,6 +150,7 @@ function WaitList() {
                 <Button
                   variant="outline-danger"
                   className="rounded-pill btn-sm"
+                  onClick={() => handleCancelRequest()}
                 >
                   Cancel Request
                 </Button>
@@ -103,6 +170,7 @@ function WaitList() {
           )}
         </tbody>
       </Table>
+      <AlertModal show={modalState} onHide={() => setModalState(false)} />
     </div>
   );
 }
