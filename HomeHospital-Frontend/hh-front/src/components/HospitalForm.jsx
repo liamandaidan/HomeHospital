@@ -59,7 +59,8 @@ function SelectHospital() {
                     <Card.Subtitle>
                       {post.address.streetAddress}, {post.address.cityName}
                     </Card.Subtitle>
-                    <Card.Text className="card-text">{post.waitTime}</Card.Text>
+                    <Card.Text className="card-text">{post.phoneNumber}</Card.Text>
+					<Card.Text className="card-text">{post.waitTime}</Card.Text>
                     <Form key={post._id}>
                       <Button
                     id="btn"
