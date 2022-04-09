@@ -136,11 +136,12 @@ function LoginAdminForm() {
                   marginLeft: "35px",
                 }}
               >
-               
-                    <h1 className={classes.header}>LOGIN</h1>
-                    <div className={classes.adminHeader}>
-                    <p style={{color: "#ec2baa", fontFamily: "Inter"}}>Administrator</p>
-                  </div>
+                <h2 className={classes.adminLoginHeader}>LOGIN</h2>
+                <div className={classes.adminHeader}>
+                  <p style={{ color: "#ec2baa", fontFamily: "Inter" }}>
+                    Administrator
+                  </p>
+                </div>
               </div>
             </div>
             <div style={{ marginTop: "-25px" }}>

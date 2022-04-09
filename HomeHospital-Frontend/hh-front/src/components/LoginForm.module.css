@@ -19,6 +19,18 @@
   margin-left: 115px;
 }
 
+/* .adminLoginHeader {
+  text-align: center;
+  margin-left: 115px;
+  margin-top: 200px;
+} */
+
+.adminHeader {
+  margin-top: -10px;
+  margin-left: 120px;
+  letter-spacing: 3px;
+}
+
 .smallFont {
   font-size: smaller;
 }
