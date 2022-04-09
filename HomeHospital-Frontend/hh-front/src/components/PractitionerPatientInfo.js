@@ -14,9 +14,13 @@ function PractitionerPatientInfo() {
   // state = {
   //   patientsInfo: {},
   // };
-  const { _id } = useContext(PractitionerContext);
+  const { _id, additionalInfo, symptomsInfo} = useContext(PractitionerContext);
+
+  const [patientAdditionalInfo, setPatientAdditionalInfo] = additionalInfo;
 
   const [patientId, setPatientId] = _id;
+
+  const [symptomDetails, setSymptomDetails] = symptomsInfo;
 
   const [patientInfo, setPatientInfo] = useState({
     HCnumber: "",
@@ -26,6 +30,9 @@ function PractitionerPatientInfo() {
       firstName: "",
       lastName: "",
       phoneNumber: "",
+	  address: {
+		streetAddress:"",
+	  },
     },
     emergencyContact: {
       firstName: "",
@@ -33,6 +40,10 @@ function PractitionerPatientInfo() {
       phoneNumber: "",
     },
   });
+
+  
+
+
 
   useEffect(() => {
     axios
@@ -93,21 +104,27 @@ function PractitionerPatientInfo() {
             <div className="practitioner-patientDetails">
               <h4>Patient Details</h4>
               <div>{/* <p>Address: {this.props.patientDataGiven}</p> */}</div>
-              <p>Address: </p>
-              <p>
-                Emergency Contact Name: {patientInfo.emergencyContact.firstName}{" "}
-                {patientInfo.emergencyContact.lastName}
-              </p>
-              <p>
-                Emergenct Conect Number:{" "}
-                {patientInfo.emergencyContact.phoneNumber}
-              </p>
-              <p>Alberta Healthcare No: {patientInfo.HCnumber}</p>
+              
             </div>
           </Col>
         </Row>
         <Row>
           <Col className="practitioner-patientContactDetails ">
+		  	  <p>Address: {patientInfo.user.address.streetAddress}</p>
+              <p>
+                Emergency Contact Name: {patientInfo.emergencyContact.firstName}{" "}
+                {patientInfo.emergencyContact.lastName}
+              </p>
+              <p>
+                Emergenct Contact Number:{" "}
+                {patientInfo.emergencyContact.phoneNumber}
+              </p>
+              <p>Alberta Healthcare No: {patientInfo.HCnumber}</p>
+			  <p>Additional Info: {patientAdditionalInfo}</p>
+			  
+			 <h5>Symptoms</h5>
+			 <p>{symptomDetails}</p>
+			 
             {/* {this.state.patientsInfo.map((patient, index) => (
                 <div key={index}> */}
             {/* <p>Address: {patient.startAddress.streetAddress}</p> */}

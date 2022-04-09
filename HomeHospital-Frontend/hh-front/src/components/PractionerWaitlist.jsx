@@ -1,16 +1,21 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect,useContext } from "react";
 import { Button, Label, Modal } from "react-bootstrap";
 import PatientData from "../data/patientData.json";
 import axios from "axios";
 import PractionerHospitalSelect from "./PractionerHospitalSelect";
+import { PractitionerContext } from "./PractitionerContext";
 
 axios.defaults.withCredentials = true;
 
 export default function PractionerWaitlist({ childToParent }) {
+  const {_id, additionalInfo, symptomsInfo} = useContext(PractitionerContext);
+  const [_idValue, set_idValue] = _id;
+  const [patientAdditionalInfo, setPatientAdditionalInfo] = additionalInfo;
+  const [symptomDetails, setSymptomDetails] = symptomsInfo;
+  const [practPatientInfo, setPractPatientInfo] = useState([])
   const [modalState, setModalState] = useState(false);
   const [id, setId] = useState("");
   const [selectedUsername, setSelectedUsername] = useState("");
-  const [practPatientInfo, setPractPatientInfo] = useState([]);
   const [hospitalSelected, setHospitalSelected] = useState("none");
   const [url, setUrl] = useState(
     "http://localhost:4000/api/requestManager/hospitalWaitList/"
@@ -29,6 +34,8 @@ export default function PractionerWaitlist({ childToParent }) {
     //window.location.reload("true");
   };
 
+  
+
   useEffect(() => {
     //here we need to change the URL depending on what part of the app we are at.
     //So a user needs to have a hospital selected first.
@@ -37,7 +44,7 @@ export default function PractionerWaitlist({ childToParent }) {
       .then((response) => {
         console.log("Sending request to: " + url);
         console.log(response.data);
-        setPractPatientInfo(response.data);
+		setPractPatientInfo(response.data);
         setFlag(false);
       })
       .catch((err) => {
@@ -113,6 +120,7 @@ export default function PractionerWaitlist({ childToParent }) {
   const DisplayTableRows = practPatientInfo.map((data) => {
     if (flag === false) {
       return (
+		  <>
         <tr>
           <td>{data.patient}</td>
           <td>{data.patientFirstName}</td>
@@ -120,7 +128,8 @@ export default function PractionerWaitlist({ childToParent }) {
           <td>
             <Button
               value={data.patient}
-              onClick={(e) => childToParent(e.target.value)}
+              onClick={(e) => childToParent(e.target.value) (setPatientAdditionalInfo(data.additionalInfo)) (setSymptomDetails(data.symptoms.description))}
+			  
             >
               Select
             </Button>
@@ -129,11 +138,13 @@ export default function PractionerWaitlist({ childToParent }) {
             <Button onClick={(e) => handleCheckIn(data.patient)}>Check In</Button>
           </td>
         </tr>
+		</>
       );
     } else {
       return;
     }
   });
+ 
 
   return (
     <div className="table-structure">
