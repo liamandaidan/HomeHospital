@@ -15,7 +15,7 @@ function RequireAuth({ children }) {
 
   const makePractitionerRequest = () => {
     axios
-      .post("http://localhost:4000/api/requestManager/hospitalWaitList", {
+      .get("http://localhost:4000/api/requestManager/viewAllLists", {
         withCredentials: true,
       })
       .then((response) => {

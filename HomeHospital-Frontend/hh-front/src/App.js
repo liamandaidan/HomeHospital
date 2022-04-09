@@ -20,9 +20,9 @@ import RequireAuthPractitioner from "./components/RequireAuthPractitioner";
 import Practitioner from "./pages/Practioner";
 import Admin from "./pages/Admin.js";
 import "react-toastify/dist/ReactToastify.css";
-
 import AdminLogin from "./pages/AdminLogin.js";
 import { PractitionerProvider } from "./components/PractitionerContext";
+
 function App() {
   useEffect(() => {
     document.title = "HomeHospital";
@@ -84,11 +84,11 @@ function App() {
           <Route
             path="/practitioner"
             element={
-              <RequireAuthPractitioner>
-                <PractitionerProvider>
-                  <Practitioner />
-                </PractitionerProvider>
-              </RequireAuthPractitioner>
+              // <RequireAuthPractitioner>
+              <PractitionerProvider>
+                <Practitioner />
+              </PractitionerProvider>
+              // </RequireAuthPractitioner>
             }
           />
 

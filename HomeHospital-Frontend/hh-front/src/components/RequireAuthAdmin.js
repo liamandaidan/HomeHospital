@@ -15,7 +15,7 @@ function RequireAuth({ children }) {
 
   const makeAdminRequest = () => {
     axios
-      .post("http://localhost:4000/api/admin/adminList", {
+      .get("http://localhost:4000/api/admin/adminList", {
         withCredentials: true,
       })
       .then((response) => {
