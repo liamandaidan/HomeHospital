@@ -22,9 +22,15 @@ function PractitionerPatientInfo() {
     HCnumber: "",
     firstName: "",
     lastName: "",
+    user: {
+      firstName: "",
+      lastName: "",
+      phoneNumber: "",
+    },
     emergencyContact: {
       firstName: "",
       lastName: "",
+      phoneNumber: "",
     },
   });
 
@@ -74,19 +80,11 @@ function PractitionerPatientInfo() {
             <img src={profile} alt="profilePic" className="profilepic" />
           </Col>
           <Col md={8}>
-            <p>{patientInfo.HCnumber}</p>
-            <p>{patientInfo.firstName}</p>
-            <p>{patientInfo.lastName}</p>
-            <p>{patientInfo.emergencyContact.firstName}</p>
-            <p>{patientInfo.emergencyContact.lastName}</p>
-            {/* <div className="practitioner-patientRequestDetails">
-                {this.state.patientsInfo.map((patient, index) => (
-                  // console.log(this.state.patientsInfo[patient])
-                  <h3>
-                    {patient.firstName} {patient.patientLastName}
-                  </h3>
-                ))}
-              </div> */}
+            <div className="practitioner-patientRequestDetails">
+              <h3>
+                {patientInfo.user.firstName} {patientInfo.user.lastName}
+              </h3>
+            </div>
           </Col>
           <Col></Col>
         </Row>
@@ -95,6 +93,16 @@ function PractitionerPatientInfo() {
             <div className="practitioner-patientDetails">
               <h4>Patient Details</h4>
               <div>{/* <p>Address: {this.props.patientDataGiven}</p> */}</div>
+              <p>Address: </p>
+              <p>
+                Emergency Contact Name: {patientInfo.emergencyContact.firstName}{" "}
+                {patientInfo.emergencyContact.lastName}
+              </p>
+              <p>
+                Emergenct Conect Number:{" "}
+                {patientInfo.emergencyContact.phoneNumber}
+              </p>
+              <p>Alberta Healthcare No: {patientInfo.HCnumber}</p>
             </div>
           </Col>
         </Row>
