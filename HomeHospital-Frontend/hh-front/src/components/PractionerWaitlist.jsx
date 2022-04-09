@@ -34,7 +34,6 @@ export default function PractionerWaitlist({ childToParent }) {
     //window.location.reload("true");
   };
 
-  
 
   useEffect(() => {
     //here we need to change the URL depending on what part of the app we are at.
@@ -114,6 +113,16 @@ export default function PractionerWaitlist({ childToParent }) {
 	})
   };
 
+  function checkData(e) {
+    console.log(e.symptoms);
+    setSymptomDetails(e.symptoms)
+    childToParent(e.patient)
+    setPatientAdditionalInfo(e.additionalInfo)
+  }
+
+
+  // childToParent(e.target.value) (setPatientAdditionalInfo(data.additionalInfo)) (setSymptomDetails(data.symptoms.description))
+
   /**
    * This will be used to render table rows based off of a dummy json file i created
    */
@@ -128,7 +137,7 @@ export default function PractionerWaitlist({ childToParent }) {
           <td>
             <Button
               value={data.patient}
-              onClick={(e) => childToParent(e.target.value) (setPatientAdditionalInfo(data.additionalInfo)) (setSymptomDetails(data.symptoms.description))}
+              onClick={() => checkData(data)}
 			  
             >
               Select

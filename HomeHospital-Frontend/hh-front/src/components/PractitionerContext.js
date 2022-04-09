@@ -11,8 +11,8 @@ export const PractitionerProvider = (props) => {
     <PractitionerContext.Provider
       value={{
         _id: [_id, set_id],
-		additionalInfo: [additionalInfo, setAdditIonalInfo],
-		symptomsInfo: [symptomsInfo, setSymptomsInfo],
+        additionalInfo: [additionalInfo, setAdditIonalInfo],
+        symptomsInfo: [symptomsInfo, setSymptomsInfo],
       }}
     >
       {props.children}

@@ -14,7 +14,7 @@ function PractitionerPatientInfo() {
   // state = {
   //   patientsInfo: {},
   // };
-  const { _id, additionalInfo, symptomsInfo} = useContext(PractitionerContext);
+  const { _id, additionalInfo, symptomsInfo } = useContext(PractitionerContext);
 
   const [patientAdditionalInfo, setPatientAdditionalInfo] = additionalInfo;
 
@@ -30,9 +30,9 @@ function PractitionerPatientInfo() {
       firstName: "",
       lastName: "",
       phoneNumber: "",
-	  address: {
-		streetAddress:"",
-	  },
+      address: {
+        streetAddress: "",
+      },
     },
     emergencyContact: {
       firstName: "",
@@ -41,9 +41,12 @@ function PractitionerPatientInfo() {
     },
   });
 
-  
-
-
+  // useEffect(() => {
+  //   console.log(symptomDetails);
+  //   symptomDetails.map((data) => {
+  //     console.log(data.description);
+  //   });
+  // }, [symptomDetails]);
 
   useEffect(() => {
     axios
@@ -104,27 +107,32 @@ function PractitionerPatientInfo() {
             <div className="practitioner-patientDetails">
               <h4>Patient Details</h4>
               <div>{/* <p>Address: {this.props.patientDataGiven}</p> */}</div>
-              
             </div>
           </Col>
         </Row>
         <Row>
           <Col className="practitioner-patientContactDetails ">
-		  	  <p>Address: {patientInfo.user.address.streetAddress}</p>
-              <p>
-                Emergency Contact Name: {patientInfo.emergencyContact.firstName}{" "}
-                {patientInfo.emergencyContact.lastName}
-              </p>
-              <p>
-                Emergenct Contact Number:{" "}
-                {patientInfo.emergencyContact.phoneNumber}
-              </p>
-              <p>Alberta Healthcare No: {patientInfo.HCnumber}</p>
-			  <p>Additional Info: {patientAdditionalInfo}</p>
-			  
-			 <h5>Symptoms</h5>
-			 <p>{symptomDetails}</p>
-			 
+            <p>Address: {patientInfo.user.address.streetAddress}</p>
+            <p>
+              Emergency Contact Name: {patientInfo.emergencyContact.firstName}{" "}
+              {patientInfo.emergencyContact.lastName}
+            </p>
+            <p>
+              Emergenct Contact Number:{" "}
+              {patientInfo.emergencyContact.phoneNumber}
+            </p>
+            <p>Alberta Healthcare No: {patientInfo.HCnumber}</p>
+            <p>Additional Info: {patientAdditionalInfo}</p>
+
+            <h5>Symptoms</h5>
+            {symptomDetails.map((data) => (
+              <div>
+                <p>{data.description}</p>
+                <p>{data.severity}</p>
+              </div>
+            ))}
+            {/* <p>{symptomDetails.description}</p> */}
+
             {/* {this.state.patientsInfo.map((patient, index) => (
                 <div key={index}> */}
             {/* <p>Address: {patient.startAddress.streetAddress}</p> */}
