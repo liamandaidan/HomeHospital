@@ -17,6 +17,7 @@ import UserHomepage from "./pages/UserHomepage";
 import RequireAuth from "./components/RequireAuth";
 import Practitioner from "./pages/Practioner";
 import Admin from "./pages/Admin.js";
+import { PractitionerProvider } from "./components/PractitionerContext";
 function App() {
   useEffect(() => {
     document.title = "HomeHospital";
@@ -58,7 +59,16 @@ function App() {
             }
           />
           <Route path="/home" element={<UserHomepage />} />
-          <Route path="/practitioner" element={<Practitioner />} />
+
+          <Route
+            path="/practitioner"
+            element={
+              <PractitionerProvider>
+                <Practitioner />
+              </PractitionerProvider>
+            }
+          />
+
           <Route
             path="/register"
             element={<Register className="full-height" />}
