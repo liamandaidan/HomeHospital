@@ -107,21 +107,20 @@ export default function PractionerWaitlist({ childToParent }) {
 	})
 	.then((response) => {
 		setModalState(false);
+		alert("Patient has been checked in")
 	})
     .catch((err) => {
 		console.log(err)
 	})
   };
 
+  //sends data from this route to the left side component
   function checkData(e) {
     console.log(e.symptoms);
     setSymptomDetails(e.symptoms)
     childToParent(e.patient)
     setPatientAdditionalInfo(e.additionalInfo)
   }
-
-
-  // childToParent(e.target.value) (setPatientAdditionalInfo(data.additionalInfo)) (setSymptomDetails(data.symptoms.description))
 
   /**
    * This will be used to render table rows based off of a dummy json file i created
@@ -138,13 +137,13 @@ export default function PractionerWaitlist({ childToParent }) {
             <Button
               value={data.patient}
               onClick={() => checkData(data)}
-			  
+			  className="detailBtn"
             >
               Select
             </Button>
           </td>
           <td>
-            <Button onClick={(e) => handleCheckIn(data.patient)}>Check In</Button>
+            <Button onClick={(e) => handleCheckIn(data.patient)} className="checkInBtn">Check In</Button>
           </td>
         </tr>
 		</>

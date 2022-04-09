@@ -11,9 +11,6 @@ import axios from "axios";
 import { PractitionerContext } from "./PractitionerContext";
 
 function PractitionerPatientInfo() {
-  // state = {
-  //   patientsInfo: {},
-  // };
   const { _id, additionalInfo, symptomsInfo } = useContext(PractitionerContext);
 
   const [patientAdditionalInfo, setPatientAdditionalInfo] = additionalInfo;
@@ -33,6 +30,7 @@ function PractitionerPatientInfo() {
       address: {
         streetAddress: "",
       },
+	  phoneNumber:"",
     },
     emergencyContact: {
       firstName: "",
@@ -60,21 +58,6 @@ function PractitionerPatientInfo() {
       });
   }, [patientId]);
 
-  // componentDidUpdate() {
-  //   console.log(this.props.patientDataGiven);
-  //   axios
-  //     .get(
-  //       `http://localhost:4000/api/requestManager/patientInfo/${this.props.patientDataGiven}`
-  //     )
-  //     .then((res) => {
-  //       console.log(res);
-  //       this.setState({ patientsInfo: res.data });
-  //     })
-  //     .catch((err) => {
-  //       console.log(err);
-  //     });
-  // }
-
   return (
     <>
       <Container className="patient-container">
@@ -95,7 +78,7 @@ function PractitionerPatientInfo() {
           </Col>
           <Col md={8}>
             <div className="practitioner-patientRequestDetails">
-              <h3>
+			<h3>
                 {patientInfo.user.firstName} {patientInfo.user.lastName}
               </h3>
             </div>
@@ -106,13 +89,16 @@ function PractitionerPatientInfo() {
           <Col>
             <div className="practitioner-patientDetails">
               <h4>Patient Details</h4>
-              <div>{/* <p>Address: {this.props.patientDataGiven}</p> */}</div>
             </div>
           </Col>
         </Row>
         <Row>
           <Col className="practitioner-patientContactDetails ">
+		  	  
             <p>Address: {patientInfo.user.address.streetAddress}</p>
+			<p>
+				Phone Number: {patientInfo.user.phoneNumber}
+			</p>
             <p>
               Emergency Contact Name: {patientInfo.emergencyContact.firstName}{" "}
               {patientInfo.emergencyContact.lastName}
@@ -127,30 +113,14 @@ function PractitionerPatientInfo() {
             <h5>Symptoms</h5>
             {symptomDetails.map((data) => (
               <div>
-                <p>{data.description}</p>
-                <p>{data.severity}</p>
+				  <ul>
+					  <li>
+					  	{data.description} (Severity: {data.severity})
+					  </li>
+				  </ul>
+                <p></p>
               </div>
             ))}
-            {/* <p>{symptomDetails.description}</p> */}
-
-            {/* {this.state.patientsInfo.map((patient, index) => (
-                <div key={index}> */}
-            {/* <p>Address: {patient.startAddress.streetAddress}</p> */}
-            {/* <h5>Symptoms:</h5>
-                  {patient.symptoms.map((p, i) => (
-                    <div key={i}> */}
-            {/* <ul>
-                        <li>
-                          {p.description} (Severity: {p.severity})
-                        </li>
-                      </ul>
-                    </div>
-                  ))} */}
-            {/* <h5>Additional Info</h5>
-                  <p>{patient.additionalInfo}</p>
-                  <h5>Place in queue: </h5>
-                </div> */}
-            {/* ))}  */}
           </Col>
         </Row>
         <Row>
