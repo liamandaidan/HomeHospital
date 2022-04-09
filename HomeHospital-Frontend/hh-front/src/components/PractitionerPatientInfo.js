@@ -9,19 +9,24 @@ import "../styles/SymptomForm.css";
 import "../styles/PractionerStyles.css";
 import axios from "axios";
 
-
 export class PractitionerPatientInfo extends Component {
-	state = {
-		patientsInfo: []
-	};
+  state = {
+    patientsInfo: [],
+  };
 
-	componentDidMount() {
-		axios.get("http://localhost:4000/api/requestManager/hospitalWaitList/6216f18abaa205c9cab2f608")
-		.then(res=> {
-			console.log(res);
-			this.setState({patientsInfo: res.data});
-		})
-	}
+  componentDidUpdate() {
+    axios
+      .get(
+        `http://localhost:4000/api/requestManager/patientInfo/${this.props.patientDataGiven}`
+      )
+      .then((res) => {
+        console.log(res);
+        this.setState({ patientsInfo: res.data });
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }
 
   render() {
     return (
@@ -44,7 +49,12 @@ export class PractitionerPatientInfo extends Component {
             </Col>
             <Col md={8}>
               <div className="practitioner-patientRequestDetails">
-			   {this.state.patientsInfo.map(patient => <h3>{patient.patientFirstName} {patient.patientLastName}</h3>)}
+                {this.state.patientsInfo.map((patient, index) => (
+                  // console.log(this.state.patientsInfo[patient])
+                  <h3>
+                    {patient.firstName} {patient.patientLastName}
+                  </h3>
+                ))}
               </div>
             </Col>
             <Col></Col>
@@ -61,22 +71,24 @@ export class PractitionerPatientInfo extends Component {
           </Row>
           <Row>
             <Col className="practitioner-patientContactDetails ">
-			   {this.state.patientsInfo.map((patient, index) => 
-			   <div key={index}>
-			   {/* <p>Address: {patient.startAddress.streetAddress}</p> */}
-			   <h5>Symptoms:</h5>
-				{patient.symptoms.map((p, i)=> (
-					<div key={i}>
-						<ul>
-							<li>{p.description} (Severity: {p.severity})</li>
-						</ul>
-					</div>
-				))}
-			   <h5>Additional Info</h5>
-				<p>{patient.additionalInfo}</p>
-				<h5>Place in queue: </h5>
-			   </div>
-				)}
+              {/* {this.state.patientsInfo.map((patient, index) => (
+                <div key={index}> */}
+              {/* <p>Address: {patient.startAddress.streetAddress}</p> */}
+              {/* <h5>Symptoms:</h5>
+                  {patient.symptoms.map((p, i) => (
+                    <div key={i}> */}
+              {/* <ul>
+                        <li>
+                          {p.description} (Severity: {p.severity})
+                        </li>
+                      </ul>
+                    </div>
+                  ))} */}
+              {/* <h5>Additional Info</h5>
+                  <p>{patient.additionalInfo}</p>
+                  <h5>Place in queue: </h5>
+                </div> */}
+              {/* ))}  */}
             </Col>
           </Row>
           <Row>
