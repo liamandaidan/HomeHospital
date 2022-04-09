@@ -84,11 +84,11 @@ function App() {
           <Route
             path="/practitioner"
             element={
-              // <RequireAuthPractitioner>
-              <PractitionerProvider>
-                <Practitioner />
-              </PractitionerProvider>
-              // </RequireAuthPractitioner>
+              <RequireAuthPractitioner>
+                <PractitionerProvider>
+                  <Practitioner />
+                </PractitionerProvider>
+              </RequireAuthPractitioner>
             }
           />
 

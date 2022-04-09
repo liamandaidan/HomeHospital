@@ -15,7 +15,7 @@ function RequireAuth({ children }) {
 
   const makePractitionerRequest = () => {
     axios
-      .get("http://localhost:4000/api/requestManager/viewAllLists", {
+      .get("http://localhost:4000/api/testP", {
         withCredentials: true,
       })
       .then((response) => {
