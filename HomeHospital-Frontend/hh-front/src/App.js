@@ -19,6 +19,8 @@ import RequireAuthAdmin from "./components/RequireAuthAdmin";
 import RequireAuthPractitioner from "./components/RequireAuthPractitioner";
 import Practitioner from "./pages/Practioner";
 import Admin from "./pages/Admin.js";
+import "react-toastify/dist/ReactToastify.css";
+
 function App() {
   useEffect(() => {
     document.title = "HomeHospital";

@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 import { HomeHospitalContext } from "./HomeHospitalContext";
 
 function WaitList() {
-  const { requestId, isCurrentRequest, requestButtonOn } =
+  const { requestId, isCurrentRequest, requestButtonOn, cancelSuccess } =
     useContext(HomeHospitalContext);
 
   const navigate = useNavigate();
@@ -16,6 +16,7 @@ function WaitList() {
   const [spinner, setSpinner] = useState(true);
   const [modalState, setModalState] = useState(false);
   const [reqButton, setReqButton] = requestButtonOn;
+  const [cancelSuccessValue, setCancelSuccessValue] = cancelSuccess;
 
   useEffect(() => {
     if (isCurrent) {
@@ -62,6 +63,7 @@ function WaitList() {
           setIsCurrent(false);
           setModalState(false);
           setReqButton(false);
+          setCancelSuccessValue(true);
           navigate("/home");
         }
       })

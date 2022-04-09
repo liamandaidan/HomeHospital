@@ -20,9 +20,10 @@ function SymptomsForm() {
   const [modalState, setModalState] = useState(false);
   const [isValid, setIsValid] = useState(true);
 
-  const { _id, newRequest } = useContext(HomeHospitalContext);
+  const { _id, newRequest, requestSuccess } = useContext(HomeHospitalContext);
   const [hospitalID] = _id;
   const [newRequestValue, setNewRequestValue] = newRequest;
+  const [requestSuccessValue, setRequestSuccessValue] = requestSuccess;
 
   const navigate = useNavigate();
 
@@ -92,7 +93,7 @@ function SymptomsForm() {
     ) {
       setModalState(true);
     } else {
-      alert("Please complete all fields");
+      setIsValid(false);
     }
   };
 
@@ -106,6 +107,7 @@ function SymptomsForm() {
       })
       .then((response) => {
         console.log(response);
+        setRequestSuccessValue(true);
       })
       .catch((err) => {
         console.log(err);

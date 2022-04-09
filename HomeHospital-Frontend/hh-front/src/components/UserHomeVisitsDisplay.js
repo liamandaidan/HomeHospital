@@ -16,12 +16,18 @@ function UserHomeVisitsDisplay() {
   const navigate = useNavigate();
 
   // useContext to get new Request value
-  const { newRequest, requestId, isCurrentRequest, requestButtonOn } =
-    useContext(HomeHospitalContext);
+  const {
+    newRequest,
+    requestId,
+    isCurrentRequest,
+    requestButtonOn,
+    cancelSuccess,
+  } = useContext(HomeHospitalContext);
   const [newRequestValue, setNewRequestValue] = newRequest;
   const [reqButton, setReqButton] = requestButtonOn;
   const [requestIdValue, setRequestIdValue] = requestId;
   const [isCurrent, setIsCurrent] = isCurrentRequest;
+  const [cancelSuccessValue, setCancelSuccessValue] = cancelSuccess;
 
   moment.locale("en");
 
@@ -119,6 +125,7 @@ function UserHomeVisitsDisplay() {
           setNoCurrent(true);
           setModalState(false);
           setReqButton(false);
+          setCancelSuccessValue(true);
           window.location.reload();
         }
       })
@@ -199,10 +206,8 @@ function UserHomeVisitsDisplay() {
             {!currentSpinner && !noCurrent && (
               <Table
                 striped
-                bordered
                 hover
                 responsive
-                borderless
                 className="visit-table table-fixed"
               >
                 <thead>
@@ -211,7 +216,6 @@ function UserHomeVisitsDisplay() {
                     <th>Date</th>
                     <th>Reason</th>
                     <th>Location</th>
-                    <th>Phone#</th>
                     <th>Time</th>
                     <th className="text-center">Cancel</th>
                     <th className="text-center">View</th>
@@ -227,12 +231,11 @@ function UserHomeVisitsDisplay() {
                     </td>
                     <td>Emergency Room Visit</td>
                     <td>{currentList.requestHospitalName}</td>
-                    <td>{currentList.phoneNumber}</td>
                     <td>{currentList.waitListTime}</td>
                     <td className="text-center">
                       <Button
                         variant="link"
-                        className="newRequest-btn"
+                        className="cancelRequest-btn"
                         onClick={() => handleCancelRequest()}
                       >
                         cancel request
@@ -273,10 +276,8 @@ function UserHomeVisitsDisplay() {
             {!spinner && !noRequest && visitList.length > 0 && (
               <Table
                 striped
-                bordered
                 hover
                 responsive
-                borderless
                 className="visit-table table-fixed"
               >
                 <thead>

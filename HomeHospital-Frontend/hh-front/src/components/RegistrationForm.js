@@ -271,7 +271,7 @@ function RegistrationForm() {
   };
 
   return (
-    <Container>
+    <Container style={{ borderRadius: "0px 50px 0px 0px" }}>
       <div>
         <h3
           className="text-center mt-4"

@@ -4,7 +4,6 @@ import backgroundLogin from "../images/bg.png";
 import LoginForm from "../components/LoginForm";
 import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
 import { HomeHospitalContext } from "../components/HomeHospitalContext";
 
 axios.defaults.withCredentials = true;
