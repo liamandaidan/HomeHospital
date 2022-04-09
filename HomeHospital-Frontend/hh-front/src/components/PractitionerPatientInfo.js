@@ -7,86 +7,136 @@ import Col from "react-bootstrap/Col";
 import Container from "react-bootstrap/Container";
 import "../styles/SymptomForm.css";
 import "../styles/PractionerStyles.css";
-import patientData2 from "../components/TempVisitRequest.json";
 import axios from "axios";
-import { HomeHospitalContext } from "./HomeHospitalContext";
+import { PractitionerContext } from "./PractitionerContext";
 
-export class PractitionerPatientInfo extends Component {
-  render() {
-    return (
-      <>
-	  
-        <Container className="patient-container">
-          <Row>
-            <Row>
-              <Col>
-                <div className="hbar-div">
-                  <img
-                    src={hbar}
-                    alt="heartbeat bar"
-                    className="hb-bar-practitioner1"
-                  />
-                </div>
-              </Col>
-            </Row>
-            <Col>
-              <img src={profile} alt="profilePic" className="profilepic" />
-            </Col>
-            <Col md={8}>
-              <div className="practitioner-patientRequestDetails">
-			  {patientData2.map((patientDetail, index) => {
-		  		return <h3>{patientDetail.name}</h3>
-	  		 })}
-              </div>
-            </Col>
-            <Col></Col>
-          </Row>
-          <Row>
-            <Col>
-              <div className="practitioner-patientDetails">
-                <h4>Patient Details</h4>
-                <div class="alert alert-primary" role="alert">
-                  #This is temporary, waitlist ID: {this.props.patientDataGiven}
-                </div>
-              </div>
-            </Col>
-          </Row>
-          <Row>
-            <Col className="practitioner-patientContactDetails ">
-			  {patientData2.map((patientDetail, index) => {
-		  		return (
-					<><p>Address: {patientDetail.address}</p>
-					<p>Contact Number: {patientDetail.contactNumber}</p>
-					<p>Alberta Health Care no: {patientDetail.albertaHealthcareNo}</p>
-					<p>Emergency Contact Name: {patientDetail.emergencyContactName}</p>
-					<p>Emergency Contact No:{patientDetail.emergencyContactNumber}</p>
-					<h5>Symptoms</h5>
-					<ul>
-						<li>{patientDetail.symptoms}</li>
-              		</ul>
-					<h5>Additional Info</h5>
-						<p>{patientDetail.additionalInfo}</p>
-					<h5>Place in queue: {patientDetail.queue}</h5>
-					</>
-				  )		
-	  		 })}
-            </Col>
-          </Row>
+function PractitionerPatientInfo() {
+  const { _id, additionalInfo, symptomsInfo } = useContext(PractitionerContext);
+
+  const [patientAdditionalInfo, setPatientAdditionalInfo] = additionalInfo;
+
+  const [patientId, setPatientId] = _id;
+
+  const [symptomDetails, setSymptomDetails] = symptomsInfo;
+
+  const [patientInfo, setPatientInfo] = useState({
+    HCnumber: "",
+    firstName: "",
+    lastName: "",
+    user: {
+      firstName: "",
+      lastName: "",
+      phoneNumber: "",
+      address: {
+        streetAddress: "",
+      },
+	  phoneNumber:"",
+    },
+    emergencyContact: {
+      firstName: "",
+      lastName: "",
+      phoneNumber: "",
+    },
+  });
+
+  // useEffect(() => {
+  //   console.log(symptomDetails);
+  //   symptomDetails.map((data) => {
+  //     console.log(data.description);
+  //   });
+  // }, [symptomDetails]);
+
+  useEffect(() => {
+    axios
+      .get(`http://localhost:4000/api/requestManager/patientInfo/${patientId}`)
+      .then((res) => {
+        console.log(res);
+        setPatientInfo(res.data);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }, [patientId]);
+
+  return (
+    <>
+      <Container className="patient-container">
+        <Row>
           <Row>
             <Col>
               <div className="hbar-div">
                 <img
                   src={hbar}
                   alt="heartbeat bar"
-                  className="hb-bar-practitioner2"
+                  className="hb-bar-practitioner1"
                 />
               </div>
             </Col>
           </Row>
-        </Container>
-      </>
-    );
-  }
+          <Col>
+            <img src={profile} alt="profilePic" className="profilepic" />
+          </Col>
+          <Col md={8}>
+            <div className="practitioner-patientRequestDetails">
+			<h3>
+                {patientInfo.user.firstName} {patientInfo.user.lastName}
+              </h3>
+            </div>
+          </Col>
+          <Col></Col>
+        </Row>
+        <Row>
+          <Col>
+            <div className="practitioner-patientDetails">
+              <h4>Patient Details</h4>
+            </div>
+          </Col>
+        </Row>
+        <Row>
+          <Col className="practitioner-patientContactDetails ">
+		  	  
+            <p>Address: {patientInfo.user.address.streetAddress}</p>
+			<p>
+				Phone Number: {patientInfo.user.phoneNumber}
+			</p>
+            <p>
+              Emergency Contact Name: {patientInfo.emergencyContact.firstName}{" "}
+              {patientInfo.emergencyContact.lastName}
+            </p>
+            <p>
+              Emergenct Contact Number:{" "}
+              {patientInfo.emergencyContact.phoneNumber}
+            </p>
+            <p>Alberta Healthcare No: {patientInfo.HCnumber}</p>
+            <p>Additional Info: {patientAdditionalInfo}</p>
+
+            <h5>Symptoms</h5>
+            {symptomDetails.map((data) => (
+              <div>
+				  <ul>
+					  <li>
+					  	{data.description} (Severity: {data.severity})
+					  </li>
+				  </ul>
+                <p></p>
+              </div>
+            ))}
+          </Col>
+        </Row>
+        <Row>
+          <Col>
+            <div className="hbar-div">
+              <img
+                src={hbar}
+                alt="heartbeat bar"
+                className="hb-bar-practitioner2"
+              />
+            </div>
+          </Col>
+        </Row>
+      </Container>
+    </>
+  );
 }
 
 export default PractitionerPatientInfo;

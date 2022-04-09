@@ -22,6 +22,7 @@ import Admin from "./pages/Admin.js";
 import "react-toastify/dist/ReactToastify.css";
 
 import AdminLogin from "./pages/AdminLogin.js";
+import { PractitionerProvider } from "./components/PractitionerContext";
 function App() {
   useEffect(() => {
     document.title = "HomeHospital";
@@ -79,14 +80,19 @@ function App() {
               </RequireAuth>
             }
           />
+          <Route path="/home" element={<UserHomepage />} />
+
           <Route
             path="/practitioner"
             element={
               <RequireAuthPractitioner>
-                <Practitioner />
+                <PractitionerProvider>
+                  <Practitioner />
+                </PractitionerProvider>
               </RequireAuthPractitioner>
             }
           />
+
           <Route
             path="/register"
             element={<Register className="full-height" />}

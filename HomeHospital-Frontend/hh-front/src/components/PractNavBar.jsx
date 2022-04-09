@@ -8,8 +8,40 @@ import {
 } from "react-bootstrap";
 import classes from "./UserNavBar.module.css";
 import avatar from "../images/img_avatar.png";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 function PractNavBar() {
+  let navigate = useNavigate();
+
+  /**
+   * This is where the logout function will be handled.
+   */
+  const handleLogout = () => {
+    axios
+      .post("http://localhost:4000/api/logout")
+      .then((response) => {
+        deleteAllCookies();
+        navigate("/login-practitioner");
+      })
+      .catch((err) => {
+        console.log(err);
+        navigate("/");
+      });
+  };
+  /**
+   * This will delete all the current cookies when called.
+   */
+  function deleteAllCookies() {
+    const cookies = document.cookie.split(";");
+
+    for (let i = 0; i < cookies.length; i++) {
+      const cookie = cookies[i];
+      const eqPos = cookie.indexOf("=");
+      const name = eqPos > -1 ? cookie.substr(0, eqPos) : cookie;
+      document.cookie = name + "=;expires=Thu, 01 Jan 1970 00:00:00 GMT";
+    }
+  }
   return (
     <Navbar bg="light" expand="lg">
       <Container fluid>
@@ -22,14 +54,7 @@ function PractNavBar() {
             className="me-auto my-2 my-lg-0"
             style={{ maxHeight: "100px" }}
             navbarScroll
-          > 
-            <Nav.Link href="/user" className="ms-5">
-              Home
-            </Nav.Link>
-            <Nav.Link href="/reports">Reports</Nav.Link>
-            {/*  no need to add in logout as its in setting cog
-           <Nav.Link href="#action2">Logout</Nav.Link> */}
-          </Nav>
+          ></Nav>
           <div className="d-flex">
             <img src={avatar} alt="avatar" className={classes.avatar} />
             <h6 className="me-3 mt-2 ps-2">Username</h6>
@@ -52,11 +77,11 @@ function PractNavBar() {
               align="end"
               className="me-5"
             >
-              <Dropdown.Item href="#">Profile</Dropdown.Item>
-              <Dropdown.Item href="#">Hospitals</Dropdown.Item>
-              <Dropdown.Item href="#">Notifications</Dropdown.Item>
-              <Dropdown.Divider />
-              <Dropdown.Item href="#" className="text-danger">
+              <Dropdown.Item
+                href="#"
+                className="text-danger"
+                onClick={handleLogout}
+              >
                 Logout
               </Dropdown.Item>
             </DropdownButton>

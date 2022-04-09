@@ -1,6 +1,6 @@
 /* Colors are temporary to see what areas we are workign with*/
 .leftContent {
-  background-color: lightgray;
+  /* background-color: lightgray; */
 }
 .rightContent {
   /* background-color: aliceblue; */
@@ -32,37 +32,40 @@
 .hb-bar-practitioner1 {
 	margin-left: -100px;
 	height: 3.0rem;
-    width: 30rem;
+    width: 33rem;
+	max-width: 110%;
     opacity:70%;
 }
 
 .hb-bar-practitioner2 {
 	margin-left: -85px;
 	height: 3.0rem;
-    width: 30rem;
+    width: 33rem;
     opacity:70%;
+	max-width: 100%;
 	transform:scaleX(-1);
 }
 
-/* Css for check in button when needed*/
-.checkInBtn {
-	border: 1px solid #71E7CA;
-	box-sizing: border-box;
-	filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
-	border-radius: 16px;
-	background-color: white;
-	color: rgb(99, 99, 99);
+.detailBtn {
+	background-color:rgb(255, 255, 255);
+	color: black;
+	border: 2px solid #71E7CA;
+	border-radius: 17px;
+	margin-top:-5px;
+	height: 40px;
 }
 
-/* Css for  detail button when needed*/
-.patientDetailBtn {
-	border: 1px solid #71E7CA;
-	box-sizing: border-box;
-	filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
-	border-radius: 16px;
-	background-color: white;
-	color: rgb(99, 99, 99);
+
+.checkInBtn {
+	background-color:rgb(255, 255, 255);
+	color: black;
+	border: 2px solid #71E7CA;
+	border-radius: 17px;
+	margin-top:-5px;
 }
+
+
+
 
 
 

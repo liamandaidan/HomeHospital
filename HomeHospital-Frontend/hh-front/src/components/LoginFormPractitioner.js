@@ -27,9 +27,13 @@ function LoginFormPractitioner() {
   const [loggedIn, setLoggedIn] = useState();
 
   const handleShow = () => setModalShow(true);
-
+  /**
+   * Here we provide regex for the email before going to backend.
+   */
   function validateEmail() {
-    const pattern = new RegExp("^[a-zA-Z0-9_.-]+@[a-zA-Z]+[.][a-zA-Z]{2,}$");
+    const pattern = new RegExp(
+      "([!#-'*+/-9=?A-Z^-~-]+(.[!#-'*+/-9=?A-Z^-~-]+)*|\"([]!#-[^-~ \t]|(\\[\t -~]))+\")@([!#-'*+/-9=?A-Z^-~-]+(.[!#-'*+/-9=?A-Z^-~-]+)*|[[\t -Z^-~]*])"
+    );
     if (!pattern.test(email)) {
       document.getElementById("email").classList.add("is-invalid");
       document.getElementById("email").classList.remove("is-valid");
@@ -40,9 +44,11 @@ function LoginFormPractitioner() {
       setValidEmail(true);
     }
   }
-
+  /**
+   * Here we validate that the password is legal.
+   */
   function validatePassword() {
-    if (!password.length > 10) {
+    if (!password.length > 8 || password.length == 0) {
       document.getElementById("password").classList.add("is-invalid");
       document.getElementById("password").classList.remove("is-valid");
       setvalidPassword(false);
@@ -52,37 +58,47 @@ function LoginFormPractitioner() {
       setvalidPassword(true);
     }
   }
-
+  /**
+   * This will provide the post request to the server with a users credentials.
+   */
   const loginUser = () => {
     axios
-      .post("http://localhost:4000/api/login", {
+      .post("http://localhost:4000/api/loginP", {
         email: email,
         password: password,
       })
       .then((response) => {
         console.log("You have logged in successfully");
-        navigate("/home");
+        navigate("/practitioner");
       })
       .catch((err) => {
         console.log(err);
         handleShow();
       });
   };
-
-  useEffect(() => {
-    axios
-      .post("http://localhost:4000/api/users/PatientInfoVisitRequest", {
-        withCredentials: true,
-      })
-      .then((response) => {
-        setLoggedIn(true);
-        navigate("/home");
-      })
-      .catch((err) => {
-        setLoggedIn(false);
-      });
-  }, [loggedIn]);
-
+  /**
+   * The main feature of this is to provide login utility.
+   * This will need to be changed if a practioner account differs from a patient. Right now they are the same.
+   */
+  // useEffect(() => {
+  //   axios
+  //     .post("http://localhost:4000/api/users/PatientInfoVisitRequest", {
+  //       withCredentials: true,
+  //     })
+  //     .then((response) => {
+  //       setLoggedIn(true);
+  //       navigate("/practitioner");
+  //     })
+  //     .catch((err) => {
+  //       setLoggedIn(false);
+  //     });
+  // }, [loggedIn]);
+  
+  /**
+   * This will handle errors
+   * @param {*} props 
+   * @returns 
+   */
   function ErrorModal(props) {
     return (
       <Modal
@@ -103,22 +119,24 @@ function LoginFormPractitioner() {
       </Modal>
     );
   }
-
+  /**
+   * As long as email and passwords are valid this will allow access to the submission of the form.
+   */
   useEffect(() => {
     if (validEmail && validPassword) {
       setValidForm(true);
     }
   }, [validEmail, validPassword]);
 
-  if (loggedIn === undefined || loggedIn === null) {
-    return (
-      <div className={`${classes.spinner} text-center`}>
-        <Spinner animation="border" role="status">
-          <span className="visually-hidden">Loading...</span>
-        </Spinner>
-      </div>
-    );
-  }
+  // if (loggedIn === undefined || loggedIn === null) {
+  //   return (
+  //     <div className={`${classes.spinner} text-center`}>
+  //       <Spinner animation="border" role="status">
+  //         <span className="visually-hidden">Loading...</span>
+  //       </Spinner>
+  //     </div>
+  //   );
+  // }
 
   return (
     <React.Fragment>
@@ -153,7 +171,6 @@ function LoginFormPractitioner() {
                 onChange={(e) => setEmail(e.target.value)}
                 required
                 placeholder="yourName@gmail.com"
-                pattern="^[a-zA-Z0-9_.-]+@[a-zA-Z]+[\.][a-zA-Z]{2,}$"
                 autoFocus
               />
               <div className="valid-feedback"></div>
@@ -176,7 +193,7 @@ function LoginFormPractitioner() {
                 />
                 <div className="valid-feedback"></div>
                 <div className="invalid-feedback">
-                  Password must be minimum of 10 characters
+                  Please enter a valid password
                 </div>
               </div>
               <div className="d-grid gap-2 mt-4">
@@ -210,7 +227,6 @@ function LoginFormPractitioner() {
                 </div>
               </Col>
             </Row>
-
           </div>
         </div>
       </Container>

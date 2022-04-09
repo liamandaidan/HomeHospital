@@ -5,7 +5,7 @@ import Container from "react-bootstrap/Container";
 import moment from "moment";
 import axios from "axios";
 import hb1 from "../images/heartbeat-bg.png";
-import profile from "../images/profilepicture.png";
+import profile from "../images/img_avatar.png";
 import "../styles/UserHomepage.css";
 
 axios.defaults.withCredentials = true;

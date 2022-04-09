@@ -11,8 +11,9 @@ import {
 const route = express.Router()
 
 //
-route.put('/completeRequest', async (req, res) => {
+route.post('/completeRequest', async (req, res) => {
 	const { patientId } = req.body
+	console.log("This is the" + patientId)
 
 	if (await completeCurrentRequest(patientId)) {
 		res.status(200).send({ message: 'Request Completed' })
@@ -76,9 +77,9 @@ route.get('/hospitalWaitList/:hospitalId', async (req, res) => {
 })
 
 
-route.get('/patientInfo', async (req, res) => {
+route.get('/patientInfo/:patientId', async (req, res) => {
 	// return the current users request
-	const {patientId} = req.body
+	const {patientId} = req.params
 
 	if (patientId == null || patientId == undefined || patientId == '') {
 		console.log('patientId is not valid')

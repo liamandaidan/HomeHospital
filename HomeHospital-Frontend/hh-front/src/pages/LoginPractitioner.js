@@ -10,27 +10,7 @@ import LoginFormPractitioner from "../components/LoginFormPractitioner";
 axios.defaults.withCredentials = true;
 
 function LoginPractitioner() {
-  // useContext to get new Request value
-  const { regSuccess } = useContext(HomeHospitalContext);
-  const [regSuccessValue, setRegSuccessValue] = regSuccess;
 
-  if (regSuccessValue) {
-    notify();
-    setRegSuccessValue(false);
-  }
-
-  // Registration Toast
-  function notify() {
-    toast.success("Registration Successful", {
-      position: "top-center",
-      autoClose: 5000,
-      hideProgressBar: false,
-      closeOnClick: true,
-      pauseOnHover: true,
-      draggable: true,
-      progress: undefined,
-    });
-  }
 
   return (
     <div>
