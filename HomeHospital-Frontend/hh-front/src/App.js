@@ -21,6 +21,7 @@ import Practitioner from "./pages/Practioner";
 import Admin from "./pages/Admin.js";
 import "react-toastify/dist/ReactToastify.css";
 
+import AdminLogin from "./pages/AdminLogin.js";
 function App() {
   useEffect(() => {
     document.title = "HomeHospital";
@@ -32,6 +33,8 @@ function App() {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/login" element={<Login />} />
+          <Route path="/admin" element={<Admin />} />
+          <Route path="/adminlogin" element={<AdminLogin />} />
           <Route
             path="/admin"
             element={

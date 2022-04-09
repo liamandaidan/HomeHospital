@@ -27,6 +27,7 @@ function PatientInfo() {
         setEmergFirstName(response.data.data.emergencyContact.firstName);
         setEmergLastName(response.data.data.emergencyContact.lastName);
         setEmergPhoneNumber(response.data.data.emergencyContact.phoneNumber);
+        console.log("this is the emerg first name" + emergFirstName)
       })
       .catch((err) => {
         console.log(err);
@@ -50,7 +51,6 @@ function PatientInfo() {
               <h3>
                 {firstName} {lastName}
               </h3>
-              <p>Visit request #45</p>
               <p>{formatDate}</p>
             </div>
           </Col>
@@ -67,10 +67,8 @@ function PatientInfo() {
           <Col className="patient-contactDetails">
             <p>Contact number: {phoneNumber}</p>
             <p>Alberta Health Care no: {HCNumber}</p>
-            <p>
-              Emergency contact name: {emergFirstName} {emergLastName}
-            </p>
-            <p>Contact contanct number: {emergPhoneNumber}</p>
+            <p>Emergency contact name: {emergFirstName == null ? "No infomation available" : (emergFirstName + " " + emergLastName)}</p>
+            <p>Contact contact number: </p>
           </Col>
         </Row>
         <Row>
