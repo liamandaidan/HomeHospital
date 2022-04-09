@@ -1,6 +1,6 @@
 /* Colors are temporary to see what areas we are workign with*/
 .leftContent {
-  background-color: lightgray;
+  /* background-color: lightgray; */
 }
 .rightContent {
   /* background-color: aliceblue; */
@@ -46,26 +46,24 @@
 	transform:scaleX(-1);
 }
 
-/* Css for check in button if needed*/
-/* .checkInBtn  {
-	color: #000000;
-	border-radius: 1rem;
-	background-color: #ffffff;
-	font-size: 12px;
-	box-shadow: 3px 5px 8px #c7c3c3;
-	width: 80px;
-	height: 32px;
-	text-align: center;
-	text-decoration: none;
-	line-height: 10px;
-	border-color: #71E7CA;
-	font-size: 14px;
-  }
-
-  .checkInBtn:hover {
-	background: #66f6d7;
+.detailBtn {
+	background-color:rgb(255, 255, 255);
 	color: black;
-  } */
+	border: 2px solid #71E7CA;
+	border-radius: 17px;
+	margin-top:-5px;
+	height: 40px;
+}
+
+
+.checkInBtn {
+	background-color:rgb(255, 255, 255);
+	color: black;
+	border: 2px solid #71E7CA;
+	border-radius: 17px;
+	margin-top:-5px;
+}
+
 
 
 

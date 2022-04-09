@@ -1,11 +1,10 @@
 @import url("https://fonts.googleapis.com/css2?family=Inter:wght@900&display=swap");
 
-.admin-page {
+/* .admin-page {
   background-image: url("../images/adminbg.jpg");
   background-repeat: no-repeat;
   background-size: cover;
-  
-}
+} */
 
 .adminGreeting {
   font-size: 60px;
@@ -18,7 +17,7 @@
 .admin-main-div {
   /* border: 1px solid #ec2baa; */
   margin-top: 35px;
-  margin-bottom: 40px;
+
 }
 
 .admin-link {
@@ -65,29 +64,6 @@
     height: 500px;
 }
 
-.create-btn {
-  color: #7878AB;
-  border-radius: 10px;
-  background-color: #E7FBF6;
-  border: #E7FBF6;
-  margin-top: 1rem;
-}
-.restore-btn {
-  color: #7878AB;
-  border-radius: 10px;
-  background-color: #E7FBF6;
-  border: #E7FBF6;
-  margin-top: 1rem;
-}
-.backup-btn {
-  color: #7878AB;
-  border-radius: 10px;
-  background-color: #E7FBF6;
-  border: #E7FBF6;
-  margin-top: 1rem;
-}
-
-
 .create-btn:hover {
   color: #F5F5FA;
   border-radius: 10px;
@@ -104,24 +80,18 @@
   background-color: #7878AB;
 }
 
-.manageuser-inner-div {
-  height: 600px;
-  border: 1px solid #CCCCCC;
-  border-radius: 5px;
-  margin-top: 20px;
-  overflow-y: auto;
-}
-
-/* .manageuser-div {
-  margin-top: 35px;
-  margin-bottom: 40px;
-} */
 
 .editUser-div {
-  padding: 20px;
+  padding: 10px;
+  height: 550px;
+  overflow-y: auto;
 }
 .userDisplay-div {
   padding: 20px;
+  height: 600px;
+  border: 1px solid #CCCCCC;
+  border-radius: 5px;
+  overflow-y: auto;
 }
 
 .confirmChange-btn {
@@ -165,46 +135,6 @@
   font-size: 13px;
 }
 
-.closeWindow {
-  align-items: right;
-  justify-content: right;
-  text-align: right;
-}
-
-.landing-grid {
-  display:grid;
-  margin-top: 150px;
-  margin-left: 40px;
-  grid-gap: 10px;
- 
-}
-
-.card-1{
-  grid-column-start: 1;
-  grid-column-end: 2;
-  grid-row-start: 1;
-  grid-row-end: 2;
-  padding: 15px;
-  background-color: #ec2ba865;
-
-}
-.card-2{
-  grid-column-start: 2;
-  grid-column-end: 3;
-  grid-row-start: 1;
-  grid-row-end: 2;
-  padding: 15px;
-
-}
-.card-3{
-  grid-column-start: 1;
-  grid-column-end: 2;
-  grid-row-start: 2 ;
-  grid-row-end: 3 ;
-  padding: 15px;
-
-}
-
 .header-div {
   display: grid;
 }
@@ -223,6 +153,28 @@
   margin-top:-10px;
 }
 
+.createUser-div {
+  height: 550px;
+  overflow-y: auto;
+  padding: 15px;
+}
+
+.responsivePie {
+  border: 1px solid #cccccccd;
+  height: 500px;
+  width: 700px;
+  border-radius: 5px;
+
+}
+
+.currentUserDisplay {
+  padding:30px;
+}
+
+.footer-div {
+  display: grid;
+}
+
 .createNewUser-btn {
   margin-bottom: 5px;
   color: #ffffff;
@@ -237,7 +189,46 @@
   border-radius: 10px;
   background-color: #E7FBF6;
 }
+.createNewUser-btn:active {
+  color: #1b1b1b;
+  border-radius: 10px;
+  background-color: #E7FBF6;
+}
 
-.createUser-div {
-  padding: 20px;
+.footer-1 {
+  grid-column-start: 1;
+  grid-column-end: 2;
+  text-align: right;
+}
+.footer-2 {
+  grid-column-start: 2;
+  grid-column-end: 3;
+  text-align: right;
+  margin-top: 10px;
+}
+
+.userDisplay-table {
+  height: 500px;
+  overflow-y: auto;
+}
+
+.change-btn {
+  margin-bottom: 5px;
+  color: #ffffff;
+  border-radius: 10px;
+  background-color: #7878AB;
+  border: #7878AB;
+  margin-top: 1rem;
+  width: 200px;
+}
+
+.change-btn:hover {
+  color: #1b1b1b;
+  border-radius: 10px;
+  background-color: #E7FBF6;
+}
+
+.createUser-div p {
+  color:#ec2baa;
+  font-size: x-small;
 }

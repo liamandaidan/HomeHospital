@@ -1,28 +1,56 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect,useContext } from "react";
 import { Button, Label, Modal } from "react-bootstrap";
 import PatientData from "../data/patientData.json";
 import axios from "axios";
 import PractionerHospitalSelect from "./PractionerHospitalSelect";
+import { PractitionerContext } from "./PractitionerContext";
+
+axios.defaults.withCredentials = true;
 
 export default function PractionerWaitlist({ childToParent }) {
+  const {_id, additionalInfo, symptomsInfo} = useContext(PractitionerContext);
+  const [_idValue, set_idValue] = _id;
+  const [patientAdditionalInfo, setPatientAdditionalInfo] = additionalInfo;
+  const [symptomDetails, setSymptomDetails] = symptomsInfo;
+  const [practPatientInfo, setPractPatientInfo] = useState([])
   const [modalState, setModalState] = useState(false);
-  const [selectedUser, setSelectedUser] = useState("");
+  const [id, setId] = useState("");
+  const [selectedUsername, setSelectedUsername] = useState("");
+  const [hospitalSelected, setHospitalSelected] = useState("none");
+  const [url, setUrl] = useState(
+    "http://localhost:4000/api/requestManager/hospitalWaitList/"
+  );
+  const [flag, setFlag] = useState(false);
+  const updateHospitalState = (childData) => {
+    setHospitalSelected(childData);
+    setUrl(
+      "http://localhost:4000/api/requestManager/hospitalWaitList/" + childData
+    );
+    console.log(
+      "current url is " +
+        "http://localhost:4000/api/requestManager/hospitalWaitList/" +
+        childData
+    );
+    //window.location.reload("true");
+  };
 
-
-  const [practPatientInfo, setPractPatientInfo] = useState([]);
-
-  const [hospital, setHospital] = useState({});
 
   useEffect(() => {
+    //here we need to change the URL depending on what part of the app we are at.
+    //So a user needs to have a hospital selected first.
     axios
-      .get(
-        "http://localhost:4000/api/requestManager/hospitalWaitList/6216f18abaa205c9cab2f608"
-      )
+      .get(url)
       .then((response) => {
+        console.log("Sending request to: " + url);
         console.log(response.data);
-        setPractPatientInfo(response.data);
+		setPractPatientInfo(response.data);
+        setFlag(false);
+      })
+      .catch((err) => {
+        console.log("THERE WAS AN ERROR FOUND: " + err);
+        setFlag(true);
       });
-  }, []);
+  }, [url]);
 
   //alert model when practitioner request to check in a user
   const AlertModal = (props) => {
@@ -33,14 +61,14 @@ export default function PractionerWaitlist({ childToParent }) {
             <Modal.Title>Attention!</Modal.Title>
           </Modal.Header>
           <Modal.Body className="modal-content">
-            <label>Please confirm check in for patient {selectedUser} ?</label>
+            <label>Please confirm check in for patient {selectedUsername} ?</label>
           </Modal.Body>
           <Modal.Footer className="modal-footer">
             <div className="confirm-btn-div">
               <Button
                 className="ack-btn"
                 variant="primary"
-                onClick={confirmCheckIn}
+                onClick={(e) => confirmCheckIn(id)}
               >
                 Confirm Check In
               </Button>
@@ -60,52 +88,83 @@ export default function PractionerWaitlist({ childToParent }) {
     console.log("this is the id of the user to check in: " + e);
     {
       practPatientInfo.map((data) => {
-        if (data._id === e) {
-          setSelectedUser(data.patientFirstName + " " + data.patientLastName);
+        if (data.patient === e) {
+		  setId(e)
+          setSelectedUsername(data.patientFirstName + " " + data.patientLastName);
           setModalState(true);
         }
       });
     }
   };
 
-  //delete the user once confirmed
+  //check in the user once confirmed
   const confirmCheckIn = () => {
-    alert("Patient has been Checked in!");
-    setModalState(false);
+	const checkInRoute = "http://localhost:4000/api/requestManager/completeRequest/";
+    axios
+	.post( checkInRoute, {
+		withCredentials: true,
+		patientId: id,
+	})
+	.then((response) => {
+		setModalState(false);
+		alert("Patient has been checked in")
+	})
+    .catch((err) => {
+		console.log(err)
+	})
   };
+
+  //sends data from this route to the left side component
+  function checkData(e) {
+    console.log(e.symptoms);
+    setSymptomDetails(e.symptoms)
+    childToParent(e.patient)
+    setPatientAdditionalInfo(e.additionalInfo)
+  }
 
   /**
    * This will be used to render table rows based off of a dummy json file i created
    */
   const DisplayTableRows = practPatientInfo.map((data) => {
-    return (
-      <tr>
-        <td>{data.id}</td>
-        <td>{data.patientFirstName}</td>
-        <td>{data.patientLastName}</td>
-        <td>
-          <Button
-            value={data.id}
-            onClick={(e) => childToParent(e.target.value)}
-          >
-            Select
-          </Button>
-        </td>
-        <td>
-          <Button onClick={(e) => handleCheckIn(data._id)}>Check In</Button>
-        </td>
-      </tr>
-    );
+    if (flag === false) {
+      return (
+		  <>
+        <tr>
+          <td>{data.patient}</td>
+          <td>{data.patientFirstName}</td>
+          <td>{data.patientLastName}</td>
+          <td>
+            <Button
+              value={data.patient}
+              onClick={() => checkData(data)}
+			  className="detailBtn"
+            >
+              Select
+            </Button>
+          </td>
+          <td>
+            <Button onClick={(e) => handleCheckIn(data.patient)} className="checkInBtn">Check In</Button>
+          </td>
+        </tr>
+		</>
+      );
+    } else {
+      return;
+    }
   });
+ 
 
   return (
     <div className="table-structure">
       <div className="select-hospital">
         <div class="form-floating">
-          <PractionerHospitalSelect />
+          <PractionerHospitalSelect childToParent={updateHospitalState} />
         </div>
       </div>
-      <div className="table-data" hidden={!(hospital !== "none")}>
+      <div
+        className="table-data"
+        hidden={!(hospitalSelected !== "none" && !flag)}
+      >
         <table class="table table-hover">
           <thead class="table-light">
             <tr>
@@ -118,6 +177,9 @@ export default function PractionerWaitlist({ childToParent }) {
           </thead>
           <tbody>{DisplayTableRows}</tbody>
         </table>
+      </div>
+      <div class="alert alert-info" hidden={!flag}>     
+        There is no current data for this hospital.
       </div>
       <AlertModal show={modalState} onHide={() => setModalState(false)} />
     </div>

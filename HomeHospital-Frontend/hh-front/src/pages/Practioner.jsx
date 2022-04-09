@@ -1,15 +1,19 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { Container, Row, Col } from "react-bootstrap";
 import PractNav from "../components/PractNavBar.jsx";
 import "../styles/PractionerStyles.css";
 import line from "../images/hb2.png";
 import PractionerWaitlist from "../components/PractionerWaitlist.jsx";
 import PractitionerPatientInfo from "../components/PractitionerPatientInfo.js";
+import { PractitionerContext} from "../components/PractitionerContext.js";
 
 export default function Practioner() {
+   // useContext
+   const { _id } =
+   useContext(PractitionerContext);
 
   //State used to keep track of the current info in focus.
-  const[patientData, setPatientData] = useState("");
+  const[patientData, setPatientData] = _id;
   /**
    * This will update our parent class(Practioner) with recent info.
    * @param {*} childData the ID of a patient passed in from child.
@@ -30,7 +34,7 @@ export default function Practioner() {
               <div className="leftContent">
                 <p class="pd">Patient Details</p>
                 <Row>
-                  <PractitionerPatientInfo patientDataGiven={patientData}/>
+                  <PractitionerPatientInfo />
                 </Row>
                 <Row>
                   <p>

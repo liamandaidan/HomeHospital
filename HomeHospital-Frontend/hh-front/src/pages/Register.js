@@ -21,7 +21,13 @@ function Register() {
         <div className={classes.boxWidth}>
           <Row>
             {/* <a href='https://www.freepik.com/vectors/woman'>Woman vector created by pch.vector - www.freepik.com</a> */}
-            <Col className={classes.leftSide}>
+            <Col
+              sm={12}
+              md={12}
+              lg={12}
+              xl={6}
+              className={`d-none d-xl-block ${classes.leftSide}`}
+            >
               <div
                 style={{
                   position: "relative",

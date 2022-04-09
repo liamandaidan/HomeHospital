@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import {
   Navbar,
   Container,
@@ -7,16 +7,19 @@ import {
   Dropdown,
 } from "react-bootstrap";
 import classes from "./UserNavBar.module.css";
-import avatar from "../images/img_avatar.png";
+import avatar from "../images/profilepicture.png";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import { HomeHospitalContext } from "./HomeHospitalContext";
 
 axios.defaults.withCredentials = true;
 
 function UserNavBar() {
   let navigate = useNavigate();
+  const { requestButtonOn } = useContext(HomeHospitalContext);
 
-  const [currentRequestExist, setCurrentRequestExist] = useState(false);
+  const [currentRequestExist, setCurrentRequestExist] = requestButtonOn;
+  const [userName, setUserName] = useState();
 
   function requestPage() {
     navigate("/hospitals");
@@ -65,7 +68,8 @@ function UserNavBar() {
       })
       .then((response) => {
         if (response.status === 200) {
-          setCurrentRequestExist(true);
+          setCurrentRequestExist(false);
+          console.log(response);
         } else {
           setCurrentRequestExist(false);
         }
@@ -75,8 +79,29 @@ function UserNavBar() {
       });
   }
 
+  function patientInfo() {
+    axios
+      .post("http://localhost:4000/api/users/PatientInfoVisitRequest", {
+        withCredentials: true,
+      })
+      .then((response) => {
+        if (response.status === 200) {
+          console.log(response.data.data.user.firstName);
+          setUserName(
+            response.data.data.user.firstName +
+              " " +
+              response.data.data.user.lastName
+          );
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }
+
   useEffect(() => {
     currentRequest();
+    patientInfo();
   }, []);
 
   return (
@@ -95,13 +120,13 @@ function UserNavBar() {
             <Nav.Link onClick={handleHome} className="ms-5">
               Home
             </Nav.Link>
-            {!currentRequestExist && (
+            {currentRequestExist && (
               <Nav.Link onClick={requestPage}>Requests</Nav.Link>
             )}
           </Nav>
           <div className="d-flex">
             <img src={avatar} alt="avatar" className={classes.avatar} />
-            <h6 className="me-3 mt-2 ps-2">Username</h6>
+            <h6 className="me-3 mt-2 ps-2">{userName}</h6>
             <DropdownButton
               variant="btn-outline-light"
               title={

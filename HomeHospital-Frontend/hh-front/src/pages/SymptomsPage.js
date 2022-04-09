@@ -1,10 +1,7 @@
-import React from "react";
+import React, { useContext, useEffect } from "react";
 import SymptomsForm from "../components/SymptomsForm.js";
-import Navigation from "../components/Navigation.js";
 import PatientInfo from "../components/PatientInfo.js";
 import BreadcrumbNav from "../components/BreadcrumbNav.js";
-import ProgressNav from "../components/ProgressNav.js";
-import AlertModal from "../components/AlertModal.js";
 import logo from "../images/heartbeat.png";
 import UserNavBar from "../components/UserNavBar";
 import ProgressBar from "react-bootstrap/ProgressBar";
@@ -15,8 +12,20 @@ import Row from "react-bootstrap/Row";
 
 import "bootstrap/dist/css/bootstrap.min.css";
 import "../styles/main.css";
+import { HomeHospitalContext } from "../components/HomeHospitalContext.js";
+import { useNavigate } from "react-router-dom";
 
 function SymptomsPage() {
+  const navigate = useNavigate();
+  const { requestButtonOn } = useContext(HomeHospitalContext);
+  const [isThereCurrentRequest, setIsThereCurrentRequest] = requestButtonOn;
+
+  useEffect(() => {
+    if (!isThereCurrentRequest) {
+      navigate("/home");
+    }
+  }, []);
+
   return (
     <>
       <UserNavBar />

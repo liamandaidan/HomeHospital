@@ -1,15 +1,17 @@
 import React, { useContext, useState } from "react";
 import { Col, Row } from "react-bootstrap";
 import backgroundLogin from "../images/bg.png";
-import LoginForm from "../components/LoginForm";
+import LoginAdminForm from "../components/LoginAdminForm";
 import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import { HomeHospitalContext } from "../components/HomeHospitalContext";
 
 axios.defaults.withCredentials = true;
 
-function Login() {
-  // useContext to get new Request value
+
+function AdminLogin() {
+   // useContext to get new Request value
   const { regSuccess } = useContext(HomeHospitalContext);
   const [regSuccessValue, setRegSuccessValue] = regSuccess;
 
@@ -56,11 +58,12 @@ function Login() {
         }}
       >
         <Col className="align-self-center">
-          <LoginForm />
+          <LoginAdminForm />
         </Col>
       </Row>
     </div>
   );
 }
 
-export default Login;
+
+export default AdminLogin

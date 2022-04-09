@@ -57,6 +57,21 @@ h1 {
   background-color: #7878ab;
   border-color: #7878ab;
 }
+
+.cancelRequest-btn {
+  color: #e25c5c;
+  width: 200px;
+  border-radius: 1rem;
+  border-color: #f5f5fa;
+}
+
+.cancelRequest-btn:hover {
+  color: #f5f5fa;
+  border-radius: 1rem;
+  background-color: #e25c5c;
+  border-color: #e25c5c;
+}
+
 .request-btn-div {
   text-align: right;
   justify-content: right;
@@ -67,4 +82,19 @@ h1 {
 .spinner-div {
   width: 50%;
   margin: auto;
+}
+
+.cancel-lnk {
+  margin-left: auto;
+  margin-right: auto;
+  font-size: small;
+  color: #bcbcff;
+  text-decoration: underline;
+}
+
+.cancel-lnk:hover {
+  font-size: small;
+  color: #313131;
+  text-decoration: none;
+  cursor: pointer;
 }

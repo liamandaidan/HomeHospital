@@ -33,7 +33,7 @@ function Map() {
     []
   );
 
-  useEffect(() => {
+  function getLocation() {
     console.log("hospital longitude: " + hospitalLongitude);
     console.log("hospital latitude: " + hospitalLatitude);
     if ("geolocation" in navigator) {
@@ -55,6 +55,12 @@ function Map() {
     } else {
       alert("Enable Geo-Location to get Travel Times");
     }
+  }
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      getLocation();
+    }, 500);
   }, []);
 
   const [responseData, setResponseData] = useState(null);
