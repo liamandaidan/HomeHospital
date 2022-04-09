@@ -1,8 +1,5 @@
-import MedicalFacility from "../../models/medicalFacility.Model.js"
-
-
-
-export const  getHospitalList = async (res) => {
+import MedicalFacility from '../../models/medicalFacility.Model.js'
+export const getHospitalList = async (res) => {
 	try {
 		// Fetch the list of hospitals from the database without the list of practitioners or V number
 		const hospitalList = await MedicalFacility.find()

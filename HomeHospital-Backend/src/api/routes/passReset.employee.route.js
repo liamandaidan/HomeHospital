@@ -1,14 +1,9 @@
 import express from 'express'
 import jwt from 'jsonwebtoken'
-import ENV from '../../configure/configure.js'
-import sendEmailAlt from '../service/sendEmail.service.js'
 import { updatePassword, updateEmployeePassword } from '../service/resetPass.service.js'
 import PatientModel from '../../models/patient.Model.js'
 import PractitionerModel from '../../models/practitioner.Model.js'
 import AdministratorModel from '../../models/administrator.Model.js'
-
-const resetKey = ENV.RESET_TOKEN_SECRET
-const clientURL = 'http://localhost:3000/reset'
 
 const route = express.Router()
 

@@ -1,4 +1,3 @@
-import mongoose from 'mongoose'
 import CompletedRequestModel from '../../models/completedRequest.model.js'
 import patientModel from '../../models/patient.Model.js'
 import visitRequestModel from '../../models/visitRequest.Model.js'

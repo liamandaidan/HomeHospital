@@ -1,8 +1,4 @@
 import nodemailer from 'nodemailer'
-import handlebars from 'handlebars'
-import fs from 'fs'
-import path from 'path'
-import { fileURLToPath, URL } from 'url'
 
 const sendEmail = (email, mailsubject, payload) => {
 	console.log('Enter function')

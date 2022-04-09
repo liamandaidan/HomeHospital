@@ -1,11 +1,4 @@
 import nodemailer from 'nodemailer'
-// import handlebars from 'handlebars'
-// import fs from 'fs'
-// import path from 'path'
-// import { fileURLToPath, URL } from "url";
-
-// const __filename = fileURLToPath(import.meta.url);
-// const __dirname = path.dirname(__filename);
 
 const sendEmailAlt = async (email, subject, payload) => {
 	try {
