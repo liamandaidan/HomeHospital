@@ -26,14 +26,17 @@ function UserHomepage() {
   const [requestSuccessValue, setRequestSuccessValue] = requestSuccess;
   const [cancelSuccessValue, setCancelSuccessValue] = cancelSuccess;
 
+  useEffect(() => {
+    console.log(cancelSuccessValue);
+    if (cancelSuccessValue) {
+      cancelNotify();
+      setCancelSuccessValue(false);
+    }
+  });
+
   if (requestSuccessValue) {
     notify();
     setRequestSuccessValue(false);
-  }
-
-  if (cancelSuccessValue) {
-    cancelNotify();
-    setCancelSuccessValue(false);
   }
 
   // Request success Toast

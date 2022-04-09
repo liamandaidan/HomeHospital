@@ -124,9 +124,8 @@ function UserHomeVisitsDisplay() {
           setIsCurrent(false);
           setNoCurrent(true);
           setModalState(false);
-          setReqButton(false);
+          setReqButton(true);
           setCancelSuccessValue(true);
-          window.location.reload();
         }
       })
       .catch((err) => {
