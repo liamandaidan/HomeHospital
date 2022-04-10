@@ -1,25 +1,16 @@
-import React, { useState, useEffect,useContext } from "react";
-import { Button, Label, Modal } from "react-bootstrap";
-import PatientData from "../data/patientData.json";
+import React, { useState, useEffect, useContext } from "react";
+import { Button, Modal } from "react-bootstrap";
 import axios from "axios";
 import PractionerHospitalSelect from "./PractionerHospitalSelect";
 import { PractitionerContext } from "./PractitionerContext";
-
 axios.defaults.withCredentials = true;
 
 export default function PractionerWaitlist({ childToParent }) {
-<<<<<<< HEAD
-  /**
-   * React hooks for data on waitlist side.
-   */
-  const [practPatientInfo, setPractPatientInfo] = useState([]);
-=======
-  const {_id, additionalInfo, symptomsInfo} = useContext(PractitionerContext);
+  const { _id, additionalInfo, symptomsInfo } = useContext(PractitionerContext);
   const [_idValue, set_idValue] = _id;
   const [patientAdditionalInfo, setPatientAdditionalInfo] = additionalInfo;
   const [symptomDetails, setSymptomDetails] = symptomsInfo;
-  const [practPatientInfo, setPractPatientInfo] = useState([])
->>>>>>> parent of 9d15597 (changes)
+  const [practPatientInfo, setPractPatientInfo] = useState([]);
   const [modalState, setModalState] = useState(false);
   const [id, setId] = useState("");
   const [selectedUsername, setSelectedUsername] = useState("");
@@ -39,32 +30,28 @@ export default function PractionerWaitlist({ childToParent }) {
     setUrl(
       "http://localhost:4000/api/requestManager/hospitalWaitList/" + childData
     );
-    console.log(
-      "current url is " +
-        "http://localhost:4000/api/requestManager/hospitalWaitList/" +
-        childData
-    );
   };
   /**
    *This will be in control of the state of practitioner list. Here we will force updates on url
    *change and set timer.
    */
   useEffect(() => {
-    /**
-     * This will force an update when called.
-     */
+    //This if statement will be used to halt the call until a hospital has been selected.
     if (!(hospitalSelected === "none")) {
+      /**
+       * This will force an update when called.
+       */
       const callUpdate = () => {
         axios
           .get(url)
           .then((response) => {
-            console.log("Sending request to: " + url);
-            console.log(response.data);
+            // console.log("Sending request to: " + url);
+            // console.log(response.data);
             setPractPatientInfo(response.data);
             setFlag(false);
           })
           .catch((err) => {
-            console.log("THERE WAS AN ERROR FOUND: " + err);
+            // console.log("THERE WAS AN ERROR FOUND: " + err);
             setFlag(true);
           });
       };
@@ -114,7 +101,7 @@ export default function PractionerWaitlist({ childToParent }) {
 
   //check the id, display alert to confirm
   const handleCheckIn = (e) => {
-    console.log("this is the id of the user to check in: " + e);
+    // console.log("this is the id of the user to check in: " + e);
     {
       practPatientInfo.map((data) => {
         if (data.patient === e) {
@@ -134,7 +121,6 @@ export default function PractionerWaitlist({ childToParent }) {
     const checkInRoute =
       "http://localhost:4000/api/requestManager/completeRequest/";
     axios
-<<<<<<< HEAD
       .post(checkInRoute, {
         withCredentials: true,
         patientId: id,
@@ -142,49 +128,30 @@ export default function PractionerWaitlist({ childToParent }) {
       .then((response) => {
         setModalState(false);
         alert("Patient has been checked in");
-        let prevUrl = url;
-        setUrl("http://localhost:4000/api/requestManager/hospitalWaitList/");
-        setUrl(prevUrl);
       })
       .catch((err) => {
         console.log(err);
       });
-=======
-	.post( checkInRoute, {
-		withCredentials: true,
-		patientId: id,
-	})
-	.then((response) => {
-		setModalState(false);
-		alert("Patient has been checked in")
-	})
-    .catch((err) => {
-		console.log(err)
-	})
->>>>>>> parent of 9d15597 (changes)
   };
 
   //sends data from this route to the left side component
   function checkData(e) {
-<<<<<<< HEAD
+    //console.log(e.symptoms);
+    setSymptomDetails(e.symptoms);
     childToParent(e.patient);
-=======
-    console.log(e.symptoms);
-    setSymptomDetails(e.symptoms)
-    childToParent(e.patient)
-    setPatientAdditionalInfo(e.additionalInfo)
->>>>>>> parent of 9d15597 (changes)
+    setPatientAdditionalInfo(e.additionalInfo);
   }
 
   /**
    * This will be used to render table rows based off of a dummy json file i created
+   *
    */
-  const DisplayTableRows = practPatientInfo.map((data) => {
+  const DisplayTableRows = practPatientInfo.map((data, i) => {
     if (flag === false) {
       return (
         <>
-          <tr>
-            <td>{data.patient}</td>
+          <tr key={data.patient}>
+            <td>{i}</td>
             <td>{data.patientFirstName}</td>
             <td>{data.patientLastName}</td>
             <td>
