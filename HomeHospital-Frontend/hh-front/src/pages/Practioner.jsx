@@ -8,7 +8,7 @@ import { PractitionerContext} from "../components/PractitionerContext.js";
 
 export default function Practioner() {
    // useContext
-   const { _id } =
+   const { _id, practitionerKey } =
    useContext(PractitionerContext);
 
   //State used to keep track of the current info in focus.
@@ -22,7 +22,6 @@ export default function Practioner() {
     setPatientData(childData);
   }
 
-  
   return (
     <div>
       <PractNav />
@@ -33,7 +32,7 @@ export default function Practioner() {
               <div className="leftContent">
                 <p className="pd">Patient Details</p>
                 <Row>
-                  <PractitionerPatientInfo />
+                  <PractitionerPatientInfo/>
                 </Row>
                 <Row>
                   <p>

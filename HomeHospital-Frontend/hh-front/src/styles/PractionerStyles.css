@@ -12,33 +12,22 @@
   font-size: 36px;
   line-height: 44px;
   /* identical to box height */
-
   color: #616060;
 }
 
-/* .hb2 {
-  width: 447px;
-  height: 86px;
-  left: 0px;
-  top: 107px;
-} */
 
-.hb2-practitioner{
-    height: 3.0rem;
-    width: 30rem;
-    opacity:70%;
-}
-
+/* Css for top bar on PractitionerPatientInfo */
 .hb-bar-practitioner1 {
-	margin-left: -100px;
+	margin-left: -119px;
 	height: 3.0rem;
     width: 33rem;
 	max-width: 110%;
     opacity:70%;
 }
 
+/* Css for bottom bar on PractitionerPatientInfo */
 .hb-bar-practitioner2 {
-	margin-left: -85px;
+	margin-left: -90px;
 	height: 3.0rem;
     width: 33rem;
     opacity:70%;
@@ -46,23 +35,61 @@
 	transform:scaleX(-1);
 }
 
+/* Css for select button on PractitionerWaitlist */
 .detailBtn {
-	background-color:rgb(255, 255, 255);
-	color: black;
-	border: 2px solid #71E7CA;
-	border-radius: 17px;
-	margin-top:-5px;
-	height: 40px;
-}
+	color: #000000;
+	border-radius: 1rem;
+	background-color: #FFFFFF;
+	border-color: #71E7CA;
+	opacity: 60%;
+	width: 70px;
+  }
 
+.detailBtn:hover {
+	color: #F5F5FA;
+	border-radius: 1rem;
+	background-color: #71E7CA;
+	border-color: #71E7CA;
+	opacity: 60%;
+  }
+  
+.detailBtn:focus {
+	color: #000000;
+	background-color: #71E7CA;
+	border-color: #71E7CA;
+	opacity: 60%;
+  }
 
+/*Css for checkIn button on PractitionerPatientInfo. */
 .checkInBtn {
-	background-color:rgb(255, 255, 255);
-	color: black;
-	border: 2px solid #71E7CA;
-	border-radius: 17px;
-	margin-top:-5px;
-}
+	color: #000000;
+	border-radius: 1rem;
+	background-color: #FFFFFF;
+	border-color: #71E7CA;
+	opacity: 60%;
+	width: 89px;
+  }
+  
+.checkInBtn:hover {
+	color: #F5F5FA;
+	border-radius: 1rem;
+	background-color: #71E7CA;
+	border-color: #71E7CA;
+	opacity: 60%;
+  }
+  
+.checkInBtn:focus {
+	color: #000000;
+	background-color: #71E7CA;
+	border-color: #71E7CA;
+	opacity: 60%;
+  }
+
+/*Css h3 tag that displays patient name in PractitionerPatientInfo*/
+.practitioner-patientRequestDetails h3 {
+		position: relative;
+		top: 30px;
+  }
 
 
 

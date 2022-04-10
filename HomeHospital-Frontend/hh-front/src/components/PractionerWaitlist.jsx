@@ -6,13 +6,22 @@ import { PractitionerContext } from "./PractitionerContext";
 axios.defaults.withCredentials = true;
 
 export default function PractionerWaitlist({ childToParent }) {
-  const { _id, additionalInfo, symptomsInfo } = useContext(PractitionerContext);
+  //useContext here
+  const { _id, additionalInfo, symptomsInfo,practitionerKey } = useContext(PractitionerContext);
+
+  //useContext patient id
   const [_idValue, set_idValue] = _id;
+  //set state for additional info, and symptoms from route and is a useContext
   const [patientAdditionalInfo, setPatientAdditionalInfo] = additionalInfo;
   const [symptomDetails, setSymptomDetails] = symptomsInfo;
-  const [practPatientInfo, setPractPatientInfo] = useState([]);
+  
+  //modal state set to false
   const [modalState, setModalState] = useState(false);
+
+  //patient id and setId used in check in button
   const [id, setId] = useState("");
+
+  const [practPatientInfo, setPractPatientInfo] = useState([]);
   const [selectedUsername, setSelectedUsername] = useState("");
   const [hospitalSelected, setHospitalSelected] = useState("none");
   const [url, setUrl] = useState(
@@ -129,16 +138,14 @@ export default function PractionerWaitlist({ childToParent }) {
         setModalState(false);
         alert("Patient has been checked in");
       })
-      .catch((err) => {
-        //console.log(err);
-      });
   };
 
   //sends data from this route to the left side component
   function checkData(e) {
-    //console.log(e.symptoms);
+	//sets symptom state and data and is in use with useContext
     setSymptomDetails(e.symptoms);
     childToParent(e.patient);
+	//sets additionalInfo state and data and is in use with useContext
     setPatientAdditionalInfo(e.additionalInfo);
   }
 
@@ -154,6 +161,9 @@ export default function PractionerWaitlist({ childToParent }) {
           <td>{data.patientFirstName}</td>
           <td>{data.patientLastName}</td>
           <td>
+			{/*Select button grabs data from the route in the useEffect so that 
+			* it can be stored in useContext look at check data function
+			*/}
             <Button
               value={data.patient}
               onClick={() => checkData(data)}
@@ -163,6 +173,7 @@ export default function PractionerWaitlist({ childToParent }) {
             </Button>
           </td>
           <td>
+			{/*Passes patientId to the left component PractitionerPatientInfo.js*/}
             <Button
               onClick={(e) => handleCheckIn(data.patient)}
               className="checkInBtn"
@@ -206,6 +217,8 @@ export default function PractionerWaitlist({ childToParent }) {
       <div className="alert alert-info" hidden={!flag}>
         There is no current data for this hospital.
       </div>
+
+	  {/*Alert modal for when a practitioner checks in a patient. Currently hidden*/}
       <AlertModal show={modalState} onHide={() => setModalState(false)} />
     </div>
   );
