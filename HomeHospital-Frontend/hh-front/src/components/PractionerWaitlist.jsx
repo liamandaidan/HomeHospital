@@ -1,15 +1,25 @@
-import React, { useState, useEffect } from "react";
-import { Button, Modal } from "react-bootstrap";
+import React, { useState, useEffect,useContext } from "react";
+import { Button, Label, Modal } from "react-bootstrap";
+import PatientData from "../data/patientData.json";
 import axios from "axios";
 import PractionerHospitalSelect from "./PractionerHospitalSelect";
+import { PractitionerContext } from "./PractitionerContext";
 
 axios.defaults.withCredentials = true;
 
 export default function PractionerWaitlist({ childToParent }) {
+<<<<<<< HEAD
   /**
    * React hooks for data on waitlist side.
    */
   const [practPatientInfo, setPractPatientInfo] = useState([]);
+=======
+  const {_id, additionalInfo, symptomsInfo} = useContext(PractitionerContext);
+  const [_idValue, set_idValue] = _id;
+  const [patientAdditionalInfo, setPatientAdditionalInfo] = additionalInfo;
+  const [symptomDetails, setSymptomDetails] = symptomsInfo;
+  const [practPatientInfo, setPractPatientInfo] = useState([])
+>>>>>>> parent of 9d15597 (changes)
   const [modalState, setModalState] = useState(false);
   const [id, setId] = useState("");
   const [selectedUsername, setSelectedUsername] = useState("");
@@ -113,6 +123,7 @@ export default function PractionerWaitlist({ childToParent }) {
             data.patientFirstName + " " + data.patientLastName
           );
           setModalState(true);
+          setUrl("http://localhost:4000/api/requestManager/hospitalWaitList/");
         }
       });
     }
@@ -123,6 +134,7 @@ export default function PractionerWaitlist({ childToParent }) {
     const checkInRoute =
       "http://localhost:4000/api/requestManager/completeRequest/";
     axios
+<<<<<<< HEAD
       .post(checkInRoute, {
         withCredentials: true,
         patientId: id,
@@ -137,11 +149,31 @@ export default function PractionerWaitlist({ childToParent }) {
       .catch((err) => {
         console.log(err);
       });
+=======
+	.post( checkInRoute, {
+		withCredentials: true,
+		patientId: id,
+	})
+	.then((response) => {
+		setModalState(false);
+		alert("Patient has been checked in")
+	})
+    .catch((err) => {
+		console.log(err)
+	})
+>>>>>>> parent of 9d15597 (changes)
   };
 
   //sends data from this route to the left side component
   function checkData(e) {
+<<<<<<< HEAD
     childToParent(e.patient);
+=======
+    console.log(e.symptoms);
+    setSymptomDetails(e.symptoms)
+    childToParent(e.patient)
+    setPatientAdditionalInfo(e.additionalInfo)
+>>>>>>> parent of 9d15597 (changes)
   }
 
   /**
@@ -196,7 +228,7 @@ export default function PractionerWaitlist({ childToParent }) {
         <table className="table table-hover">
           <thead className="table-light">
             <tr>
-              <th scope="col">Patient Request</th>
+              <th scope="col">#</th>
               <th scope="col">First</th>
               <th scope="col">Last</th>
               <th scope="col">Details</th>
