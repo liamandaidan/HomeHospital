@@ -1,5 +1,4 @@
 import express from 'express'
-import { checkEmployeeAccessToken } from '../service/employee.token.service.js'
 
 // Creates Router
 const route = express.Router()

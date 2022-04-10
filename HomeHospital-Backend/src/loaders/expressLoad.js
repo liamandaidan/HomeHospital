@@ -1,5 +1,4 @@
 import express from 'express'
-import ENV from '../configure/configure.js'
 import cors from 'cors'
 import routes from '../api/API.js'
 import cookieParser from 'cookie-parser'

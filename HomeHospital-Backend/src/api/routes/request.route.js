@@ -4,10 +4,7 @@ import medicalFacilityModel from '../../models/medicalFacility.Model.js'
 import completedRequestModel from '../../models/completedRequest.model.js'
 import mongoose from 'mongoose'
 import visitRequestModel from '../../models/visitRequest.Model.js'
-import {
-	completeCurrentRequest,
-	cancelCurrentRequest,
-} from '../service/request.service.js'
+import { cancelCurrentRequest } from '../service/request.service.js'
 
 const route = express.Router()
 
@@ -163,8 +160,9 @@ route.get('/allRequests', async (req, res) => {
 				// send back to client
 
 				// find all DB entries with that patient id
-				const requestList = await completedRequestModel.find({'request.patient': patientId})
-
+				const requestList = await completedRequestModel.find({
+					'request.patient': patientId,
+				})
 
 				console.log('Sent patient list of ALL requests')
 				res.status(200).send(requestList)
