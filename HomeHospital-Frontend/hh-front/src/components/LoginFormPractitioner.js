@@ -210,7 +210,7 @@ function LoginFormPractitioner() {
             </div>
             <Row>
               <Col className={` mt-3 ${classes.smallFont}`}>
-                <Link to="/register">Register</Link>
+                {/* <Link to="/register">Register</Link> */}
               </Col>
               <Col className={`mt-3 ${classes.smallFont}`}>
                 <Link className={classes.teal} to="/forget">
