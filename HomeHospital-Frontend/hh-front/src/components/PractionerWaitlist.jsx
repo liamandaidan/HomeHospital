@@ -51,7 +51,7 @@ export default function PractionerWaitlist({ childToParent }) {
             setFlag(false);
           })
           .catch((err) => {
-            // console.log("THERE WAS AN ERROR FOUND: " + err);
+            console.log("No patient data at this time");
             setFlag(true);
           });
       };
@@ -130,7 +130,7 @@ export default function PractionerWaitlist({ childToParent }) {
         alert("Patient has been checked in");
       })
       .catch((err) => {
-        console.log(err);
+        //console.log(err);
       });
   };
 
@@ -149,30 +149,28 @@ export default function PractionerWaitlist({ childToParent }) {
   const DisplayTableRows = practPatientInfo.map((data, i) => {
     if (flag === false) {
       return (
-        <>
-          <tr key={data.patient}>
-            <td>{i}</td>
-            <td>{data.patientFirstName}</td>
-            <td>{data.patientLastName}</td>
-            <td>
-              <Button
-                value={data.patient}
-                onClick={() => checkData(data)}
-                className="detailBtn"
-              >
-                Select
-              </Button>
-            </td>
-            <td>
-              <Button
-                onClick={(e) => handleCheckIn(data.patient)}
-                className="checkInBtn"
-              >
-                Check In
-              </Button>
-            </td>
-          </tr>
-        </>
+        <tr key={data.patient}>
+          <td>{i}</td>
+          <td>{data.patientFirstName}</td>
+          <td>{data.patientLastName}</td>
+          <td>
+            <Button
+              value={data.patient}
+              onClick={() => checkData(data)}
+              className="detailBtn"
+            >
+              Select
+            </Button>
+          </td>
+          <td>
+            <Button
+              onClick={(e) => handleCheckIn(data.patient)}
+              className="checkInBtn"
+            >
+              Check In
+            </Button>
+          </td>
+        </tr>
       );
     } else {
       return;
