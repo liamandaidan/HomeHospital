@@ -1,6 +1,5 @@
 import React, { Component, useState, useEffect, useContext } from "react";
-import logo from "../images/heartbeat.png";
-import profile from "../images/profilepicture.png";
+import profile from "../images/img_avatar.png";
 import hbar from "../images/hb2.png";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
