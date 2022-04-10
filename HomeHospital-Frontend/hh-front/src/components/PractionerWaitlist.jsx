@@ -7,14 +7,15 @@ axios.defaults.withCredentials = true;
 
 export default function PractionerWaitlist({ childToParent }) {
   //useContext here
-  const { _id, additionalInfo, symptomsInfo,practitionerKey } = useContext(PractitionerContext);
+  const { _id, additionalInfo, symptomsInfo, practitionerKey } =
+    useContext(PractitionerContext);
 
   //useContext patient id
   const [_idValue, set_idValue] = _id;
   //set state for additional info, and symptoms from route and is a useContext
   const [patientAdditionalInfo, setPatientAdditionalInfo] = additionalInfo;
   const [symptomDetails, setSymptomDetails] = symptomsInfo;
-  
+
   //modal state set to false
   const [modalState, setModalState] = useState(false);
 
@@ -28,7 +29,7 @@ export default function PractionerWaitlist({ childToParent }) {
     "http://localhost:4000/api/requestManager/hospitalWaitList/"
   );
   const [flag, setFlag] = useState(false);
-
+  const [isCheckedIn, setIsCheckedIn] = useState(false);
   /**
    * Here when a select component is updated we will update our url to reflect the changes.
    *
@@ -56,8 +57,12 @@ export default function PractionerWaitlist({ childToParent }) {
           .then((response) => {
             // console.log("Sending request to: " + url);
             // console.log(response.data);
+            if (isCheckedIn) {
+              setIsCheckedIn(false);
+            }
             setPractPatientInfo(response.data);
             setFlag(false);
+            // setIsCheckedIn(false);
           })
           .catch((err) => {
             console.log("No patient data at this time");
@@ -73,7 +78,7 @@ export default function PractionerWaitlist({ childToParent }) {
       }, 60000);
       return () => clearInterval(interval);
     }
-  }, [url]);
+  }, [url, isCheckedIn]);
 
   //alert model when practitioner request to check in a user
   const AlertModal = (props) => {
@@ -119,7 +124,7 @@ export default function PractionerWaitlist({ childToParent }) {
             data.patientFirstName + " " + data.patientLastName
           );
           setModalState(true);
-          setUrl("http://localhost:4000/api/requestManager/hospitalWaitList/");
+          //setUrl("http://localhost:4000/api/requestManager/hospitalWaitList/");
         }
       });
     }
@@ -137,15 +142,16 @@ export default function PractionerWaitlist({ childToParent }) {
       .then((response) => {
         setModalState(false);
         alert("Patient has been checked in");
-      })
+        setIsCheckedIn(true);
+      });
   };
 
   //sends data from this route to the left side component
   function checkData(e) {
-	//sets symptom state and data and is in use with useContext
+    //sets symptom state and data and is in use with useContext
     setSymptomDetails(e.symptoms);
     childToParent(e.patient);
-	//sets additionalInfo state and data and is in use with useContext
+    //sets additionalInfo state and data and is in use with useContext
     setPatientAdditionalInfo(e.additionalInfo);
   }
 
@@ -161,9 +167,9 @@ export default function PractionerWaitlist({ childToParent }) {
           <td>{data.patientFirstName}</td>
           <td>{data.patientLastName}</td>
           <td>
-			{/*Select button grabs data from the route in the useEffect so that 
-			* it can be stored in useContext look at check data function
-			*/}
+            {/*Select button grabs data from the route in the useEffect so that
+             * it can be stored in useContext look at check data function
+             */}
             <Button
               value={data.patient}
               onClick={() => checkData(data)}
@@ -173,7 +179,7 @@ export default function PractionerWaitlist({ childToParent }) {
             </Button>
           </td>
           <td>
-			{/*Passes patientId to the left component PractitionerPatientInfo.js*/}
+            {/*Passes patientId to the left component PractitionerPatientInfo.js*/}
             <Button
               onClick={(e) => handleCheckIn(data.patient)}
               className="checkInBtn"
@@ -218,7 +224,7 @@ export default function PractionerWaitlist({ childToParent }) {
         There is no current data for this hospital.
       </div>
 
-	  {/*Alert modal for when a practitioner checks in a patient. Currently hidden*/}
+      {/*Alert modal for when a practitioner checks in a patient. Currently hidden*/}
       <AlertModal show={modalState} onHide={() => setModalState(false)} />
     </div>
   );
