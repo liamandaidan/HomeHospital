@@ -154,7 +154,7 @@ function LoginFormPractitioner() {
                   marginLeft: "35px",
                 }}
               >
-                <h2 className={classes.header}>LOGIN PRACTITIONER</h2>
+                <h2 className={classes.header}>LOGIN PRACT</h2>
               </div>
             </div>
             <div style={{ marginTop: "-25px" }}>

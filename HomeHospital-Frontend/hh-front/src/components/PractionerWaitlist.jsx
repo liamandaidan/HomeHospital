@@ -1,17 +1,15 @@
-import React, { useState, useEffect,useContext } from "react";
-import { Button, Label, Modal } from "react-bootstrap";
-import PatientData from "../data/patientData.json";
+import React, { useState, useEffect } from "react";
+import { Button, Modal } from "react-bootstrap";
 import axios from "axios";
 import PractionerHospitalSelect from "./PractionerHospitalSelect";
-import { PractitionerContext } from "./PractitionerContext";
 
 axios.defaults.withCredentials = true;
 
 export default function PractionerWaitlist({ childToParent }) {
-  const {_id, additionalInfo, symptomsInfo} = useContext(PractitionerContext);
-  const [_idValue, set_idValue] = _id;
-  const [patientAdditionalInfo, setPatientAdditionalInfo] = additionalInfo;
-  const [symptomDetails, setSymptomDetails] = symptomsInfo;
+  // const {_id, additionalInfo, symptomsInfo} = useContext(PractitionerContext);
+  // const [_idValue, set_idValue] = _id;
+  // const [patientAdditionalInfo, setPatientAdditionalInfo] = additionalInfo;
+  // const [symptomDetails, setSymptomDetails] = symptomsInfo;
   const [practPatientInfo, setPractPatientInfo] = useState([])
   const [modalState, setModalState] = useState(false);
   const [id, setId] = useState("");
@@ -92,7 +90,6 @@ export default function PractionerWaitlist({ childToParent }) {
 		  setId(e)
           setSelectedUsername(data.patientFirstName + " " + data.patientLastName);
           setModalState(true);
-          setUrl("http://localhost:4000/api/requestManager/hospitalWaitList/");
         }
       });
     }
@@ -109,6 +106,9 @@ export default function PractionerWaitlist({ childToParent }) {
 	.then((response) => {
 		setModalState(false);
 		alert("Patient has been checked in")
+    let prevUrl = url;
+    setUrl("http://localhost:4000/api/requestManager/hospitalWaitList/");
+    setUrl(prevUrl);
 	})
     .catch((err) => {
 		console.log(err)
@@ -117,10 +117,7 @@ export default function PractionerWaitlist({ childToParent }) {
 
   //sends data from this route to the left side component
   function checkData(e) {
-    console.log(e.symptoms);
-    setSymptomDetails(e.symptoms)
     childToParent(e.patient)
-    setPatientAdditionalInfo(e.additionalInfo)
   }
 
   /**
@@ -169,7 +166,7 @@ export default function PractionerWaitlist({ childToParent }) {
         <table class="table table-hover">
           <thead class="table-light">
             <tr>
-              <th scope="col">#</th>
+              <th scope="col">Patient Request</th>
               <th scope="col">First</th>
               <th scope="col">Last</th>
               <th scope="col">Details</th>
