@@ -92,6 +92,7 @@ export default function PractionerWaitlist({ childToParent }) {
 		  setId(e)
           setSelectedUsername(data.patientFirstName + " " + data.patientLastName);
           setModalState(true);
+          setUrl("http://localhost:4000/api/requestManager/hospitalWaitList/");
         }
       });
     }
