@@ -2,7 +2,6 @@ import React, { useContext, useState } from "react";
 import { Container, Row, Col } from "react-bootstrap";
 import PractNav from "../components/PractNavBar.jsx";
 import "../styles/PractionerStyles.css";
-import line from "../images/hb2.png";
 import PractionerWaitlist from "../components/PractionerWaitlist.jsx";
 import PractitionerPatientInfo from "../components/PractitionerPatientInfo.js";
 import { PractitionerContext} from "../components/PractitionerContext.js";
@@ -32,7 +31,7 @@ export default function Practioner() {
           <Row>
             <Col md="5">
               <div className="leftContent">
-                <p class="pd">Patient Details</p>
+                <p className="pd">Patient Details</p>
                 <Row>
                   <PractitionerPatientInfo />
                 </Row>
@@ -46,7 +45,7 @@ export default function Practioner() {
             <Col md="7">
               <div className="rightContent">
                 <Row>
-                  <p class="pd">Current Waitlist</p>
+                  <p className="pd">Current Waitlist</p>
                 </Row>
                 <Row>
                   <PractionerWaitlist childToParent={childToParent}/>

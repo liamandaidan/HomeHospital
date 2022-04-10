@@ -30,7 +30,7 @@ function PractitionerPatientInfo() {
       address: {
         streetAddress: "",
       },
-	  phoneNumber:"",
+      phoneNumber: "",
     },
     emergencyContact: {
       firstName: "",
@@ -47,15 +47,20 @@ function PractitionerPatientInfo() {
   // }, [symptomDetails]);
 
   useEffect(() => {
-    axios
-      .get(`http://localhost:4000/api/requestManager/patientInfo/${patientId}`)
-      .then((res) => {
-        console.log(res);
-        setPatientInfo(res.data);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+    //don't create a request untul patientId is defined
+    if (typeof patientId !== "undefined") {
+      axios
+        .get(
+          `http://localhost:4000/api/requestManager/patientInfo/${patientId}`
+        )
+        .then((res) => {
+          //console.log(res);
+          setPatientInfo(res.data);
+        })
+        .catch((err) => {
+          //console.log(err);
+        });
+    }
   }, [patientId]);
 
   return (
@@ -78,7 +83,7 @@ function PractitionerPatientInfo() {
           </Col>
           <Col md={8}>
             <div className="practitioner-patientRequestDetails">
-			<h3>
+              <h3>
                 {patientInfo.user.firstName} {patientInfo.user.lastName}
               </h3>
             </div>
@@ -94,11 +99,8 @@ function PractitionerPatientInfo() {
         </Row>
         <Row>
           <Col className="practitioner-patientContactDetails ">
-		  	  
             <p>Address: {patientInfo.user.address.streetAddress}</p>
-			<p>
-				Phone Number: {patientInfo.user.phoneNumber}
-			</p>
+            <p>Phone Number: {patientInfo.user.phoneNumber}</p>
             <p>
               Emergency Contact Name: {patientInfo.emergencyContact.firstName}{" "}
               {patientInfo.emergencyContact.lastName}
@@ -111,13 +113,13 @@ function PractitionerPatientInfo() {
             <p>Additional Info: {patientAdditionalInfo}</p>
 
             <h5>Symptoms</h5>
-            {symptomDetails.map((data) => (
-              <div>
-				  <ul>
-					  <li>
-					  	{data.description} (Severity: {data.severity})
-					  </li>
-				  </ul>
+            {symptomDetails.map((data, i) => (
+              <div key={i}>
+                <ul>
+                  <li>
+                    {data.description} (Severity: {data.severity})
+                  </li>
+                </ul>
                 <p></p>
               </div>
             ))}
