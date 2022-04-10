@@ -37,8 +37,8 @@ function SymptomsTable() {
         .then((response) => {
           console.log(response);
           setSymptomsList(response.data.request.symptoms);
-          setLatitudeValue(response.data.latitude);
-          setLongitudeValue(response.data.longitude);
+          setLatitudeValue(response.data.request.latitude);
+          setLongitudeValue(response.data.request.longitude);
         })
         .catch((err) => {
           console.log(err);
@@ -48,7 +48,8 @@ function SymptomsTable() {
 
   return (
     <>
-      <h4>Current Symptoms</h4>
+      {isCurrent && <h4>Current Symptoms</h4>}
+      {!isCurrent && <h4>Past Symptoms</h4>}
       <Table striped bordered hover>
         <thead>
           <tr>
@@ -65,11 +66,6 @@ function SymptomsTable() {
           ))}
         </tbody>
       </Table>
-      <div className="add-btn-div">
-        <Button className="submit-btn btn-light">
-          <span>Add</span>
-        </Button>
-      </div>
     </>
   );
 }

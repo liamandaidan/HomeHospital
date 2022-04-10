@@ -10,12 +10,12 @@ import {
 } from "react-bootstrap";
 import { Link, useNavigate } from "react-router-dom";
 import logo from "../images/heartbeat_logo_long.png";
-import classes from "./LoginFormPractitioner.module.css";
+import classes from "./LoginForm.module.css";
 import axios from "axios";
 
 axios.defaults.withCredentials = true;
 
-function LoginFormPractitioner() {
+function LoginAdminForm() {
   let navigate = useNavigate();
 
   const [email, setEmail] = useState("");
@@ -27,13 +27,9 @@ function LoginFormPractitioner() {
   const [loggedIn, setLoggedIn] = useState();
 
   const handleShow = () => setModalShow(true);
-  /**
-   * Here we provide regex for the email before going to backend.
-   */
+
   function validateEmail() {
-    const pattern = new RegExp(
-      "([!#-'*+/-9=?A-Z^-~-]+(.[!#-'*+/-9=?A-Z^-~-]+)*|\"([]!#-[^-~ \t]|(\\[\t -~]))+\")@([!#-'*+/-9=?A-Z^-~-]+(.[!#-'*+/-9=?A-Z^-~-]+)*|[[\t -Z^-~]*])"
-    );
+    const pattern = new RegExp("^[a-zA-Z0-9_.-]+@[a-zA-Z]+[.][a-zA-Z]{2,}$");
     if (!pattern.test(email)) {
       document.getElementById("email").classList.add("is-invalid");
       document.getElementById("email").classList.remove("is-valid");
@@ -44,11 +40,9 @@ function LoginFormPractitioner() {
       setValidEmail(true);
     }
   }
-  /**
-   * Here we validate that the password is legal.
-   */
+
   function validatePassword() {
-    if (!password.length > 8 || password.length == 0) {
+    if (!password.length > 10) {
       document.getElementById("password").classList.add("is-invalid");
       document.getElementById("password").classList.remove("is-valid");
       setvalidPassword(false);
@@ -58,47 +52,37 @@ function LoginFormPractitioner() {
       setvalidPassword(true);
     }
   }
-  /**
-   * This will provide the post request to the server with a users credentials.
-   */
+
   const loginUser = () => {
     axios
-      .post("http://localhost:4000/api/loginP", {
+      .post("http://localhost:4000/api/loginA", {
         email: email,
         password: password,
       })
       .then((response) => {
         console.log("You have logged in successfully");
-        navigate("/practitioner");
+        navigate("/admin");
       })
       .catch((err) => {
         console.log(err);
         handleShow();
       });
   };
-  /**
-   * The main feature of this is to provide login utility.
-   * This will need to be changed if a practioner account differs from a patient. Right now they are the same.
-   */
-  // useEffect(() => {
-  //   axios
-  //     .post("http://localhost:4000/api/users/PatientInfoVisitRequest", {
-  //       withCredentials: true,
-  //     })
-  //     .then((response) => {
-  //       setLoggedIn(true);
-  //       navigate("/practitioner");
-  //     })
-  //     .catch((err) => {
-  //       setLoggedIn(false);
-  //     });
-  // }, [loggedIn]);
-  
-  /**
-   * This will handle errors
-   * @param {*} props 
-   * @returns 
-   */
+
+  useEffect(() => {
+    axios
+      .post("http://localhost:4000/api/users/PatientInfoVisitRequest", {
+        withCredentials: true,
+      })
+      .then((response) => {
+        setLoggedIn(true);
+        navigate("/admin");
+      })
+      .catch((err) => {
+        setLoggedIn(false);
+      });
+  }, [loggedIn]);
+
   function ErrorModal(props) {
     return (
       <Modal
@@ -119,24 +103,22 @@ function LoginFormPractitioner() {
       </Modal>
     );
   }
-  /**
-   * As long as email and passwords are valid this will allow access to the submission of the form.
-   */
+
   useEffect(() => {
     if (validEmail && validPassword) {
       setValidForm(true);
     }
   }, [validEmail, validPassword]);
 
-  // if (loggedIn === undefined || loggedIn === null) {
-  //   return (
-  //     <div className={`${classes.spinner} text-center`}>
-  //       <Spinner animation="border" role="status">
-  //         <span className="visually-hidden">Loading...</span>
-  //       </Spinner>
-  //     </div>
-  //   );
-  // }
+  if (loggedIn === undefined || loggedIn === null) {
+    return (
+      <div className={`${classes.spinner} text-center`}>
+        <Spinner animation="border" role="status">
+          <span className="visually-hidden">Loading...</span>
+        </Spinner>
+      </div>
+    );
+  }
 
   return (
     <React.Fragment>
@@ -154,7 +136,12 @@ function LoginFormPractitioner() {
                   marginLeft: "35px",
                 }}
               >
-                <h2 className={classes.header}>LOGIN PRACTITIONER</h2>
+                <h2 className={classes.adminLoginHeader}>LOGIN</h2>
+                <div className={classes.adminHeader}>
+                  <p style={{ color: "#ec2baa", fontFamily: "Inter" }}>
+                    Administrator
+                  </p>
+                </div>
               </div>
             </div>
             <div style={{ marginTop: "-25px" }}>
@@ -171,6 +158,7 @@ function LoginFormPractitioner() {
                 onChange={(e) => setEmail(e.target.value)}
                 required
                 placeholder="yourName@gmail.com"
+                pattern="^[a-zA-Z0-9_.-]+@[a-zA-Z]+[\.][a-zA-Z]{2,}$"
                 autoFocus
               />
               <div className="valid-feedback"></div>
@@ -193,7 +181,7 @@ function LoginFormPractitioner() {
                 />
                 <div className="valid-feedback"></div>
                 <div className="invalid-feedback">
-                  Please enter a valid password
+                  Password must be minimum of 10 characters
                 </div>
               </div>
               <div className="d-grid gap-2 mt-4">
@@ -227,6 +215,11 @@ function LoginFormPractitioner() {
                 </div>
               </Col>
             </Row>
+            <Row>
+              <Col className={`${classes.smallFont}`}>
+                <Link to="/register">Register</Link>
+              </Col>
+            </Row>
           </div>
         </div>
       </Container>
@@ -234,4 +227,4 @@ function LoginFormPractitioner() {
   );
 }
 
-export default LoginFormPractitioner;
+export default LoginAdminForm;

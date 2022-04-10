@@ -34,6 +34,8 @@ export default class PractionerHospitalSelect extends Component {
    */
   handleSelect(e) {
     this.setState({ value: e.value, label: e.label });
+    //onClick={(e) => childToParent(e.target.value)}
+    this.props.childToParent(e.value);
     //alert("State is now: " + e.value + ", " + e.label);
   }
 

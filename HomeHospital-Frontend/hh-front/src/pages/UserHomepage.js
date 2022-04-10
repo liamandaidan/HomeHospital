@@ -13,14 +13,57 @@ import { useNavigate } from "react-router-dom";
 import "../styles/UserHomepage.css";
 import { HomeHospitalContext } from "../components/HomeHospitalContext";
 import axios from "axios";
+import { ToastContainer, toast } from "react-toastify";
 
 function UserHomepage() {
   const navigate = useNavigate();
 
   // useContext to get new Request value
-  const { newRequest } = useContext(HomeHospitalContext);
+  const { newRequest, requestButtonOn, requestSuccess, cancelSuccess } =
+    useContext(HomeHospitalContext);
   const [newRequestValue, setNewRequestValue] = newRequest;
-  const [currentRequestExist, setCurrentRequestExist] = useState(false);
+  const [currentRequestExist, setCurrentRequestExist] = requestButtonOn;
+  const [requestSuccessValue, setRequestSuccessValue] = requestSuccess;
+  const [cancelSuccessValue, setCancelSuccessValue] = cancelSuccess;
+
+  useEffect(() => {
+    console.log(cancelSuccessValue);
+    if (cancelSuccessValue) {
+      cancelNotify();
+      setCancelSuccessValue(false);
+    }
+  });
+
+  if (requestSuccessValue) {
+    notify();
+    setRequestSuccessValue(false);
+  }
+
+  // Request success Toast
+  function notify() {
+    toast.success("Request Successfully Submitted", {
+      position: "top-center",
+      autoClose: 5000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+    });
+  }
+
+  // Cancel success Toast
+  function cancelNotify() {
+    toast.warn("Request Has Been Successfully Cancelled", {
+      position: "top-center",
+      autoClose: 5000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+    });
+  }
 
   const createNewRequest = () => {
     setNewRequestValue(false);
@@ -33,23 +76,31 @@ function UserHomepage() {
         withCredentials: true,
       })
       .then((response) => {
-        if (response.status === 200) {
-          setCurrentRequestExist(true);
-        } else {
-          setCurrentRequestExist(false);
-        }
+        setCurrentRequestExist(false);
       })
       .catch((err) => {
+        setCurrentRequestExist(true);
         console.log(err);
       });
   }
 
   useEffect(() => {
     currentRequest();
-  }, []);
+  }, [currentRequestExist]);
 
   return (
     <>
+      <ToastContainer
+        position="top-center"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+      />
       <UserNavBar />
       <Container>
         <Row>
@@ -60,7 +111,7 @@ function UserHomepage() {
         <Row>
           <Col>
             <div className="request-btn-div">
-              {!currentRequestExist && (
+              {currentRequestExist && (
                 <Button className="newRequest-btn" onClick={createNewRequest}>
                   Create new request
                 </Button>

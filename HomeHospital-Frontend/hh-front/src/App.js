@@ -15,8 +15,14 @@ import HospitalSelectionPage from "./pages/HospitalSelectionPage";
 import { HomeHospitalProvider } from "./components/HomeHospitalContext";
 import UserHomepage from "./pages/UserHomepage";
 import RequireAuth from "./components/RequireAuth";
+import RequireAuthAdmin from "./components/RequireAuthAdmin";
+import RequireAuthPractitioner from "./components/RequireAuthPractitioner";
 import Practitioner from "./pages/Practioner";
 import Admin from "./pages/Admin.js";
+import "react-toastify/dist/ReactToastify.css";
+import AdminLogin from "./pages/AdminLogin.js";
+import { PractitionerProvider } from "./components/PractitionerContext";
+
 function App() {
   useEffect(() => {
     document.title = "HomeHospital";
@@ -28,9 +34,17 @@ function App() {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/login" element={<Login />} />
-          <Route path="/admin" element={<Admin />} />
+          <Route path="/adminlogin" element={<AdminLogin />} />
           <Route
-            path="/request"
+            path="/admin"
+            element={
+              <RequireAuthAdmin>
+                <Admin />
+              </RequireAuthAdmin>
+            }
+          />
+          <Route
+            path="/request/:id"
             element={
               <RequireAuth>
                 <Request />
@@ -57,8 +71,27 @@ function App() {
               </RequireAuth>
             }
           />
+          <Route
+            path="/home"
+            element={
+              <RequireAuth>
+                <UserHomepage />
+              </RequireAuth>
+            }
+          />
           <Route path="/home" element={<UserHomepage />} />
-          <Route path="/practitioner" element={<Practitioner />} />
+
+          <Route
+            path="/practitioner"
+            element={
+              <RequireAuthPractitioner>
+                <PractitionerProvider>
+                  <Practitioner />
+                </PractitionerProvider>
+              </RequireAuthPractitioner>
+            }
+          />
+
           <Route
             path="/register"
             element={<Register className="full-height" />}
