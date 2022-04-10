@@ -141,7 +141,7 @@ export default function PractionerWaitlist({ childToParent }) {
       })
       .then((response) => {
         setModalState(false);
-        alert("Patient has been checked in");
+        //alert("Patient has been checked in");
         setIsCheckedIn(true);
       });
   };
