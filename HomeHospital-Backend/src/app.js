@@ -11,7 +11,6 @@ const app = express()
 // Run the application
 try {
 	await RunApp(app)
-
 } catch (error) {
 	console.error(error.message)
   console.log('A Major error happened and the Server Stopped!')
