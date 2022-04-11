@@ -116,9 +116,6 @@ function PractitionerPatientInfo({ patientDataGiven }) {
               </h3>
             </div>
           </Col>
-          <Col>
-            <p>THIS IS TEMP. PATIENT ID PASSED OVER FROM OTHER COMPONENT: {patientDataGiven}</p>
-          </Col>
         </Row>
         <Row>
           <Col>
