@@ -15,9 +15,9 @@ function PractitionerPatientInfo({ patientDataGiven }) {
   const { _id, additionalInfo, symptomsInfo } = useContext(PractitionerContext);
 
   //grab states for useContext grabs data from other route in PractitionerWaitlist.jsx for additional info, symptoms and id.
-  const [patientAdditionalInfo] = additionalInfo;
+  const [patientAdditionalInfo, setPatientAdditionalInfo] = additionalInfo;
   const [patientId] = _id;
-  const [symptomDetails] = symptomsInfo;
+  const [symptomDetails, setSymptomDetails] = symptomsInfo;
   const [checkIn, setCheckedIn] = useState(patientDataGiven);
   //empty states for patientInfo route data in the useEffect
   const [patientInfo, setPatientInfo] = useState({
@@ -63,6 +63,8 @@ function PractitionerPatientInfo({ patientDataGiven }) {
         },
       }
       );
+	  setPatientAdditionalInfo(" ");
+	  setSymptomDetails([]);
     };
 
     if (typeof patientId !== "undefined") {
@@ -85,6 +87,7 @@ function PractitionerPatientInfo({ patientDataGiven }) {
   const handleChange = (e) => {
     patientDataGiven = "WOW";
   };
+  
   return (
     <>
       <Container className="patient-container">
