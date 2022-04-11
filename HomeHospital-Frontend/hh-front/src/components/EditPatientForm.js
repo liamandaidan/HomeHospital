@@ -203,15 +203,22 @@ function EditPatientForm() {
           <FloatingLabel
             controlId="floatingInput"
             label="Gender"
+            value={gender}
             className="mb-3"
           >
             <FormSelect onChange={(e) => setGender(e.target.value)}>
-              {gender === "male" ? (
-                <option select value="male">
+              {gender === "Male" ? (
+                <>               
+                <option select value="Male">
                   Male
                 </option>
+                <option value="Female">Female</option>
+                </>
               ) : (
-                <option value="female">Female</option>
+                <>       
+                <option value="Female">Female</option>
+                <option value="Male">Male</option>
+                </>
               )}
             </FormSelect>
           </FloatingLabel>
