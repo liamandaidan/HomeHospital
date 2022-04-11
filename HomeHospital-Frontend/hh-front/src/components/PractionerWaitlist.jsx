@@ -146,6 +146,7 @@ export default function PractionerWaitlist({ childToParent }) {
       .then((response) => {
         setModalState(false);
         setIsCheckedIn(true);
+        childToParent("null");
       });
   };
 

@@ -33,7 +33,7 @@ export default function Practioner() {
               <div className="leftContent">
                 <p className="pd">Patient Details</p>
                 <Row>
-                  <PractitionerPatientInfo/>
+                  <PractitionerPatientInfo patientDataGiven={patientData}/>
                 </Row>
                 <Row>
                   <p>
