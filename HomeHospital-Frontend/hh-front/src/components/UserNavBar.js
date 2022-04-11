@@ -150,11 +150,13 @@ function UserNavBar() {
               align="end"
               className="me-5"
             >
-              <Dropdown.Item href="#" onClick={onEdit}>Edit Profile</Dropdown.Item>
-              <Dropdown.Item href="#" onClick={onHospital}>
-                Hospitals
+              <Dropdown.Item href="#" onClick={onEdit}>
+                Edit Profile
               </Dropdown.Item>
-              <Dropdown.Item href="#">Notifications</Dropdown.Item>
+              {/* <Dropdown.Item href="#" onClick={onHospital}>
+                Hospitals
+              </Dropdown.Item> */}
+              {/* <Dropdown.Item href="#">Notifications</Dropdown.Item> */}
               <Dropdown.Divider />
               <Dropdown.Item
                 href="#"
