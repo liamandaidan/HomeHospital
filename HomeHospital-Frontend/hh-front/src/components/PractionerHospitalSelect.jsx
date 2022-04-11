@@ -1,6 +1,6 @@
 import axios from "axios";
 import React, { Component } from "react";
-import Select from "react";
+import Select from "react-select";
 export default class PractionerHospitalSelect extends Component {
   constructor(props) {
     super(props);
