@@ -1,0 +1,19 @@
+.container-editpatient {
+    margin-top: 50px;
+    margin-bottom: 50px;
+}
+
+.footer-editpatient-grid {
+    display: grid;
+}
+
+.item-1 {
+    grid-column-start: 1;
+    grid-column-end: 2;
+    padding: 0px;
+}
+.item-2 {
+    grid-column-start: 2;
+    grid-column-end: 3;
+    text-align: right;
+}

@@ -33,6 +33,10 @@ function UserNavBar() {
     navigate("/hospitals");
   };
 
+  const onEdit = () => {
+    navigate("/editprofile");
+  };
+
   const handleOnLanding = () => {
     navigate("/");
   };
@@ -146,7 +150,7 @@ function UserNavBar() {
               align="end"
               className="me-5"
             >
-              <Dropdown.Item href="#">Profile</Dropdown.Item>
+              <Dropdown.Item href="#" onClick={onEdit}>Edit Profile</Dropdown.Item>
               <Dropdown.Item href="#" onClick={onHospital}>
                 Hospitals
               </Dropdown.Item>
