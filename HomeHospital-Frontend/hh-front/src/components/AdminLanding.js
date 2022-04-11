@@ -4,6 +4,7 @@ import "../styles/admin.css";
 import Users from "../data/users.json";
 import { Card } from "react-bootstrap";
 import { ResponsivePie } from "@nivo/pie";
+import axios from "axios";
 
 function AdminLanding() {
   const { menuSelection } = useContext(AdminContext);
@@ -11,12 +12,21 @@ function AdminLanding() {
   const [menuChoice, setMenuChoice] = menuSelection;
   const [userLength, setUserLength] = useState(0)
 
+  const [patientList, setPatientList] = useState([]);
   const [adminList, setAdminList] = useState([]);
+  const [pracList, setPracList] = useState([]);
 
  useEffect(() => {
   setUserLength(Users.length);
+  // axios
+  // .get("(http://localhost:4000/api/medicalFacility/patientList")
+  // .then((reponse) => {
+
+  // })
 
  })
+
+
 
 
 
