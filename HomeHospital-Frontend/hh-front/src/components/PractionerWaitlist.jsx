@@ -33,9 +33,6 @@ export default function PractionerWaitlist({ childToParent }) {
   const [isCheckedIn, setIsCheckedIn] = useState(false);
 
 
-  function refreshPage() {
-	  window.location.reload(false);
-  }
 
   /**
    * Here when a select component is updated we will update our url to reflect the changes.
