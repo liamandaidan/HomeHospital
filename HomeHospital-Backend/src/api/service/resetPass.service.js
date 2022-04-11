@@ -2,6 +2,9 @@ import PatientModel from '../../models/patient.Model.js'
 import PractitionerModel from '../../models/practitioner.Model.js'
 import AdministratorModel from '../../models/administrator.Model.js'
 import bcrypt from 'bcryptjs'
+import ENV from '../../configure/configure.js'
+import validator from 'validator'
+
 
 export async function updatePassword(userEmail, newPassword) {
 	if (typeof userEmail != 'string') {

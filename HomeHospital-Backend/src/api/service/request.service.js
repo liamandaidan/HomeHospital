@@ -3,13 +3,20 @@ import CompletedRequestModel from '../../models/completedRequest.model.js'
 import patientModel from '../../models/patient.Model.js'
 import visitRequestModel from '../../models/visitRequest.Model.js'
 import hospitalModel from '../../models/medicalFacility.Model.js'
+import ENV from '../../configure/configure.js'
+import validator from 'validator'
+
+const whitelist_string = ENV.WHITELIST_STRINGS;
+
 
 // Takes in a requestId, moves the request Object from the vistitRequest collection in the database
 // and shifts it into the completedRequests collection in the database
 // this is a function that will be called BY THE PRACTITIONER
 export const completeCurrentRequest = async (patientId) => {
 	try {
-		const patient = await patientModel.findById(patientId)
+		const sanitizedPatientId = validator.whitelist(patientId, whitelist_string)
+
+		const patient = await patientModel.findById(sanitizedPatientId)
 
 		if (patient.currentRequest && patient.currentHospital) {
 
@@ -56,7 +63,9 @@ export const completeCurrentRequest = async (patientId) => {
 //This can be called by the PATIENT OR THE PRACTITIONER
 export const cancelCurrentRequest = async (patientId) => {
 	try {
-		const patient = await patientModel.findById(patientId)
+		const sanitizedPatientId = validator.whitelist(patientId, whitelist_string)
+
+		const patient = await patientModel.findById(sanitizedPatientId)
 		if (patient.currentRequest && patient.currentHospital) {
 			// Delete the visit request
 			await visitRequestModel.findByIdAndDelete(patient.currentRequest)
@@ -85,7 +94,9 @@ export const cancelCurrentRequest = async (patientId) => {
 export const getHospitalWaitList = async (hospitalId) => {
 	
 	try {
-		const hospital = await hospitalModel.findById(hospitalId)
+		const sanitizedHospitalId = validator.whitelist(hospitalId, whitelist_string)
+
+		const hospital = await hospitalModel.findById(sanitizedHospitalId)
 		// console.log(hospital)
 
 		if(!hospital){

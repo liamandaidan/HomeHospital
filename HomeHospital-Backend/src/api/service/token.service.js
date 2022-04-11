@@ -5,9 +5,13 @@ import {
 	accessOptions,
 	refreshOptions,
 } from '../../configure/cookie.configure.js'
+import validator from 'validator'
+
 
 const ACCESSTOKEN_KEY = ENV.PATIENTACCESSTOKEN_SECRET
 const REFRESHTOKEN_KEY = ENV.PATIENTREFRESHTOKEN_SECRET
+const whitelist_string = ENV.WHITELIST_STRINGS;
+
 
 /*This method generates an access token. It is called as middleware whenever a user attempts to log in. It calls the method 
 to generate a refresh token as well, so there should always be both together. */
