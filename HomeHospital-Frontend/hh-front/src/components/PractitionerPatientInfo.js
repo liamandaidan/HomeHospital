@@ -1,4 +1,4 @@
-import React, { Component, useState, useEffect, useContext } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import profile from "../images/img_avatar.png";
 import hbar from "../images/hb2.png";
 import Row from "react-bootstrap/Row";
@@ -8,16 +8,17 @@ import "../styles/SymptomForm.css";
 import "../styles/PractionerStyles.css";
 import axios from "axios";
 import { PractitionerContext } from "./PractitionerContext";
+import { Button } from "react-bootstrap";
 
-function PractitionerPatientInfo() {
+function PractitionerPatientInfo({ patientDataGiven }) {
   //useContext here
   const { _id, additionalInfo, symptomsInfo } = useContext(PractitionerContext);
 
   //grab states for useContext grabs data from other route in PractitionerWaitlist.jsx for additional info, symptoms and id.
   const [patientAdditionalInfo, setPatientAdditionalInfo] = additionalInfo;
-  const [patientId, setPatientId] = _id;
+  const [patientId] = _id;
   const [symptomDetails, setSymptomDetails] = symptomsInfo;
-
+  const [checkIn, setCheckedIn] = useState(patientDataGiven);
   //empty states for patientInfo route data in the useEffect
   const [patientInfo, setPatientInfo] = useState({
     HCnumber: "",
@@ -41,6 +42,31 @@ function PractitionerPatientInfo() {
 
   useEffect(() => {
     //don't create a request until patientId is defined
+    const clearInfo = () => {
+      setPatientInfo({
+        HCnumber: "",
+        firstName: "",
+        lastName: "",
+        user: {
+          firstName: "",
+          lastName: "",
+          phoneNumber: "",
+          address: {
+            streetAddress: "",
+          },
+          phoneNumber: "",
+        },
+        emergencyContact: {
+          firstName: "",
+          lastName: "",
+          phoneNumber: "",
+        },
+      }
+      );
+	  setPatientAdditionalInfo(" ");
+	  setSymptomDetails([]);
+    };
+
     if (typeof patientId !== "undefined") {
       axios
         .get(
@@ -50,11 +76,18 @@ function PractitionerPatientInfo() {
           setPatientInfo(res.data);
         })
         .catch((err) => {
+          clearInfo();
           //console.log(err);
         });
+    } else {
+      clearInfo();
     }
-  }, [patientId]);
+  }, [patientId, checkIn]);
 
+  const handleChange = (e) => {
+    patientDataGiven = "WOW";
+  };
+  
   return (
     <>
       <Container className="patient-container">
@@ -74,16 +107,15 @@ function PractitionerPatientInfo() {
             <img src={profile} alt="profilePic" className="profilepic" />
           </Col>
           <Col md={8}>
-			{/** 
-			 * Displays patients name
- 			 * */}  
+            {/**
+             * Displays patients name
+             * */}
             <div className="practitioner-patientRequestDetails">
               <h3>
                 {patientInfo.user.firstName} {patientInfo.user.lastName}
               </h3>
             </div>
           </Col>
-          <Col></Col>
         </Row>
         <Row>
           <Col>
@@ -93,10 +125,10 @@ function PractitionerPatientInfo() {
           </Col>
         </Row>
         <Row>
-			{/**
-			 * Displays patient address,phone#,emergency contact,healthcare#,
-			 * makes use of useContext for additionalInfo,Symptoms(description,severity) data grabbed from PractitionerWaitlist
-			*/}
+          {/**
+           * Displays patient address,phone#,emergency contact,healthcare#,
+           * makes use of useContext for additionalInfo,Symptoms(description,severity) data grabbed from PractitionerWaitlist
+           */}
           <Col className="practitioner-patientContactDetails ">
             <p>Address: {patientInfo.user.address.streetAddress}</p>
             <p>Phone Number: {patientInfo.user.phoneNumber}</p>
