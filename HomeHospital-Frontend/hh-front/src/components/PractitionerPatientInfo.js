@@ -1,4 +1,4 @@
-import React, { Component, useState, useEffect, useContext } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import profile from "../images/img_avatar.png";
 import hbar from "../images/hb2.png";
 import Row from "react-bootstrap/Row";
@@ -14,13 +14,13 @@ function PractitionerPatientInfo() {
   const { _id, additionalInfo, symptomsInfo } = useContext(PractitionerContext);
 
   //grab states for useContext grabs data from other route in PractitionerWaitlist.jsx for additional info, symptoms and id.
-  const [patientAdditionalInfo, setPatientAdditionalInfo] = additionalInfo;
-  const [patientId, setPatientId] = _id;
-  const [symptomDetails, setSymptomDetails] = symptomsInfo;
+  const [patientAdditionalInfo] = additionalInfo;
+  const [patientId] = _id;
+  const [symptomDetails] = symptomsInfo;
 
   //empty states for patientInfo route data in the useEffect
   const [patientInfo, setPatientInfo] = useState({
-    HCnumber: "",
+    HCnumber: '',
     firstName: "",
     lastName: "",
     user: {

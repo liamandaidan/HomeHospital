@@ -8,11 +8,12 @@ import { PractitionerContext} from "../components/PractitionerContext.js";
 
 export default function Practioner() {
    // useContext
-   const { _id, practitionerKey } =
+   const { _id} =
    useContext(PractitionerContext);
 
   //State used to keep track of the current info in focus.
   const[patientData, setPatientData] = _id;
+
   /**
    * This will update our parent class(Practioner) with recent info.
    * @param {*} childData the ID of a patient passed in from child.
