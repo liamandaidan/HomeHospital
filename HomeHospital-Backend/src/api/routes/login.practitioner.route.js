@@ -14,8 +14,7 @@ route.post('/', logPractitionerIn, generateEmployeeAccessToken, (req, res) => {
 	res.status(201).json({
 		message: 'Login successful',
 		practitionerId: req.practitionerId,
-		accessT: accessT,
-		refreshT: refreshT,
+		practitionerDetails: req.practitionerDetails
 	})
 })
 
