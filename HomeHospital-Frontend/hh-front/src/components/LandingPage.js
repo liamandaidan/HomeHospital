@@ -4,7 +4,6 @@ import logo from "../images/heartbeat_logo_long.png";
 import classes from "./LandingPage.module.css";
 import landingImage from "../images/landingImage.png";
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
 
 function LandingPage() {
   const navigate = useNavigate();
@@ -24,15 +23,6 @@ function LandingPage() {
           <img className={classes.logo} src={logo} alt="logo" />
           <p className={classes.logoTitle}>HomeHospital</p>
         </Col>
-        <Col className={classes.columnSpace} md={1}>
-          About us
-        </Col>
-        <Col className={classes.columnSpace} md={1}>
-          Products
-        </Col>
-        <Col className={classes.columnSpace} md={1}>
-          Support
-        </Col>
         <Col className={classes.columnSpace} md={{ offset: 3 }}>
           <div>
             <Button
@@ -45,7 +35,6 @@ function LandingPage() {
             <Button
               className={`rounded-pill shadow ${classes.signup}`}
               onClick={handleRegister}
-              style={{ height: "60px" , width: "150px" }}
             >
               Sign Up
             </Button>
@@ -56,8 +45,9 @@ function LandingPage() {
       <Row>
         <Col>
           <div className={classes.titleBox}>
-            <h1 style={{ fontSize: "70px", fontWeight: "bold" }}>
-              Why wait at the hospital when you can wait at home
+            <h1>
+              Why wait at the hospital <br />
+              when you can wait at home
             </h1>
             <br />
             <h6>
@@ -72,9 +62,9 @@ function LandingPage() {
             <br />
             <br />
             <Button
-              className={`rounded-pill shadow ${classes.signup} register-btn`}
+              className={`rounded-pill shadow ${classes.register} register-btn`}
               onClick={handleRegister}
-              style={{ height: "60px" , width: "250px" }}
+              style={{ height: "60px", width: "250px" }}
             >
               Register Now --&gt;
             </Button>

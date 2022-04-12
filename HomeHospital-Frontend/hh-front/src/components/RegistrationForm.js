@@ -1,5 +1,5 @@
-import React, { useState, useEffect, useContext } from "react";
-import { Button, Container, Row, Col, Form } from "react-bootstrap";
+import React, { useState, useEffect, useContext, useRef } from "react";
+import { Button, Container, Row, Col, Form, Alert } from "react-bootstrap";
 import classes from "./RegistrationForm.module.css";
 import { useNavigate } from "react-router-dom";
 import Axios from "axios";
@@ -39,6 +39,8 @@ function RegistrationForm() {
   const [validPasswordValue, setValidPasswordValue] = useState(false);
   const [validClientFormValue, setValidClientFormValue] = useState(false);
   const [resetAllFormValue] = useState(false);
+  const [show, setShow] = useState(false);
+  const [errorMsg, setErrorMsg] = useState("");
 
   // check if the form is valid
   useEffect(() => {
@@ -96,7 +98,9 @@ function RegistrationForm() {
     if (
       isName === false ||
       firstNameValue === "" ||
-      firstNameValue === undefined
+      firstNameValue === undefined ||
+      firstNameValue.length < 2 ||
+      firstNameValue.length > 26
     ) {
       document.getElementById("clientFirstName").classList.add("is-invalid");
       document.getElementById("clientFirstName").classList.remove("is-valid");
@@ -119,7 +123,9 @@ function RegistrationForm() {
     if (
       isName === false ||
       lastNameValue === "" ||
-      lastNameValue === undefined
+      lastNameValue === undefined ||
+      lastNameValue.length < 2 ||
+      lastNameValue.length > 26
     ) {
       document.getElementById("clientLastName").classList.add("is-invalid");
       document.getElementById("clientLastName").classList.remove("is-valid");
@@ -246,6 +252,10 @@ function RegistrationForm() {
     }
   }
 
+  const myRef = useRef(null);
+
+  const executeScroll = () => myRef.current.scrollIntoView();
+
   const createUser = () => {
     Axios.post("http://localhost:4000/api/register", {
       firstName: firstNameValue,
@@ -263,15 +273,30 @@ function RegistrationForm() {
       contactFirstName: emFirstNameValue,
       contactLastName: emLastNameValue,
       contactPhoneNumber: emPhoneValue,
-    }).then((response) => {
-      setRegSuccessValue(true);
-      console.log("Registration Successful");
-      navigate("/login");
-    });
+    })
+      .then((response) => {
+        setRegSuccessValue(true);
+        console.log("Registration Successful");
+        navigate("/login");
+      })
+      .catch((err) => {
+        console.log(err.response.data.message);
+        setShow(true);
+        setErrorMsg(err.response.data.message);
+        executeScroll();
+      });
   };
 
   return (
     <Container style={{ borderRadius: "0px 50px 0px 0px" }}>
+      {show && (
+        <Row ref={myRef}>
+          <Alert variant="danger" onClose={() => setShow(false)} dismissible>
+            <Alert.Heading>Opps there's an error!</Alert.Heading>
+            <p>{errorMsg}</p>
+          </Alert>
+        </Row>
+      )}
       <div>
         <h3
           className="text-center mt-4"
@@ -302,7 +327,8 @@ function RegistrationForm() {
                 />
                 <div className="valid-feedback">Looks good!</div>
                 <div className="invalid-feedback">
-                  Please enter a valid First Name
+                  Please enter a valid First Name, min 2 characters and max 26
+                  characters
                 </div>
               </div>
             </Col>
@@ -325,7 +351,8 @@ function RegistrationForm() {
                 />
                 <div className="valid-feedback">Looks good!</div>
                 <div className="invalid-feedback">
-                  Please enter a valid Last Name
+                  Please enter a valid Last Name, min 2 characters and max 26
+                  characters
                 </div>
               </div>
             </Col>

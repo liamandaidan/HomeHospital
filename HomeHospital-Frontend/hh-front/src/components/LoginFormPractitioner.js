@@ -69,6 +69,7 @@ function LoginFormPractitioner() {
       })
       .then((response) => {
         console.log("You have logged in successfully");
+        console.log(response);
         navigate("/practitioner");
       })
       .catch((err) => {

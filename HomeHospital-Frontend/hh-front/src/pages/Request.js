@@ -20,7 +20,7 @@ function Request() {
               </Col>
             </Row>
             <Row>
-              <div>
+              <div style={{ paddingBottom: "50px" }}>
                 <HHGoogleMap />
               </div>
             </Row>
