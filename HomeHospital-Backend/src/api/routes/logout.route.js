@@ -7,8 +7,14 @@ import {
 
 const route = express.Router()
 
-// Logs out the user byu hitting the invalidate service by remove the toke from the DB
-// And then clearing the cookies
+/**
+ * @route
+ * @url /api/logout
+ * @summary logout route for all users
+ * 
+ * @description Calls middleware to invalidate the refresh token, which will prevent the access token from 
+ * being refreshed, and then instructs the user's browser to clear the cookies containing both tokens
+ */
 route.post('/', invalidateRefToken, (req, res) => {
 	res.clearCookie('accessTokenCookie', accessOptions)
 	res.clearCookie('refreshTokenCookie', refreshOptions)
