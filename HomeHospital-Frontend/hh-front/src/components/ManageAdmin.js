@@ -4,10 +4,8 @@ import {
   Modal,
   Button,
   Form,
-  ListGroup,
   FloatingLabel,
 } from "react-bootstrap";
-import Users from "../data/practitioners.json";
 import { AdminContext } from "./AdminContext";
 import axios from "axios";
 import useAdminForm from "./useAdminForm"
