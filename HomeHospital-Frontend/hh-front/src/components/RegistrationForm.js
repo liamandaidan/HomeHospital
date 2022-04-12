@@ -5,6 +5,12 @@ import { useNavigate } from "react-router-dom";
 import Axios from "axios";
 import { HomeHospitalContext } from "./HomeHospitalContext";
 
+/**
+ * @name RegistrationForm Component
+ * @summary The RegistrationForm component creates a patient
+ * validates all input fields and throws any errors.
+ * @author Lance Gee
+ */
 function RegistrationForm() {
   let navigate = useNavigate();
 
