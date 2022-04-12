@@ -10,7 +10,14 @@ const clientURL = 'http://localhost:3000/reset'
 
 const route = express.Router()
 
-//route for when the user clicks to reset their password
+/**
+ * @route
+ * @url /api/forget
+ * @summary Route for resetting password, patient only
+ * 
+ * @description This route performs the dual function of confirming the user's email and sending a reset email, and again when the 
+ * user has entered and confirmed a new password, at which point it changes that user's password.
+ */
 route.post('/', async (req, res) => {
 	const { email, token, newPass, newPassConfirm } = req.body
 
@@ -32,11 +39,8 @@ route.post('/', async (req, res) => {
 				return
 			}
 			let tokenEmail = jwt.verify(token, resetKey)
-			console.log('tokenEmail is: ' + tokenEmail.email)
 			if (tokenEmail.email === email) {
-				console.log(
-					'Emails match!' + tokenEmail.email + ' and ' + email
-				)
+				console.log('Emails match!' + tokenEmail.email + ' and ' + email)
 				const updateResult = await updatePassword(email, newPass)
 				console.log('Result: ' + updateResult)
 				if (updateResult === 1) {
@@ -60,10 +64,7 @@ route.post('/', async (req, res) => {
 					const resettoken = jwt.sign({ email: email }, resetKey, {
 						expiresIn: '24h',
 					}) //verify should return the email
-					console.log('Token is: ' + resettoken)
 					const link = `${clientURL}?uemail=${email}&tokenstring=${resettoken}`
-					console.log('Link is: ' + link)
-					console.log('Name is: ' + patient.user.firstName)
 					sendEmailAlt(email, 'Password Reset Request', {
 						name: patient.user.firstName,
 						link: link,
@@ -85,9 +86,6 @@ route.post('/', async (req, res) => {
 route.get('/', (req, res, next) => {
 	let name = req.query.uemail
 	let tokenstring = req.query.tokenstring
-	console.log('Successfully reached route')
-	console.log('Name: ' + name)
-	console.log('Tokenstring: ' + tokenstring)
 	res.status(201)
 })
 

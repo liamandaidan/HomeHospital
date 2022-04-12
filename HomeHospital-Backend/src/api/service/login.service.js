@@ -5,16 +5,15 @@ import AdministratorModel from '../../models/administrator.Model.js'
 import jwt from 'jsonwebtoken'
 import ENV from '../../configure/configure.js'
 import RefToken from '../../models/refreshTokens.Schema.js'
-import validator from 'validator'
-
-
 
 const { compare } = bcrypt
 
 /**
- * The three login methods are functionally identical, differing only in the type of user they are designed to 
- * service. In each case, the user's email and password are taken in and checked for null or blank values. Then 
- * the database is checked for a user matching the provided email. Emails must be unique within a user database, 
+ * @function
+ * @summary Method to log a patient in
+ * 
+ * @description The user's email and password are taken in and checked for null or blank values. Then 
+ * the patient database is checked for a user matching the provided email. Emails must be unique within a user database, 
  * so this will return either one user, or null. A null return means the email didn't match, and the user is 
  * denied access. If a matching user is found, the provided password is compared to the stored password. Assuming 
  * that matches as well, another method call is made to check if they are already logged in (allowing a dual login 
@@ -73,6 +72,22 @@ export const logUserIn = async (req, res, next) => {
 	}
 }
 
+/**
+ * @function
+ * @summary Method to log an administrator in
+ * 
+ * @description The user's email and password are taken in and checked for null or blank values. Then 
+ * the administrator database is checked for a user matching the provided email. Emails must be unique within a user 
+ * database, so this will return either one user, or null. A null return means the email didn't match, and the user is 
+ * denied access. If a matching user is found, the provided password is compared to the stored password. Assuming 
+ * that matches as well, another method call is made to check if they are already logged in (allowing a dual login 
+ * would present problems at logout). If they are, then the rest of the routing is cancelled with a return, which 
+ * allows the user to be taken to an authorized page. If not, then the route continues to the next middleware.
+ * @param {request} req 
+ * @param {response} res 
+ * @param {next} next 
+ * @returns 
+ */
 export const logAdministratorIn = async (req, res, next) => {
 	const { email, password } = req.body
 
@@ -89,7 +104,6 @@ export const logAdministratorIn = async (req, res, next) => {
 		if (isAuthorized) {
 			const isAlreadyLoggedIn = await checkAdminAlreadyLoggedIn(req)
 			if (isAlreadyLoggedIn === email) {
-				console.log('User is already logged in!')
 				res.status(202).send({ message: 'Already Logged in' })
 				return
 			} else if(isAlreadyLoggedIn === "bad token") {
@@ -99,7 +113,6 @@ export const logAdministratorIn = async (req, res, next) => {
 			} else {
 				req.adminId = administrator.adminId
 				res.locals.adminId = administrator.id
-				console.log('From the login '  + req.adminPermission)
 				next();
 			}
 			
@@ -108,7 +121,6 @@ export const logAdministratorIn = async (req, res, next) => {
 			console.log('Bad password')
 			return
 		}
-		//next()
 	} else {
 		res.status(403).send({ message: 'Login Failed!!!' })
 		console.log('No User found')
@@ -116,7 +128,22 @@ export const logAdministratorIn = async (req, res, next) => {
 	}
 }
 
-
+/**
+ * @function
+ * @summary Method to log a practitioner in
+ * 
+ * @description The user's email and password are taken in and checked for null or blank values. Then 
+ * the practitioner database is checked for a user matching the provided email. Emails must be unique within a user database, 
+ * so this will return either one user, or null. A null return means the email didn't match, and the user is 
+ * denied access. If a matching user is found, the provided password is compared to the stored password. Assuming 
+ * that matches as well, another method call is made to check if they are already logged in (allowing a dual login 
+ * would present problems at logout). If they are, then the rest of the routing is cancelled with a return, which 
+ * allows the user to be taken to an authorized page. If not, then the route continues to the next middleware.
+ * @param {request} req 
+ * @param {response} res 
+ * @param {next} next 
+ * @returns 
+ */
 export const logPractitionerIn = async (req, res, next) => {
 	const { email, password } = req.body
 
