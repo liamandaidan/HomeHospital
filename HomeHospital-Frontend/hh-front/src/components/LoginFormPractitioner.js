@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import {
   Button,
   Col,
@@ -12,11 +12,17 @@ import { Link, useNavigate } from "react-router-dom";
 import logo from "../images/heartbeat_logo_long.png";
 import classes from "./LoginFormPractitioner.module.css";
 import axios from "axios";
+import { PractitionerContext } from "./PractitionerContext";
 
 axios.defaults.withCredentials = true;
 
 function LoginFormPractitioner() {
   let navigate = useNavigate();
+
+  const { firstName, lastName, roleName } = useContext(PractitionerContext);
+  const [firstNameValue, setFirstNameValue] = firstName;
+  const [lastNameValue, setLastNameValue] = lastName;
+  const [roleNameValue, setRoleNameValue] = roleName;
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -70,6 +76,9 @@ function LoginFormPractitioner() {
       .then((response) => {
         console.log("You have logged in successfully");
         console.log(response);
+        setFirstNameValue(response.data.practitionerDetails.firstName);
+        setLastNameValue(response.data.practitionerDetails.lastName);
+        setRoleNameValue(response.data.practitionerDetails.role);
         navigate("/practitioner");
       })
       .catch((err) => {
