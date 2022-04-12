@@ -5,10 +5,14 @@ import hospitalModel from '../../models/medicalFacility.Model.js'
 import { ENV, whitelist_string } from '../../configure/configure.js'
 import validator from 'validator'
 
-
-// Takes in a requestId, moves the request Object from the vistitRequest collection in the database
-// and shifts it into the completedRequests collection in the database
-// this is a function that will be called BY THE PRACTITIONER
+/**
+ * @summary Completes a patients active visit request moving it to history. Activated by the Practitioner.
+ * 
+ * Takes in the id of a patient with an active visit request, moves that request to the completed requests
+ * collection (history). Also removes all references to that request from the hospital and patient documents.
+ * 
+ * @param {String} patientId The ID of a patient with an active visit request.
+ */
 export const completeCurrentRequest = async (patientId) => {
 	try {
 		const sanitizedPatientId = validator.whitelist(patientId, whitelist_string)
@@ -55,9 +59,16 @@ export const completeCurrentRequest = async (patientId) => {
 	}
 }
 
-// This takes in a requestId and deletes the request from the visitRequest collection
-//TODO: This still needs to remove the request from the Patients list/hospital list
-//This can be called by the PATIENT OR THE PRACTITIONER
+/**
+ * 
+ * @summary Cancels a patients request deleting it from the database.
+ * 
+ * Takes in a patient id, checks for an active request and if so deletes that request. Also removes
+ * references to the request from the hospital and patient documents.
+ * 
+ * @param {String} patientId ID of the patient that is having the request cancelled.
+ * 
+ */
 export const cancelCurrentRequest = async (patientId) => {
 	try {
 		const sanitizedPatientId = validator.whitelist(patientId, whitelist_string)
@@ -88,6 +99,15 @@ export const cancelCurrentRequest = async (patientId) => {
 	}
 }
 
+/**
+ * @summary Returns the waitlist of vist request IDs from the desired Hospital
+ * 
+ * Needs a valid hospital ID. If the ID is valid it will return an array of request IDs that
+ * represent the waitlist of the hospital. Array can be empty if there are no requests.
+ * 
+ * @param {String} hospitalId The ID of the hospital that we need the waitlist from.
+ * @returns {String Array} The waitlist of request IDs for the hospital
+ */
 export const getHospitalWaitList = async (hospitalId) => {
 	
 	try {
