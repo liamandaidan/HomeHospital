@@ -4,7 +4,10 @@ import "../styles/forgotpass.css";
 import logo1 from "../images/hb1.png";
 import logo2 from "../images/hb2.png";
 import bg from "../images/bg.png";
-
+/**
+ * This class will be used to alert the user by sending them to a page notifying them that the
+ * email they used is submitted.
+ */
 export class ForgotPass extends Component {
   
   /**
