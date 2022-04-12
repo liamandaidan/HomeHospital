@@ -26,6 +26,7 @@
     "mongoose": "^6.2.0",
     "nodemailer": "^6.7.2",
     "playwright": "^1.19.1",
+    "sanitize": "^2.1.0",
     "validator": "^13.7.0"
   },
   "devDependencies": {

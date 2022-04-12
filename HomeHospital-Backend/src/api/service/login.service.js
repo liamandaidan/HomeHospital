@@ -5,6 +5,9 @@ import AdministratorModel from '../../models/administrator.Model.js'
 import jwt from 'jsonwebtoken'
 import ENV from '../../configure/configure.js'
 import RefToken from '../../models/refreshTokens.Schema.js'
+import validator from 'validator'
+
+
 
 const { compare } = bcrypt
 
@@ -145,6 +148,9 @@ export const logPractitionerIn = async (req, res, next) => {
 			} else {
 				req.practitionerId = practitioner.id
 				res.locals.practitionerId = practitioner.id
+				req.practitionerDetails = {role: practitioner.role,
+				firstName: practitioner.user.firstName,
+				lastName: practitioner.user.lastName }
 				next();
 			}
 			

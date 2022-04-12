@@ -4,7 +4,12 @@ import medicalFacilityModel from '../../models/medicalFacility.Model.js'
 import completedRequestModel from '../../models/completedRequest.model.js'
 import mongoose from 'mongoose'
 import visitRequestModel from '../../models/visitRequest.Model.js'
-import { cancelCurrentRequest } from '../service/request.service.js'
+import {
+	completeCurrentRequest,
+	cancelCurrentRequest,
+} from '../service/request.service.js'
+import { ENV, whitelist_string } from '../../configure/configure.js'
+import validator from 'validator'
 
 const route = express.Router()
 
@@ -20,9 +25,19 @@ route.post('/newRequest', async (req, res) => {
 	const { hospitalId, symptomList, additionalInfo } = req.body
 	const patientId = req.patientId
 
+	//sanitize all inputs to contain only alphanumeric charcters and a few necessary punctuation marks. Validator documentation at: https://github.com/validatorjs/validator.js#sanitizers
+	const sanitizedHospitalId = validator.whitelist(hospitalId, whitelist_string)
+	const sanitizedAdditionalInfo = validator.whitelist(additionalInfo, whitelist_string)
+	const sanitizedPatientId = validator.whitelist(patientId, whitelist_string)
+	const sanitizedSymptomList = []
+	symptomList.forEach(element => {
+		const sanElement = validator.whitelist(element, whitelist_string)
+		sanitizedSymptomList.push(sanElement)
+	})
+
 	if (
-		!mongoose.Types.ObjectId.isValid(hospitalId) &&
-		!mongoose.Types.ObjectId.isValid(patientId)
+		!mongoose.Types.ObjectId.isValid(sanitizedHospitalId) &&
+		!mongoose.Types.ObjectId.isValid(sanitizedPatientId)
 	) {
 		console.log('patientId or hospitalId not valid')
 		res.status(400).send({ message: 'Error' })
@@ -34,21 +49,21 @@ route.post('/newRequest', async (req, res) => {
 	}
 
 	// Validates that the Id's for the hospital and patient are valid Mongo Ids
-	const validFacilityId = mongoose.Types.ObjectId.isValid(hospitalId)
-	const validUserId = mongoose.Types.ObjectId.isValid(patientId)
-	console.log(`From the make request ${patientId}`)
+	const validFacilityId = mongoose.Types.ObjectId.isValid(sanitizedHospitalId)
+	const validUserId = mongoose.Types.ObjectId.isValid(sanitizedPatientId)
+	console.log(`From the make request ${sanitizedPatientId}`)
 
 	if (validFacilityId && validUserId) {
 		// Fetch the patients address
-		const patient = await patientModel.findById(patientId)
-		const hospital = await medicalFacilityModel.findById(hospitalId)
+		const patient = await patientModel.findById(sanitizedPatientId)
+		const hospital = await medicalFacilityModel.findById(sanitizedHospitalId)
 		const { address } = patient.user
 
 		if (patient && hospital) {
 			try {
 				// Create the new request
 				const request = await visitRequestModel.create({
-					patient: patientId, //patientOId
+					patient: sanitizedPatientId, //patientOId
 					patientFirstName: patient.user.firstName,
 					patientLastName: patient.user.lastName,
 					requestHospitalId: hospital._id, //hospitalId,
@@ -63,8 +78,8 @@ route.post('/newRequest', async (req, res) => {
 						postalCode: address.postalCode,
 					},
 					waitListTime: hospital.waitTime,
-					symptoms: symptomList,
-					additionalInfo: additionalInfo,
+					symptoms: sanitizedSymptomList,
+					additionalInfo: sanitizedAdditionalInfo,
 				})
 
 				// Save the request to the DB if all is OK
@@ -105,14 +120,14 @@ route.get('/currentRequest', async (req, res) => {
 		console.log('patientId is not valid')
 		res.status(400).send({ message: 'Error' })
 	}
-
+	const sanitizedPatientId = validator.whitelist(patientId, whitelist_string)
 	// find the patient
 	try {
 		// validate the users Id
-		const validUserId = mongoose.Types.ObjectId.isValid(patientId)
+		const validUserId = mongoose.Types.ObjectId.isValid(sanitizedPatientId)
 		if (validUserId) {
 			// console.log(validUserId)
-			const patient = await patientModel.findById(patientId)
+			const patient = await patientModel.findById(sanitizedPatientId)
 			// console.log(patient)
 
 			if (patient.currentRequest == null) {
@@ -142,14 +157,15 @@ route.get('/allRequests', async (req, res) => {
 		console.log('patientId is not valid')
 		res.status(400).send({ message: 'Error' })
 	}
+	const sanitizedPatientId = validator.whitelist(patientId, whitelist_string)
 
 	// find the patient
 	try {
 		// validate the users Id
-		const validUserId = mongoose.Types.ObjectId.isValid(patientId)
+		const validUserId = mongoose.Types.ObjectId.isValid(sanitizedPatientId)
 		if (validUserId) {
 			// console.log(validUserId)
-			const patient = await patientModel.findById(patientId)
+			const patient = await patientModel.findById(sanitizedPatientId)
 			// console.log(patient)
 
 			if (patient.pastRequests.length == 0) {
@@ -160,9 +176,8 @@ route.get('/allRequests', async (req, res) => {
 				// send back to client
 
 				// find all DB entries with that patient id
-				const requestList = await completedRequestModel.find({
-					'request.patient': patientId,
-				})
+				const requestList = await completedRequestModel.find({'request.patient': sanitizedPatientId})
+
 
 				console.log('Sent patient list of ALL requests')
 				res.status(200).send(requestList)
@@ -179,17 +194,18 @@ route.get('/allRequests', async (req, res) => {
 route.get('/targetRequest/:requestId', async (req, res) => {
 	// return the current users request
 	const { requestId } = req.params
+	const sanitizedRequestId = validator.whitelist(requestId, whitelist_string)
 
 	// find the patient
 	try {
 		// validate the users Id
-		const validUserId = mongoose.Types.ObjectId.isValid(requestId)
+		const validUserId = mongoose.Types.ObjectId.isValid(sanitizedRequestId)
 		if (validUserId) {
-			const request = await completedRequestModel.findById(requestId)
+			const request = await completedRequestModel.findById(sanitizedRequestId)
 
 			if (request) {
 				console.log(
-					`Sent the patient the request with the Id: ${requestId}`
+					`Sent the patient the request with the Id: ${sanitizedRequestId}`
 				)
 				res.status(200).send(request)
 			} else {
@@ -208,9 +224,11 @@ route.get('/targetRequest/:requestId', async (req, res) => {
 route.delete('/cancel', async (req, res) => {
 	// check if they have a current request
 	const patientId = req.patientId
+	const sanitizedPatientId = validator.whitelist(patientId, whitelist_string)
+
 	try {
 		// Ensure that the patientId is valid
-		if (await cancelCurrentRequest(patientId)) {
+		if (await cancelCurrentRequest(sanitizedPatientId)) {
 			// Delete the visit request and all references to it
 			console.log('request was canceled')
 			res.status(200).send({ message: 'Request was canceled' })
