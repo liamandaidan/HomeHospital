@@ -6,10 +6,8 @@ import { generateEmployeeAccessToken } from '../service/employee.token.service.j
 const route = express.Router()
 
 /**
- * @route
- * @url /api/loginP
- * @summary login route for practitioners
- * 
+ * @name Route 
+ * @summary POST /api/loginP
  * @description Calls middleware to log the practitioner in and generate access and refresh tokens, 
  * then returns them in the response to the user. 
  */
