@@ -93,11 +93,11 @@ function LoginFormPractitioner() {
   //       setLoggedIn(false);
   //     });
   // }, [loggedIn]);
-  
+
   /**
    * This will handle errors
-   * @param {*} props 
-   * @returns 
+   * @param {*} props
+   * @returns
    */
   function ErrorModal(props) {
     return (
@@ -123,7 +123,7 @@ function LoginFormPractitioner() {
    * As long as email and passwords are valid this will allow access to the submission of the form.
    */
   useEffect(() => {
-    if (validEmail && validPassword) {
+    if (validEmail) {
       setValidForm(true);
     }
   }, [validEmail, validPassword]);
@@ -154,7 +154,8 @@ function LoginFormPractitioner() {
                   marginLeft: "35px",
                 }}
               >
-                <h2 className={classes.header}>LOGIN PRACTITIONER</h2>
+                <h2 className={classes.headerTop}>Practitioner</h2>
+                <h2 className={classes.header}>Login</h2>
               </div>
             </div>
             <div style={{ marginTop: "-25px" }}>
@@ -208,15 +209,10 @@ function LoginFormPractitioner() {
               </div>
             </div>
             <Row>
-              <Col>
-                <Form.Check
-                  className={`mt-3 ${classes.smallFont}`}
-                  type="switch"
-                  id="custom-switch"
-                  label="Remember Me"
-                />
+              <Col className={` mt-3 ${classes.smallFont}`}>
+                {/* <Link to="/register">Register</Link> */}
               </Col>
-              <Col className={`ms-5 mt-3 ${classes.smallFont}`}>
+              <Col className={`mt-3 ${classes.smallFont}`}>
                 <Link className={classes.teal} to="/forget">
                   Forgot Password
                 </Link>

@@ -132,21 +132,21 @@ function SymptomsForm() {
             </p>
           </Modal.Body>
           <Modal.Footer className="modal-footer">
+            <div>
             <Button
               className="ack-btn"
               onClick={handleFormSubmit}
               variant="primary"
             >
               I Acknowledge
-            </Button>
-            <div>
-              <Button
+            </Button><br />
+              <a
                 variant="link"
                 className="cancel-lnk"
                 onClick={props.onHide}
               >
                 cancel request
-              </Button>
+              </a>
             </div>
           </Modal.Footer>
         </Modal>
