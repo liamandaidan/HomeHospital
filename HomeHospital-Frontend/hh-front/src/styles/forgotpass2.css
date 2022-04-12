@@ -1,4 +1,4 @@
-
+/* 
 
 .forgetDisplay-grid {
     display: grid;
@@ -44,12 +44,12 @@
     grid-column-end: 2;
     grid-column-end: 3;
 } */
-.forget-4 {
+/* .forget-4 {
     grid-row-start:3;
     grid-row-end:4;
     grid-column-end: 1;
     grid-column-end: 2;
-}
+} */
 /* .forget-6 {
     grid-row-start:3;
     grid-row-end:4;
@@ -57,16 +57,16 @@
     grid-column-end: 3;
 } */
 
-.medical-img {
+/* .medical-img {
     object-fit: cover;
     width: 600px;
     height:700px;
     margin-right: 0px;
     border-radius: 0px 50px 50px 0px;
     z-index: 0;
-}
+} */
 
-.overlay {
+/* .overlay {
     position: absolute;
     object-fit: cover;
     width: 600px;
@@ -76,4 +76,71 @@
     background-color: #dd09882e;
     z-index: 1;
     top:0px;
-}
+}  */
+
+
+.forgetDisplay-grid {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    grid-template-rows: repeat(5, 1fr);
+    grid-column-gap: 0px;
+    grid-row-gap: 0px;
+    margin: 0 auto;
+    width: 1000px;
+    height: 700px;
+    background-color: #FFFFFF;
+    border-radius: 50px;
+    border: 1px solid #000000;
+    }
+    
+    .forget-1 { 
+        grid-area: 1 / 1 / 4 / 3;
+        border: 1px solid #a6cd07;
+    }
+    .forget-2 { 
+        grid-area: 1 / 2 / 4 / 3; 
+        text-align: right;
+        margin-right: -10px;
+        width: 500px;
+        height: 700px;
+        border: 3px solid #06da2c;
+    }
+    .forget-3 { 
+        grid-area: 1 / 1 / 2 / 3; 
+        border: 1px solid #0444bc;
+        height: 200px;
+        justify-content: center;
+        text-align: center;
+    }
+    .forget-4 { 
+        grid-area: 2 / 1 / 3 / 2; 
+        border: 1px solid #be0ace;
+        width: 500px;
+        padding-top: 50px;
+    } 
+    .forget-5 { 
+        grid-area: 1 / 2 / 4 / 3; 
+        border: 1px solid #ea0a0a;
+    } 
+
+    .medical-img {
+    object-fit: cover;
+    width: 500px;
+    height: 700px;
+    margin-right: 0px;
+    border-radius: 0px 50px 50px 0px;
+    }
+
+    .inner-forget-4 { 
+       margin-top: 10px;
+       margin-left: auto;
+       margin-right: auto;
+       justify-content: center;
+       text-align: center;
+        width: 90%;
+        border: 1px solid #000000;
+    }
+
+    .logo1 {
+        height:250px;
+    }

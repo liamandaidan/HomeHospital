@@ -60,7 +60,7 @@ export default function ForgotPassPage() {
 
   return (
     <>
-      <div 
+      <div
         style={{
           backgroundImage: `url(${bg})`,
           backgroundSize: "cover",
@@ -70,58 +70,61 @@ export default function ForgotPassPage() {
           width: "100w",
         }}
       >
-
         <div className="forgetDisplay-grid">
-          <div className="forget-1"><h2>HOME HOSPITAL</h2></div>
+          <div className="forget-1">
+           
+          </div>
           <div className="forget-2">
-            <img className="medical-img" src={medicalbg} />
-            <div className="overlay"></div>
+            <img src={medicalbg} className="medical-img" />
           </div>
           <div className="forget-3">
-            <div className="inside-forget-3">
-          <Form>
-          <Form.Group className="mb-3" controlId="formBasicEmail">
-            <Row>
-              <Form.Label className="fp">Forgot Password?</Form.Label>
-            </Row>
-            <Row>
-              <Form.Control
-                type="email"
-                id="email"
-                value={email}
-                onChange={(event) => setEmail(event.target.value)}
-                placeholder="yourName@gmail.com"
-                onBlur={validateEmail}
-                required
-              />
-              <div className="valid-feedback"></div>
-              <div className="invalid-feedback">
-                Please enter a valid Email.
-              </div>
-            </Row>
-          </Form.Group>
-          <Button
-            className="col-xs-3"
-            variant="secondary"
-            type="back"
-            onClick={backFunc}
-          >
-            Back
-          </Button>
-          &nbsp;
-          <Button
-            className="btnSpace"
-            variant="primary"
-            type="button"
-            disabled={!validEmail}
-            onClick={submitFunc}
-          >
-            Submit
-          </Button>
-        </Form>
+            <img src={logo1} className="logo1"/>
+          </div>
+          <div className="forget-4">
+            <div className="inner-forget-4">
+              <Form>
+                <Form.Group className="mb-3" controlId="formBasicEmail">
+                  <Row>
+                    <Form.Label className="fp">Forgot Password?</Form.Label>
+                  </Row>
+                  <Row>
+                    <Form.Control
+                      type="email"
+                      id="email"
+                      value={email}
+                      onChange={(event) => setEmail(event.target.value)}
+                      placeholder="yourName@gmail.com"
+                      onBlur={validateEmail}
+                      required
+                    />
+                    <div className="valid-feedback"></div>
+                    <div className="invalid-feedback">
+                      Please enter a valid Email.
+                    </div>
+                  </Row>
+                </Form.Group>
+                <Button
+                  className="col-xs-3"
+                  variant="secondary"
+                  type="back"
+                  onClick={backFunc}
+                >
+                  Back
+                </Button>
+                &nbsp;
+                <Button
+                  className="btnSpace"
+                  variant="primary"
+                  type="button"
+                  disabled={!validEmail}
+                  onClick={submitFunc}
+                >
+                  Submit
+                </Button>
+              </Form>
             </div>
           </div>
-          <div className="forget-4">4</div>
+          <div className="forget-5"></div>
         </div>
       </div>
     </>
@@ -129,46 +132,46 @@ export default function ForgotPassPage() {
     // <div className="content">
     //   <div className="med" />
     //   <div className="leftBtm">
-        // <Form>
-        //   <Form.Group className="mb-3" controlId="formBasicEmail">
-        //     <Row>
-        //       <Form.Label className="fp">Forgot Password?</Form.Label>
-        //     </Row>
-        //     <Row>
-        //       <Form.Control
-        //         type="email"
-        //         id="email"
-        //         value={email}
-        //         onChange={(event) => setEmail(event.target.value)}
-        //         placeholder="yourName@gmail.com"
-        //         onBlur={validateEmail}
-        //         required
-        //       />
-        //       <div className="valid-feedback"></div>
-        //       <div className="invalid-feedback">
-        //         Please enter a valid Email.
-        //       </div>
-        //     </Row>
-        //   </Form.Group>
-        //   <Button
-        //     className="col-xs-3"
-        //     variant="secondary"
-        //     type="back"
-        //     onClick={backFunc}
-        //   >
-        //     Back
-        //   </Button>
-        //   &nbsp;
-        //   <Button
-        //     className="btnSpace"
-        //     variant="primary"
-        //     type="button"
-        //     disabled={!validEmail}
-        //     onClick={submitFunc}
-        //   >
-        //     Submit
-        //   </Button>
-        // </Form>
+    // <Form>
+    //   <Form.Group className="mb-3" controlId="formBasicEmail">
+    //     <Row>
+    //       <Form.Label className="fp">Forgot Password?</Form.Label>
+    //     </Row>
+    //     <Row>
+    //       <Form.Control
+    //         type="email"
+    //         id="email"
+    //         value={email}
+    //         onChange={(event) => setEmail(event.target.value)}
+    //         placeholder="yourName@gmail.com"
+    //         onBlur={validateEmail}
+    //         required
+    //       />
+    //       <div className="valid-feedback"></div>
+    //       <div className="invalid-feedback">
+    //         Please enter a valid Email.
+    //       </div>
+    //     </Row>
+    //   </Form.Group>
+    //   <Button
+    //     className="col-xs-3"
+    //     variant="secondary"
+    //     type="back"
+    //     onClick={backFunc}
+    //   >
+    //     Back
+    //   </Button>
+    //   &nbsp;
+    //   <Button
+    //     className="btnSpace"
+    //     variant="primary"
+    //     type="button"
+    //     disabled={!validEmail}
+    //     onClick={submitFunc}
+    //   >
+    //     Submit
+    //   </Button>
+    // </Form>
     //   </div>
 
     //   <div className="logo1">
