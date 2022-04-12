@@ -5,7 +5,7 @@ import PractionerHospitalSelect from "./PractionerHospitalSelect";
 import { PractitionerContext } from "./PractitionerContext";
 axios.defaults.withCredentials = true;
 
-export default function PractionerWaitlist({ childToParent }) {
+export default function PractionerWaitlist({ childToParent, refresh }) {
   //useContext here
   const { _id, additionalInfo, symptomsInfo} =
     useContext(PractitionerContext);
@@ -78,6 +78,7 @@ export default function PractionerWaitlist({ childToParent }) {
       //here we call for a refresh every 60sec
       const interval = setInterval(() => {
         //this is called every 60 sec
+        refresh("Table requests updated");
         callUpdate();
       }, 60000);
       return () => clearInterval(interval);
