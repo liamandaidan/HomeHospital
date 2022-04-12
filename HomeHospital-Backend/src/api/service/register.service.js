@@ -1,12 +1,12 @@
 import PatientModel from '../../models/patient.Model.js'
 import PractitionerModel from '../../models/practitioner.Model.js'
 import AdministratorModel from '../../models/administrator.Model.js'
-import ENV from '../../configure/configure.js'
+import { whitelist_string } from '../../configure/configure.js'
 import bcrypt from 'bcryptjs'
 import jwt from 'jsonwebtoken'
 import validator from 'validator'
 
-const whitelist_string = ENV.WHITELIST_STRINGS;
+
 
 const regStatus = {
 	status: false,
@@ -21,7 +21,7 @@ const regStatus = {
  */
 export const registerUser = async (req) => {
 	const { genSalt, hash } = bcrypt
-
+console.log(whitelist_string);
 	// Destructure values from client request
 	const {
 		firstName,
@@ -41,7 +41,7 @@ export const registerUser = async (req) => {
 		contactPhoneNumber,
 	} = req.body
 
-	let valsFromBody = [firstName, lastName, email, password, streetAddress, cityName, provName, postalCode, HCnumber, gender, dateOfBirth, phoneNumber];
+	const valsFromBody = [firstName, lastName, email, password, streetAddress, cityName, provName, postalCode, HCnumber, gender, dateOfBirth, phoneNumber];
 	if(valsFromBody.includes(undefined) || valsFromBody.includes(null) || valsFromBody.includes("")) {
 		console.log("Detected a missing field in registerUser");
 		return (regStatus.status = false);
@@ -56,7 +56,7 @@ export const registerUser = async (req) => {
 	
 	//sanitize all inputs to contain only alphanumeric charcters and a few necessary punctuation marks. Validator documentation at: https://github.com/validatorjs/validator.js#sanitizers
 
-	let sanitizedVals = []
+	const sanitizedVals = []
 	valsFromBody.forEach(element => {
 		if(valsFromBody[2] === element || valsFromBody[3] === element) {
 			console.log("Found email or password");
@@ -70,7 +70,7 @@ export const registerUser = async (req) => {
 				return;
 			}
 		}
-		let sanElement = validator.whitelist(element, whitelist_string);
+		const sanElement = validator.whitelist(element, whitelist_string);
 		sanitizedVals.push(sanElement);
 	})
 	

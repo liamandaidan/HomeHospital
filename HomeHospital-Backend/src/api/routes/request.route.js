@@ -8,11 +8,10 @@ import {
 	completeCurrentRequest,
 	cancelCurrentRequest,
 } from '../service/request.service.js'
-import ENV from '../../configure/configure.js'
+import { ENV, whitelist_string } from '../../configure/configure.js'
 import validator from 'validator'
 
 const route = express.Router()
-const whitelist_string = ENV.WHITELIST_STRINGS;
 
 /*
 	This route creates a new request in the DB. The user must supply their user Id, the selected hospital Id,
@@ -30,9 +29,9 @@ route.post('/newRequest', async (req, res) => {
 	const sanitizedHospitalId = validator.whitelist(hospitalId, whitelist_string)
 	const sanitizedAdditionalInfo = validator.whitelist(additionalInfo, whitelist_string)
 	const sanitizedPatientId = validator.whitelist(patientId, whitelist_string)
-	let sanitizedSymptomList = []
+	const sanitizedSymptomList = []
 	symptomList.forEach(element => {
-		let sanElement = validator.whitelist(element, whitelist_string)
+		const sanElement = validator.whitelist(element, whitelist_string)
 		sanitizedSymptomList.push(sanElement)
 	})
 

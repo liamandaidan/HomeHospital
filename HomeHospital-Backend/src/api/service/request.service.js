@@ -3,10 +3,8 @@ import CompletedRequestModel from '../../models/completedRequest.model.js'
 import patientModel from '../../models/patient.Model.js'
 import visitRequestModel from '../../models/visitRequest.Model.js'
 import hospitalModel from '../../models/medicalFacility.Model.js'
-import ENV from '../../configure/configure.js'
+import { ENV, whitelist_string } from '../../configure/configure.js'
 import validator from 'validator'
-
-const whitelist_string = ENV.WHITELIST_STRINGS;
 
 
 // Takes in a requestId, moves the request Object from the vistitRequest collection in the database
