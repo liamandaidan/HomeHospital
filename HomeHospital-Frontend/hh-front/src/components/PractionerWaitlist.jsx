@@ -16,7 +16,6 @@ export default function PractionerWaitlist({ childToParent, refresh }) {
   const [patientAdditionalInfo,setPatientAdditionalInfo] = additionalInfo;
   const [symptomsDetails,setSymptomDetails] = symptomsInfo;
 
-
   //modal state set to false
   const [modalState, setModalState] = useState(false);
 
@@ -31,7 +30,6 @@ export default function PractionerWaitlist({ childToParent, refresh }) {
   );
   const [flag, setFlag] = useState(false);
   const [isCheckedIn, setIsCheckedIn] = useState(false);
-
 
 
   /**
@@ -77,8 +75,8 @@ export default function PractionerWaitlist({ childToParent, refresh }) {
       callUpdate();
       //here we call for a refresh every 60sec
       const interval = setInterval(() => {
+		refresh("Table requests updated");
         //this is called every 60 sec
-        refresh("Table requests updated");
         callUpdate();
       }, 60000);
       return () => clearInterval(interval);
@@ -159,6 +157,8 @@ export default function PractionerWaitlist({ childToParent, refresh }) {
     //sets additionalInfo state and data and is in use with useContext
     setPatientAdditionalInfo(e.additionalInfo);
   }
+
+ 
 
   /**
    * This will be used to render table rows based off of a dummy json file i created
