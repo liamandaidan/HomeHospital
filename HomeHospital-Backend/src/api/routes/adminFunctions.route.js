@@ -6,6 +6,19 @@ import mongoose from 'mongoose'
 
 const route = express()
 
+route.get('/userCount', async (req, res) => {
+	try {
+		res.status(200).send({
+			patients: await patientModel.count(),
+			practitioners: await practitionerModel.count(),
+			admins: await administratorModel.count()
+		})
+	} catch(error) {
+		console.error('Error: ' + errror.message)
+		res.status(406).send({message: 'Get Count Failed'})
+	}
+})
+
 //  view all patients
 route.get('/patientList', async (req, res) => {
 	try {
