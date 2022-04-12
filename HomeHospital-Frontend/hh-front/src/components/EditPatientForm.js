@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Form, FormGroup, FormLabel, FloatingLabel , Button, FormSelect, Container } from "react-bootstrap";
+import { Form, FormGroup, FormLabel, FloatingLabel , Button, FormSelect, Container, Modal } from "react-bootstrap";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import moment from "moment";
@@ -24,6 +24,8 @@ function EditPatientForm() {
   const [emergFirstName, setEmergFirstName] = useState("");
   const [emergLastName, setEmergLastName] = useState("");
   const [emergNum, setEmergNum] = useState("");
+
+  const [modalState, setModalState] = useState(false);
 
   const navigate = useNavigate();
 
@@ -84,13 +86,50 @@ function EditPatientForm() {
         },
       })
       .then((response) => {
-        console.log(response);
-        navigate("/home");
+        console.log(response)
+        goHome();
       })
       .catch((err) => {
         console.log(err);
       });
   };
+
+  //alert modal to confirm change 
+  const AlertModal = (props) => {
+    return (
+      <>
+        <Modal {...props} centered>
+          <Modal.Header className="modal-title">
+            <Modal.Title>Confirmation</Modal.Title>
+          </Modal.Header>
+          <Modal.Body className="modal-content">
+            <p>
+              Are you sure you want to update your profile?
+            </p>
+          </Modal.Body>
+          <Modal.Footer className="modal-footer">
+            <div>
+            <Button
+              className="ack-btn"
+              onClick={handleUpdate}
+              variant="primary"
+            >
+              Yes, proceed with update 
+            </Button>
+            <br />
+              <a className="cancel-lnk" onClick={props.onHide}>
+                cancel
+              </a>
+            </div>
+          </Modal.Footer>
+        </Modal>
+      </>
+    );
+  };
+
+  const goHome=()=> {
+    navigate("/home");
+  }
 
   const validateFirstName=()=>{
       if(firstName === ""){
@@ -148,6 +187,7 @@ function EditPatientForm() {
 
 
   return (
+    <>
     <Container className="container-editpatient">
         <h2>Edit Profile</h2><br />
       <Form>
@@ -203,15 +243,22 @@ function EditPatientForm() {
           <FloatingLabel
             controlId="floatingInput"
             label="Gender"
+            value={gender}
             className="mb-3"
           >
             <FormSelect onChange={(e) => setGender(e.target.value)}>
-              {gender === "male" ? (
-                <option select value="male">
+              {gender === "Male" ? (
+                <>               
+                <option deaultValue value="Male">
                   Male
                 </option>
+                <option value="Female">Female</option>
+                </>
               ) : (
-                <option value="female">Female</option>
+                <>       
+                <option deaultValue value="Female">Female</option>
+                <option value="Male">Male</option>
+                </>
               )}
             </FormSelect>
           </FloatingLabel>
@@ -363,13 +410,15 @@ function EditPatientForm() {
       </Form>
       <div className="footer-editpatient-grid">
         <div className="item-1">
-      <Button onClick={handleUpdate} className="submit-btn">Submit</Button>
+      <Button className="submit-btn" onClick={(e) => setModalState(true)}>Submit</Button>
         </div>
       <div className="item-2">
       <a href="/home">Return to homepage</a>
       </div>
       </div>
     </Container>
+    <AlertModal show={modalState} onHide={() => setModalState(false)} />
+    </>
   );
 }
 

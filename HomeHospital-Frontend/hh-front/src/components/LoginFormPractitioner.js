@@ -123,7 +123,7 @@ function LoginFormPractitioner() {
    * As long as email and passwords are valid this will allow access to the submission of the form.
    */
   useEffect(() => {
-    if (validEmail && validPassword) {
+    if (validEmail) {
       setValidForm(true);
     }
   }, [validEmail, validPassword]);
