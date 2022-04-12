@@ -22,7 +22,7 @@ const { compare } = bcrypt
  * @param {request} req 
  * @param {response} res 
  * @param {next} next 
- * @returns 
+ * @returns a status to the response object, either on success or failure
  */
 export const logUserIn = async (req, res, next) => {
 	const { email, password } = req.body
@@ -86,7 +86,7 @@ export const logUserIn = async (req, res, next) => {
  * @param {request} req 
  * @param {response} res 
  * @param {next} next 
- * @returns 
+ * @returns a status to the response object, either on success or failure 
  */
 export const logAdministratorIn = async (req, res, next) => {
 	const { email, password } = req.body
@@ -142,7 +142,7 @@ export const logAdministratorIn = async (req, res, next) => {
  * @param {request} req 
  * @param {response} res 
  * @param {next} next 
- * @returns 
+ * @returns a status to the response object, either on success or failure 
  */
 export const logPractitionerIn = async (req, res, next) => {
 	const { email, password } = req.body
@@ -192,14 +192,16 @@ export const logPractitionerIn = async (req, res, next) => {
 }
 
 /**
- * The next three methods are functionally identical, but are separated into patient, practitioner, and administrator, since those 
- * three user types are separated into three different database collections. The method is called when the user attempts to log in. 
- * It checks if there is a refresh token held by the user's browser. If there is, this is checked against the collection of logged in 
- * users AND against the collection of valid users for the email held inside the token. If the token is valid, and the user is already 
- * logged in, their email is returned. If they are not logged in, null is returned. And if the token is invalid in any way, an error 
- * is thrown and the string "bad token" is returned. The calling function checks for the return and responds accordingly. 
+ * @function
+ * @summary check if the user attempting to log in is already registered as having logged in
+ * 
+ * @description The method is called when the user attempts to log in. It checks if there is a refresh token held by the user's browser. 
+ * If there is, this is checked against the collection of logged in users AND against the collection of valid users for the email held 
+ * inside the token. If the token is valid, and the user is already logged in, their email is returned. If they are not logged in, null 
+ * is returned. And if the token is invalid in any way, an error is thrown and the string "bad token" is returned. The calling function 
+ * checks for the return and responds accordingly. 
  * @param {request} req 
- * @returns 
+ * @returns either the email if the user is already logged in, or null if they aren't
  */
 const checkPatientAlreadyLoggedIn = async (req) => {
 	const refT = req.cookies['refreshTokenCookie']
@@ -221,6 +223,18 @@ const checkPatientAlreadyLoggedIn = async (req) => {
 	} 
 }
 
+/**
+ * @function
+ * @summary check if the user attempting to log in is already registered as having logged in
+ * 
+ * @description The method is called when the user attempts to log in. It checks if there is a refresh token held by the user's browser. 
+ * If there is, this is checked against the collection of logged in users AND against the collection of valid users for the email held 
+ * inside the token. If the token is valid, and the user is already logged in, their email is returned. If they are not logged in, null 
+ * is returned. And if the token is invalid in any way, an error is thrown and the string "bad token" is returned. The calling function 
+ * checks for the return and responds accordingly. 
+ * @param {request} req 
+ * @returns either the email if the user is already logged in, or null if they aren't
+ */
 const checkPractitionerAlreadyLoggedIn = async (req) => {
 	const refT = req.cookies['refreshTokenCookie']
 	if(refT) {
@@ -241,6 +255,18 @@ const checkPractitionerAlreadyLoggedIn = async (req) => {
 	} 
 }
 
+/**
+ * @function
+ * @summary check if the user attempting to log in is already registered as having logged in
+ * 
+ * @description The method is called when the user attempts to log in. It checks if there is a refresh token held by the user's browser. 
+ * If there is, this is checked against the collection of logged in users AND against the collection of valid users for the email held 
+ * inside the token. If the token is valid, and the user is already logged in, their email is returned. If they are not logged in, null 
+ * is returned. And if the token is invalid in any way, an error is thrown and the string "bad token" is returned. The calling function 
+ * checks for the return and responds accordingly. 
+ * @param {request} req 
+ * @returns either the email if the user is already logged in, or null if they aren't
+ */
 const checkAdminAlreadyLoggedIn = async (req) => {
 	const refT = req.cookies['refreshTokenCookie']
 	if(refT) {

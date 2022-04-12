@@ -5,12 +5,18 @@ import { generateEmployeeAccessToken } from '../service/employee.token.service.j
 // Creates Router
 const route = express.Router()
 
+/**
+ * @route
+ * @url /api/loginA
+ * @summary login route for administrators
+ * 
+ * @description Calls middleware to log the administrator in and generate access and refresh tokens, 
+ * then returns them in the response to the user. 
+ */
 route.post('/', logAdministratorIn, generateEmployeeAccessToken, (req, res) => {
 	// attaches JWT token values to the request
 	const accessT = req.tokens.accessT
 	const refreshT = req.tokens.refreshT
-	// console.log('accessT: ' + accessT)
-	// console.log('refreshT: ' + refreshT)
 	res.status(201).json({
 		message: 'Login successful',
 		adminId: req.adminId,
