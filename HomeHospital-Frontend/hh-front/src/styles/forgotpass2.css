@@ -1,0 +1,79 @@
+
+
+.forgetDisplay-grid {
+    display: grid;
+    border: 1px solid #dd0988;
+    width: 1190px;
+    height:700px;
+    margin: 0 auto;
+    justify-content: center;
+    background-color: #FFFFFF;
+    border-radius: 50px;
+}
+
+.forget-1 {
+    grid-row-start:1;
+    grid-row-end:2;
+    grid-column-end: 1;
+    grid-column-end: 2;
+    border: 1px solid #dd0988;
+}
+.forget-2 {
+    grid-row-start:1;
+    grid-row-end:4;
+    grid-column-end: 2;
+    grid-column-end: 3;
+    margin-right: -85px;
+}
+.forget-3 {
+    grid-row-start:2;
+    grid-row-end:3;
+    grid-column-end: 1;
+    grid-column-end: 2;
+    width: 500px;
+}
+
+.inside-forget-3 {
+    padding-top: 50px;
+    width: 90%;
+    text-align: center;
+}
+/* .forget-4 {
+    grid-row-start:2;
+    grid-row-end:3;
+    grid-column-end: 2;
+    grid-column-end: 3;
+} */
+.forget-4 {
+    grid-row-start:3;
+    grid-row-end:4;
+    grid-column-end: 1;
+    grid-column-end: 2;
+}
+/* .forget-6 {
+    grid-row-start:3;
+    grid-row-end:4;
+    grid-column-end: 2;
+    grid-column-end: 3;
+} */
+
+.medical-img {
+    object-fit: cover;
+    width: 600px;
+    height:700px;
+    margin-right: 0px;
+    border-radius: 0px 50px 50px 0px;
+    z-index: 0;
+}
+
+.overlay {
+    position: absolute;
+    object-fit: cover;
+    width: 600px;
+    height:700px;
+    margin-right: 0px;
+    border-radius: 0px 50px 50px 0px;
+    background-color: #dd09882e;
+    z-index: 1;
+    top:0px;
+}

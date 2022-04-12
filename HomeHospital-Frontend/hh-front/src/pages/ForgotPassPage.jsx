@@ -1,10 +1,11 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { Form, Button, Row } from "react-bootstrap";
+import { Form, Button, Row, Container, Col } from "react-bootstrap";
 import bg from "../images/bg.png";
-import "../styles/forgotpass.css";
+import "../styles/forgotpass2.css";
 import logo1 from "../images/hb1.png";
 import logo2 from "../images/hb2.png";
+import medicalbg from "../images/med.png";
 import Axios from "axios";
 export default function ForgotPassPage() {
   //create some hooks and nav
@@ -25,7 +26,9 @@ export default function ForgotPassPage() {
    * The html also validates, but this is safest practice!
    */
   function validateEmail() {
-    const pattern = new RegExp("([!#-'*+/-9=?A-Z^-~-]+(\.[!#-'*+/-9=?A-Z^-~-]+)*|\"\(\[\]!#-[^-~ \t]|(\\[\t -~]))+\")@([!#-'*+/-9=?A-Z^-~-]+(\.[!#-'*+/-9=?A-Z^-~-]+).*|\[[\t -Z^-~]*])");
+    const pattern = new RegExp(
+      "([!#-'*+/-9=?A-Z^-~-]+(.[!#-'*+/-9=?A-Z^-~-]+)*|\"([]!#-[^-~ \t]|(\\[\t -~]))+\")@([!#-'*+/-9=?A-Z^-~-]+(.[!#-'*+/-9=?A-Z^-~-]+).*|[[\t -Z^-~]*])"
+    );
     if (!pattern.test(email)) {
       document.getElementById("email").classList.add("is-invalid");
       document.getElementById("email").classList.remove("is-valid");
@@ -40,7 +43,6 @@ export default function ForgotPassPage() {
    * This will submit on click. Assuming that validation has gone through.
    */
   function submitFunc() {
-    
     Axios.post("http://localhost:4000/api/forget", {
       email: email,
     })
@@ -52,81 +54,134 @@ export default function ForgotPassPage() {
       .catch((err) => {
         //incase some unknown error occurs
         console.log("Error! + " + err);
-        
       });
-      navigate("/fa");
+    navigate("/fa");
   }
 
   return (
-    <div
-      className="bgdiv"
-      style={{
-        backgroundImage: `url(${bg})`,
-        backgroundPosition: "center",
-        backgroundRepeat: "repeat",
-        backgroundSize: "cover",
-        height: "100vh",
-        width: "100vw",
-        alt: "generic background",
-      }}
-    >
-      <div className="content">
-        <div className="med" />
-        <div className="leftBtm">
-          <Form>
-            <Form.Group className="mb-3" controlId="formBasicEmail">
-              <Row>
-                <Form.Label className="fp">Forgot Password?</Form.Label>
-              </Row>
-              <Row>
-                <Form.Control
-                  type="email"
-                  id="email"
-                  value={email}
-                  onChange={(event) => setEmail(event.target.value)}
-                  placeholder="yourName@gmail.com"
-                  onBlur={validateEmail}
-                  required
-                />
-                <div className="valid-feedback"></div>
-                <div className="invalid-feedback">
-                  Please enter a valid Email.
-                </div>
-              </Row>
-            </Form.Group>
-            <Button
-              className="col-xs-3"
-              variant="secondary"
-              type="back"
-              onClick={backFunc}
-            >
-              Back
-            </Button>
-            &nbsp;
-            <Button
-              className="btnSpace"
-              variant="primary"
-              type="button"
-              disabled={!validEmail}
-              onClick={submitFunc}
-            >
-              Submit
-            </Button>
-          </Form>
-        </div>
+    <>
+      <div 
+        style={{
+          backgroundImage: `url(${bg})`,
+          backgroundSize: "cover",
+          backgroundPosition: "fixed",
+          backgroundRepeat: "no-repeat",
+          height: "100vh",
+          width: "100w",
+        }}
+      >
 
-        <div className="logo1">
-          <img src={logo1} className="logo1" alt="Generic logo"></img>
-        </div>
-        <div className="right">
-          <div className="title">
-            <p>Home Hospital</p>
+        <div className="forgetDisplay-grid">
+          <div className="forget-1"><h2>HOME HOSPITAL</h2></div>
+          <div className="forget-2">
+            <img className="medical-img" src={medicalbg} />
+            <div className="overlay"></div>
           </div>
-          <div className="logo2">
-            <img src={logo2} className="logo2" alt="Generic img for logo"></img>
+          <div className="forget-3">
+            <div className="inside-forget-3">
+          <Form>
+          <Form.Group className="mb-3" controlId="formBasicEmail">
+            <Row>
+              <Form.Label className="fp">Forgot Password?</Form.Label>
+            </Row>
+            <Row>
+              <Form.Control
+                type="email"
+                id="email"
+                value={email}
+                onChange={(event) => setEmail(event.target.value)}
+                placeholder="yourName@gmail.com"
+                onBlur={validateEmail}
+                required
+              />
+              <div className="valid-feedback"></div>
+              <div className="invalid-feedback">
+                Please enter a valid Email.
+              </div>
+            </Row>
+          </Form.Group>
+          <Button
+            className="col-xs-3"
+            variant="secondary"
+            type="back"
+            onClick={backFunc}
+          >
+            Back
+          </Button>
+          &nbsp;
+          <Button
+            className="btnSpace"
+            variant="primary"
+            type="button"
+            disabled={!validEmail}
+            onClick={submitFunc}
+          >
+            Submit
+          </Button>
+        </Form>
+            </div>
           </div>
+          <div className="forget-4">4</div>
         </div>
       </div>
-    </div>
+    </>
+
+    // <div className="content">
+    //   <div className="med" />
+    //   <div className="leftBtm">
+        // <Form>
+        //   <Form.Group className="mb-3" controlId="formBasicEmail">
+        //     <Row>
+        //       <Form.Label className="fp">Forgot Password?</Form.Label>
+        //     </Row>
+        //     <Row>
+        //       <Form.Control
+        //         type="email"
+        //         id="email"
+        //         value={email}
+        //         onChange={(event) => setEmail(event.target.value)}
+        //         placeholder="yourName@gmail.com"
+        //         onBlur={validateEmail}
+        //         required
+        //       />
+        //       <div className="valid-feedback"></div>
+        //       <div className="invalid-feedback">
+        //         Please enter a valid Email.
+        //       </div>
+        //     </Row>
+        //   </Form.Group>
+        //   <Button
+        //     className="col-xs-3"
+        //     variant="secondary"
+        //     type="back"
+        //     onClick={backFunc}
+        //   >
+        //     Back
+        //   </Button>
+        //   &nbsp;
+        //   <Button
+        //     className="btnSpace"
+        //     variant="primary"
+        //     type="button"
+        //     disabled={!validEmail}
+        //     onClick={submitFunc}
+        //   >
+        //     Submit
+        //   </Button>
+        // </Form>
+    //   </div>
+
+    //   <div className="logo1">
+    //     <img src={logo1} className="logo1" alt="Generic logo"></img>
+    //   </div>
+    //   <div className="right">
+    //     <div className="title">
+    //       <p>Home Hospital</p>
+    //     </div>
+    //     <div className="logo2">
+    //       <img src={logo2} className="logo2" alt="Generic img for logo"></img>
+    //     </div>
+    //   </div>
+    // </div>
   );
 }
