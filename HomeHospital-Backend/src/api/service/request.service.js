@@ -8,8 +8,9 @@ import validator from 'validator'
 /**
  * @summary Completes a patients active visit request moving it to history. Activated by the Practitioner.
  * 
- * Takes in the id of a patient with an active visit request, moves that request to the completed requests
- * collection (history). Also removes all references to that request from the hospital and patient documents.
+ * @description Takes in the id of a patient with an active visit request, moves that request to the 
+ * completed requests collection (history). Also removes all references to that request from the hospital 
+ * and patient documents.
  * 
  * @param {String} patientId The ID of a patient with an active visit request.
  */
@@ -63,8 +64,8 @@ export const completeCurrentRequest = async (patientId) => {
  * 
  * @summary Cancels a patients request deleting it from the database.
  * 
- * Takes in a patient id, checks for an active request and if so deletes that request. Also removes
- * references to the request from the hospital and patient documents.
+ * @description Takes in a patient id, checks for an active request and if so deletes that request. 
+ * Also removes references to the request from the hospital and patient documents.
  * 
  * @param {String} patientId ID of the patient that is having the request cancelled.
  * 
@@ -102,7 +103,7 @@ export const cancelCurrentRequest = async (patientId) => {
 /**
  * @summary Returns the waitlist of vist request IDs from the desired Hospital
  * 
- * Needs a valid hospital ID. If the ID is valid it will return an array of request IDs that
+ * @description Needs a valid hospital ID. If the ID is valid it will return an array of request IDs that
  * represent the waitlist of the hospital. Array can be empty if there are no requests.
  * 
  * @param {String} hospitalId The ID of the hospital that we need the waitlist from.
