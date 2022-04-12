@@ -7,7 +7,17 @@ import AdministratorModel from '../../models/administrator.Model.js'
 
 const route = express.Router()
 
-//route for when the user clicks to reset their password
+/**
+ * @route
+ * @url /api/admin/password
+ * @summary Route for resetting password for a patient, an admin, or a practitioner, accessible by admins only
+ * 
+ * @description This route is accessed by administrators to change the password of any user type. It does perform a check to ensure 
+ * that the administrator posesses the proper permissions level to perform the action. It takes in the email of the user who's 
+ * password is to be changed, as well as the new password. It checks that the new password was correctly entered both times, and that
+ * the user being updated exists. Then it checks the administrator's permission levels before executing the change, or returning 
+ * an error message. 
+ */
 route.post('/', async (req, res) => {
 	const { email, newPass, newPassConfirm } = req.body
     let codedAccessToken = req.cookies['accessTokenCookie']
