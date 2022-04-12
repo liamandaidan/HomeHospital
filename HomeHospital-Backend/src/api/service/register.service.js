@@ -13,11 +13,15 @@ const regStatus = {
 }
 
 /**
- * Function for registering a user, specifically a patient. Takes in all relevant fields from the body and checks for blank, null, or undefined values. then it checks 
- * if a user with that Id already exists. Assuming no issues, it creates a new patient (with a user nested inside) and returns true. If 
- * any checks fail, it returns false. 
- * @param {request} req 
- * @returns 
+ * @summary Registers a new patient user with the system. All patient details need to be in the HTTP body.
+ * 
+ * @description Function for registering a user, specifically a patient. Takes in all relevant fields from 
+ * the body and checks for blank, null, or undefined values. then it checks if a user with that Id 
+ * already exists. Assuming no issues, it creates a new patient (with a user nested inside) and returns true. 
+ * If any checks fail, it returns false. 
+ * 
+ * @param {request} req The HTTP request object from the route.
+ * @returns {Boolean} True if success, false for failure.
  */
 export const registerUser = async (req) => {
 	const { genSalt, hash } = bcrypt
@@ -41,21 +45,20 @@ console.log(whitelist_string);
 		contactPhoneNumber,
 	} = req.body
 
-	const valsFromBody = [firstName, lastName, email, password, streetAddress, cityName, provName, postalCode, HCnumber, gender, dateOfBirth, phoneNumber];
+	const valsFromBody = [firstName, lastName, email, password, streetAddress, cityName, provName, postalCode, 
+		HCnumber, gender, dateOfBirth, phoneNumber];
 	if(valsFromBody.includes(undefined) || valsFromBody.includes(null) || valsFromBody.includes("")) {
 		console.log("Detected a missing field in registerUser");
 		return (regStatus.status = false);
 	}
-	// valsFromBody.forEach(element => {
-	// 	console.log(element);
-	// })
+
 	//these get added here because we don't want them to be mandatory
 	if(contactFirstName)valsFromBody.push(contactFirstName);
 	if(contactLastName)valsFromBody.push(contactLastName);
 	if(contactPhoneNumber)valsFromBody.push(contactPhoneNumber);
 	
-	//sanitize all inputs to contain only alphanumeric charcters and a few necessary punctuation marks. Validator documentation at: https://github.com/validatorjs/validator.js#sanitizers
-
+	//sanitize all inputs to contain only alphanumeric charcters and a few necessary punctuation marks. 
+	//Validator documentation at: https://github.com/validatorjs/validator.js#sanitizers
 	const sanitizedVals = []
 	valsFromBody.forEach(element => {
 		if(valsFromBody[2] === element || valsFromBody[3] === element) {
@@ -73,12 +76,6 @@ console.log(whitelist_string);
 		const sanElement = validator.whitelist(element, whitelist_string);
 		sanitizedVals.push(sanElement);
 	})
-	
-
-	// sanitizedVals.forEach(element => {
-	// 	console.log(element);
-	// })
-	
 
 	// check if user exists
 	const result = await PatientModel.exists({ email: sanitizedVals[2] })
@@ -90,11 +87,7 @@ console.log(whitelist_string);
 	}
 
 	// Salt and Hash password
-
-	// generate salt
 	const salt = await genSalt(10)
-
-	// hash with salt
 	const hashedPassword = await hash(sanitizedVals[3], salt)
 
 	// verify user object
@@ -131,11 +124,18 @@ console.log(whitelist_string);
 }
 
 /**
- * Function for registering a practitioner. Takes in all relevant fields from the body and checks for blank, null, or undefined values. then it checks 
- * if a practitioner with that Id already exists. Assuming no issues, it creates a new practitioner (with a user nested inside) and returns true. If 
- * any checks fail, it returns false. Notably, this method can only be executed by a user who is an administrator. This is ensured by checking the caller's 
- * access token, which should contain their adminId. This adminId is checked against the database before the registration is allowed to proceed. 
- * @param {request} req 
+ * @summary A function for admins to register a new practitioner with the system. All practitioner details
+ * should be in the body.
+ * 
+ * @description Function for registering a practitioner. Takes in all relevant fields from the body and 
+ * checks for blank, null, or undefined values. Then it checks if a practitioner with that Id already exists. 
+ * Assuming no issues, it creates a new practitioner (with a user nested inside) and returns true. 
+ * If any checks fail, it returns false. Notably, this method can only be executed by a user who is an 
+ * administrator. This is ensured by checking the caller's access token, which should contain their adminId. 
+ * This adminId is checked against the database before the registration is allowed to proceed.
+ *  
+ * @param {request} req An HTTP request object from the route.
+ * @returns {Boolean} True for success, false for failure
  */
 export const registerPractitioner = async (req) => {
 	const { genSalt, hash } = bcrypt
@@ -193,11 +193,7 @@ export const registerPractitioner = async (req) => {
 	}
 
 	// Salt and Hash password
-
-	// generate salt
 	const salt = await genSalt(10)
-
-	// hash with salt
 	const hashedPassword = await hash(password, salt)
 
 	// verify practitioner object
@@ -229,11 +225,15 @@ export const registerPractitioner = async (req) => {
 }
 
 /**
- * Function for registering an administrator. Takes in all relevant fields from the body and checks for blank, null, or undefined values. then it checks 
- * if an administrator with that Id already exists. Assuming no issues, it creates a new administrator (with a user nested inside) and returns true. If 
- * any checks fail, it returns false. 
- * @param {request} req 
- * @returns 
+ * @summary Allows an admin to register another admin. Takes all relevant fields in the body.
+ * 
+ * @description Function for registering an administrator. Takes in all relevant fields from the body and 
+ * checks for blank, null, or undefined values. then it checks if an administrator with that Id already exists. 
+ * Assuming no issues, it creates a new administrator (with a user nested inside) and returns true. 
+ * If any checks fail, it returns false. 
+ * 
+ * @param {request} req A HTTP request object from the route.
+ * @returns {Boolean} True for success, false for failure.
  */
 export const registerAdministrator = async (req) => {
 	const { genSalt, hash } = bcrypt
@@ -273,11 +273,7 @@ export const registerAdministrator = async (req) => {
 	}
 
 	// Salt and Hash password
-
-	// generate salt
 	const salt = await genSalt(10)
-
-	// hash with salt
 	const hashedPassword = await hash(password, salt)
 
 	let newAdministrator
