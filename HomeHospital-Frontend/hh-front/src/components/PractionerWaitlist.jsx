@@ -17,8 +17,11 @@ axios.defaults.withCredentials = true;
 export default function PractionerWaitlist({ childToParent, refresh }) {
   //useContext here
 <<<<<<< HEAD
+<<<<<<< HEAD
   const { _id, additionalInfo, symptomsInfo } = useContext(PractitionerContext);
 =======
+=======
+>>>>>>> parent of 5d565ea (Hide comp completed)
   const { _id, additionalInfo, symptomsInfo} =
     useContext(PractitionerContext);
 >>>>>>> parent of 5d565ea (Hide comp completed)
@@ -32,6 +35,9 @@ export default function PractionerWaitlist({ childToParent, refresh }) {
 =======
   const [patientAdditionalInfo,setPatientAdditionalInfo] = additionalInfo;
   const [symptomsDetails,setSymptomDetails] = symptomsInfo;
+<<<<<<< HEAD
+>>>>>>> parent of 5d565ea (Hide comp completed)
+=======
 >>>>>>> parent of 5d565ea (Hide comp completed)
 
   //modal state set to false
@@ -50,7 +56,10 @@ export default function PractionerWaitlist({ childToParent, refresh }) {
   const [isCheckedIn, setIsCheckedIn] = useState(false);
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
+=======
+>>>>>>> parent of 5d565ea (Hide comp completed)
   const [hidden, setHidden] = useState(true);
 
 >>>>>>> parent of 5d565ea (Hide comp completed)
@@ -185,7 +194,13 @@ export default function PractionerWaitlist({ childToParent, refresh }) {
     //sets additionalInfo state and data and is in use with useContext
     setPatientAdditionalInfo(e.additionalInfo);
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
+=======
+
+	setHidden(s => !s);
+  }
+>>>>>>> parent of 5d565ea (Hide comp completed)
 
 	setHidden(s => !s);
 >>>>>>> parent of 5d565ea (Hide comp completed)

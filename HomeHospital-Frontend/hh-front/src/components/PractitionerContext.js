@@ -8,9 +8,12 @@ export const PractitionerProvider = (props) => {
   const [additionalInfo, setAdditIonalInfo] = useState();
   const [symptomsInfo, setSymptomsInfo] = useState([]);
 <<<<<<< HEAD
+<<<<<<< HEAD
   const [firstName, setFirstName] = useState();
   const [lastName, setLastName] = useState();
   const [roleName, setRoleName] = useState();
+=======
+>>>>>>> parent of 5d565ea (Hide comp completed)
 =======
 >>>>>>> parent of 5d565ea (Hide comp completed)
 
@@ -21,9 +24,12 @@ export const PractitionerProvider = (props) => {
         additionalInfo: [additionalInfo, setAdditIonalInfo],
         symptomsInfo: [symptomsInfo, setSymptomsInfo],
 <<<<<<< HEAD
+<<<<<<< HEAD
         firstName: [firstName, setFirstName],
         lastName: [lastName, setLastName],
         roleName: [roleName, setRoleName],
+=======
+>>>>>>> parent of 5d565ea (Hide comp completed)
 =======
 >>>>>>> parent of 5d565ea (Hide comp completed)
       }}
