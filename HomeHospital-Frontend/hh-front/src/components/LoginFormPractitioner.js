@@ -172,7 +172,6 @@ function LoginFormPractitioner() {
                 onChange={(e) => setEmail(e.target.value)}
                 required
                 placeholder="yourName@gmail.com"
-                autoFocus
               />
               <div className="valid-feedback"></div>
               <div className="invalid-feedback">Please enter a valid Email</div>

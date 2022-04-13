@@ -122,7 +122,7 @@ function PractitionerPatientInfo({ patientDataGiven }) {
         <Row>
           <Col>
             <div className="practitioner-patientDetails">
-			  <h4>Patient Details</h4> 
+			   <h4>Patient Details</h4>
             </div>
           </Col>
         </Row>
