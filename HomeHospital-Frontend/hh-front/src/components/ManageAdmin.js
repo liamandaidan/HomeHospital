@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useContext } from "react";
+import React, { useEffect, useState, useContext, useRef } from "react";
 import {
   Table,
   Modal,
@@ -179,6 +179,12 @@ function ManageAdmin() {
   };
 
 
+  // const scrollToRef = (ref) => window.scrollTo(0, ref.current.offsetTop)  
+
+  const myRef = useRef(null)
+  const executeScroll = () => myRef.current.scrollIntoView()  
+
+
   //this will check if there are no errors in the form, if no errors remain the form will be submitted
   useEffect(() => {
     if(Object.keys(errors).length === 0 ) {
@@ -207,8 +213,7 @@ function ManageAdmin() {
           console.log(err);
         });
     } else{
-      window.scrollTo(0,0)
-      console.log("There are still errors left! " + Object.keys(errors))
+      executeScroll()
     }
 }, [errors])
   
@@ -463,6 +468,7 @@ function ManageAdmin() {
                         size="sm"
                         aria-describedby="permissionsHelp"
                         name="adminId"
+                        ref={myRef}
                       />
                       <Form.Text id="permissionsHelp" muted>
                         The admin identification is a 7 digit number

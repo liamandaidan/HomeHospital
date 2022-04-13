@@ -1,13 +1,11 @@
-import React, { useEffect, useState, useContext } from "react";
+import React, { useEffect, useState, useContext, useRef } from "react";
 import {
   Table,
   Modal,
   Button,
   Form,
-  ListGroup,
   FloatingLabel,
 } from "react-bootstrap";
-import Users from "../data/practitioners.json";
 import { AdminContext } from "./AdminContext";
 import axios from "axios";
 import usePracForm from "./usePracForm"
@@ -22,12 +20,9 @@ function ManagePractitioner() {
   const [editDisplay, setEditDisplay] = useState(false);
   const [userDisplay, setUserDisplay] = useState(true);
   const [createDisplay, setCreateDisplay] = useState(false);
-  const [displayUserType, setDisplayUserType] = useState(true);
 
   const [practitionerList, setPractitionerList] = useState([]);
 
-  //get all info from the context
-  const { userTypeSelection } = useContext(AdminContext);
 
   //selected user details to edit
   const [id, setId] = useState("");
@@ -46,7 +41,6 @@ function ManagePractitioner() {
 
   const [hospitals, setHospitals] = useState([]);
 
-  const [updatedPrac, setUpdatedPrac] = useState(false);
 
   //import function from useForm
   const { handleChange, values, handleCancel, handleSubmit, errors } = usePracForm(validate);
@@ -233,7 +227,8 @@ function ManagePractitioner() {
     setEditDisplay(false);
   };
 
-
+  const myRef = useRef(null)
+  const executeScroll = () => myRef.current.scrollIntoView()  
 
     //this will check if there are no errors in the form, if no errors remain the form will be submitted
     useEffect(() => {
@@ -256,7 +251,6 @@ function ManagePractitioner() {
           })
           .then((response) => {
             console.log(response);
-            setUpdatedPrac(true);
             setCreateDisplay(false);
             setUserDisplay(true);
             loadPracs();
@@ -265,6 +259,8 @@ function ManagePractitioner() {
           .catch((err) => {
             console.log(err);
           });
+      }else{
+        executeScroll()
       }
   }, [errors])
 
@@ -511,6 +507,7 @@ function ManagePractitioner() {
                         onChange={handleChange}
                         size="sm"
                         name="role"
+                        ref={myRef}
                       >
                         <option>Please select a role</option>
                         <option value="Doctor">Doctor</option>

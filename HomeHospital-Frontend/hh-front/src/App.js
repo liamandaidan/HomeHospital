@@ -31,6 +31,7 @@ function App() {
 
   return (
     <HomeHospitalProvider>
+      <PractitionerProvider>
       <Router>
         <Routes>
           <Route path="/" element={<Home />} />
