@@ -159,7 +159,6 @@ function LoginAdminForm() {
                 required
                 placeholder="yourName@gmail.com"
                 pattern="^[a-zA-Z0-9_.-]+@[a-zA-Z]+[\.][a-zA-Z]{2,}$"
-                autoFocus
               />
               <div className="valid-feedback"></div>
               <div className="invalid-feedback">Please enter a valid Email</div>

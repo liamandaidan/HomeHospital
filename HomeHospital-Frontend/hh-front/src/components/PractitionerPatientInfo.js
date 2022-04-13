@@ -10,16 +10,10 @@ import axios from "axios";
 import { PractitionerContext } from "./PractitionerContext";
 import { Button } from "react-bootstrap";
 
-/**
- * @name PatientInfo 
- * @summary This function will be used to return information from a patient to practitioner.
- * @param {string} patientDataGiven the data from parent component to child
- * @author Ridge Banez, Liam McLaughlin
- * @returns html components
- */
 function PractitionerPatientInfo({ patientDataGiven }) {
   //useContext here
-  const { _id, additionalInfo, symptomsInfo } = useContext(PractitionerContext);
+  const { _id, additionalInfo, symptomsInfo, hidden } =
+    useContext(PractitionerContext);
 
   //grab states for useContext grabs data from other route in PractitionerWaitlist.jsx for additional info, symptoms and id.
   const [patientAdditionalInfo, setPatientAdditionalInfo] = additionalInfo;
@@ -46,13 +40,9 @@ function PractitionerPatientInfo({ patientDataGiven }) {
       phoneNumber: "",
     },
   });
-/**
- * @function useEffect This will be used to notify the users and get the request for patients.
- */
+
   useEffect(() => {
-    /**
-     * @function clearInfo resets the patient's info displayed to screen.
-     */
+    //don't create a request until patientId is defined
     const clearInfo = () => {
       setPatientInfo({
         HCnumber: "",
@@ -72,10 +62,9 @@ function PractitionerPatientInfo({ patientDataGiven }) {
           lastName: "",
           phoneNumber: "",
         },
-      }
-      );
-	  setPatientAdditionalInfo(" ");
-	  setSymptomDetails([]);
+      });
+      setPatientAdditionalInfo(" ");
+      setSymptomDetails([]);
     };
 
     if (typeof patientId !== "undefined") {
@@ -84,9 +73,21 @@ function PractitionerPatientInfo({ patientDataGiven }) {
           `http://localhost:4000/api/requestManager/patientInfo/${patientId}`
         )
         .then((res) => {
-          setPatientInfo(res.data);
+          if (res.data !== null && res.data !== undefined) {
+            // Here we will test to ensure if a patient's data works. Otherwise we know it is corrupted.
+            if (
+              res.data.user.firstName !== null &&
+              res.data.user.firstName !== undefined
+            )
+              setPatientInfo(res.data);
+          } else {
+            console.log("There was an error verifying patients data");
+          }
         })
         .catch((err) => {
+          console.log(
+            "Data was corrupted. Please ensure that the patient's request exists with an admin."
+          );
           clearInfo();
           //console.log(err);
         });
@@ -94,6 +95,8 @@ function PractitionerPatientInfo({ patientDataGiven }) {
       clearInfo();
     }
   }, [patientId, checkIn]);
+
+  const [hiddenDetail, setHiddenDetail] = hidden;
 
   return (
     <>
@@ -111,7 +114,7 @@ function PractitionerPatientInfo({ patientDataGiven }) {
             </Col>
           </Row>
           <Col>
-            <img src={profile} alt="profilePic" className="profilepic" />
+            <img src={profile} alt="profilePic" className="profilepic"></img>
           </Col>
           <Col md={8}>
             {/**
@@ -136,30 +139,32 @@ function PractitionerPatientInfo({ patientDataGiven }) {
            * Displays patient address,phone#,emergency contact,healthcare#,
            * makes use of useContext for additionalInfo,Symptoms(description,severity) data grabbed from PractitionerWaitlist
            */}
-          <Col className="practitioner-patientContactDetails ">
-            <p>Address: {patientInfo.user.address.streetAddress}</p>
-            <p>Phone Number: {patientInfo.user.phoneNumber}</p>
-            <p>
-              Emergency Contact Name: {patientInfo.emergencyContact.firstName}{" "}
-              {patientInfo.emergencyContact.lastName}
-            </p>
-            <p>
-              Emergenct Contact Number:{" "}
-              {patientInfo.emergencyContact.phoneNumber}
-            </p>
-            <p>Alberta Healthcare No: {patientInfo.HCnumber}</p>
-            <p>Additional Info: {patientAdditionalInfo}</p>
-            <h5>Symptoms</h5>
-            {symptomDetails.map((data, i) => (
-              <div key={i}>
-                <ul>
-                  <li>
-                    {data.description} (Severity: {data.severity})
-                  </li>
-                </ul>
-              </div>
-            ))}
-          </Col>
+          {!hiddenDetail ? (
+            <Col className="practitioner-patientContactDetails ">
+              <p>Address: {patientInfo.user.address.streetAddress}</p>
+              <p>Phone Number: {patientInfo.user.phoneNumber}</p>
+              <p>
+                Emergency Contact Name: {patientInfo.emergencyContact.firstName}{" "}
+                {patientInfo.emergencyContact.lastName}
+              </p>
+              <p>
+                Emergenct Contact Number:{" "}
+                {patientInfo.emergencyContact.phoneNumber}
+              </p>
+              <p>Alberta Healthcare No: {patientInfo.HCnumber}</p>
+              <p>Additional Info: {patientAdditionalInfo}</p>
+              <h5>Symptoms</h5>
+              {symptomDetails.map((data, i) => (
+                <div key={i}>
+                  <ul>
+                    <li>
+                      {data.description} (Severity: {data.severity})
+                    </li>
+                  </ul>
+                </div>
+              ))}
+            </Col>
+          ) : null}
         </Row>
         <Row>
           <Col>

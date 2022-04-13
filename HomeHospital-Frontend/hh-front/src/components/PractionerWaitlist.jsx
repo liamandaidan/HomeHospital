@@ -5,24 +5,17 @@ import PractionerHospitalSelect from "./PractionerHospitalSelect";
 import { PractitionerContext } from "./PractitionerContext";
 axios.defaults.withCredentials = true;
 
-/**
- * @name PractitionerWaitlist
- * @summary This function will encompass the practitioner waitlist. In which it will display a rendered select list with all
- * institudes belonging to a practitioner. It will also render a table of requests to be displayed.
- * @param {string} childToParent this is the patient id passed between components.
- * @param {string} refresh this is used for letting our toast know that the table has been refreshed.
- * @author Liam McLaughlin, Ridge Banez
- * @returns the html to parent component.
- */
 export default function PractionerWaitlist({ childToParent, refresh }) {
   //useContext here
-  const { _id, additionalInfo, symptomsInfo } = useContext(PractitionerContext);
+  const { _id, additionalInfo, symptomsInfo, hidden } =
+    useContext(PractitionerContext);
 
   //useContext patient id
   const [_idValue] = _id;
   //set state for additional info, and symptoms from route and is a useContext
   const [patientAdditionalInfo, setPatientAdditionalInfo] = additionalInfo;
   const [symptomsDetails, setSymptomDetails] = symptomsInfo;
+  const [hiddenDetail, setHiddenDetail] = hidden;
 
   //modal state set to false
   const [modalState, setModalState] = useState(false);
@@ -40,8 +33,9 @@ export default function PractionerWaitlist({ childToParent, refresh }) {
   const [isCheckedIn, setIsCheckedIn] = useState(false);
 
   /**
-   * @function UpdateHospitalState Here when a select component is updated we will update our url to reflect the changes.
-   * @param {string} childData consists of the hospital ID.
+   * Here when a select component is updated we will update our url to reflect the changes.
+   *
+   * @param {*} childData passed in from select compomnent
    */
   const updateHospitalState = (childData) => {
     setHospitalSelected(childData);
@@ -50,7 +44,7 @@ export default function PractionerWaitlist({ childToParent, refresh }) {
     );
   };
   /**
-   *@function useEffect This will be in control of the state of practitioner list. Here we will force updates on url
+   *This will be in control of the state of practitioner list. Here we will force updates on url
    *change and set timer.
    */
   useEffect(() => {
@@ -68,7 +62,14 @@ export default function PractionerWaitlist({ childToParent, refresh }) {
             if (isCheckedIn) {
               setIsCheckedIn(false);
             }
-            setPractPatientInfo(response.data);
+            if (response.data !== null && response.data !== undefined) {
+              console.log(response.data);
+              setPractPatientInfo(response.data);
+            } else {
+              console.log("COOL");
+              refresh("DATA IS INVALID");
+            }
+
             setFlag(false);
             // setIsCheckedIn(false);
           })
@@ -81,8 +82,8 @@ export default function PractionerWaitlist({ childToParent, refresh }) {
       callUpdate();
       //here we call for a refresh every 60sec
       const interval = setInterval(() => {
-        //this is called every 60 sec
         refresh("Table requests updated");
+        //this is called every 60 sec
         callUpdate();
       }, 60000);
       return () => clearInterval(interval);
@@ -122,11 +123,9 @@ export default function PractionerWaitlist({ childToParent, refresh }) {
     );
   };
 
-  /**
-   * @function handleCheckIn This function will handle the first stages of checking in a patient.
-   * @param {string} e value passed from component
-   */
+  //check the id, display alert to confirm
   const handleCheckIn = (e) => {
+    // console.log("this is the id of the user to check in: " + e);
     {
       practPatientInfo.map((data) => {
         if (data.patient === e) {
@@ -135,13 +134,13 @@ export default function PractionerWaitlist({ childToParent, refresh }) {
             data.patientFirstName + " " + data.patientLastName
           );
           setModalState(true);
+          //setUrl("http://localhost:4000/api/requestManager/hospitalWaitList/");
         }
       });
     }
   };
-  /**
-   * @function confirmCheckIn This function will handle the routing of checking in a patient and submitting the request.
-   */
+
+  //check in the user once confirmed
   const confirmCheckIn = () => {
     const checkInRoute =
       "http://localhost:4000/api/requestManager/completeRequest/";
@@ -158,21 +157,18 @@ export default function PractionerWaitlist({ childToParent, refresh }) {
   };
 
   //sends data from this route to the left side component
-  /**
-   * @function checkData This function will send data from this component to parent components and child
-   * components.
-   * @param {*} e the array containing all patient info
-   */
   function checkData(e) {
     //sets symptom state and data and is in use with useContext
     setSymptomDetails(e.symptoms);
     childToParent(e.patient);
     //sets additionalInfo state and data and is in use with useContext
     setPatientAdditionalInfo(e.additionalInfo);
+    setHiddenDetail(false);
   }
 
   /**
-   * @function DisplayTableRows This will be used to render table rows based off practitioner patient info retrieved.
+   * This will be used to render table rows based off of a dummy json file i created
+   *
    */
   const DisplayTableRows = practPatientInfo.map((data, i) => {
     if (flag === false) {
@@ -182,6 +178,9 @@ export default function PractionerWaitlist({ childToParent, refresh }) {
           <td>{data.patientFirstName}</td>
           <td>{data.patientLastName}</td>
           <td>
+            {/*Select button grabs data from the route in the useEffect so that
+             * it can be stored in useContext look at check data function
+             */}
             <Button
               value={data.patient}
               onClick={() => checkData(data)}
@@ -191,6 +190,7 @@ export default function PractionerWaitlist({ childToParent, refresh }) {
             </Button>
           </td>
           <td>
+            {/*Passes patientId to the left component PractitionerPatientInfo.js*/}
             <Button
               onClick={(e) => handleCheckIn(data.patient)}
               className="checkInBtn"
@@ -234,6 +234,8 @@ export default function PractionerWaitlist({ childToParent, refresh }) {
       <div className="alert alert-info" hidden={!flag}>
         There is no current data for this hospital.
       </div>
+
+      {/*Alert modal for when a practitioner checks in a patient. Currently hidden*/}
       <AlertModal show={modalState} onHide={() => setModalState(false)} />
     </div>
   );
