@@ -27,10 +27,6 @@ const useAdminForm = (validate) => {
     // console.log(values.firstName);
     
     const [errors, setErrors] = useState({})
-
-    console.log("in the use form errors:" + errors)
-
-    const [isSubitting, setIsSubmitting] = useState(false);
     
     const handleChange = (e) => {
         const { name, value } = e.target
@@ -43,14 +39,29 @@ const useAdminForm = (validate) => {
     }
 
     const handleSubmit = (e) => {
-         e.preventDefault();
+        e.preventDefault();
 
         setErrors(validate(values))
-        setIsSubmitting(true)
+        
     }
 
     const handleCancel = () => {
         setErrors("")
+
+            values.adminId = "";
+            values.permission = 0;
+            values.firstName= "";
+            values.lastName= "";
+            values.email= "";
+            values.phoneNum= "";
+            values.address= "";
+            values.city= "";
+            values.province= "";
+            values.postalCode= "";
+            values.password= "";
+            values.confirmPassword= "";
+    
+
     }
     
 
