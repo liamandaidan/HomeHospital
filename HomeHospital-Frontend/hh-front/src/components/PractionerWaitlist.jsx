@@ -16,23 +16,13 @@ axios.defaults.withCredentials = true;
  */
 export default function PractionerWaitlist({ childToParent, refresh }) {
   //useContext here
-<<<<<<< HEAD
   const { _id, additionalInfo, symptomsInfo } = useContext(PractitionerContext);
-=======
-  const { _id, additionalInfo, symptomsInfo} =
-    useContext(PractitionerContext);
->>>>>>> parent of 5d565ea (Hide comp completed)
 
   //useContext patient id
   const [_idValue] = _id;
   //set state for additional info, and symptoms from route and is a useContext
-<<<<<<< HEAD
   const [patientAdditionalInfo, setPatientAdditionalInfo] = additionalInfo;
   const [symptomsDetails, setSymptomDetails] = symptomsInfo;
-=======
-  const [patientAdditionalInfo,setPatientAdditionalInfo] = additionalInfo;
-  const [symptomsDetails,setSymptomDetails] = symptomsInfo;
->>>>>>> parent of 5d565ea (Hide comp completed)
 
   //modal state set to false
   const [modalState, setModalState] = useState(false);
@@ -49,11 +39,6 @@ export default function PractionerWaitlist({ childToParent, refresh }) {
   const [flag, setFlag] = useState(false);
   const [isCheckedIn, setIsCheckedIn] = useState(false);
 
-<<<<<<< HEAD
-=======
-  const [hidden, setHidden] = useState(true);
-
->>>>>>> parent of 5d565ea (Hide comp completed)
   /**
    * @function UpdateHospitalState Here when a select component is updated we will update our url to reflect the changes.
    * @param {string} childData consists of the hospital ID.
@@ -184,11 +169,6 @@ export default function PractionerWaitlist({ childToParent, refresh }) {
     childToParent(e.patient);
     //sets additionalInfo state and data and is in use with useContext
     setPatientAdditionalInfo(e.additionalInfo);
-<<<<<<< HEAD
-=======
-
-	setHidden(s => !s);
->>>>>>> parent of 5d565ea (Hide comp completed)
   }
 
   /**
@@ -233,7 +213,6 @@ export default function PractionerWaitlist({ childToParent, refresh }) {
         <div className="form-floating">
           <PractionerHospitalSelect childToParent={updateHospitalState} />
         </div>
-		{!hidden ? <p>This is a test</p> : null}
       </div>
       <div
         className="table-data"
