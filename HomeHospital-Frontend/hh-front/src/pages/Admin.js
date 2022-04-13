@@ -18,9 +18,9 @@ function Admin() {
   return (
     <>
     <div className="admin-page">
+        <AdminProvider>
       <AdminNav />
       <Container className="admin-container">
-        <AdminProvider>
           <Row>
             <Col sm={3}>
               <AdminMenu />
@@ -30,8 +30,8 @@ function Admin() {
                 <ManageUser />
             </Col>
           </Row>
-        </AdminProvider>
       </Container>
+        </AdminProvider>
     </div>
     </>
   );
