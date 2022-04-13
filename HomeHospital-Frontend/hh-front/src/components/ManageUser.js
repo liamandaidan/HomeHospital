@@ -10,49 +10,11 @@ function ManageUser() {
 
   const [displayUserType, setDisplayUserType] = useState(true);
 
-  const { menuSelection, userTypeSelection } = useContext(AdminContext);
+  const { menuSelection, userTypeSelection, closeWindows } = useContext(AdminContext);
 
-  // console.log("this is from the context: " + userTypeSelection);
   const [menuChoice, setMenuChoice] = menuSelection;
   const [userType, setUserType] = userTypeSelection;
-
-
-  //load all users
-  //   useEffect(() => {
-  //     axios
-  //       .get("http://localhost:4000/api/users/PatientInfoVisitRequest")
-  //       .then((response) => {
-  //           console.log(response);
-
-  //       })
-  //       .catch((err) => {
-  //         console.log(err);
-  //       });
-  //   }, []);
-
-  //push updated user information
-  // useEffect(() => {
-  //   axios
-  //     .post("http://localhost:4000/api/users/PatientInfoVisitRequest", {
-  //       id,
-  //       type,
-  //       firstName,
-  //       lastName,
-  //       phoneNum,
-  //       address,
-  //       city,
-  //       postalCode,
-  //       aHCNum,
-  //       emergName,
-  //       emergNum
-  //     })
-  //     .then((response) => {
-  //         console.log(response);
-  //     })
-  //     .catch((err) => {
-  //       console.log(err);
-  //     });
-  // }, []);
+  const [close, setClose] = closeWindows;
 
   //closes the window displaying user
   const closeUserWindow = () => {
@@ -70,6 +32,7 @@ function ManageUser() {
     setUserType("Practitioner");
     // console.log("this is the user type: " + userType);
     setDisplayUserType(false);
+    setClose(false)
   };
 
   //shows list of patients when slected
@@ -77,6 +40,7 @@ function ManageUser() {
     setUserType("Patient");
     // console.log("this is the user type: " + userType);
     setDisplayUserType(false);
+    setClose(false)
   };
 
   //show list of administrators
@@ -84,10 +48,21 @@ function ManageUser() {
     setUserType("Admin");
     // console.log("this is the user type: " + userType);
     setDisplayUserType(false);
+    setClose(false)
   };
 
+  useEffect(() => {
+    if(close) {
+      setUserType("");
+      closeUserWindow();
+    }
+  }, [close])
+
+
+  
   return (
     <>
+
       {menuChoice === "manage" && (
         <div className="admin-main-div">
           {displayUserType && (
