@@ -3,14 +3,6 @@ import React, { useState, useEffect } from "react";
 import { Spinner } from "react-bootstrap";
 import { Navigate } from "react-router-dom";
 
-/**
- * @name RequireAuth Component
- * @summary The RequireAuth component is used to authenticate practitioner users
- * it will make an api call to the backend and if successful that will mean that
- * the user is authenticate to go to that route and if not they will be logged
- * back to the home page.
- * @author Lance Gee
- */
 function RequireAuth({ children }) {
   const [authed, setAuthed] = useState();
 

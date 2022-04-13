@@ -7,7 +7,6 @@ export const PractitionerProvider = (props) => {
   const [_id, set_id] = useState();
   const [additionalInfo, setAdditIonalInfo] = useState();
   const [symptomsInfo, setSymptomsInfo] = useState([]);
-  const [hidden, setHidden] = useState(true);
 
   return (
     <PractitionerContext.Provider
@@ -15,7 +14,6 @@ export const PractitionerProvider = (props) => {
         _id: [_id, set_id],
         additionalInfo: [additionalInfo, setAdditIonalInfo],
         symptomsInfo: [symptomsInfo, setSymptomsInfo],
-		hidden: [hidden, setHidden],
       }}
     >
       {props.children}

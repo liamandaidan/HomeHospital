@@ -148,9 +148,6 @@ export const logPractitionerIn = async (req, res, next) => {
 			} else {
 				req.practitionerId = practitioner.id
 				res.locals.practitionerId = practitioner.id
-				req.practitionerDetails = {role: practitioner.role,
-				firstName: practitioner.user.firstName,
-				lastName: practitioner.user.lastName }
 				next();
 			}
 			

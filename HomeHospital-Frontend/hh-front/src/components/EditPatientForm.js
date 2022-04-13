@@ -380,7 +380,7 @@ function EditPatientForm() {
           >
             <Form.Control
               type="text"
-              value={emergFirstName === null || emergFirstName === "" ? "No information provided" : emergFirstName}
+              value={emergFirstName === null && "No information provided"}
               onChange={(e) => setEmergFirstName(e.target.value)}
             />
           </FloatingLabel>
@@ -391,7 +391,7 @@ function EditPatientForm() {
           >
             <Form.Control
               type="text"
-              value={emergLastName === null || emergLastName === "" ? "No information provided" : emergLastName}
+              value={emergLastName === null && "No information provided"}
               onChange={(e) => setEmergLastName(e.target.value)}
             />
           </FloatingLabel>
@@ -402,7 +402,7 @@ function EditPatientForm() {
           >
             <Form.Control
               type="text"
-              value={emergNum === null || emergNum === "" ? "No information provided" : emergNum}
+              value={emergNum === null && "No information provided"}
               onChange={(e) => setEmergNum(e.target.value)}
             />
           </FloatingLabel>

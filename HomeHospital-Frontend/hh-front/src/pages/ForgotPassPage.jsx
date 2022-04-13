@@ -6,12 +6,6 @@ import "../styles/forgotpass.css";
 import logo1 from "../images/hb1.png";
 import logo2 from "../images/hb2.png";
 import Axios from "axios";
-/**
- * @name ForgotPassPage
- * @summary This function will be responsible for handling html and methods used for forgot password page.
- * @author Liam McLaughlin
- * @returns rendered forgot password page to user.
- */
 export default function ForgotPassPage() {
   //create some hooks and nav
   let navigate = useNavigate();
@@ -21,19 +15,17 @@ export default function ForgotPassPage() {
   const [validEmail, setValidEmail] = useState(false);
 
   /**
-   * @function backFunc On Click this function will nav the user back to the login page.
+   * On Click this function will nav the user back to the login page.
    */
   function backFunc() {
     navigate("/login");
   }
   /**
-   * @function validateEmail This function will provide validation of email to ensure that data is correct.
+   * This function will provide validation of email to ensure that data is correct.
    * The html also validates, but this is safest practice!
    */
   function validateEmail() {
-    const pattern = new RegExp(
-      "([!#-'*+/-9=?A-Z^-~-]+(.[!#-'*+/-9=?A-Z^-~-]+)*|\"([]!#-[^-~ \t]|(\\[\t -~]))+\")@([!#-'*+/-9=?A-Z^-~-]+(.[!#-'*+/-9=?A-Z^-~-]+).*|[[\t -Z^-~]*])"
-    );
+    const pattern = new RegExp("([!#-'*+/-9=?A-Z^-~-]+(\.[!#-'*+/-9=?A-Z^-~-]+)*|\"\(\[\]!#-[^-~ \t]|(\\[\t -~]))+\")@([!#-'*+/-9=?A-Z^-~-]+(\.[!#-'*+/-9=?A-Z^-~-]+).*|\[[\t -Z^-~]*])");
     if (!pattern.test(email)) {
       document.getElementById("email").classList.add("is-invalid");
       document.getElementById("email").classList.remove("is-valid");
@@ -45,9 +37,10 @@ export default function ForgotPassPage() {
     }
   }
   /**
-   * @function submitFunc This will submit on click. Assuming that validation has gone through.
+   * This will submit on click. Assuming that validation has gone through.
    */
   function submitFunc() {
+    
     Axios.post("http://localhost:4000/api/forget", {
       email: email,
     })
@@ -59,12 +52,11 @@ export default function ForgotPassPage() {
       .catch((err) => {
         //incase some unknown error occurs
         console.log("Error! + " + err);
+        
       });
-    navigate("/fa");
+      navigate("/fa");
   }
-  /**
-   * Returns html to parent component.
-   */
+
   return (
     <div
       className="bgdiv"

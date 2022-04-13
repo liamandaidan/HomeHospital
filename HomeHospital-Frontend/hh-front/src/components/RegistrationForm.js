@@ -1,16 +1,10 @@
-import React, { useState, useEffect, useContext, useRef } from "react";
-import { Button, Container, Row, Col, Form, Alert } from "react-bootstrap";
+import React, { useState, useEffect, useContext } from "react";
+import { Button, Container, Row, Col, Form } from "react-bootstrap";
 import classes from "./RegistrationForm.module.css";
 import { useNavigate } from "react-router-dom";
 import Axios from "axios";
 import { HomeHospitalContext } from "./HomeHospitalContext";
 
-/**
- * @name RegistrationForm Component
- * @summary The RegistrationForm component creates a patient
- * validates all input fields and throws any errors.
- * @author Lance Gee
- */
 function RegistrationForm() {
   let navigate = useNavigate();
 
@@ -45,20 +39,8 @@ function RegistrationForm() {
   const [validPasswordValue, setValidPasswordValue] = useState(false);
   const [validClientFormValue, setValidClientFormValue] = useState(false);
   const [resetAllFormValue] = useState(false);
-  const [show, setShow] = useState(false);
-  const [errorMsg, setErrorMsg] = useState("");
 
-  /**
-   * validating the form if all values are there then set the validClientFormValue to true
-   * @param validNameValue {boolean} - is the name value there
-   * @param validAddressValue {boolean} - is the address value there
-   * @param validCityValue {boolean} - is the city value there
-   * @param validPostalValue {boolean} - is the postal code value there
-   * @param validPhoneValue {boolean} - is the phone number value there
-   * @param validEmailValue {boolean} - is the email value there
-   * @param validPasswordValue {boolean} - is the password value there
-   * @param validHCValue {boolean} - is the healthcare number value there
-   */
+  // check if the form is valid
   useEffect(() => {
     if (
       validNameValue &&
@@ -87,9 +69,7 @@ function RegistrationForm() {
     validPasswordValue,
   ]);
 
-  /**
-   * Reset Form function
-   */
+  //   Reset Form function
   useEffect(() => {
     if (resetAllFormValue) {
       document.getElementById("clientForm").reset();
@@ -109,10 +89,6 @@ function RegistrationForm() {
     }
   }, [resetAllFormValue]);
 
-  /**
-   * validate first name
-   * @param firstNameValue - first name of patient
-   */
   function validateFirstName() {
     const symbols = /[`!@#$%^&*()_+\-=[]{};':"\|,.<>\?~]/;
     const namePattern = new RegExp(symbols);
@@ -120,9 +96,7 @@ function RegistrationForm() {
     if (
       isName === false ||
       firstNameValue === "" ||
-      firstNameValue === undefined ||
-      firstNameValue.length < 2 ||
-      firstNameValue.length > 26
+      firstNameValue === undefined
     ) {
       document.getElementById("clientFirstName").classList.add("is-invalid");
       document.getElementById("clientFirstName").classList.remove("is-valid");
@@ -138,10 +112,6 @@ function RegistrationForm() {
     }
   }
 
-  /**
-   * validate last name
-   * @param lastNameValue - last name of patient
-   */
   function validateLastName() {
     const symbols = /[`!@#$%^&*()_+\-=[]{};':"\|,.<>\?~]/;
     const namePattern = new RegExp(symbols);
@@ -149,9 +119,7 @@ function RegistrationForm() {
     if (
       isName === false ||
       lastNameValue === "" ||
-      lastNameValue === undefined ||
-      lastNameValue.length < 2 ||
-      lastNameValue.length > 26
+      lastNameValue === undefined
     ) {
       document.getElementById("clientLastName").classList.add("is-invalid");
       document.getElementById("clientLastName").classList.remove("is-valid");
@@ -167,10 +135,6 @@ function RegistrationForm() {
     }
   }
 
-  /**
-   * validate address
-   * @param addressValue - address of patient
-   */
   function validateAddress() {
     const pattern = new RegExp("^[a-zA-Z0-9- ]+$");
     if (addressValue === "" || addressValue === undefined) {
@@ -188,10 +152,6 @@ function RegistrationForm() {
     }
   }
 
-  /**
-   * validate city
-   * @param cityValue - city of patient
-   */
   function validateCity() {
     const pattern = new RegExp("^[a-zA-Z0-9- ]+$");
     if (cityValue === "" || cityValue === undefined) {
@@ -209,10 +169,6 @@ function RegistrationForm() {
     }
   }
 
-  /**
-   * validate postal code
-   * @param postalCodeValue - postal code of patient
-   */
   function validatePostalCode() {
     const pattern = new RegExp("^[a-zA-Z][0-9][a-zA-Z][0-9][a-zA-Z][0-9]$");
     if (pattern.test(postalCodeValue)) {
@@ -226,10 +182,6 @@ function RegistrationForm() {
     }
   }
 
-  /**
-   * validate phone
-   * @param phoneValue - phone of patient
-   */
   function validatePhone() {
     // Regex found here https://stackoverflow.com/questions/9776231/regular-expression-to-validate-us-phone-numbers
     const pattern = new RegExp("^[0-9]{3}-[0-9]{3}-[0-9]{4}$");
@@ -244,10 +196,6 @@ function RegistrationForm() {
     }
   }
 
-  /**
-   * validate health care number
-   * @param hcValue - health care number of patient
-   */
   function validateHCnumber() {
     const pattern = new RegExp("^[0-9]{4}-[0-9]{5}$");
     if (pattern.test(hcValue)) {
@@ -261,10 +209,6 @@ function RegistrationForm() {
     }
   }
 
-  /**
-   * validate email
-   * @param emailValue - email of patient
-   */
   function validateEmail() {
     const pattern = new RegExp(
       "([!#-'*+/-9=?A-Z^-~-]+(.[!#-'*+/-9=?A-Z^-~-]+)*|\"([]!#-[^-~ \t]|(\\[\t -~]))+\")@([!#-'*+/-9=?A-Z^-~-]+(.[!#-'*+/-9=?A-Z^-~-]+)*|[[\t -Z^-~]*])"
@@ -280,10 +224,6 @@ function RegistrationForm() {
     }
   }
 
-  /**
-   * validate password
-   * @param passwordValue - password of patient
-   */
   function validatePassword() {
     if (passwordValue.length > 7) {
       document.getElementById("password").classList.add("is-valid");
@@ -294,10 +234,6 @@ function RegistrationForm() {
     }
   }
 
-  /**
-   * validate password confirmation
-   * @param passwordValue - password confirmation of patient
-   */
   function confirmPassword() {
     if (passwordValue === confirmPasswordValue) {
       document.getElementById("cPassword").classList.add("is-valid");
@@ -310,13 +246,6 @@ function RegistrationForm() {
     }
   }
 
-  //setup myRef to scroll up when alert happens
-  const myRef = useRef(null);
-  const executeScroll = () => myRef.current.scrollIntoView();
-
-  /**
-   * create the patient in the backend
-   */
   const createUser = () => {
     Axios.post("http://localhost:4000/api/register", {
       firstName: firstNameValue,
@@ -334,30 +263,15 @@ function RegistrationForm() {
       contactFirstName: emFirstNameValue,
       contactLastName: emLastNameValue,
       contactPhoneNumber: emPhoneValue,
-    })
-      .then((response) => {
-        setRegSuccessValue(true);
-        console.log("Registration Successful");
-        navigate("/login");
-      })
-      .catch((err) => {
-        console.log(err.response.data.message);
-        setShow(true);
-        setErrorMsg(err.response.data.message);
-        executeScroll();
-      });
+    }).then((response) => {
+      setRegSuccessValue(true);
+      console.log("Registration Successful");
+      navigate("/login");
+    });
   };
 
   return (
     <Container style={{ borderRadius: "0px 50px 0px 0px" }}>
-      {show && (
-        <Row ref={myRef}>
-          <Alert variant="danger" onClose={() => setShow(false)} dismissible>
-            <Alert.Heading>Opps there's an error!</Alert.Heading>
-            <p>{errorMsg}</p>
-          </Alert>
-        </Row>
-      )}
       <div>
         <h3
           className="text-center mt-4"
@@ -388,8 +302,7 @@ function RegistrationForm() {
                 />
                 <div className="valid-feedback">Looks good!</div>
                 <div className="invalid-feedback">
-                  Please enter a valid First Name, min 2 characters and max 26
-                  characters
+                  Please enter a valid First Name
                 </div>
               </div>
             </Col>
@@ -412,8 +325,7 @@ function RegistrationForm() {
                 />
                 <div className="valid-feedback">Looks good!</div>
                 <div className="invalid-feedback">
-                  Please enter a valid Last Name, min 2 characters and max 26
-                  characters
+                  Please enter a valid Last Name
                 </div>
               </div>
             </Col>

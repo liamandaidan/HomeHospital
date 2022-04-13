@@ -2,12 +2,6 @@ import React, { useState, createContext } from "react";
 
 export const HomeHospitalContext = createContext();
 
-/**
- * @name HomeHospitalProvider Component
- * @summary The HomeHospitalProvider component uses Reacts context API to
- * create global variables for most patient routes
- * @author Lance Gee
- */
 export const HomeHospitalProvider = (props) => {
   const [_id, set_id] = useState();
   const [newRequest, setNewRequest] = useState(false);

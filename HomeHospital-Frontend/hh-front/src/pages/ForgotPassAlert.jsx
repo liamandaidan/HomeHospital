@@ -4,18 +4,14 @@ import "../styles/forgotpass.css";
 import logo1 from "../images/hb1.png";
 import logo2 from "../images/hb2.png";
 import bg from "../images/bg.png";
-/**
- * @name ForgotPass
- * @summary This class will be used to alert the user by sending them to a page notifying them that the
- * email they used is submitted.
- * @author Liam McLaughlin
- */
+
 export class ForgotPass extends Component {
   
   /**
-   * @function render This class will be used return the alert notifying user to check their email.
+   * This class will be used return the alert notifying user to check their email.
    * @returns alert component
    */
+  
   render() {
     return (
       <div
@@ -48,9 +44,7 @@ export class ForgotPass extends Component {
                 </p>
               </Alert>
             </Row>
-            <Button className="signup" href="/">
-              Back To Home Page
-            </Button>
+              <Button className="signup" href="/">Back To Home Page</Button>
           </div>
 
           <div className="logo1">

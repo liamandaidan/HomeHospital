@@ -5,38 +5,27 @@ import validator from 'validator'
 const peopleSchema = new mongoose.Schema({
 	firstName: {
 		type: String,
-		minlength: 1,
-		maxlength: 35,
-		required: [true, 'Please enter a First Name'],
-		validate: [
-			validator.isAlpha,
-			'Please enter a Valid First Name, Letters Only',
-		],
+		required: [true,'Please enter a First Name'],
+		validate:[validator.isAlpha, 'Please enter a Valid First Name, Letters Only']
 	},
 	lastName: {
 		type: String,
-		minlength: 1,
-		maxlength: 35,
-		required: [true, 'Please enter a Last Name'],
-		validate: [
-			validator.isAlpha,
-			'Please enter a Valid Last Name, Letters Only',
-		],
+		required: [true,'Please enter a Last Name'],
+		validate:[validator.isAlpha, 'Please enter a Valid Last Name, Letters Only']
 	},
 	address: {
 		type: addressSchema,
-		required: [true, 'Address is Required'],
+		required: [true, 'Address is Required']
 	},
 	phoneNumber: {
 		type: String,
 		default: null,
 		validate: [
-			{
-				validator: (value) => validator.isMobilePhone(value, ['en-CA']),
-				msg: 'Please Enter A Canadian Number',
+			{			
+			validator: (value) => validator.isMobilePhone(value, ['en-CA']),	
+			msg: 'Please Enter A Canadian Number',	
 			},
-		],
-	},
+		],	},
 	createdAt: {
 		type: Date,
 		immutable: true,
