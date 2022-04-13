@@ -12,47 +12,8 @@ function ManageUser() {
 
   const { menuSelection, userTypeSelection } = useContext(AdminContext);
 
-  // console.log("this is from the context: " + userTypeSelection);
   const [menuChoice, setMenuChoice] = menuSelection;
   const [userType, setUserType] = userTypeSelection;
-
-
-  //load all users
-  //   useEffect(() => {
-  //     axios
-  //       .get("http://localhost:4000/api/users/PatientInfoVisitRequest")
-  //       .then((response) => {
-  //           console.log(response);
-
-  //       })
-  //       .catch((err) => {
-  //         console.log(err);
-  //       });
-  //   }, []);
-
-  //push updated user information
-  // useEffect(() => {
-  //   axios
-  //     .post("http://localhost:4000/api/users/PatientInfoVisitRequest", {
-  //       id,
-  //       type,
-  //       firstName,
-  //       lastName,
-  //       phoneNum,
-  //       address,
-  //       city,
-  //       postalCode,
-  //       aHCNum,
-  //       emergName,
-  //       emergNum
-  //     })
-  //     .then((response) => {
-  //         console.log(response);
-  //     })
-  //     .catch((err) => {
-  //       console.log(err);
-  //     });
-  // }, []);
 
   //closes the window displaying user
   const closeUserWindow = () => {
