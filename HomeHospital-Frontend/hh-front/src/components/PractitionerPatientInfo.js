@@ -95,6 +95,13 @@ function PractitionerPatientInfo({ patientDataGiven }) {
     }
   }, [patientId, checkIn]);
 
+<<<<<<< HEAD
+=======
+  const handleChange = (e) => {
+    patientDataGiven = "WOW";
+  };
+  
+>>>>>>> parent of 5d565ea (Hide comp completed)
   return (
     <>
       <Container className="patient-container">
