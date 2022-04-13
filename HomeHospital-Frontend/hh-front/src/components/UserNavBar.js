@@ -42,10 +42,6 @@ function UserNavBar() {
     navigate("/editprofile");
   };
 
-  const handleOnLanding = () => {
-    navigate("/");
-  };
-
   /**
    * @function deletes all cookies on the browser
    */
@@ -128,7 +124,7 @@ function UserNavBar() {
   return (
     <Navbar bg="light" expand="lg">
       <Container fluid>
-        <Navbar.Brand className={classes.title} onClick={handleOnLanding}>
+        <Navbar.Brand className={classes.title} onClick={handleHome}>
           HomeHospital<span>Patient</span>
         </Navbar.Brand>
         <Navbar.Toggle aria-controls="navbarScroll" />

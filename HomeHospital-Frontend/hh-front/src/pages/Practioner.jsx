@@ -81,11 +81,6 @@ export default function Practioner() {
                 <Row>
                   <PractitionerPatientInfo patientDataGiven={patientData} />
                 </Row>
-                <Row>
-                  <p>
-                    <a href="/editPatient">Edit patient file</a>
-                  </p>
-                </Row>
               </div>
             </Col>
             <Col md="7">
