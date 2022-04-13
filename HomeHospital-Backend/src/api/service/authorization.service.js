@@ -3,14 +3,9 @@ import jwt from 'jsonwebtoken'
 
 
 /**
- * @function
- * @summary authorization check for admin-only pages
- * @description Check applied to pages that only an administrator has authorization to access. It is called after the user is 
- * already authenticated as a valid user, and simply checks the type of user before allowing them to proceed, or turning them away. 
- * @param {request} req 
- * @param {response} res 
- * @param {next} next 
- * @returns error message if no access token is present
+ * This file contains two pieces of nearly identical middleware, that are applied to pages and routes that only a practitioner 
+ * or an administrator has authorization to access. It is called after the user is already authenticated as a valid user, and 
+ * simply checks the type of user before allowing them to proceed, or turning them away. 
  */
 export const checkMayAccessAdminPage = async (req, res, next) => {
     let codedAccessToken = req.cookies['accessTokenCookie']
@@ -30,16 +25,6 @@ export const checkMayAccessAdminPage = async (req, res, next) => {
     }
 }
 
-/**
- * @function
- * @summary authorization check for practitioner-only pages
- * @description Check applied to pages that only a practitioner has authorization to access. It is called after the user is 
- * already authenticated as a valid user, and simply checks the type of user before allowing them to proceed, or turning them away. 
- * @param {request} req 
- * @param {response} res 
- * @param {next} next 
- * @returns error message if no access token is present
- */
 export const checkMayAccessPractitionerPage = async (req, res, next) => {
     let codedAccessToken = req.cookies['accessTokenCookie']
     if(!codedAccessToken) {

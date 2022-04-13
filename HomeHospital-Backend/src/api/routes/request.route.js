@@ -31,16 +31,7 @@ route.post('/newRequest', async (req, res) => {
 	const sanitizedPatientId = validator.whitelist(patientId, whitelist_string)
 	const sanitizedSymptomList = []
 	symptomList.forEach(element => {
-		const sanElement = {
-			description: validator.whitelist(
-				element.description,
-				whitelist_string
-			),
-			severity: validator.whitelist(
-				element.severity,
-				whitelist_string
-			),
-		}
+		const sanElement = validator.whitelist(element, whitelist_string)
 		sanitizedSymptomList.push(sanElement)
 	})
 
