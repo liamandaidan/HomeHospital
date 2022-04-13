@@ -42,7 +42,7 @@ export default function validateAdminInfo(values) {
   if (!values.phoneNum) {
     errors.phoneNum = "Phone number required";
   } else if (!phonepattern.test(values.phoneNum)) {
-    errors.email = "Phone number is invalid";
+    errors.email = "Phone number is invalid Example: 111-222-3333";
   }
 
   //address
@@ -70,7 +70,7 @@ export default function validateAdminInfo(values) {
   if (!values.postalCode) {
     errors.postalCode = "Postal code required";
   } else if (!postalpattern.test(values.postalCode)) {
-    errors.postalCode = "Postal code is invalid";
+    errors.postalCode = "Postal code is invalid Example: T1T1T1";
   }
 
   //password

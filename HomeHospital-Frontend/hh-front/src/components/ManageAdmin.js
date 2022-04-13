@@ -206,6 +206,9 @@ function ManageAdmin() {
         .catch((err) => {
           console.log(err);
         });
+    } else{
+      window.scrollTo(0,0)
+      console.log("There are still errors left! " + Object.keys(errors))
     }
 }, [errors])
   
