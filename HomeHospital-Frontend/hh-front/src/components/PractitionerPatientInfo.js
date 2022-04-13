@@ -10,9 +10,16 @@ import axios from "axios";
 import { PractitionerContext } from "./PractitionerContext";
 import { Button } from "react-bootstrap";
 
+/**
+ * @name PatientInfo 
+ * @summary This function will be used to return information from a patient to practitioner.
+ * @param {string} patientDataGiven the data from parent component to child
+ * @author Ridge Banez, Liam McLaughlin
+ * @returns html components
+ */
 function PractitionerPatientInfo({ patientDataGiven }) {
   //useContext here
-  const { _id, additionalInfo, symptomsInfo,hidden } = useContext(PractitionerContext);
+  const { _id, additionalInfo, symptomsInfo } = useContext(PractitionerContext);
 
   //grab states for useContext grabs data from other route in PractitionerWaitlist.jsx for additional info, symptoms and id.
   const [patientAdditionalInfo, setPatientAdditionalInfo] = additionalInfo;
@@ -39,9 +46,13 @@ function PractitionerPatientInfo({ patientDataGiven }) {
       phoneNumber: "",
     },
   });
-
+/**
+ * @function useEffect This will be used to notify the users and get the request for patients.
+ */
   useEffect(() => {
-    //don't create a request until patientId is defined
+    /**
+     * @function clearInfo resets the patient's info displayed to screen.
+     */
     const clearInfo = () => {
       setPatientInfo({
         HCnumber: "",
@@ -84,12 +95,6 @@ function PractitionerPatientInfo({ patientDataGiven }) {
     }
   }, [patientId, checkIn]);
 
-  const handleChange = (e) => {
-    patientDataGiven = "WOW";
-  };
-
-  const [hiddenDetail, setHiddenDetail] = hidden;
-  
   return (
     <>
       <Container className="patient-container">
@@ -106,23 +111,23 @@ function PractitionerPatientInfo({ patientDataGiven }) {
             </Col>
           </Row>
           <Col>
-		  <img src={profile} alt="profilePic" className="profilepic"></img>
+            <img src={profile} alt="profilePic" className="profilepic" />
           </Col>
           <Col md={8}>
             {/**
              * Displays patients name
              * */}
-            <div className="practitioner-patientRequestDetails"> 
-			<h3>
+            <div className="practitioner-patientRequestDetails">
+              <h3>
                 {patientInfo.user.firstName} {patientInfo.user.lastName}
-            </h3>
+              </h3>
             </div>
           </Col>
         </Row>
         <Row>
           <Col>
             <div className="practitioner-patientDetails">
-			  <h4>Patient Details</h4> 
+              <h4>Patient Details</h4>
             </div>
           </Col>
         </Row>
@@ -131,32 +136,30 @@ function PractitionerPatientInfo({ patientDataGiven }) {
            * Displays patient address,phone#,emergency contact,healthcare#,
            * makes use of useContext for additionalInfo,Symptoms(description,severity) data grabbed from PractitionerWaitlist
            */}
-		   {!hiddenDetail ? 
-			   <Col className="practitioner-patientContactDetails ">
-			   <p>Address: {patientInfo.user.address.streetAddress}</p>
-			   <p>Phone Number: {patientInfo.user.phoneNumber}</p>
-			   <p>
-				 Emergency Contact Name: {patientInfo.emergencyContact.firstName}{" "}
-				 {patientInfo.emergencyContact.lastName}
-			   </p>
-			   <p>
-				 Emergenct Contact Number:{" "}
-				 {patientInfo.emergencyContact.phoneNumber}
-			   </p>
-			   <p>Alberta Healthcare No: {patientInfo.HCnumber}</p>
-			   <p>Additional Info: {patientAdditionalInfo}</p>
-			   <h5>Symptoms</h5>
-			   {symptomDetails.map((data, i) => (
-				 <div key={i}>
-				   <ul>
-					 <li>
-					   {data.description} (Severity: {data.severity})
-					 </li>
-				   </ul>
-				 </div>
-			   ))}
-			 </Col> : null
-		   }
+          <Col className="practitioner-patientContactDetails ">
+            <p>Address: {patientInfo.user.address.streetAddress}</p>
+            <p>Phone Number: {patientInfo.user.phoneNumber}</p>
+            <p>
+              Emergency Contact Name: {patientInfo.emergencyContact.firstName}{" "}
+              {patientInfo.emergencyContact.lastName}
+            </p>
+            <p>
+              Emergenct Contact Number:{" "}
+              {patientInfo.emergencyContact.phoneNumber}
+            </p>
+            <p>Alberta Healthcare No: {patientInfo.HCnumber}</p>
+            <p>Additional Info: {patientAdditionalInfo}</p>
+            <h5>Symptoms</h5>
+            {symptomDetails.map((data, i) => (
+              <div key={i}>
+                <ul>
+                  <li>
+                    {data.description} (Severity: {data.severity})
+                  </li>
+                </ul>
+              </div>
+            ))}
+          </Col>
         </Row>
         <Row>
           <Col>
