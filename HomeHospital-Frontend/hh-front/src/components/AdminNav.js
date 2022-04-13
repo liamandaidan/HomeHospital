@@ -9,11 +9,16 @@ import {
 import classes from "./UserNavBar.module.css";
 import avatar from "../images/img_avatar.png";
 import { useNavigate } from "react-router-dom";
-import { HomeHospitalContext } from "./HomeHospitalContext";
+import { AdminContext } from "./AdminContext";
 import axios from "axios";
 
 
-function UserNavBar() {
+function AdminNav() {
+
+  const { menuSelection } = useContext(AdminContext);
+
+  const [menuChoice, setMenuChoice] = menuSelection;
+
   let navigate = useNavigate();
 
   function deleteAllCookies() {
@@ -25,6 +30,10 @@ function UserNavBar() {
       const name = eqPos > -1 ? cookie.substr(0, eqPos) : cookie;
       document.cookie = name + "=;expires=Thu, 01 Jan 1970 00:00:00 GMT";
     }
+  }
+
+  const handleAdminLanding = () => {
+    setMenuChoice("");
   }
 
   const handleLogout = () => {
@@ -43,7 +52,7 @@ function UserNavBar() {
   return (
     <Navbar bg="light" expand="lg">
       <Container fluid>
-        <Navbar.Brand className={classes.title}>
+        <Navbar.Brand className={classes.title} onClick={handleAdminLanding}>
           HomeHospital<span>Administrator</span>
         </Navbar.Brand>
         <Navbar.Toggle aria-controls="navbarScroll" />
@@ -86,4 +95,4 @@ function UserNavBar() {
   );
 }
 
-export default UserNavBar;
+export default AdminNav;
