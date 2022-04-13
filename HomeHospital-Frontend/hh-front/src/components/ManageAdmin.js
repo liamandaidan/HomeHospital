@@ -1,13 +1,11 @@
-import React, { useEffect, useState, useContext } from "react";
+import React, { useEffect, useState, useContext, useRef } from "react";
 import {
   Table,
   Modal,
   Button,
   Form,
-  ListGroup,
   FloatingLabel,
 } from "react-bootstrap";
-import Users from "../data/practitioners.json";
 import { AdminContext } from "./AdminContext";
 import axios from "axios";
 import useAdminForm from "./useAdminForm"
@@ -48,24 +46,7 @@ function ManageAdmin() {
   const [adminId, setAdminId] = useState("");
   const [permissionLevel, setPermissionLevel] = useState("");
 
-  //information for new user
-  // const [new_firstName, setNewFirstName] = useState("");
-  // const [new_lastName, setNewLastName] = useState("");
-  // const [new_password, setNewPassword] = useState("");
-  // const [new_email, setNewEmail] = useState("");
-  // const [new_address, setNewAddress] = useState("");
-  // const [new_city, setNewCity] = useState("");
-  // const [new_prov, setNewProv] = useState("");
-  // const [new_postalCode, setNewPostalCode] = useState("");
-  // const [new_phoneNum, setNewPhoneNum] = useState("");
-  // const [new_adminId, setNewAdminId] = useState("");
-  // const [new_permission, setNewPermission] = useState("");
-
-  //trying something!! 
   const { handleChange, values, handleCancel, handleSubmit, errors } = useAdminForm(validateAdmin);
-
-  console.log("this many errors left: " + errors.length)
-
 
   //load all admins
   useEffect(() => {
@@ -111,6 +92,18 @@ function ManageAdmin() {
     );
   };
 
+  const loadAdmins = () => {
+    axios
+    .get("http://localhost:4000/api/admin/adminList")
+    .then((response) => {
+      console.log(response);
+      setAdminList(response.data);
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+  }
+
   const selectEdit = (e) => {
     setUserDisplay(false);
     setEditDisplay(true);
@@ -138,7 +131,6 @@ function ManageAdmin() {
 
   //this will be called once the user selects delete beside the practitioner
   const handleDelete = (e) => {
-    console.log("We made it into the handle delete!" + e)
     {
       adminLlist.map((admin) => {
         console.log("this is the admin " + admin._id)
@@ -160,7 +152,7 @@ function ManageAdmin() {
       withCredentials: true,
     })
     .then((response) => {
-      alert({ selectedUser } + " has been deleted!");
+      loadAdmins();
     })
     .catch((err) => {
       console.log(err);
@@ -186,33 +178,11 @@ function ManageAdmin() {
     setEditDisplay(false);
   };
 
-  //creates a new preactitioner and sends to the back end
-  // const createUser = () => {
-  //   axios
-  //     .post("http://localhost:4000/api/registerA/", {
-  //       withCredentials: true,
-  //       firstName: new_firstName,
-  //       lastName: new_lastName,
-  //       password: new_password,
-  //       email: new_email,
-  //       streetAddress: new_address,
-  //       cityName: new_city,
-  //       provName: new_prov,
-  //       postalCode: new_postalCode,
-  //       phoneNumber: new_phoneNum,
-  //       adminId: new_adminId,
-  //       permissionLevel: new_permission,
-  //     })
-  //     .then((response) => {
-  //       console.log(response);
-  //     })
-  //     .catch((err) => {
-  //       console.log(err);
-  //     });
-  //   alert("We created a new admin!");
-  //   setCreateDisplay(false);
-  //   setUserDisplay(true);
-  // };
+
+  // const scrollToRef = (ref) => window.scrollTo(0, ref.current.offsetTop)  
+
+  const myRef = useRef(null)
+  const executeScroll = () => myRef.current.scrollIntoView()  
 
 
   //this will check if there are no errors in the form, if no errors remain the form will be submitted
@@ -237,11 +207,13 @@ function ManageAdmin() {
           console.log(response);
           setCreateDisplay(false);
           setUserDisplay(true);
-
+          loadAdmins();
         })
         .catch((err) => {
           console.log(err);
         });
+    } else{
+      executeScroll()
     }
 }, [errors])
   
@@ -270,7 +242,7 @@ function ManageAdmin() {
       email: email,
     })
     .then((response) => {
-      alert({ selectedUser } + "has been changed!");
+      loadAdmins();
     })
     .catch((err) => {
       console.log(err);
@@ -312,7 +284,7 @@ function ManageAdmin() {
                         onChange={(e) => setPermissionLevel(e.target.value)}
                         size="sm"
                       >
-                        <option select>{permissionLevel}</option>
+                        <option defaultValue>{permissionLevel}</option>
                         <option value="1">1</option>
                         <option value="2">2</option>
                         <option value="3">3</option>
@@ -328,6 +300,7 @@ function ManageAdmin() {
                         value={firstName}
                         onChange={(e) => setFirstName(e.target.value)}
                         size="sm"
+                        maxLength={15}
                       />
                     </FloatingLabel>
                     <FloatingLabel
@@ -339,6 +312,7 @@ function ManageAdmin() {
                         value={lastName}
                         onChange={(e) => setLastName(e.target.value)}
                         size="sm"
+                        maxLength={15}
                       />
                     </FloatingLabel>
                     <FloatingLabel
@@ -372,6 +346,7 @@ function ManageAdmin() {
                         value={address}
                         onChange={(e) => setAddress(e.target.value)}
                         size="sm"
+                        maxLength={30}
                       />
                     </FloatingLabel>
                     <FloatingLabel
@@ -496,6 +471,7 @@ function ManageAdmin() {
                         size="sm"
                         aria-describedby="permissionsHelp"
                         name="adminId"
+                        ref={myRef}
                       />
                       <Form.Text id="permissionsHelp" muted>
                         The admin identification is a 7 digit number
@@ -531,6 +507,7 @@ function ManageAdmin() {
                         name="firstName"
                         placeholder="John"
                         size="sm"
+                        maxLength={25}
                       />
                     </FloatingLabel>
                     {errors.firstName && <p>{errors.firstName}</p>}
@@ -545,6 +522,7 @@ function ManageAdmin() {
                         name="lastName"
                         placeholder="Smith"
                         size="sm"
+                        maxLength={25}
                       />
                     </FloatingLabel>
                     {errors.lastName && <p>{errors.lastName}</p>}
@@ -587,6 +565,7 @@ function ManageAdmin() {
                         onChange={handleChange}
                         name="address"
                         size="sm"
+                        maxLength={50}
                       />
                     </FloatingLabel>
                     {errors.address && <p>{errors.address}</p>}
@@ -602,6 +581,7 @@ function ManageAdmin() {
                         onChange={handleChange}
                         name="city"
                         size="sm"
+                        maxLength={25}
                       />
                     </FloatingLabel>
                     {errors.city && <p>{errors.city}</p>}
