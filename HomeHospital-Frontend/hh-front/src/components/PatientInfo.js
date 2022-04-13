@@ -6,7 +6,11 @@ import Col from "react-bootstrap/Col";
 import Container from "react-bootstrap/Container";
 import "../styles/SymptomForm.css";
 import axios from "axios";
-
+/**
+ * Create a component that displays the current patient's information
+ * @returns patient information component
+ * @author Robyn Balanag
+ */
 function PatientInfo() {
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
@@ -15,7 +19,10 @@ function PatientInfo() {
   const [emergFirstName, setEmergFirstName] = useState("");
   const [emergLastName, setEmergLastName] = useState("");
   const [emergPhoneNumber, setEmergPhoneNumber] = useState("");
-
+  /**
+   * Load patient visit information from the database and 
+   * assign values 
+   */
   useEffect(() => {
     axios
       .post("http://localhost:4000/api/users/PatientInfoVisitRequest")
@@ -33,10 +40,11 @@ function PatientInfo() {
         console.log(err);
       });
   }, []);
-
+  /**
+   * Used to format current date
+   */
   const timeElapsed = Date.now();
   const today = new Date(timeElapsed);
-
   const formatDate = today.toDateString();
   return (
     <>

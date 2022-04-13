@@ -8,6 +8,7 @@ import axios from "axios";
 /**
  * Creates the admin landing component
  * @returns returns the langing page component
+ * @author Robyn Balanag
  */
 function AdminLanding() {
   const { menuSelection } = useContext(AdminContext);

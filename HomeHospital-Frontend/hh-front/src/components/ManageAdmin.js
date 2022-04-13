@@ -12,7 +12,13 @@ import useAdminForm from "./useAdminForm"
 import validateAdmin from "./validateAdminInfo"
 
 axios.defaults.withCredentials = true;
-
+/**
+ * Display the administrator component where the user will be able to 
+ * edit, delete and create a new admin. 
+ * @returns list of admins, edit screen with user information, new admin 
+ *          creation form.  
+ * @author Robyn Balanag
+ */
 function ManageAdmin() {
   const [modalState, setModalState] = useState(false);
   const [selectedUser, setSelectedUser] = useState("");
@@ -21,22 +27,16 @@ function ManageAdmin() {
   const [userDisplay, setUserDisplay] = useState(true);
   const [createDisplay, setCreateDisplay] = useState(false);
   const [displayUserType, setDisplayUserType] = useState(true);
-
   const [adminLlist, setAdminList] = useState([]);
-
-  //get all info from the context
   const { userTypeSelection, confirmCreate } = useContext(AdminContext);
-
-  //get the user type that was select
   const [userType, setUserType] = userTypeSelection;
-
   const [confirm, setConfirm] = confirmCreate;
-
-  //selected user details to edit
+ /**
+  * Admin information
+  */
   const [id, setId] = useState("");
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
-  // const [password, setPassword] = useState("");
   const [email, setEmail] = useState("");
   const [address, setAddress] = useState("");
   const [city, setCity] = useState("");
@@ -45,10 +45,14 @@ function ManageAdmin() {
   const [phoneNum, setPhoneNum] = useState("");
   const [adminId, setAdminId] = useState("");
   const [permissionLevel, setPermissionLevel] = useState("");
-
+  /**
+   * Import to validate user input to create a new admin
+   */
   const { handleChange, values, handleCancel, handleSubmit, errors } = useAdminForm(validateAdmin);
-
-  //load all admins
+  /**
+   * Load lists of administrators from the database
+   * and set to an array of patients
+   */
   useEffect(() => {
     axios
       .get("http://localhost:4000/api/admin/adminList")
@@ -60,8 +64,12 @@ function ManageAdmin() {
         console.log(err);
       });
   }, []);
-
-  //alert model when admin request to delete a user
+  /**
+   * Alert model that will be displayed when a user is selected to be deleted. The user
+   * must confirm before proceeding
+   * @param {*} props user information
+   * @returns alert modal when the user is selected to be deleted from the database
+   */
   const AlertModal = (props) => {
     return (
       <>
@@ -91,7 +99,10 @@ function ManageAdmin() {
       </>
     );
   };
-
+  /**
+   * Reaload list of administrators once a change has been made
+   * and set to an array of admins
+   */
   const loadAdmins = () => {
     axios
     .get("http://localhost:4000/api/admin/adminList")
@@ -103,7 +114,11 @@ function ManageAdmin() {
       console.log(err);
     });
   }
-
+  /**
+   * Set the selected admin's details to display in the edit form. Then will display
+   * the edit form and hide the list of admins
+   * @param {*} e admin id that has been selected to edit
+   */
   const selectEdit = (e) => {
     setUserDisplay(false);
     setEditDisplay(true);
@@ -128,8 +143,10 @@ function ManageAdmin() {
       });
     }
   };
-
-  //this will be called once the user selects delete beside the practitioner
+  /**
+   * Set the selected admin as the selected user to delete
+   * @param {*} e admin id that will be deleted
+   */
   const handleDelete = (e) => {
     {
       adminLlist.map((admin) => {
@@ -142,8 +159,10 @@ function ManageAdmin() {
       });
     }
   };
-
-  //delete the user once confirmed
+  /**
+    * Once the user has confirmed they want to delete the admin from the
+    * modal, the admin's id will be sent to the database to be deleted
+    */
   const confirmDelete = () => {
     const deleteRoute = "http://localhost:4000/api/admin/admin/";
 
@@ -160,9 +179,12 @@ function ManageAdmin() {
 
     setModalState(false)
   };
-
-  //show list of admins when you close the edit window
-  const showUserList = (e) => {
+  /**
+   * Once the user has canceled from the create admin form, it will reset the 
+   * selected admin's information and close the edit form to display the 
+   * list of admins
+   */
+  const showUserList = () => {
     
     handleCancel();
 
@@ -170,22 +192,24 @@ function ManageAdmin() {
     setEditDisplay(false);
     setUserDisplay(true);
   };
-
-  //show create form for new practitioner
+  /**
+   * Diplay the create admin form and hide all other windows
+   */
   const showCreate = () => {
     setCreateDisplay(true);
     setUserDisplay(false);
     setEditDisplay(false);
   };
-
-
-  // const scrollToRef = (ref) => window.scrollTo(0, ref.current.offsetTop)  
-
+  /**
+   * Create a ref so when the user submits a form with errors they 
+   * will be take back to the top of the form
+   */
   const myRef = useRef(null)
   const executeScroll = () => myRef.current.scrollIntoView()  
-
-
-  //this will check if there are no errors in the form, if no errors remain the form will be submitted
+  /**
+   * Check the list of errors within the form, is there are no more 
+   * errors, it will send a request to create a new administrator
+   */
   useEffect(() => {
     if(Object.keys(errors).length === 0 ) {
         axios
@@ -216,12 +240,13 @@ function ManageAdmin() {
       executeScroll()
     }
 }, [errors])
-  
+  /**
+   * Once the user has made changes to the admin details, they will confirm the
+   * changes and the information will get updated in the database. If it is 
+   * successfull, they will be taken back to the list of admins
+   * @param {*} idToChange admin id that is edited 
+   */
   const confirmChanges = (idToChange) => {
-
-    console.log(idToChange);
-    console.log(firstName);
-
     axios
     .post("http://localhost:4000/api/admin/modifyAdmin", {
       withCredentials: true,
@@ -253,11 +278,6 @@ function ManageAdmin() {
 
   }
 
-
-  //this component will show if the userType select is equal to practitioner
-  //editDisplay - edit window for the selected user
-  //userDisplay - shows all the practitioners
-  //createDisplay - create window for a new practitioner
   return (
     <>
       <div className="admin-main-div">

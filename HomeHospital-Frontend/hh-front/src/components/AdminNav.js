@@ -12,15 +12,18 @@ import { useNavigate } from "react-router-dom";
 import { AdminContext } from "./AdminContext";
 import axios from "axios";
 
-
+/**
+ * Create a navigation bar for the administrator page 
+ * @returns navigation bar with administrator options
+ */
 function AdminNav() {
 
   const { menuSelection } = useContext(AdminContext);
-
   const [menuChoice, setMenuChoice] = menuSelection;
-
   let navigate = useNavigate();
-
+  /**
+   * Deletes cookies when the user logs out 
+   */
   function deleteAllCookies() {
     const cookies = document.cookie.split(";");
 
@@ -31,11 +34,16 @@ function AdminNav() {
       document.cookie = name + "=;expires=Thu, 01 Jan 1970 00:00:00 GMT";
     }
   }
-
+  /**
+   * When the user clicks on the HomehospitalAdministrator title on the navigation 
+   * bar, it will take them back to the admin landing view
+   */
   const handleAdminLanding = () => {
     setMenuChoice("");
   }
-
+  /**
+   * Will log out the user and delete cookies
+   */
   const handleLogout = () => {
     axios
     .post("http://localhost:4000/api/logout")

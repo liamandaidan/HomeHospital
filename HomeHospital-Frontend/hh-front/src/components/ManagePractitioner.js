@@ -12,7 +12,13 @@ import usePracForm from "./usePracForm"
 import validate from "./validatePracInfo"
 
 axios.defaults.withCredentials = true;
-
+/**
+ * Display the practitioner component where the user will be able to 
+ * edit, delete and create a new pracitioner. 
+ * @returns list of practitioners, edit screen with user information, new admin 
+ *          creation form.  
+ * @author Robyn Balanag
+ */
 function ManagePractitioner() {
   const [modalState, setModalState] = useState(false);
   const [selectedUser, setSelectedUser] = useState("");
@@ -20,11 +26,10 @@ function ManagePractitioner() {
   const [editDisplay, setEditDisplay] = useState(false);
   const [userDisplay, setUserDisplay] = useState(true);
   const [createDisplay, setCreateDisplay] = useState(false);
-
   const [practitionerList, setPractitionerList] = useState([]);
-
-
-  //selected user details to edit
+  /**
+   * Practitioner information
+   */
   const [id, setId] = useState("");
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
@@ -38,15 +43,15 @@ function ManagePractitioner() {
   const [role, setRole] = useState("");
   const [facilityId, setFacilityId] = useState("");
   const [practitionerId, setPractitionerId] = useState("");
-
   const [hospitals, setHospitals] = useState([]);
-
-
-  //import function from useForm
+ /**
+   * Import to validate user input to create a new admin
+   */
   const { handleChange, values, handleCancel, handleSubmit, errors } = usePracForm(validate);
-
-  console.log(errors.length)
-
+  /**
+   * Load lists of practitioners from the database
+   * and set to an array of practitioners
+   */
   useEffect(() => {
     axios
     .get("http://localhost:4000/api/admin/practitionerList")
@@ -58,8 +63,10 @@ function ManagePractitioner() {
       console.log(err);
     });
   }, [])
-
-  //get the list of hospitals
+  /**
+   * Load lists of hospitals from the database
+   * and set to an array of hospitals
+   */
   useEffect(() => {
     axios
       .get("http://localhost:4000/api/medicalFacility/viewFacilitiesAdmin")
@@ -71,9 +78,10 @@ function ManagePractitioner() {
         console.log(err);
       });
   }, []);
-
-
-  //load all pracs
+  /**
+   * Reaload list of practitioners once a change has been made
+   * and set to an array of practitioners
+   */
   const loadPracs = () => {
     axios
     .get("http://localhost:4000/api/admin/practitionerList")
@@ -85,8 +93,12 @@ function ManagePractitioner() {
       console.log(err);
     });
   }
-
-  //alert model when admin request to delete a user
+  /**
+   * Alert model that will be displayed when a user is selected to be deleted. The user
+   * must confirm before proceeding
+   * @param {*} props user information
+   * @returns alert modal when the user is selected to be deleted from the database
+   */
   const AlertModal = (props) => {
     return (
       <>
@@ -116,7 +128,11 @@ function ManagePractitioner() {
       </>
     );
   };
-
+  /**
+   * Set the selected admin's details to display in the edit form. Then will display
+   * the edit form and hide the list of admins
+   * @param {*} e practitioner id that has been selected to edit
+   */
   const selectEdit = (e) => {
     setUserDisplay(false);
     setEditDisplay(true);
@@ -143,8 +159,10 @@ function ManagePractitioner() {
       });
     }
   };
-
-  //this will be called once the user selects delete beside the practitioner
+  /**
+   * Set the selected admin as the selected user to delete
+   * @param {*} e practitioner id that will be deleted
+   */
   const handleDelete = (e) => {
     {
       practitionerList.map((prac) => {
@@ -157,8 +175,10 @@ function ManagePractitioner() {
       });
     }
   };
-
-  //delete the user once confirmed
+  /**
+    * Once the user has confirmed they want to delete the practitioner from the
+    * modal, the practitioner's id will be sent to the database to be deleted
+    */
   const confirmDelete = () => {
     const deleteRoute = "http://localhost:4000/api/admin/practitioner/";
 
@@ -175,8 +195,12 @@ function ManagePractitioner() {
 
     setModalState(false);
   };
-
-  //confirm changes made to user profile
+  /**
+   * Once the user has made changes to the admin details, they will confirm the
+   * changes and the information will get updated in the database. If it is 
+   * successfull, they will be taken back to the list of admins
+   * @param {*} idToChange admin id that is edited 
+   */
   const confirmChanges = (idToChange) => {
 
     axios
@@ -210,8 +234,11 @@ function ManagePractitioner() {
     setUserDisplay(true);
 
   }
-
-  //show list of practitioners when you close the edit window
+  /**
+   * Once the user has canceled from the create practitioner form, it will reset the 
+   * selected practitioner's information and close the edit form to display the 
+   * list of practitioners
+   */
   const showUserList = () => {
     handleCancel();
 
@@ -219,18 +246,24 @@ function ManagePractitioner() {
     setEditDisplay(false);
     setUserDisplay(true);
   };
-
-  //show create form for new practitioner
+ /**
+   * Diplay the create practitioner form and hide all other windows
+   */
   const showCreate = () => {
     setCreateDisplay(true);
     setUserDisplay(false);
     setEditDisplay(false);
   };
-
+  /**
+   * Create a ref so when the user submits a form with errors they 
+   * will be take back to the top of the form
+   */
   const myRef = useRef(null)
   const executeScroll = () => myRef.current.scrollIntoView()  
-
-    //this will check if there are no errors in the form, if no errors remain the form will be submitted
+  /**
+   * Check the list of errors within the form, is there are no more 
+   * errors, it will send a request to create a new practitioner
+   */
     useEffect(() => {
       if(Object.keys(errors).length === 0 ) {
           axios
@@ -265,10 +298,6 @@ function ManagePractitioner() {
   }, [errors])
 
 
-  //this component will show if the userType select is equal to practitioner
-  //editDisplay - edit window for the selected user
-  //userDisplay - shows all the practitioners
-  //createDisplay - create window for a new practitioner
   return (
     <>
       <div className="admin-main-div">
