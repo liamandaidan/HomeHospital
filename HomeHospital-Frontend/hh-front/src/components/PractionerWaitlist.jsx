@@ -6,7 +6,8 @@ import { PractitionerContext } from "./PractitionerContext";
 axios.defaults.withCredentials = true;
 
 /**
- * This function will encompass the practitioner waitlist. In which it will display a rendered select list with all
+ * @name PractitionerWaitlist
+ * @summary This function will encompass the practitioner waitlist. In which it will display a rendered select list with all
  * institudes belonging to a practitioner. It will also render a table of requests to be displayed.
  * @param {string} childToParent this is the patient id passed between components.
  * @param {string} refresh this is used for letting our toast know that the table has been refreshed.
@@ -39,8 +40,7 @@ export default function PractionerWaitlist({ childToParent, refresh }) {
   const [isCheckedIn, setIsCheckedIn] = useState(false);
 
   /**
-   * Here when a select component is updated we will update our url to reflect the changes.
-   *
+   * @function UpdateHospitalState Here when a select component is updated we will update our url to reflect the changes.
    * @param {string} childData consists of the hospital ID.
    */
   const updateHospitalState = (childData) => {
@@ -50,7 +50,7 @@ export default function PractionerWaitlist({ childToParent, refresh }) {
     );
   };
   /**
-   *This will be in control of the state of practitioner list. Here we will force updates on url
+   *@function useEffect This will be in control of the state of practitioner list. Here we will force updates on url
    *change and set timer.
    */
   useEffect(() => {
@@ -123,7 +123,7 @@ export default function PractionerWaitlist({ childToParent, refresh }) {
   };
 
   /**
-   * This function will handle the first stages of checking in a patient.
+   * @function handleCheckIn This function will handle the first stages of checking in a patient.
    * @param {string} e value passed from component
    */
   const handleCheckIn = (e) => {
@@ -140,7 +140,7 @@ export default function PractionerWaitlist({ childToParent, refresh }) {
     }
   };
   /**
-   * This function will handle the routing of checking in a patient and submitting the request.
+   * @function confirmCheckIn This function will handle the routing of checking in a patient and submitting the request.
    */
   const confirmCheckIn = () => {
     const checkInRoute =
@@ -159,7 +159,7 @@ export default function PractionerWaitlist({ childToParent, refresh }) {
 
   //sends data from this route to the left side component
   /**
-   * This function will send data from this component to parent components and child
+   * @function checkData This function will send data from this component to parent components and child
    * components.
    * @param {*} e the array containing all patient info
    */
@@ -172,7 +172,7 @@ export default function PractionerWaitlist({ childToParent, refresh }) {
   }
 
   /**
-   * This will be used to render table rows based off practitioner patient info retrieved.
+   * @function DisplayTableRows This will be used to render table rows based off practitioner patient info retrieved.
    */
   const DisplayTableRows = practPatientInfo.map((data, i) => {
     if (flag === false) {

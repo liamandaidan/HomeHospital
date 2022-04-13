@@ -7,7 +7,8 @@ import PractitionerPatientInfo from "../components/PractitionerPatientInfo.js";
 import { PractitionerContext } from "../components/PractitionerContext.js";
 import { ToastContainer, toast } from "react-toastify";
 /**
- * This function is used to represent the page belonging to practitioner.
+ * @name practitioner 
+ * @summary This function is used to represent the page belonging to practitioner.
  * @author Ridge Banez, Liam McLaughlin
  * @returns practioner page
  */
@@ -19,7 +20,7 @@ export default function Practioner() {
   const [patientData, setPatientData] = _id;
   const [refreshMsg, setRefreshMsg] = useState("null");
   /**
-   * This will update our parent class(Practioner) with recent info.
+   * @function childToParent This will update our parent class(Practioner) with recent info.
    * @param {string} childData the ID of a patient passed in from child.
    */
   const childToParent = (childData) => {
@@ -32,9 +33,7 @@ export default function Practioner() {
     setPatientData(childData);
   };
   /**
-   * This function will update refresh hook passed in from another component.
-   * When it does so it will send a notify toast letting the user know that the table was
-   * just updated with the newest result.
+   * @function refresh This function will update refresh hook passed in from another component. When it does so it will send a notify toast letting the user know that the table was just updated with the newest result.
    * @param {string} childData the message to be passed in.
    */
   const refresh = (childData) => {
@@ -42,7 +41,7 @@ export default function Practioner() {
     notify(childData);
   };
   /**
-   * This function will notify the practitioner that an event has occured.
+   * @function notify This function will notify the practitioner that an event has occured.
    * @param {string} msg the message to be sent to the toast.
    */
   function notify(msg) {
@@ -57,7 +56,7 @@ export default function Practioner() {
     });
   }
   /**
-   * Html components returned to user.
+   * @summary Html components returned to user.
    */
   return (
     <div>
