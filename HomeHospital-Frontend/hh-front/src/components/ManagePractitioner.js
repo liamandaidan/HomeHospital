@@ -709,7 +709,7 @@ function ManagePractitioner() {
                         placeholder="Minimum 10 characters"
                         size="sm"
                         name="password"
-                         
+                        type="password"
                       />
                     </FloatingLabel>
                     {errors.password && <p>{errors.password}</p>}
@@ -726,7 +726,7 @@ function ManagePractitioner() {
                         size="sm"
                         aria-describedby="passwordHelp"
                         name="confirmPassword"
-                         
+                        type="password"
                       />
                     <Form.Text id="passwordHelp" muted>
                         Your password must be 8-20 characters long, contain

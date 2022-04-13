@@ -14,25 +14,24 @@ function Admin() {
   // console.log(displayUsers);
   // const [userDisplay, setUserDisplay] = displayUsers;
 
-
   return (
     <>
-    <div className="admin-page">
-      <AdminNav />
-      <Container className="admin-container">
+      <div className="admin-page">
         <AdminProvider>
-          <Row>
-            <Col sm={3}>
-              <AdminMenu />
-            </Col>
-            <Col sm={8}>
+          <AdminNav />
+          <Container className="admin-container">
+            <Row>
+              <Col sm={3}>
+                <AdminMenu />
+              </Col>
+              <Col sm={8}>
                 <AdminLanding />
                 <ManageUser />
-            </Col>
-          </Row>
+              </Col>
+            </Row>
+          </Container>
         </AdminProvider>
-      </Container>
-    </div>
+      </div>
     </>
   );
 }
