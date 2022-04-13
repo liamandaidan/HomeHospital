@@ -7,7 +7,7 @@ axios.defaults.withCredentials = true;
 
 export default function PractionerWaitlist({ childToParent, refresh }) {
   //useContext here
-  const { _id, additionalInfo, symptomsInfo} =
+  const { _id, additionalInfo, symptomsInfo, hidden} =
     useContext(PractitionerContext);
 
   //useContext patient id
@@ -15,6 +15,7 @@ export default function PractionerWaitlist({ childToParent, refresh }) {
   //set state for additional info, and symptoms from route and is a useContext
   const [patientAdditionalInfo,setPatientAdditionalInfo] = additionalInfo;
   const [symptomsDetails,setSymptomDetails] = symptomsInfo;
+  const [hiddenDetail, setHiddenDetail] = hidden;
 
   //modal state set to false
   const [modalState, setModalState] = useState(false);
@@ -31,7 +32,7 @@ export default function PractionerWaitlist({ childToParent, refresh }) {
   const [flag, setFlag] = useState(false);
   const [isCheckedIn, setIsCheckedIn] = useState(false);
 
-  const [hidden, setHidden] = useState(true);
+   
 
   /**
    * Here when a select component is updated we will update our url to reflect the changes.
@@ -157,12 +158,7 @@ export default function PractionerWaitlist({ childToParent, refresh }) {
     childToParent(e.patient);
     //sets additionalInfo state and data and is in use with useContext
     setPatientAdditionalInfo(e.additionalInfo);
-<<<<<<< HEAD
 	setHiddenDetail(false);
-=======
-
-	setHidden(s => !s);
->>>>>>> parent of 5d565ea (Hide comp completed)
   }
 
  
@@ -214,7 +210,6 @@ export default function PractionerWaitlist({ childToParent, refresh }) {
         <div className="form-floating">
           <PractionerHospitalSelect childToParent={updateHospitalState}/>
         </div>
-		{!hidden ? <p>This is a test</p> : null}
       </div>
       <div
         className="table-data"
