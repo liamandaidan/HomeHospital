@@ -7,7 +7,8 @@ import logo1 from "../images/hb1.png";
 import logo2 from "../images/hb2.png";
 import Axios from "axios";
 /**
- * This function will be responsible for handling html and methods used for forgot password page.
+ * @name ForgotPassPage
+ * @summary This function will be responsible for handling html and methods used for forgot password page.
  * @author Liam McLaughlin
  * @returns rendered forgot password page to user.
  */
@@ -20,13 +21,13 @@ export default function ForgotPassPage() {
   const [validEmail, setValidEmail] = useState(false);
 
   /**
-   * On Click this function will nav the user back to the login page.
+   * @function backFunc On Click this function will nav the user back to the login page.
    */
   function backFunc() {
     navigate("/login");
   }
   /**
-   * This function will provide validation of email to ensure that data is correct.
+   * @function validateEmail This function will provide validation of email to ensure that data is correct.
    * The html also validates, but this is safest practice!
    */
   function validateEmail() {
@@ -44,7 +45,7 @@ export default function ForgotPassPage() {
     }
   }
   /**
-   * This will submit on click. Assuming that validation has gone through.
+   * @function submitFunc This will submit on click. Assuming that validation has gone through.
    */
   function submitFunc() {
     Axios.post("http://localhost:4000/api/forget", {

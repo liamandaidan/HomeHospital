@@ -10,6 +10,13 @@ import axios from "axios";
 import { PractitionerContext } from "./PractitionerContext";
 import { Button } from "react-bootstrap";
 
+/**
+ * @name PatientInfo 
+ * @summary This function will be used to return information from a patient to practitioner.
+ * @param {string} patientDataGiven the data from parent component to child
+ * @author Ridge Banez, Liam McLaughlin
+ * @returns html components
+ */
 function PractitionerPatientInfo({ patientDataGiven }) {
   //useContext here
   const { _id, additionalInfo, symptomsInfo } = useContext(PractitionerContext);
@@ -39,9 +46,13 @@ function PractitionerPatientInfo({ patientDataGiven }) {
       phoneNumber: "",
     },
   });
-
+/**
+ * @function useEffect This will be used to notify the users and get the request for patients.
+ */
   useEffect(() => {
-    //don't create a request until patientId is defined
+    /**
+     * @function clearInfo resets the patient's info displayed to screen.
+     */
     const clearInfo = () => {
       setPatientInfo({
         HCnumber: "",
@@ -84,10 +95,6 @@ function PractitionerPatientInfo({ patientDataGiven }) {
     }
   }, [patientId, checkIn]);
 
-  const handleChange = (e) => {
-    patientDataGiven = "WOW";
-  };
-  
   return (
     <>
       <Container className="patient-container">
