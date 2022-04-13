@@ -8,19 +8,25 @@ import "react-toastify/dist/ReactToastify.css";
 import { HomeHospitalContext } from "../components/HomeHospitalContext";
 
 axios.defaults.withCredentials = true;
-
-
+/**
+ * Login in page for the administrator
+ * @returns login form for administrator
+ * @author Lance Gee 
+ */
 function AdminLogin() {
-   // useContext to get new Request value
+
   const { regSuccess } = useContext(HomeHospitalContext);
   const [regSuccessValue, setRegSuccessValue] = regSuccess;
-
+  /**
+   * Call registration toast if the regSuccess is true
+   */
   if (regSuccessValue) {
     notify();
     setRegSuccessValue(false);
   }
-
-  // Registration Toast
+ /**
+  * Display a registration toast 
+  */
   function notify() {
     toast.success("Registration Successful", {
       position: "top-center",
