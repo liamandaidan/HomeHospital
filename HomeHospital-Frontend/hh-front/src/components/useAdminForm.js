@@ -51,6 +51,21 @@ const useAdminForm = (validate) => {
 
     const handleCancel = () => {
         setErrors("")
+
+            values.adminId = "";
+            values.permission = 0;
+            values.firstName= "";
+            values.lastName= "";
+            values.email= "";
+            values.phoneNum= "";
+            values.address= "";
+            values.city= "";
+            values.province= "";
+            values.postalCode= "";
+            values.password= "";
+            values.confirmPassword= "";
+    
+
     }
     
 
