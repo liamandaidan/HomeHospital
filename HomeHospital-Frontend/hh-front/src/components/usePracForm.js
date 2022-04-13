@@ -47,6 +47,20 @@ const usePracForm = (validate) => {
 
     const handleCancel = () => {
         setErrors("")
+
+        values.firstName= "";
+        values.lastName= "";
+        values.email= "";
+        values.phoneNum= "";
+        values.address= "";
+        values.city= "";
+        values.province= "";
+        values.postalCode= "";
+        values.password= "";
+        values.confirmPassword= "";
+        values.practitionerId= "";
+        values.role = "";
+        values.facilityId = "";
     }
     
 
