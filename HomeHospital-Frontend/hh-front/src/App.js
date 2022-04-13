@@ -24,7 +24,6 @@ import AdminLogin from "./pages/AdminLogin.js";
 import { PractitionerProvider } from "./components/PractitionerContext";
 import EditProfile from "./pages/EditProfile";
 
-
 function App() {
   useEffect(() => {
     document.title = "HomeHospital";
@@ -39,70 +38,69 @@ function App() {
           <Route path="/login-admin" element={<AdminLogin />} />
           <Route path="/editprofile" element={<EditProfile />} />
 
-          <Route
-            path="/admin"
-            element={
-              <RequireAuthAdmin>
-                <Admin />
-              </RequireAuthAdmin>
-            }
-          />
-          <Route
-            path="/request/:id"
-            element={
-              <RequireAuth>
-                <Request />
-              </RequireAuth>
-            }
-          />
-          <Route path="*" element={<Error />} />
-          <Route path="/forget" element={<Forget />} />
-          <Route path="/fa" element={<FA />} />
-          <Route path="/reset" element={<Reset />} />
-          <Route
-            path="/hospitals"
-            element={
-              <RequireAuth>
-                <HospitalSelectionPage />
-              </RequireAuth>
-            }
-          />
-          <Route
-            path="/symptoms"
-            element={
-              <RequireAuth>
-                <Symptoms />
-              </RequireAuth>
-            }
-          />
-          <Route
-            path="/home"
-            element={
-              <RequireAuth>
-                <UserHomepage />
-              </RequireAuth>
-            }
-          />
-          <Route path="/home" element={<UserHomepage />} />
+            <Route
+              path="/admin"
+              element={
+                <RequireAuthAdmin>
+                  <Admin />
+                </RequireAuthAdmin>
+              }
+            />
+            <Route
+              path="/request/:id"
+              element={
+                <RequireAuth>
+                  <Request />
+                </RequireAuth>
+              }
+            />
+            <Route path="*" element={<Error />} />
+            <Route path="/forget" element={<Forget />} />
+            <Route path="/fa" element={<FA />} />
+            <Route path="/reset" element={<Reset />} />
+            <Route
+              path="/hospitals"
+              element={
+                <RequireAuth>
+                  <HospitalSelectionPage />
+                </RequireAuth>
+              }
+            />
+            <Route
+              path="/symptoms"
+              element={
+                <RequireAuth>
+                  <Symptoms />
+                </RequireAuth>
+              }
+            />
+            <Route
+              path="/home"
+              element={
+                <RequireAuth>
+                  <UserHomepage />
+                </RequireAuth>
+              }
+            />
+            <Route path="/home" element={<UserHomepage />} />
 
-          <Route
-            path="/practitioner"
-            element={
-              <RequireAuthPractitioner>
-                <PractitionerProvider>
+            <Route
+              path="/practitioner"
+              element={
+                <RequireAuthPractitioner>
                   <Practitioner />
-                </PractitionerProvider>
-              </RequireAuthPractitioner>
-            }
-          />
+                </RequireAuthPractitioner>
+              }
+            />
+            <Route path="/login-practitioner" element={<LoginPractitioner />} />
 
-          <Route
-            path="/register"
-            element={<Register className="full-height" />}
-          />
-          <Route path="/login-practitioner" element={<LoginPractitioner />} />
-        </Routes>
-      </Router>
+            <Route
+              path="/register"
+              element={<Register className="full-height" />}
+            />
+          </Routes>
+        </Router>
+      </PractitionerProvider>
     </HomeHospitalProvider>
   );
 }

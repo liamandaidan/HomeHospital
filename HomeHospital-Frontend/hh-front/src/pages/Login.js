@@ -13,6 +13,7 @@ function Login() {
   const { regSuccess } = useContext(HomeHospitalContext);
   const [regSuccessValue, setRegSuccessValue] = regSuccess;
 
+  // if context variable regSuccess is true then set toast
   if (regSuccessValue) {
     notify();
     setRegSuccessValue(false);

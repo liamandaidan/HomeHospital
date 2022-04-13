@@ -14,6 +14,13 @@ import React, {
 import { HomeHospitalContext } from "./HomeHospitalContext";
 import classes from "./Map.module.css";
 
+/**
+ * @name Map Component
+ * @summary The Map component connects with google maps api and
+ * displays the the patients geolocation and calculates the time and route
+ * to get to the requested hospital
+ * @author Lance Gee
+ */
 function Map() {
   // context variables
   const { longitude, latitude } = useContext(HomeHospitalContext);
@@ -33,6 +40,9 @@ function Map() {
     []
   );
 
+  /**
+   * @function getLocation - retrieves the patients geolocation from the browser
+   */
   function getLocation() {
     console.log("hospital longitude: " + hospitalLongitude);
     console.log("hospital latitude: " + hospitalLatitude);

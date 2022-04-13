@@ -24,9 +24,22 @@
   color: black;
   background-color: rgba(113, 231, 202, 0.44);
   border: none;
+  height: 60px;
+  width: 150px;
 }
 
 .signup:hover {
+  color: black;
+  background-color: rgba(113, 231, 202, 0.863);
+}
+
+.register {
+  color: black;
+  background-color: rgba(113, 231, 202, 0.44);
+  border: none;
+}
+
+.register:hover {
   color: black;
   background-color: rgba(113, 231, 202, 0.863);
 }
@@ -45,8 +58,42 @@
   top: 300px;
   left: 200px;
   font-family: "Inter", sans-serif;
-  width: 900px;
   z-index: 1;
 }
 
+.titleBox h1 {
+  font-size: 70px;
+  font-weight: bold;
+}
 
+@media screen and (max-width: 601px) {
+  .titleBox {
+    position: absolute;
+    top: 200px;
+    left: 50px;
+    font-family: "Inter", sans-serif;
+    z-index: 1;
+  }
+  .titleBox h1 {
+    font-size: 50px;
+    font-weight: bold;
+  }
+  .register {
+    display: none;
+  }
+  .landingImage {
+    float: left;
+    margin-top: 150px;
+    margin-right: 70px;
+    width: 550px;
+    opacity: 0.45;
+    z-index: 0;
+  }
+  .signup {
+    color: black;
+    background-color: rgba(113, 231, 202, 0.44);
+    border: none;
+    height: 40px;
+    width: 100px;
+  }
+}
