@@ -120,7 +120,11 @@ function PractitionerPatientInfo({ patientDataGiven }) {
         <Row>
           <Col>
             <div className="practitioner-patientDetails">
+<<<<<<< HEAD
+			   <h4>Patient Details</h4>
+=======
               <h4>Patient Details</h4>
+>>>>>>> parent of 5d565ea (Hide comp completed)
             </div>
           </Col>
         </Row>
