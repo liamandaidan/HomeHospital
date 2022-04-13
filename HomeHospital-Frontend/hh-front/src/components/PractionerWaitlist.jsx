@@ -7,14 +7,14 @@ axios.defaults.withCredentials = true;
 
 export default function PractionerWaitlist({ childToParent, refresh }) {
   //useContext here
-  const { _id, additionalInfo, symptomsInfo, hidden} =
+  const { _id, additionalInfo, symptomsInfo, hidden } =
     useContext(PractitionerContext);
 
   //useContext patient id
   const [_idValue] = _id;
   //set state for additional info, and symptoms from route and is a useContext
-  const [patientAdditionalInfo,setPatientAdditionalInfo] = additionalInfo;
-  const [symptomsDetails,setSymptomDetails] = symptomsInfo;
+  const [patientAdditionalInfo, setPatientAdditionalInfo] = additionalInfo;
+  const [symptomsDetails, setSymptomDetails] = symptomsInfo;
   const [hiddenDetail, setHiddenDetail] = hidden;
 
   //modal state set to false
@@ -31,8 +31,6 @@ export default function PractionerWaitlist({ childToParent, refresh }) {
   );
   const [flag, setFlag] = useState(false);
   const [isCheckedIn, setIsCheckedIn] = useState(false);
-
-   
 
   /**
    * Here when a select component is updated we will update our url to reflect the changes.
@@ -64,7 +62,14 @@ export default function PractionerWaitlist({ childToParent, refresh }) {
             if (isCheckedIn) {
               setIsCheckedIn(false);
             }
-            setPractPatientInfo(response.data);
+            if (response.data !== null && response.data !== undefined) {
+              console.log(response.data);
+              setPractPatientInfo(response.data);
+            } else {
+              console.log("COOL");
+              refresh("DATA IS INVALID");
+            }
+
             setFlag(false);
             // setIsCheckedIn(false);
           })
@@ -77,7 +82,7 @@ export default function PractionerWaitlist({ childToParent, refresh }) {
       callUpdate();
       //here we call for a refresh every 60sec
       const interval = setInterval(() => {
-		refresh("Table requests updated");
+        refresh("Table requests updated");
         //this is called every 60 sec
         callUpdate();
       }, 60000);
@@ -158,10 +163,8 @@ export default function PractionerWaitlist({ childToParent, refresh }) {
     childToParent(e.patient);
     //sets additionalInfo state and data and is in use with useContext
     setPatientAdditionalInfo(e.additionalInfo);
-	setHiddenDetail(false);
+    setHiddenDetail(false);
   }
-
- 
 
   /**
    * This will be used to render table rows based off of a dummy json file i created
@@ -208,7 +211,7 @@ export default function PractionerWaitlist({ childToParent, refresh }) {
     <div className="table-structure">
       <div className="select-hospital">
         <div className="form-floating">
-          <PractionerHospitalSelect childToParent={updateHospitalState}/>
+          <PractionerHospitalSelect childToParent={updateHospitalState} />
         </div>
       </div>
       <div
