@@ -1,13 +1,11 @@
-import React, { useEffect, useState, useContext } from "react";
+import React, { useEffect, useState, useContext, useRef } from "react";
 import {
   Table,
   Modal,
   Button,
   Form,
-  ListGroup,
   FloatingLabel,
 } from "react-bootstrap";
-import Users from "../data/practitioners.json";
 import { AdminContext } from "./AdminContext";
 import axios from "axios";
 import usePracForm from "./usePracForm"
@@ -22,15 +20,9 @@ function ManagePractitioner() {
   const [editDisplay, setEditDisplay] = useState(false);
   const [userDisplay, setUserDisplay] = useState(true);
   const [createDisplay, setCreateDisplay] = useState(false);
-  const [displayUserType, setDisplayUserType] = useState(true);
 
   const [practitionerList, setPractitionerList] = useState([]);
 
-  //get all info from the context
-  const { userTypeSelection } = useContext(AdminContext);
-
-  //get the user type that was select
-  const [userType, setUserType] = userTypeSelection;
 
   //selected user details to edit
   const [id, setId] = useState("");
@@ -49,39 +41,23 @@ function ManagePractitioner() {
 
   const [hospitals, setHospitals] = useState([]);
 
-  const [updatedPrac, setUpdatedPrac] = useState(false);
-
-  //information for new user
-  // const [new_id, setNewId] = useState("");
-  // const [new_role, setNewRole] = useState("");
-  // const [new_firstName, setNewFirstName] = useState("");
-  // const [new_lastName, setNewLastName] = useState("");
-  // const [new_password, setNewPassword] = useState("");
-  // const [new_email, setNewEmail] = useState("");
-  // const [new_address, setNewAddress] = useState("");
-  // const [new_city, setNewCity] = useState("");
-  // const [new_prov, setNewProv] = useState("");
-  // const [new_postalCode, setNewPostalCode] = useState("");
-  // const [new_phoneNum, setNewPhoneNum] = useState("");
-  // const [new_facilityId, setNewFacilityId] = useState("");
-  // const [new_practitionerId, setNewPractitionerId] = useState("");
-
-
-  //form validation
-  // const [validNameValue, setValidNameValue] = useState(false);
-  // const [validAddressValue, setValidAddressValue] = useState(false);
-  // const [validCityValue, setValidCityValue] = useState(false);
-  // const [validPostalValue, setValidPostalValue] = useState(false);
-  // const [validPhoneValue, setValidPhoneValue] = useState(false);
-  // const [validEmailValue, setValidEmailValue] = useState(false);
-  // const [validPasswordValue, setValidPasswordValue] = useState(false);
-  // const [validClientFormValue, setValidClientFormValue] = useState(false);
-  // const [resetAllFormValue] = useState(false);
 
   //import function from useForm
   const { handleChange, values, handleCancel, handleSubmit, errors } = usePracForm(validate);
 
   console.log(errors.length)
+
+  useEffect(() => {
+    axios
+    .get("http://localhost:4000/api/admin/practitionerList")
+    .then((response) => {
+      console.log(response);
+      setPractitionerList(response.data);
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+  }, [])
 
   //get the list of hospitals
   useEffect(() => {
@@ -96,18 +72,6 @@ function ManagePractitioner() {
       });
   }, []);
 
-  //load all users
-  // useEffect(() => {
-  //   axios
-  //     .get("http://localhost:4000/api/admin/practitionerList")
-  //     .then((response) => {
-  //       console.log(response);
-  //       setPractitionerList(response.data);
-  //     })
-  //     .catch((err) => {
-  //       console.log(err);
-  //     });
-  // }, []);
 
   //load all pracs
   const loadPracs = () => {
@@ -188,6 +152,7 @@ function ManagePractitioner() {
           setSelectedUser(prac._id);
           setSelectedUserName(prac.user.firstName);
           setModalState(true);
+          
         }
       });
     }
@@ -202,7 +167,7 @@ function ManagePractitioner() {
       withCredentials: true,
     })
     .then((response) => {
-      alert({ selectedUser } + " has been deleted!");
+      loadPracs();
     })
     .catch((err) => {
       console.log(err);
@@ -235,7 +200,7 @@ function ManagePractitioner() {
       facilityId: facilityId,
     })
     .then((response) => {
-      setUpdatedPrac(true);
+      loadPracs();
     })
     .catch((err) => {
       console.log(err);
@@ -262,34 +227,8 @@ function ManagePractitioner() {
     setEditDisplay(false);
   };
 
-  //creates a new preactitioner and sends to the back end
-  // const createUser = () => {
-  //   axios
-  //     .post("http://localhost:4000/api/registerP/", {
-  //       withCredentials: true,
-  //       firstName: new_firstName,
-  //       lastName: new_lastName,
-  //       password: new_password,
-  //       email: new_email,
-  //       streetAddress: new_address,
-  //       cityName: new_city,
-  //       provName: new_prov,
-  //       postalCode: new_postalCode,
-  //       phoneNumber: new_phoneNum,
-  //       practitionerId: new_practitionerId,
-  //       role: new_role,
-  //       facilityId: new_facilityId,
-  //     })
-  //     .then((response) => {
-  //       console.log(response);
-  //     })
-  //     .catch((err) => {
-  //       console.log(err);
-  //     });
-  //   alert("We created a new user!");
-  //   setCreateDisplay(false);
-  //   setUserDisplay(true);
-  // };
+  const myRef = useRef(null)
+  const executeScroll = () => myRef.current.scrollIntoView()  
 
     //this will check if there are no errors in the form, if no errors remain the form will be submitted
     useEffect(() => {
@@ -314,26 +253,16 @@ function ManagePractitioner() {
             console.log(response);
             setCreateDisplay(false);
             setUserDisplay(true);
-            setUpdatedPrac(true);
+            loadPracs();
   
           })
           .catch((err) => {
             console.log(err);
           });
+      }else{
+        executeScroll()
       }
   }, [errors])
-
-
-//will check if the list of practitioners has changes, if so rerender
-  useEffect(() => {
-    if (updatedPrac) {
-      const timer = setTimeout(() => {
-        loadPracs();
-      }, 500);
-    } else {
-      loadPracs();
-    }
-  }, []);
 
 
   //this component will show if the userType select is equal to practitioner
@@ -578,6 +507,7 @@ function ManagePractitioner() {
                         onChange={handleChange}
                         size="sm"
                         name="role"
+                        ref={myRef}
                       >
                         <option>Please select a role</option>
                         <option value="Doctor">Doctor</option>
@@ -617,6 +547,7 @@ function ManagePractitioner() {
                         placeholder="John"
                         size="sm"
                         name="firstName"
+                        maxLength={15}
                          
                       />
                     </FloatingLabel>
@@ -633,7 +564,7 @@ function ManagePractitioner() {
                         placeholder="Smith"
                         size="sm"
                         name="lastName"
-                         
+                        maxLength={15}
                       />
                     </FloatingLabel>
                     {errors.lastName && <p>{errors.lastName}</p>}
@@ -697,7 +628,7 @@ function ManagePractitioner() {
                         placeholder="City name"
                         size="sm"
                         name="city"
-                         
+                        maxLength={25}
                       />
                     </FloatingLabel>
                     {errors.city && <p>{errors.city}</p>}
