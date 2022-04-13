@@ -33,6 +33,17 @@ function ManagePatient() {
       });
   }, []);
 
+  const loadPatients = () => {
+    axios
+    .get("http://localhost:4000/api/admin/patientList")
+    .then((response) => {
+      setPatientList(response.data);
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+  }
+
   //alert model when admin request to delete a user
   const AlertModal = (props) => {
     return (
@@ -66,8 +77,6 @@ function ManagePatient() {
 
   //this will be called once the user selects delete beside the patient
   const handleDelete = (e) => {
-    console.log("this is the id of the user to delete: " + e);
-
     {
       patientList.map((patient) => {
         if (patient._id === e) {
@@ -89,7 +98,7 @@ function ManagePatient() {
       // patientId: selectedUser,
     })
     .then((response) => {
-      console.log({selectedUserName} + "has been deleted");
+      loadPatients();
     })
     .catch((err) => {
       console.log(err);
