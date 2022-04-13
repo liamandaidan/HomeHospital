@@ -158,7 +158,7 @@ export default function PractionerWaitlist({ childToParent, refresh }) {
     childToParent(e.patient);
     //sets additionalInfo state and data and is in use with useContext
     setPatientAdditionalInfo(e.additionalInfo);
-	setHiddenDetail(s => !s);
+	setHiddenDetail(false);
   }
 
  
