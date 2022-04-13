@@ -1,8 +1,18 @@
 import nodemailer from 'nodemailer'
 
+/**
+ * @function
+ * @summary Method to send an email containing a link to a user
+ * 
+ * @description This method is called from passReset.route.js. It is passed an email and subject line, and an object payload containing a url and the name of 
+ * the recipient. The method assembles the email using these components and then sends it. 
+ * @param {string} email the email to send to
+ * @param {string} subject the email subject
+ * @param {object} payload containing a name and a url
+ * @returns an error if something goes wrong, otherwise returns a status to the response object
+ */
 const sendEmailAlt = async (email, subject, payload) => {
 	try {
-		console.log('Reached line 13')
 		let transporter = nodemailer.createTransport({
 			host: process.env.EMAIL_HOST,
 			port: 587,
@@ -34,9 +44,7 @@ const sendEmailAlt = async (email, subject, payload) => {
 				console.log(err)
 				return err
 			} else {
-				return res.status(200).json({
-					success: true,
-				})
+				return res.status(200).json({success: true,})
 			}
 		})
 	} catch (error) {
