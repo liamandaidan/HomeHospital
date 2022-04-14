@@ -12,11 +12,6 @@ import validator from 'validator'
 
 const route = express.Router()
 
-/*
-	This route creates a new request in the DB. The user must supply their user Id, the selected hospital Id,
-	along with the list of symptoms and any additional information about their request. 
-
-*/
 route.post('/newRequest', async (req, res) => {
 	// get the HospitalId
 	// get patient Id
