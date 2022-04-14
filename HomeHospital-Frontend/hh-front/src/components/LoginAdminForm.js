@@ -1,4 +1,8 @@
 import React, { useEffect, useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import logo from "../images/heartbeat_logo_long.png";
+import classes from "./LoginForm.module.css";
+import axios from "axios";
 import {
   Button,
   Col,
@@ -8,13 +12,12 @@ import {
   Row,
   Spinner,
 } from "react-bootstrap";
-import { Link, useNavigate } from "react-router-dom";
-import logo from "../images/heartbeat_logo_long.png";
-import classes from "./LoginForm.module.css";
-import axios from "axios";
 
 axios.defaults.withCredentials = true;
-
+/**
+ * Displays a log in form for the administrator
+ * @returns a login form where the email and password are validated before proceeding 
+ */
 function LoginAdminForm() {
   let navigate = useNavigate();
 
@@ -25,9 +28,13 @@ function LoginAdminForm() {
   const [validForm, setValidForm] = useState(false);
   const [modalShow, setModalShow] = useState(false);
   const [loggedIn, setLoggedIn] = useState();
-
+  /**
+   * Shows the modal if set to true
+   */
   const handleShow = () => setModalShow(true);
-
+  /**
+   * Validates email entered by user
+   */
   function validateEmail() {
     const pattern = new RegExp("^[a-zA-Z0-9_.-]+@[a-zA-Z]+[.][a-zA-Z]{2,}$");
     if (!pattern.test(email)) {
@@ -40,7 +47,9 @@ function LoginAdminForm() {
       setValidEmail(true);
     }
   }
-
+  /**
+   * Validates password entered by user 
+   */
   function validatePassword() {
     if (!password.length > 10) {
       document.getElementById("password").classList.add("is-invalid");
@@ -52,7 +61,10 @@ function LoginAdminForm() {
       setvalidPassword(true);
     }
   }
-
+  /**
+   * Check back end if email and password match and exists, it will 
+   * log the user in
+   */
   const loginUser = () => {
     axios
       .post("http://localhost:4000/api/loginA", {
@@ -68,7 +80,9 @@ function LoginAdminForm() {
         handleShow();
       });
   };
-
+  /**
+   * Will load patient information
+   */
   useEffect(() => {
     axios
       .post("http://localhost:4000/api/users/PatientInfoVisitRequest", {
@@ -82,7 +96,11 @@ function LoginAdminForm() {
         setLoggedIn(false);
       });
   }, [loggedIn]);
-
+  /**
+   * Display an error modal if the credentials entered do not match 
+   * @param props 
+   * @returns error modal componenet
+   */
   function ErrorModal(props) {
     return (
       <Modal
@@ -103,13 +121,18 @@ function LoginAdminForm() {
       </Modal>
     );
   }
-
+  /**
+   * Validate user email and password, if both valid will set the 
+   * form validity to true
+   */
   useEffect(() => {
     if (validEmail && validPassword) {
       setValidForm(true);
     }
   }, [validEmail, validPassword]);
-
+  /**
+   * Display a loading animation
+   */
   if (loggedIn === undefined || loggedIn === null) {
     return (
       <div className={`${classes.spinner} text-center`}>
@@ -136,12 +159,8 @@ function LoginAdminForm() {
                   marginLeft: "35px",
                 }}
               >
-                <h2 className={classes.adminLoginHeader}>LOGIN</h2>
-                <div className={classes.adminHeader}>
-                  <p style={{ color: "#ec2baa", fontFamily: "Inter" }}>
-                    Administrator
-                  </p>
-                </div>
+                <h2 className={classes.headerTop}>Admin</h2>
+                <h2 className={classes.header}>Login</h2>
               </div>
             </div>
             <div style={{ marginTop: "-25px" }}>

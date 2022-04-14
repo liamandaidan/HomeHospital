@@ -1,56 +1,72 @@
 import React, { useContext, useEffect, useState } from "react";
 import { AdminContext } from "./AdminContext";
 import "../styles/admin.css";
-import Users from "../data/users.json";
-import { Card } from "react-bootstrap";
 import { ResponsivePie } from "@nivo/pie";
 import axios from "axios";
 
+
+/**
+ * Creates the admin landing component
+ * @returns returns the langing page component
+ * @author Robyn Balanag
+ */
 function AdminLanding() {
   const { menuSelection } = useContext(AdminContext);
 
   const [menuChoice, setMenuChoice] = menuSelection;
-  const [userLength, setUserLength] = useState(0)
 
-  const [patientList, setPatientList] = useState([]);
-  const [adminList, setAdminList] = useState([]);
-  const [pracList, setPracList] = useState([]);
+  const [patientCount, setPatientCount] = useState(0);
+  const [adminCount, setAdmincount] = useState(0);
+  const [pracCount, setPracCount] = useState(0);
 
+  /**
+   * This useEffect will run once when the user arrives to the admin page, it will also load
+   * the user count for the pratients, admin, and practitioners
+   * If the connection is successfull, it will assign the count to each of the variable 
+   * and display any errors if they occur 
+   */
  useEffect(() => {
-  setUserLength(Users.length);
-  // axios
-  // .get("(http://localhost:4000/api/medicalFacility/patientList")
-  // .then((reponse) => {
+  axios
+  .get("http://localhost:4000/api/admin/userCount")
+  .then((response) => {
+    setPatientCount(response.data.patients)
+    setAdmincount(response.data.admins)
+    setPracCount(response.data.practitioners)
+  })
+  .catch((err) => {
+    console.log(err)
+  })
 
-  // })
+ }, [])
 
- })
-
-
-
-
-
-  //piechart to display users
+  /**
+   * This is the data that will be displayed in the pie chart describing the number of users in the system
+   */
   const data = [
     {
       id: "Patients",
       label: "Patients",
-      value: 150,
+      value: patientCount,
       color: "hsl(359, 70%, 50%)"
     },
     {
       id: "Practitioners",
       label: "practitioners",
-      value: 419,
+      value: pracCount,
       color: "hsl(167, 70%, 50%)"
     },
     {
       id: "Admininistrators",
       label: "Administrators",
-      value: 407,
+      value: adminCount,
       color: "hsl(102, 70%, 50%)"
     }
   ];
+
+  /**
+   * Pie creates a responsive pie chart that will display the amount of users on the system 
+   * @returns a response pie chart that displays the count of patients, admins, and practitioners on the system 
+   */
 
   const Pie = () => {
     return (
@@ -78,6 +94,7 @@ function AdminLanding() {
         arcLinkLabelsColor={{ from: "color" }}
         arcLabelsSkipAngle={10}
         arcLabelsTextColor={{ from: "color", modifiers: [["darker", 2]] }}
+        slicesLabelRadiusMultiplier={1.5}
       />
     );
   };
