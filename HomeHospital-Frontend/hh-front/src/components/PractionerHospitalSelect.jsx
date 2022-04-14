@@ -1,7 +1,16 @@
 import axios from "axios";
 import React, { Component } from "react";
 import Select from "react-select";
+/**
+ * @name PractitionerSelect
+ * @summary this controls the selection element within the app
+ * @author Liam McLaughlin
+ */
 export default class PractionerHospitalSelect extends Component {
+  /**
+   * @constructor
+   * @param {*} props 
+   */
   constructor(props) {
     super(props);
     this.state = {
@@ -10,7 +19,9 @@ export default class PractionerHospitalSelect extends Component {
       label: "",
     };
   }
-
+/**
+ * @function getOptions Here we generate a list of all hospitals and assoicate a name value pair with each.
+ */
   async getOptions() {
     //get all hospitals
     const res = await axios.get(
@@ -29,7 +40,7 @@ export default class PractionerHospitalSelect extends Component {
     //console.log(this.state.selectOptions);
   }
   /**
-   * On user select we will setState
+   * @function handleSelect On user select we will setState
    * @param {*} e
    */
   handleSelect(e) {
