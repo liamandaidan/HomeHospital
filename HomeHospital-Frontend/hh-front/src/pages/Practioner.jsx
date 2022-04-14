@@ -34,10 +34,10 @@ export default function Practioner() {
   function notify(msg) {
     toast.success(msg, {
       position: "top-center",
-      autoClose: 5000,
-      hideProgressBar: false,
+      autoClose: 1000,
+      hideProgressBar: true,
       closeOnClick: true,
-      pauseOnHover: true,
+      pauseOnHover: false,
       draggable: true,
       progress: undefined,
     });
@@ -47,8 +47,8 @@ export default function Practioner() {
     <div>
       <ToastContainer
         position="top-center"
-        autoClose={5000}
-        hideProgressBar={false}
+        autoClose={3000}
+        hideProgressBar={true}
         newestOnTop={false}
         closeOnClick
         rtl={false}
