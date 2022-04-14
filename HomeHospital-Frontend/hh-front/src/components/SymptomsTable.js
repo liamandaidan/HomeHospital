@@ -1,20 +1,26 @@
 import React, { useContext, useEffect, useState } from "react";
 import Table from "react-bootstrap/table";
 import axios from "axios";
-import Button from "react-bootstrap/Button";
 import { HomeHospitalContext } from "./HomeHospitalContext";
-
+/**
+ * Table of symptoms from the current request or past requests the user
+ * has selected from their homepage
+ * @return a table with symptoms entered in the current request
+ * @author Lance Gee and Robyn Balanag
+ */
 function SymptomsTable() {
-  // context variables
   const { requestId, isCurrentRequest, longitude, latitude } =
     useContext(HomeHospitalContext);
   const [requestIdValue, setRequestIdValue] = requestId;
   const [isCurrent, setIsCurrent] = isCurrentRequest;
   const [longitudeValue, setLongitudeValue] = longitude;
   const [latitudeValue, setLatitudeValue] = latitude;
-
   const [symptomsList, setSymptomsList] = useState([]);
-
+  /**
+   * Retreive current request details from the database and assign list of symptoms
+   * to an array to display in the table. If there is no current request, it will send 
+   * the request id to retrive previous request details
+   */
   useEffect(() => {
     if (isCurrent) {
       axios
@@ -29,7 +35,6 @@ function SymptomsTable() {
           console.log(err);
         });
     } else {
-      console.log(requestIdValue);
       axios
         .get(
           `http://localhost:4000/api/visitRequest/targetRequest/${requestIdValue}`
