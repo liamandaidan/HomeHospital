@@ -37,6 +37,11 @@ const practitionerSchema = new mongoose.Schema({
 	},
 })
 
+/**
+ * @function
+ * Description
+ * @returns {any}
+ */
 practitionerSchema.methods.getPractitionerInfo = function () {
 	return {
 		user: this.user,
@@ -47,6 +52,12 @@ practitionerSchema.methods.getPractitionerInfo = function () {
 	}
 }
 
+/**
+ * @function
+ * Description
+ * @param {any} practitionerInfo
+ * @returns {any}
+ */
 practitionerSchema.methods.modifyPractitioner = function (practitionerInfo) {
 	this.user.firstName 	= practitionerInfo.user.firstName
 	this.user.lastName 		= practitionerInfo.user.lastName

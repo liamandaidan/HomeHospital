@@ -51,11 +51,20 @@ const medicalFacility = new mongoose.Schema({
 })
 
 // enqueue
+/**
+ * Description
+ * @param {any} requestId
+ * @returns {any}
+ */
 medicalFacility.methods.enqueue = function (requestId) {
 	this.waitList.push(requestId)
 }
 
 // dequeue
+/**
+ * Description
+ * @returns {any}
+ */
 medicalFacility.methods.dequeue = async function () {
 	try {
 		if (this.waitList.length > 0) {
@@ -69,6 +78,11 @@ medicalFacility.methods.dequeue = async function () {
 }
 
 // complete request from arbitrary position
+/**
+ * Description
+ * @param {any} requestId
+ * @returns {any}
+ */
 medicalFacility.methods.removeRequest = async function (requestId) {
 	try {
 		const index = this.findIndexInWaitList(requestId)
@@ -82,6 +96,11 @@ medicalFacility.methods.removeRequest = async function (requestId) {
 }
 
 // find index of visit request in the waitList
+/**
+ * Description
+ * @param {any} requestId
+ * @returns {any}
+ */
 medicalFacility.methods.findIndexInWaitList = function (requestId) {
 	try {
 		// Search the waitList array for the requestId and return that index
@@ -97,7 +116,14 @@ medicalFacility.methods.findIndexInWaitList = function (requestId) {
 		console.log(error.message)
 	}
 }
+
 // move request
+/**
+ * Description
+ * @param {any} requestId
+ * @param {any} position
+ * @returns {any}
+ */
 medicalFacility.methods.moveWaitListPosition = function (requestId, position) {
 	try {
 		if (position >= 0 && position < this.waitList.length) {

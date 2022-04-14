@@ -1,5 +1,6 @@
 import mongoose from 'mongoose'
 import peopleSchema from './people.Schema.js'
+
 /**
  * Admin Levels
  *  3 = senior admin, can affect any admin/practitioner/patient
@@ -34,6 +35,10 @@ const administratorSchema = new mongoose.Schema({
 	},
 })
 
+/**
+ * Description
+ * @returns {any}
+ */
 administratorSchema.methods.getAdminInfo = function () {
 	return {
 		user: this.user,
@@ -43,6 +48,11 @@ administratorSchema.methods.getAdminInfo = function () {
 	}
 }
 
+/**
+ * Description
+ * @param {any} adminInfo
+ * @returns {any}
+ */
 administratorSchema.methods.modifyAdmin = function (adminInfo) {
 	this.user.firstName 	= adminInfo.user.firstName
 	this.user.lastName 		= adminInfo.user.lastName

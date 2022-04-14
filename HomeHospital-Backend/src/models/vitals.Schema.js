@@ -1,5 +1,7 @@
 import mongoose from 'mongoose'
 
+
+
 const vitalsSchema = new mongoose.Schema({
 	BloodPressure: Number,
 	Temperature: Number,

@@ -121,10 +121,12 @@ patientSchema.methods.completeRequest = function () {
 	}
 }
 
-// Cancel the current request
-// Adds the new request to the Patients currentRequest spot
+
 /**
- * Description
+ * @summary Cancel the current request 
+ * Adds the new request to the Patients currentRequest spot
+ * 
+ * @description 
  * @returns {any}
  */
 patientSchema.methods.cancelRequest = function () {
@@ -140,11 +142,11 @@ patientSchema.methods.cancelRequest = function () {
 	}
 }
 
-
 /**
- * Gets Details about the patient to be displayed 
+ * @summary Gets Details about the patient to be displayed 
  * on the site and returns them to the front end
  * 
+ * @description 
  * @returns {any}
  */
 patientSchema.methods.getPatientRequestInfo = function () {

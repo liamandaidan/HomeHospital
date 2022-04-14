@@ -1,8 +1,3 @@
-/**
- *  TODO
- * validate province code (ab,mb,bc etc)
- * JUST TESTING MY VSCODE
- */
 import mongoose from 'mongoose'
 import validator from 'validator'
 
