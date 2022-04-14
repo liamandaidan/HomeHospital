@@ -8,7 +8,6 @@ import "../styles/SymptomForm.css";
 import "../styles/PractionerStyles.css";
 import axios from "axios";
 import { PractitionerContext } from "./PractitionerContext";
-import { Button } from "react-bootstrap";
 
 function PractitionerPatientInfo({ patientDataGiven }) {
   //useContext here
@@ -149,7 +148,7 @@ function PractitionerPatientInfo({ patientDataGiven }) {
                 {patientInfo.emergencyContact.lastName}
               </p>
               <p>
-                Emergenct Contact Number:{" "}
+                Emergency Contact Number:{" "}
                 {patientInfo.emergencyContact.phoneNumber}
               </p>
               <p>Alberta Healthcare No: {patientInfo.HCnumber}</p>
