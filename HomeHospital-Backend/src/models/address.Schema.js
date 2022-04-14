@@ -1,6 +1,10 @@
 import mongoose from 'mongoose'
 import validator from 'validator'
 
+/**
+ * @constructor address
+ * 
+ */
 const addressSchema = new mongoose.Schema({
 	streetAddress: {
 		type: String,

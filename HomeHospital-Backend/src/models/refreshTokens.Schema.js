@@ -1,6 +1,8 @@
 import mongoose from 'mongoose'
 
-
+/**
+ * @constructor refresh
+ */
 const refreshSchema = new mongoose.Schema({
 	email: {
 		type: String,

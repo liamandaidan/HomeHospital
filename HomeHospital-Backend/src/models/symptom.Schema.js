@@ -1,5 +1,8 @@
 import mongoose from 'mongoose'
 
+/**
+ * @constructor symptom
+ */
 const symptomSchema = new mongoose.Schema({
 	description: {
 		type: String,

@@ -1,7 +1,9 @@
 import mongoose from 'mongoose'
 
 
-
+/**
+ * @constructor vitals
+ */
 const vitalsSchema = new mongoose.Schema({
 	BloodPressure: Number,
 	Temperature: Number,

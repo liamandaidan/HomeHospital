@@ -5,7 +5,9 @@ import symptomSchema from './symptom.Schema.js'
 import validator from 'validator'
 
 
-
+/**
+ * @constructor visitRequest
+ */
 const visitRequestSchema = new mongoose.Schema({
 	requestHospitalId: {
 		type: mongoose.Schema.Types.ObjectId,

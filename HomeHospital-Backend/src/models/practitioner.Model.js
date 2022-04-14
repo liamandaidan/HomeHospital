@@ -2,6 +2,9 @@ import mongoose from 'mongoose'
 import peopleSchema from './people.Schema.js'
 import validator from 'validator'
 
+/**
+ * @constructor practitioner
+ */
 const practitionerSchema = new mongoose.Schema({
 	practitionerId: {
 		type: Number,

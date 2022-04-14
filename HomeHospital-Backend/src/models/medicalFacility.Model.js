@@ -2,6 +2,9 @@ import mongoose from 'mongoose'
 import addressSchema from './address.Schema.js'
 import validator from 'validator'
 
+/**
+ * @constructor medicalFacility
+ */
 const medicalFacility = new mongoose.Schema({
 	hospitalName: {
 		type: String,

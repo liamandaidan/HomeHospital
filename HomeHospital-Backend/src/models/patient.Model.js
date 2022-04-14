@@ -2,6 +2,10 @@ import mongoose from 'mongoose'
 import peopleSchema from './people.Schema.js'
 import validator from 'validator'
 
+
+/**
+ * @constructor patient
+ */
 const patientSchema = new mongoose.Schema({
 	email: {
 		type: String,

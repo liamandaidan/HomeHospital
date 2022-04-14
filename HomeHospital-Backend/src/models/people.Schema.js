@@ -2,6 +2,9 @@ import mongoose from 'mongoose'
 import addressSchema from './address.Schema.js'
 import validator from 'validator'
 
+/**
+ * @constructor people
+ */
 const peopleSchema = new mongoose.Schema({
 	firstName: {
 		type: String,

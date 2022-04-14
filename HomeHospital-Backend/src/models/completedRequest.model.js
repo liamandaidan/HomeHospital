@@ -1,6 +1,9 @@
 import mongoose from 'mongoose'
 import VisitRequest from './visitRequest.Model.js'
 
+/**
+ * @constructor completedRequest
+ */
 const completedRequest = new mongoose.Schema(
 	{
 		_id: mongoose.Types.ObjectId,
