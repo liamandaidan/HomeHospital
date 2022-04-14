@@ -15,7 +15,6 @@ const patientSchema = new mongoose.Schema({
 		type: String,
 		required: [true, 'Please enter a Password'],
 		minlength: [10, 'Password must be at least a length of 10'],
-		//validate:[isStrongPassword, 'This password is weaksauce bruh, take it to the gym n strengthen it up'],
 	},
 	HCnumber: {
 		type: String,
@@ -39,22 +38,14 @@ const patientSchema = new mongoose.Schema({
 		firstName: {
 			type: String,
 			default: null,
-			//validate:[validator.isAlpha, 'Only Letters allowed'],
 		},
 		lastName: {
 			type: String,
 			default: null,
-			//validate:[validator.isAlpha, 'Only Letters allowed'],
 		},
 		phoneNumber: {
 			type: String,
 			default: null,
-			/* validate:[
-			{			
-				validator: (value) => validator.isMobilePhone(value, ['en-CA']),	
-				msg: 'Please Enter A Canadian Number',	
-				},
-			], */
 		},
 	},
 	currentHospital: {
@@ -74,7 +65,17 @@ const patientSchema = new mongoose.Schema({
 	},
 })
 
-// Adds the new request to the Patients currentRequest spot
+/**
+ * @function
+ * @summary Adds the new request to the Patients currentRequest spot
+ * 
+ * @description A Function that first makes sure there isn't already an 
+ * active request, then creates a new one for the Patient. 
+ * 
+ * @param {any} requestId
+ * @param {any} requestHospitalId
+ * @returns {any}
+ */
 patientSchema.methods.newRequest = function (requestId, requestHospitalId) {
 	try {
 		if (this.currentRequest != null) {
@@ -98,7 +99,13 @@ patientSchema.methods.newRequest = function (requestId, requestHospitalId) {
 	}
 }
 
-// moves the current request from the patients curret request spot and puts it in the list of past requests
+
+/**
+ * moves the current request from the patients current request spot
+ * and puts it in the list of past requests
+ * 
+ * @returns {any}
+ */
 patientSchema.methods.completeRequest = function () {
 	try {
 		if (this.currentRequest) {
@@ -116,6 +123,10 @@ patientSchema.methods.completeRequest = function () {
 
 // Cancel the current request
 // Adds the new request to the Patients currentRequest spot
+/**
+ * Description
+ * @returns {any}
+ */
 patientSchema.methods.cancelRequest = function () {
 	try {
 		if (this.currentRequest) {
@@ -129,7 +140,13 @@ patientSchema.methods.cancelRequest = function () {
 	}
 }
 
-// gets Details about the patient to be displayed on the site and returns them to the front end
+
+/**
+ * Gets Details about the patient to be displayed 
+ * on the site and returns them to the front end
+ * 
+ * @returns {any}
+ */
 patientSchema.methods.getPatientRequestInfo = function () {
 	return {
 		user: this.user,
@@ -140,6 +157,10 @@ patientSchema.methods.getPatientRequestInfo = function () {
 	}
 }
 
+/**
+ * Description
+ * @returns {any}
+ */
 patientSchema.methods.getPatientInfo = function () {
 	return {
 		user: this.user,
@@ -152,6 +173,10 @@ patientSchema.methods.getPatientInfo = function () {
 	}
 }
 
+/**
+ * Description
+ * @returns {any}
+ */
 patientSchema.methods.getInfoForAdmin = function () {
 	return {
 		firstName: this.user.firstName,
@@ -161,6 +186,11 @@ patientSchema.methods.getInfoForAdmin = function () {
 	}
 }
 
+/**
+ * Description
+ * @param {any} patientInfo
+ * @returns {any}
+ */
 patientSchema.methods.modifyPatient = function (patientInfo) {
 	this.user.firstName 	= patientInfo.user.firstName
 	this.user.lastName 		= patientInfo.user.lastName
