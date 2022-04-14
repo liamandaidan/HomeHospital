@@ -5,6 +5,14 @@ import PractionerHospitalSelect from "./PractionerHospitalSelect";
 import { PractitionerContext } from "./PractitionerContext";
 axios.defaults.withCredentials = true;
 
+/**
+ * @name PractitionerWaitlist
+ * @summary This function will generate and handle the logic for the table structure for practitioner.
+ * @param {string} childToParent this is the patientID being passed to other components.
+ * @param {string} refresh this is the refresh message being passed from other components.
+ * @author Liam McLaughlin, Ridge Banez
+ * @returns html component
+ */
 export default function PractionerWaitlist({ childToParent, refresh }) {
   //useContext here
   const { _id, additionalInfo, symptomsInfo, hidden } =
@@ -33,9 +41,9 @@ export default function PractionerWaitlist({ childToParent, refresh }) {
   const [isCheckedIn, setIsCheckedIn] = useState(false);
 
   /**
-   * Here when a select component is updated we will update our url to reflect the changes.
+   * @function updateHospitalState Here when a select component is updated we will update our url to reflect the changes.
    *
-   * @param {*} childData passed in from select compomnent
+   * @param {string} childData passed in from select compomnent
    */
   const updateHospitalState = (childData) => {
     setHospitalSelected(childData);
@@ -44,21 +52,19 @@ export default function PractionerWaitlist({ childToParent, refresh }) {
     );
   };
   /**
-   *This will be in control of the state of practitioner list. Here we will force updates on url
+   *@function useEffect This will be in control of the state of practitioner list. Here we will force updates on url
    *change and set timer.
    */
   useEffect(() => {
     //This if statement will be used to halt the call until a hospital has been selected.
     if (!(hospitalSelected === "none")) {
       /**
-       * This will force an update when called.
+       * @function callUpdate This will force an update when called.
        */
       const callUpdate = () => {
         axios
           .get(url)
           .then((response) => {
-            // console.log("Sending request to: " + url);
-            // console.log(response.data);
             if (isCheckedIn) {
               setIsCheckedIn(false);
             }
@@ -71,7 +77,6 @@ export default function PractionerWaitlist({ childToParent, refresh }) {
             }
 
             setFlag(false);
-            // setIsCheckedIn(false);
           })
           .catch((err) => {
             console.log("No patient data at this time");
@@ -90,7 +95,11 @@ export default function PractionerWaitlist({ childToParent, refresh }) {
     }
   }, [url, isCheckedIn]);
 
-  //alert model when practitioner request to check in a user
+  /**
+   * @function AlertModel when practitioner request to check in a user
+   * @param {*} props passed in from button check in
+   * @returns box to user
+   */
   const AlertModal = (props) => {
     return (
       <>
@@ -123,7 +132,10 @@ export default function PractionerWaitlist({ childToParent, refresh }) {
     );
   };
 
-  //check the id, display alert to confirm
+  /**
+   * @function handleCheckIn check the id, display alert to confirm
+   * @param {event} e the value passed from button press
+   */
   const handleCheckIn = (e) => {
     // console.log("this is the id of the user to check in: " + e);
     {
@@ -140,7 +152,9 @@ export default function PractionerWaitlist({ childToParent, refresh }) {
     }
   };
 
-  //check in the user once confirmed
+  /**
+   * @function confirmCheckIn check in the user once confirmed
+   */
   const confirmCheckIn = () => {
     const checkInRoute =
       "http://localhost:4000/api/requestManager/completeRequest/";
@@ -156,7 +170,10 @@ export default function PractionerWaitlist({ childToParent, refresh }) {
       });
   };
 
-  //sends data from this route to the left side component
+  /**
+   * @function checkData sends data from this route to the left side component
+   * @param {event} e event value from button passed in
+   */
   function checkData(e) {
     //sets symptom state and data and is in use with useContext
     setSymptomDetails(e.symptoms);
@@ -167,8 +184,8 @@ export default function PractionerWaitlist({ childToParent, refresh }) {
   }
 
   /**
-   * This will be used to render table rows based off of a dummy json file i created
-   *
+   * @function DisplayTableRows This will be used to render table rows based off of a dummy json file i created
+   * @returns html component with table
    */
   const DisplayTableRows = practPatientInfo.map((data, i) => {
     if (flag === false) {
