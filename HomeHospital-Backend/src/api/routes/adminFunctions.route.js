@@ -2,7 +2,10 @@ import express from 'express'
 import administratorModel from '../../models/administrator.Model.js'
 import patientModel from '../../models/patient.Model.js'
 import practitionerModel from '../../models/practitioner.Model.js'
+import HospitalModel from '../../models/medicalFacility.Model.js'
 import mongoose from 'mongoose'
+import visitRequestModel from '../../models/visitRequest.Model.js'
+import completedRequestModel from '../../models/completedRequest.model.js'
 
 const route = express()
 
@@ -169,7 +172,23 @@ route.delete('/patient/:patientId', async (req, res) => {
 		console.log(patientId)
 		const validId = mongoose.Types.ObjectId.isValid(patientId)
 		if (validId) {
+			const patient = await patientModel.findById(patientId);
+			
+			if (patient.currentRequest) {
+				res.status(400).send({message: "Cannot delete patient with active request"})
+				return
+			}
+
+			// Delete Requests
+			await completedRequestModel.deleteMany({"request.patient": patientId})
+
+			// Finally delete the patient and send a response.
+			const firstName = patient.firstName
+			const lastName = patient.lastName;
+			const _id = patient._id
 			await patientModel.findByIdAndDelete(patientId)
+
+			console.log("Deleted the patient " + firstName + " " + lastName + " id:" + _id)
 			res.status(200).send({message: "Patient Deleted!"})
 		} else {
 			throw new Error('There was an error deleting the patient')
@@ -188,7 +207,7 @@ route.delete('/practitioner/:practitionerId', async (req, res) => {
 		const validId = mongoose.Types.ObjectId.isValid(practitionerId)
 		if (validId) {
 			await practitionerModel.findByIdAndDelete(practitionerId)
-			res.status(200).send({message: "Practitoner Deleted!"})
+			res.status(200).send({message: "Practitioner Deleted!"})
 		} else {
 			throw new Error('There was an error deleting the practitioner')
 		}
