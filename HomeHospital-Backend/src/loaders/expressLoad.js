@@ -3,7 +3,6 @@ import cors from 'cors'
 import routes from '../api/API.js'
 import cookieParser from 'cookie-parser'
 
-import { checkAccessToken } from '../api/service/token.service.js'
 
 class ExpressLoader {
 	constructor(app) {

@@ -1,11 +1,9 @@
 import express from 'express'
 import administratorModel from '../../models/administrator.Model.js'
 import patientModel from '../../models/patient.Model.js'
-import practitionerModel from '../../models/practitioner.Model.js'
-import HospitalModel from '../../models/medicalFacility.Model.js'
-import mongoose from 'mongoose'
-import visitRequestModel from '../../models/visitRequest.Model.js'
 import completedRequestModel from '../../models/completedRequest.model.js'
+import practitionerModel from '../../models/practitioner.Model.js'
+import mongoose from 'mongoose'
 
 const route = express()
 

@@ -5,10 +5,9 @@ import completedRequestModel from '../../models/completedRequest.model.js'
 import mongoose from 'mongoose'
 import visitRequestModel from '../../models/visitRequest.Model.js'
 import {
-	completeCurrentRequest,
 	cancelCurrentRequest,
 } from '../service/request.service.js'
-import { ENV, whitelist_string } from '../../configure/configure.js'
+import { whitelist_string } from '../../configure/configure.js'
 import validator from 'validator'
 
 const route = express.Router()
