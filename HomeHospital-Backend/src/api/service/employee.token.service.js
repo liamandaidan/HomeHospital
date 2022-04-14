@@ -85,7 +85,7 @@ MUST BE ROUTED THROUGH THIS MIDDLEWARE BEFORE BEING ALLOWED TO PROCEED
 
 /**
  * @function
- * @summary
+ * @summary Checks the employees access token
  * 
  * @description This middleware is used to check the validity of an access token. First we collect the access and refresh tokens from both
  * the header and from cookies. If any are missing, we return a 401 error. If all exist, we check to make sure that both sets of

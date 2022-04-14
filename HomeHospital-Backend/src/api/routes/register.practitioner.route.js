@@ -31,7 +31,7 @@ route.post('/', async (req, res) => {
 
 		if (result?.user) {
 			console.log('Registration Successful')
-			res.send(result.user)
+			res.send({message: 'Practitioner Registered'})
 		}
 	} catch (e) {
 		console.error(e.message)

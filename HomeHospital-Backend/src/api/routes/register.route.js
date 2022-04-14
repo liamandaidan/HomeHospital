@@ -29,14 +29,14 @@ route.post("/", async (req, res) => {
       return;
     }
 
-    if (result?.user) {
-      console.log("Registration Successful");
-      res.send(result.user);
-    }
-  } catch (e) {
-    console.error(e.message);
-    res.status(406).send({ message: e.message });
-  }
-});
+		if (result?.user) {
+			console.log('Registration Successful')
+			res.send({message: 'Patient Registered'})
+		}
+	} catch (e) {
+		console.error(e.message)
+		res.status(406).send({ message: e.message })
+	}
+})
 
 export default route;

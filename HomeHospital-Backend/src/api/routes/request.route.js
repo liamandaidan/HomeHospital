@@ -5,19 +5,13 @@ import completedRequestModel from '../../models/completedRequest.model.js'
 import mongoose from 'mongoose'
 import visitRequestModel from '../../models/visitRequest.Model.js'
 import {
-	completeCurrentRequest,
 	cancelCurrentRequest,
 } from '../service/request.service.js'
-import { ENV, whitelist_string } from '../../configure/configure.js'
+import { whitelist_string } from '../../configure/configure.js'
 import validator from 'validator'
 
 const route = express.Router()
 
-/*
-	This route creates a new request in the DB. The user must supply their user Id, the selected hospital Id,
-	along with the list of symptoms and any additional information about their request. 
-
-*/
 route.post('/newRequest', async (req, res) => {
 	// get the HospitalId
 	// get patient Id

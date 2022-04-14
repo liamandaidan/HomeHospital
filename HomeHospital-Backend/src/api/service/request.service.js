@@ -2,10 +2,11 @@ import CompletedRequestModel from '../../models/completedRequest.model.js'
 import patientModel from '../../models/patient.Model.js'
 import visitRequestModel from '../../models/visitRequest.Model.js'
 import hospitalModel from '../../models/medicalFacility.Model.js'
-import { ENV, whitelist_string } from '../../configure/configure.js'
+import { whitelist_string } from '../../configure/configure.js'
 import validator from 'validator'
 
 /**
+ * @function
  * @summary Completes a patients active visit request moving it to history. Activated by the Practitioner.
  * 
  * @description Takes in the id of a patient with an active visit request, moves that request to the 
@@ -61,7 +62,7 @@ export const completeCurrentRequest = async (patientId) => {
 }
 
 /**
- * 
+ * @function
  * @summary Cancels a patients request deleting it from the database.
  * 
  * @description Takes in a patient id, checks for an active request and if so deletes that request. 
@@ -101,13 +102,13 @@ export const cancelCurrentRequest = async (patientId) => {
 }
 
 /**
- * @summary Returns the waitlist of vist request IDs from the desired Hospital
+ * @summary Returns the waitlist of visit request IDs from the desired Hospital
  * 
  * @description Needs a valid hospital ID. If the ID is valid it will return an array of request IDs that
  * represent the waitlist of the hospital. Array can be empty if there are no requests.
  * 
  * @param {String} hospitalId The ID of the hospital that we need the waitlist from.
- * @returns {String Array} The waitlist of request IDs for the hospital
+ * @returns {String[]} The waitlist of request IDs for the hospital
  */
 export const getHospitalWaitList = async (hospitalId) => {
 	

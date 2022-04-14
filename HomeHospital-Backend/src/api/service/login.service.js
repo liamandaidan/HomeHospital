@@ -44,7 +44,6 @@ export const logUserIn = async (req, res, next) => {
 		const isAuthorized = await compare(password, patient.password)
 		if (isAuthorized) {
 			const isAlreadyLoggedIn = await checkPatientAlreadyLoggedIn(req)
-			// console.log('Return from function is ' + isAlreadyLoggedIn)
 			if (isAlreadyLoggedIn === email) {
 				console.log('User is already logged in!')
 				res.status(202).send({ message: 'Already Logged in' })
