@@ -5,6 +5,10 @@ import validator from 'validator'
 
 /**
  * @constructor patient
+ * @summary Creates a patient
+ * 
+ * @description Takes in input from the user, validates it, 
+ * then creates a new patient.
  */
 const patientSchema = new mongoose.Schema({
 	email: {

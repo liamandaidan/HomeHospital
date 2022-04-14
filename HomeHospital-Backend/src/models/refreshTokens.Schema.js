@@ -2,6 +2,10 @@ import mongoose from 'mongoose'
 
 /**
  * @constructor refresh
+ * @summary refresh token creator
+ * 
+ * @description using email and token, it creates a unique refresh token 
+ * for the user
  */
 const refreshSchema = new mongoose.Schema({
 	email: {

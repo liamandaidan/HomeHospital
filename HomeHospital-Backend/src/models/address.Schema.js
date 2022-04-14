@@ -3,7 +3,10 @@ import validator from 'validator'
 
 /**
  * @constructor address
+ * @summary Creates an address
  * 
+ * @description Takes in input from user, or from scraper, 
+ * validates it, then creates a new address.
  */
 const addressSchema = new mongoose.Schema({
 	streetAddress: {

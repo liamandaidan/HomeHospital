@@ -4,6 +4,9 @@ import validator from 'validator'
 
 /**
  * @constructor medicalFacility
+ * @summary creates a new medical facility
+ * 
+ * @description takes in input to create a new medical facility
  */
 const medicalFacility = new mongoose.Schema({
 	hospitalName: {

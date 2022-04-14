@@ -3,6 +3,7 @@ import VisitRequest from './visitRequest.Model.js'
 
 /**
  * @constructor completedRequest
+ * 
  */
 const completedRequest = new mongoose.Schema(
 	{

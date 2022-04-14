@@ -7,6 +7,10 @@ import validator from 'validator'
 
 /**
  * @constructor visitRequest
+ * @summary creates a new visit resquest
+ * 
+ * @description taking info from address, vitals, symptoms schemas. 
+ * It creates a new visit request.
  */
 const visitRequestSchema = new mongoose.Schema({
 	requestHospitalId: {

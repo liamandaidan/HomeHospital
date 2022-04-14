@@ -4,6 +4,10 @@ import validator from 'validator'
 
 /**
  * @constructor practitioner
+ * @summary Creates a practitioner
+ * 
+ * @description Takes in input from the user, validates it, 
+ * then creates a new practitioner.
  */
 const practitionerSchema = new mongoose.Schema({
 	practitionerId: {

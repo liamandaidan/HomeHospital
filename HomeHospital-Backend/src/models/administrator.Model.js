@@ -4,6 +4,11 @@ import peopleSchema from './people.Schema.js'
 /**
  * @constructor administrator
  * 
+ * @summary  Creates a new administrator
+ * 
+ * @description Takes in input to create a new Administrator 
+ * with varying levels of privilege
+ * 
  * Admin Levels
  *  3 = senior admin, can affect any admin/practitioner/patient
  *  2 = admin, can affect practitioner/patient
