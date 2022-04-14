@@ -65,6 +65,7 @@ function PractitionerPatientInfo({ patientDataGiven }) {
       });
       setPatientAdditionalInfo(" ");
       setSymptomDetails([]);
+	  setHiddenDetail(true)
     };
 
     if (typeof patientId !== "undefined") {
