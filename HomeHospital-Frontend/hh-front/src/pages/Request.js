@@ -1,7 +1,6 @@
 import React from "react";
 import { Row, Col, Container } from "react-bootstrap";
 import HHGoogleMap from "../components/HHGoogleMap";
-import PatientVital from "../components/PatientVital";
 import PatientInfo from "../components/PatientInfo";
 import UserNavBar from "../components/UserNavBar";
 import WaitList from "../components/WaitList";
@@ -20,9 +19,7 @@ function Request() {
               </Col>
             </Row>
             <Row>
-              <div style={{ paddingBottom: "50px" }}>
-                <HHGoogleMap />
-              </div>
+              <HHGoogleMap style={{ paddingBottom: "50px" }} />
             </Row>
           </Col>
           <Col>
@@ -34,11 +31,6 @@ function Request() {
             <Col>
               <SymptomsTable />
             </Col>
-            {/* <Row>
-              <Col>
-                <PatientVital />
-              </Col>
-            </Row> */}
           </Col>
         </Row>
       </Container>

@@ -36,8 +36,8 @@ function SymptomsForm() {
     },
   ]);
 
-  console.log(symptomsList);
-  console.log(additionalInfo);
+  // console.log(symptomsList);
+  // console.log(additionalInfo);
 
   //this function will be add a new symptom field as long as the previous fields have been filled.
   const handleSymptomsAdd = (index) => {
@@ -85,7 +85,7 @@ function SymptomsForm() {
   const handleSubmit = () => {
     const list = [...symptomsList];
 
-    console.log("this is the last value " + list[list.length - 1].description);
+    // console.log("this is the last value " + list[list.length - 1].description);
 
     if (
       list[list.length - 1].description !== "" &&
@@ -106,14 +106,14 @@ function SymptomsForm() {
         additionalInfo: additionalInfo,
       })
       .then((response) => {
-        console.log(response);
+        // console.log(response);
         setRequestSuccessValue(true);
       })
       .catch((err) => {
         console.log(err);
       });
     setNewRequestValue(true);
-    console.log("the form has been sent to backoffice!");
+    // console.log("the form has been sent to backoffice!");
     navigate("/home");
   };
 
@@ -133,18 +133,15 @@ function SymptomsForm() {
           </Modal.Body>
           <Modal.Footer className="modal-footer">
             <div>
-            <Button
-              className="ack-btn"
-              onClick={handleFormSubmit}
-              variant="primary"
-            >
-              I Acknowledge
-            </Button><br />
-              <a
-                variant="link"
-                className="cancel-lnk"
-                onClick={props.onHide}
+              <Button
+                className="ack-btn"
+                onClick={handleFormSubmit}
+                variant="primary"
               >
+                I Acknowledge
+              </Button>
+              <br />
+              <a variant="link" className="cancel-lnk" onClick={props.onHide}>
                 cancel request
               </a>
             </div>

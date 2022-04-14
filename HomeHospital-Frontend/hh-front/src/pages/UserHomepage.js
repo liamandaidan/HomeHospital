@@ -27,7 +27,7 @@ function UserHomepage() {
   const [cancelSuccessValue, setCancelSuccessValue] = cancelSuccess;
 
   useEffect(() => {
-    console.log(cancelSuccessValue);
+    // console.log(cancelSuccessValue);
     if (cancelSuccessValue) {
       cancelNotify();
       setCancelSuccessValue(false);

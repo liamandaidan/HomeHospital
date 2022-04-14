@@ -44,12 +44,12 @@ function Map() {
    * @function getLocation - retrieves the patients geolocation from the browser
    */
   function getLocation() {
-    console.log("hospital longitude: " + hospitalLongitude);
-    console.log("hospital latitude: " + hospitalLatitude);
+    // console.log("hospital longitude: " + hospitalLongitude);
+    // console.log("hospital latitude: " + hospitalLatitude);
     if ("geolocation" in navigator) {
       navigator.geolocation.getCurrentPosition(function (position) {
-        setLatitude(position.coords.userLatitude);
-        setLongitude(position.coords.userLongitude);
+        setLatitude(position.coords.latitude);
+        setLongitude(position.coords.longitude);
         if (
           userLongitude === 0 ||
           userLatitude === 0 ||
@@ -59,8 +59,8 @@ function Map() {
           setLatitude(51.065934372560484);
           setLongitude(-114.09079456099977);
         }
-        console.log(userLatitude);
-        console.log(userLongitude);
+        // console.log(userLatitude);
+        // console.log(userLongitude);
       });
     } else {
       alert("Enable Geo-Location to get Travel Times");
@@ -101,6 +101,7 @@ function Map() {
   const mapStyle = {
     border: "2px solid #ec2baa",
   };
+
   return (
     <div className={`mt-4 ${classes.map}`}>
       <h4>Directions</h4>

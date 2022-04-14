@@ -1,7 +1,6 @@
 import React, { useContext, useEffect, useState } from "react";
 import Table from "react-bootstrap/table";
 import axios from "axios";
-import Button from "react-bootstrap/Button";
 import { HomeHospitalContext } from "./HomeHospitalContext";
 
 function SymptomsTable() {
@@ -29,7 +28,7 @@ function SymptomsTable() {
           console.log(err);
         });
     } else {
-      console.log(requestIdValue);
+      // console.log(requestIdValue);
       axios
         .get(
           `http://localhost:4000/api/visitRequest/targetRequest/${requestIdValue}`

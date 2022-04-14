@@ -34,10 +34,6 @@ function UserNavBar() {
     navigate("/home");
   };
 
-  const onHospital = () => {
-    navigate("/hospitals");
-  };
-
   const onEdit = () => {
     navigate("/editprofile");
   };
@@ -83,7 +79,7 @@ function UserNavBar() {
       .then((response) => {
         if (response.status === 200) {
           setCurrentRequestExist(false);
-          console.log(response);
+          // console.log(response);
         } else {
           setCurrentRequestExist(false);
         }
@@ -103,7 +99,7 @@ function UserNavBar() {
       })
       .then((response) => {
         if (response.status === 200) {
-          console.log(response.data.data.user.firstName);
+          // console.log(response.data.data.user.firstName);
           setUserName(
             response.data.data.user.firstName +
               " " +
@@ -166,10 +162,6 @@ function UserNavBar() {
               <Dropdown.Item href="#" onClick={onEdit}>
                 Edit Profile
               </Dropdown.Item>
-              {/* <Dropdown.Item href="#" onClick={onHospital}>
-                Hospitals
-              </Dropdown.Item> */}
-              {/* <Dropdown.Item href="#">Notifications</Dropdown.Item> */}
               <Dropdown.Divider />
               <Dropdown.Item
                 href="#"

@@ -27,7 +27,7 @@ function PatientInfo() {
         setEmergFirstName(response.data.data.emergencyContact.firstName);
         setEmergLastName(response.data.data.emergencyContact.lastName);
         setEmergPhoneNumber(response.data.data.emergencyContact.phoneNumber);
-        console.log("this is the emerg first name" + emergFirstName);
+        // console.log("this is the emerg first name" + emergFirstName);
       })
       .catch((err) => {
         console.log(err);
