@@ -1,0 +1,5062 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Global</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Global</h1>
+
+    
+
+
+
+
+<section>
+
+<header>
+    
+        <h2></h2>
+        
+    
+</header>
+
+<article>
+    <div class="container-overview">
+    
+        
+
+        
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+        
+    
+    </div>
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+        <h3 class="subsection-title">Members</h3>
+
+        
+            
+<h4 class="name" id="administratorSchema"><span class="type-signature">(constant) </span>administratorSchema<span class="type-signature"></span></h4>
+
+
+
+
+<div class="description">
+    Admin Levels
+ 3 = senior admin, can affect any admin/practitioner/patient
+ 2 = admin, can affect practitioner/patient
+ 1 = jr admin, can affect patient
+</div>
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="models_administrator.Model.js.html">models/administrator.Model.js</a>, <a href="models_administrator.Model.js.html#line10">line 10</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+        
+            
+<h4 class="name" id="getHospitalWaitList"><span class="type-signature">(constant) </span>getHospitalWaitList<span class="type-signature"></span></h4>
+
+
+<p class="summary">Returns the waitlist of visit request IDs from the desired Hospital</p>
+
+
+
+<div class="description">
+    Needs a valid hospital ID. If the ID is valid it will return an array of request IDs that
+represent the waitlist of the hospital. Array can be empty if there are no requests.
+</div>
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="api_service_request.service.js.html">api/service/request.service.js</a>, <a href="api_service_request.service.js.html#line113">line 113</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+        
+            
+<h4 class="name" id="registerAdministrator"><span class="type-signature">(constant) </span>registerAdministrator<span class="type-signature"></span></h4>
+
+
+<p class="summary">Allows an admin to register another admin. Takes all relevant fields in the body.</p>
+
+
+
+<div class="description">
+    Function for registering an administrator. Takes in all relevant fields from the body and
+checks for blank, null, or undefined values. then it checks if an administrator with that Id already exists.
+Assuming no issues, it creates a new administrator (with a user nested inside) and returns true.
+If any checks fail, it returns false.
+</div>
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="api_service_register.service.js.html">api/service/register.service.js</a>, <a href="api_service_register.service.js.html#line277">line 277</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+        
+            
+<h4 class="name" id="registerPractitioner"><span class="type-signature">(constant) </span>registerPractitioner<span class="type-signature"></span></h4>
+
+
+<p class="summary">A function for admins to register a new practitioner with the system. All practitioner details
+should be in the body.</p>
+
+
+
+<div class="description">
+    Function for registering a practitioner. Takes in all relevant fields from the body and
+checks for blank, null, or undefined values. Then it checks if a practitioner with that Id already exists.
+Assuming no issues, it creates a new practitioner (with a user nested inside) and returns true.
+If any checks fail, it returns false. Notably, this method can only be executed by a user who is an
+administrator. This is ensured by checking the caller's access token, which should contain their adminId.
+This adminId is checked against the database before the registration is allowed to proceed.
+</div>
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="api_service_register.service.js.html">api/service/register.service.js</a>, <a href="api_service_register.service.js.html#line159">line 159</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+        
+            
+<h4 class="name" id="registerUser"><span class="type-signature">(constant) </span>registerUser<span class="type-signature"></span></h4>
+
+
+<p class="summary">Registers a new patient user with the system. All patient details need to be in the HTTP body.</p>
+
+
+
+<div class="description">
+    Function for registering a user, specifically a patient. Takes in all relevant fields from
+the body and checks for blank, null, or undefined values. then it checks if a user with that Id
+already exists. Assuming no issues, it creates a new patient (with a user nested inside) and returns true.
+If any checks fail, it returns false.
+</div>
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="api_service_register.service.js.html">api/service/register.service.js</a>, <a href="api_service_register.service.js.html#line24">line 24</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+        
+    
+
+    
+        <h3 class="subsection-title">Methods</h3>
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id="cancelCurrentRequest"><span class="type-signature"></span>cancelCurrentRequest<span class="signature">(patientId)</span><span class="type-signature"></span></h4>
+    
+
+    
+    <p class="summary">Cancels a patients request deleting it from the database.</p>
+    
+
+
+
+<div class="description">
+    Takes in a patient id, checks for an active request and if so deletes that request. 
+Also removes references to the request from the hospital and patient documents.
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>patientId</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">String</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">ID of the patient that is having the request cancelled.</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="api_service_request.service.js.html">api/service/request.service.js</a>, <a href="api_service_request.service.js.html#line74">line 74</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id="checkAccessAuthorized"><span class="type-signature"></span>checkAccessAuthorized<span class="signature">(validAccessToken)</span><span class="type-signature"> &rarr; {boolean}</span></h4>
+    
+
+    
+    <p class="summary">Check that user is a patient</p>
+    
+
+
+
+<div class="description">
+    This method simply checks to ensure that the user who is attempting to access the page is a patient. This method
+is called in the checkAccessToken method, which is middleware placed on every page that a patient alone should
+have access to
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>validAccessToken</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">the payload of a decoded token</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="api_service_token.service.js.html">api/service/token.service.js</a>, <a href="api_service_token.service.js.html#line264">line 264</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    true if user is a patient, false otherwise
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">boolean</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id="checkAccessToken"><span class="type-signature"></span>checkAccessToken<span class="signature">(req, res, next)</span><span class="type-signature"></span></h4>
+    
+
+    
+    <p class="summary">Check access token for validity and expiration</p>
+    
+
+
+
+<div class="description">
+    This middleware is used to check the validity of an access token. First we collect the access and refresh tokens from both 
+the header and from cookies. If any are missing, we return a 401 error. If all exist, we check to make sure that both sets of 
+tokens match each other (access token from cookie matches access token from header, etc). Next, we attempt to verify the access 
+token. If it has been modified, or is expired, it will fail. If it succeeds, we call the function to check to ensure that the 
+access token belongs to a user type authorized to view a patient page. On failure, we attempt to refresh it using the refreshToken. 
+The refreshAccessToken method returns a promise. If the promise resolves, it will resolve to either a new access token, or null. 
+If null, then the user is logged out, and an unauthorized status is returned. If the promise resolves with a new access token, 
+then new cookies are generated with the access and refresh tokens, and both tokens are sent in the response, and the request is 
+allowed to proceed.
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>req</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">request</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>res</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">response</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>next</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">next</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="api_service_token.service.js.html">api/service/token.service.js</a>, <a href="api_service_token.service.js.html#line92">line 92</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    an error message if something goes wrong, otherwise calls next(). May also pass a new access token to the repsonse object
+if one was generated
+</div>
+
+
+
+    
+
+
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id="checkAdminAlreadyLoggedIn"><span class="type-signature">(async) </span>checkAdminAlreadyLoggedIn<span class="signature">(req)</span><span class="type-signature"></span></h4>
+    
+
+    
+    <p class="summary">check if the user attempting to log in is already registered as having logged in</p>
+    
+
+
+
+<div class="description">
+    The method is called when the user attempts to log in. It checks if there is a refresh token held by the user's browser. 
+If there is, this is checked against the collection of logged in users AND against the collection of valid users for the email held 
+inside the token. If the token is valid, and the user is already logged in, their email is returned. If they are not logged in, null 
+is returned. And if the token is invalid in any way, an error is thrown and the string "bad token" is returned. The calling function 
+checks for the return and responds accordingly.
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>req</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">request</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="api_service_login.service.js.html">api/service/login.service.js</a>, <a href="api_service_login.service.js.html#line272">line 272</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    either the email if the user is already logged in, or null if they aren't
+</div>
+
+
+
+    
+
+
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id="checkEmployeeAccessToken"><span class="type-signature"></span>checkEmployeeAccessToken<span class="signature">(req, res, next)</span><span class="type-signature"></span></h4>
+    
+
+    
+    <p class="summary">Checks the employees access token</p>
+    
+
+
+
+<div class="description">
+    This middleware is used to check the validity of an access token. First we collect the access and refresh tokens from both
+the header and from cookies. If any are missing, we return a 401 error. If all exist, we check to make sure that both sets of
+tokens match each other (access token from cookie matches access token from header, etc). Next, we attempt to verify the access
+token. If it has been modified, or is expired, it will fail. On failure, we attempt to refresh it using the refreshToken.
+The refreshAccessToken method returns a promise. If the promise resolves, it will resolve to either a new access token, or null.
+If null, then the user is logged out, and an unauthorized status is returned. If the promise resolves with a new access token,
+then new cookies are generated with the access and refresh tokens, and both tokens are sent in the response, and the request is
+allowed to proceed.
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>req</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">request</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>res</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">response</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>next</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">next</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="api_service_employee.token.service.js.html">api/service/employee.token.service.js</a>, <a href="api_service_employee.token.service.js.html#line103">line 103</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    an error message to the response if it encounters an error, otherwise calls next(), and passes cookies to the response object
+</div>
+
+
+
+    
+
+
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id="checkMayAccessAdminPage"><span class="type-signature"></span>checkMayAccessAdminPage<span class="signature">(req, res, next)</span><span class="type-signature"></span></h4>
+    
+
+    
+    <p class="summary">authorization check for admin-only pages</p>
+    
+
+
+
+<div class="description">
+    Check applied to pages that only an administrator has authorization to access. It is called after the user is 
+already authenticated as a valid user, and simply checks the type of user before allowing them to proceed, or turning them away.
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>req</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">request</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>res</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">response</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>next</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">next</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="api_service_authorization.service.js.html">api/service/authorization.service.js</a>, <a href="api_service_authorization.service.js.html#line15">line 15</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    error message if no access token is present
+</div>
+
+
+
+    
+
+
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id="checkMayAccessPractitionerPage"><span class="type-signature"></span>checkMayAccessPractitionerPage<span class="signature">(req, res, next)</span><span class="type-signature"></span></h4>
+    
+
+    
+    <p class="summary">authorization check for practitioner-only pages</p>
+    
+
+
+
+<div class="description">
+    Check applied to pages that only a practitioner has authorization to access. It is called after the user is 
+already authenticated as a valid user, and simply checks the type of user before allowing them to proceed, or turning them away.
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>req</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">request</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>res</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">response</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>next</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">next</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="api_service_authorization.service.js.html">api/service/authorization.service.js</a>, <a href="api_service_authorization.service.js.html#line43">line 43</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    error message if no access token is present
+</div>
+
+
+
+    
+
+
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id="checkPatientAlreadyLoggedIn"><span class="type-signature">(async) </span>checkPatientAlreadyLoggedIn<span class="signature">(req)</span><span class="type-signature"></span></h4>
+    
+
+    
+    <p class="summary">check if the user attempting to log in is already registered as having logged in</p>
+    
+
+
+
+<div class="description">
+    The method is called when the user attempts to log in. It checks if there is a refresh token held by the user's browser. 
+If there is, this is checked against the collection of logged in users AND against the collection of valid users for the email held 
+inside the token. If the token is valid, and the user is already logged in, their email is returned. If they are not logged in, null 
+is returned. And if the token is invalid in any way, an error is thrown and the string "bad token" is returned. The calling function 
+checks for the return and responds accordingly.
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>req</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">request</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="api_service_login.service.js.html">api/service/login.service.js</a>, <a href="api_service_login.service.js.html#line208">line 208</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    either the email if the user is already logged in, or null if they aren't
+</div>
+
+
+
+    
+
+
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id="checkPractitionerAlreadyLoggedIn"><span class="type-signature">(async) </span>checkPractitionerAlreadyLoggedIn<span class="signature">(req)</span><span class="type-signature"></span></h4>
+    
+
+    
+    <p class="summary">check if the user attempting to log in is already registered as having logged in</p>
+    
+
+
+
+<div class="description">
+    The method is called when the user attempts to log in. It checks if there is a refresh token held by the user's browser. 
+If there is, this is checked against the collection of logged in users AND against the collection of valid users for the email held 
+inside the token. If the token is valid, and the user is already logged in, their email is returned. If they are not logged in, null 
+is returned. And if the token is invalid in any way, an error is thrown and the string "bad token" is returned. The calling function 
+checks for the return and responds accordingly.
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>req</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">request</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="api_service_login.service.js.html">api/service/login.service.js</a>, <a href="api_service_login.service.js.html#line240">line 240</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    either the email if the user is already logged in, or null if they aren't
+</div>
+
+
+
+    
+
+
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id="completeCurrentRequest"><span class="type-signature"></span>completeCurrentRequest<span class="signature">(patientId)</span><span class="type-signature"></span></h4>
+    
+
+    
+    <p class="summary">Completes a patients active visit request moving it to history. Activated by the Practitioner.</p>
+    
+
+
+
+<div class="description">
+    Takes in the id of a patient with an active visit request, moves that request to the 
+completed requests collection (history). Also removes all references to that request from the hospital 
+and patient documents.
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>patientId</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">String</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">The ID of a patient with an active visit request.</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="api_service_request.service.js.html">api/service/request.service.js</a>, <a href="api_service_request.service.js.html#line18">line 18</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id="DBConnect"><span class="type-signature">(async) </span>DBConnect<span class="signature">()</span><span class="type-signature"></span></h4>
+    
+
+    
+    <p class="summary">Starts up the DB</p>
+    
+
+
+
+<div class="description">
+    Starts the DB and prints out a message to let the user know it was successful, or informs them on an error and safely
+closes the DB connection.
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="loaders_database.js.html">loaders/database.js</a>, <a href="loaders_database.js.html#line13">line 13</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id="generateAccessToken"><span class="type-signature"></span>generateAccessToken<span class="signature">(req, res, next)</span><span class="type-signature"></span></h4>
+    
+
+    
+    <p class="summary">Generate access token for user</p>
+    
+
+
+
+<div class="description">
+    This method generates an access token. It is called as middleware whenever a user attempts to log in. It calls the method 
+to generate a refresh token as well, so there should always be both together.
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>req</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">request</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>res</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">response</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>next</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">next</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="api_service_token.service.js.html">api/service/token.service.js</a>, <a href="api_service_token.service.js.html#line24">line 24</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id="generateEmployeeAccessToken"><span class="type-signature"></span>generateEmployeeAccessToken<span class="signature">(req, res, next)</span><span class="type-signature"></span></h4>
+    
+
+    
+    <p class="summary">Generate access and refresh tokens for practitioners and admins</p>
+    
+
+
+
+<div class="description">
+    This method generates an access token. Every login attempt will have an email, but an administrator logging in will have an adminId, whereas a
+practitioner logging in will have a practitionerId. We try to get both, and see which one returns an actual value to figure out which
+type of user is logging in, then add that to the access token payload
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>req</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">request</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>res</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">response</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>next</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">next</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="api_service_employee.token.service.js.html">api/service/employee.token.service.js</a>, <a href="api_service_employee.token.service.js.html#line29">line 29</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    error message if it runs into a problem, calls next() otherwise
+</div>
+
+
+
+    
+
+
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id="generateEmployeeRefreshToken"><span class="type-signature"></span>generateEmployeeRefreshToken<span class="signature">(email)</span><span class="type-signature"> &rarr; {string}</span></h4>
+    
+
+    
+    <p class="summary">Generate refresh token for employee</p>
+    
+
+
+
+<div class="description">
+    This method is called by the generateEmployeeAccessToken method. It is passed the employee's email and simply returns
+a new non-expiring token with the email as the payload for storage in the login database
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>email</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="api_service_employee.token.service.js.html">api/service/employee.token.service.js</a>, <a href="api_service_employee.token.service.js.html#line76">line 76</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    a refreshToken string
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">string</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id="generateRefreshToken"><span class="type-signature"></span>generateRefreshToken<span class="signature">(email)</span><span class="type-signature"> &rarr; {jwt}</span></h4>
+    
+
+    
+    <p class="summary">Generate refresh token</p>
+    
+
+
+
+<div class="description">
+    This method is called by the generateEmployeeAccessToken method. It is passed the employee's email and simply returns
+a new non-expiring token with the email as the payload for storage in the login database
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>email</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="api_service_token.service.js.html">api/service/token.service.js</a>, <a href="api_service_token.service.js.html#line53">line 53</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    a refresh token string
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">jwt</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id="getHospitalList"><span class="type-signature"></span>getHospitalList<span class="signature">(res)</span><span class="type-signature"></span></h4>
+    
+
+    
+    <p class="summary">Gets a list of all of the medical facilities.</p>
+    
+
+
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>res</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">*</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="api_service_getHospitalList.service.js.html">api/service/getHospitalList.service.js</a>, <a href="api_service_getHospitalList.service.js.html#line7">line 7</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id="invalidateEmployeeRefToken"><span class="type-signature"></span>invalidateEmployeeRefToken<span class="signature">(req, res, next)</span><span class="type-signature"></span></h4>
+    
+
+    
+    <p class="summary">Logout method</p>
+    
+
+
+
+<div class="description">
+    This method invalidates a user by removing their refresh token from the database, effectively 'logging out' that user. This functionality is
+backstopped in the logout route, which also clears the cookies containing the user's tokens.
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>req</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">request</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>res</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">response</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>next</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">next</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="api_service_employee.token.service.js.html">api/service/employee.token.service.js</a>, <a href="api_service_employee.token.service.js.html#line281">line 281</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id="invalidateRefToken"><span class="type-signature"></span>invalidateRefToken<span class="signature">(req, res, next)</span><span class="type-signature"></span></h4>
+    
+
+    
+    <p class="summary">Logout method</p>
+    
+
+
+
+<div class="description">
+    This method invalidates a user by removing their refresh token from the database, effectively 'logging out' that user. This functionality is
+backstopped in the logout route, which also clears the cookies containing the user's tokens.
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>req</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">request</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>res</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">response</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>next</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">next</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="api_service_token.service.js.html">api/service/token.service.js</a>, <a href="api_service_token.service.js.html#line221">line 221</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id="logAdministratorIn"><span class="type-signature"></span>logAdministratorIn<span class="signature">(req, res, next)</span><span class="type-signature"></span></h4>
+    
+
+    
+    <p class="summary">Method to log an administrator in</p>
+    
+
+
+
+<div class="description">
+    The user's email and password are taken in and checked for null or blank values. Then 
+the administrator database is checked for a user matching the provided email. Emails must be unique within a user 
+database, so this will return either one user, or null. A null return means the email didn't match, and the user is 
+denied access. If a matching user is found, the provided password is compared to the stored password. Assuming 
+that matches as well, another method call is made to check if they are already logged in (allowing a dual login 
+would present problems at logout). If they are, then the rest of the routing is cancelled with a return, which 
+allows the user to be taken to an authorized page. If not, then the route continues to the next middleware.
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>req</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">request</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>res</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">response</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>next</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">next</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="api_service_login.service.js.html">api/service/login.service.js</a>, <a href="api_service_login.service.js.html#line90">line 90</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    a status to the response object, either on success or failure
+</div>
+
+
+
+    
+
+
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id="logPractitionerIn"><span class="type-signature"></span>logPractitionerIn<span class="signature">(req, res, next)</span><span class="type-signature"></span></h4>
+    
+
+    
+    <p class="summary">Method to log a practitioner in</p>
+    
+
+
+
+<div class="description">
+    The user's email and password are taken in and checked for null or blank values. Then 
+the practitioner database is checked for a user matching the provided email. Emails must be unique within a user database, 
+so this will return either one user, or null. A null return means the email didn't match, and the user is 
+denied access. If a matching user is found, the provided password is compared to the stored password. Assuming 
+that matches as well, another method call is made to check if they are already logged in (allowing a dual login 
+would present problems at logout). If they are, then the rest of the routing is cancelled with a return, which 
+allows the user to be taken to an authorized page. If not, then the route continues to the next middleware.
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>req</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">request</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>res</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">response</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>next</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">next</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="api_service_login.service.js.html">api/service/login.service.js</a>, <a href="api_service_login.service.js.html#line146">line 146</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    a status to the response object, either on success or failure
+</div>
+
+
+
+    
+
+
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id="logUserIn"><span class="type-signature"></span>logUserIn<span class="signature">(req, res, next)</span><span class="type-signature"></span></h4>
+    
+
+    
+    <p class="summary">Method to log a patient in</p>
+    
+
+
+
+<div class="description">
+    The user's email and password are taken in and checked for null or blank values. Then 
+the patient database is checked for a user matching the provided email. Emails must be unique within a user database, 
+so this will return either one user, or null. A null return means the email didn't match, and the user is 
+denied access. If a matching user is found, the provided password is compared to the stored password. Assuming 
+that matches as well, another method call is made to check if they are already logged in (allowing a dual login 
+would present problems at logout). If they are, then the rest of the routing is cancelled with a return, which 
+allows the user to be taken to an authorized page. If not, then the route continues to the next middleware.
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>req</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">request</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>res</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">response</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>next</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">next</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="api_service_login.service.js.html">api/service/login.service.js</a>, <a href="api_service_login.service.js.html#line27">line 27</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    a status to the response object, either on success or failure
+</div>
+
+
+
+    
+
+
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id="refreshAccessToken"><span class="type-signature"></span>refreshAccessToken<span class="signature">(refreshToken, oldAccessToken)</span><span class="type-signature"></span></h4>
+    
+
+    
+    <p class="summary">Refresh the access token using the refresh token</p>
+    
+
+
+
+<div class="description">
+    In this method, we are passed a refreshToken. This method returns a Promise. The promise will resolve upon successful execution of the mongoose
+query to find the refresh token in the database. If the refresh token cannot be found in the DB, the query returns a null value. We resolve the
+promise with null. If the token is found, we verify its validity. If that passes as well, then we generate a new access token and resolve the promise
+with that token. An error with the query will reject the promise.
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>refreshToken</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">jwt</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>oldAccessToken</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">jwt</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="api_service_token.service.js.html">api/service/token.service.js</a>, <a href="api_service_token.service.js.html#line174">line 174</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    a promise that resolves to a new access token string
+</div>
+
+
+
+    
+
+
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id="refreshEmployeeAccessToken"><span class="type-signature"></span>refreshEmployeeAccessToken<span class="signature">(refreshToken, oldAccessToken)</span><span class="type-signature"></span></h4>
+    
+
+    
+    <p class="summary">Refresh the employee access token</p>
+    
+
+
+
+<div class="description">
+    In this method, we are passed a refreshToken. This method returns a Promise. The promise will resolve upon successful execution of the mongoose
+query to find the refresh token in the database. If the refresh token cannot be found in the DB, the query returns a null value. We resolve the
+promise with null. If the token is found, we verify its validity. If that passes as well, we perform a check to see if the user is an administrator
+or a practitioner, in order to provide the proper payload. Then we generate a new access token and resolve the promise with that token. An error
+with the query will reject the promise.
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>refreshToken</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">jwt</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>oldAccessToken</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">jwt</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="api_service_employee.token.service.js.html">api/service/employee.token.service.js</a>, <a href="api_service_employee.token.service.js.html#line193">line 193</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    a promise that resolves to a new access token string
+</div>
+
+
+
+    
+
+
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id="RunApp"><span class="type-signature">(async) </span>RunApp<span class="signature">()</span><span class="type-signature"></span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    Takes in an express App object
+Starts the DB and then runs the server. Once both are running the Web Scrapper will start up and run every X amount
+of time. The refresh time that is imported from the configure file, and this can be changed to set up the scrapper to
+run repeatedly on a set interval.
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="loaders_loaders.js.html">loaders/loaders.js</a>, <a href="loaders_loaders.js.html#line10">line 10</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id="sendEmailAlt"><span class="type-signature">(async) </span>sendEmailAlt<span class="signature">(email, subject, payload)</span><span class="type-signature"></span></h4>
+    
+
+    
+    <p class="summary">Method to send an email containing a link to a user</p>
+    
+
+
+
+<div class="description">
+    This method is called from passReset.route.js. It is passed an email and subject line, and an object payload containing a url and the name of 
+the recipient. The method assembles the email using these components and then sends it.
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>email</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">the email to send to</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>subject</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">the email subject</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>payload</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">object</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">containing a name and a url</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="api_service_sendEmail.service.js.html">api/service/sendEmail.service.js</a>, <a href="api_service_sendEmail.service.js.html#line14">line 14</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    an error if something goes wrong, otherwise returns a status to the response object
+</div>
+
+
+
+    
+
+
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id="updateEmployeePassword"><span class="type-signature"></span>updateEmployeePassword<span class="signature">(userEmail, newPassword)</span><span class="type-signature"></span></h4>
+    
+
+    
+    <p class="summary">Method used by admins to update pratitioner or admin password</p>
+    
+
+
+
+<div class="description">
+    This method can only be called by an administrator. It takes in the user's email and a new password. It checks 
+to ensure that the password is a valid string, then attempts to find the user through their email. Assuming that passes, 
+it encrypts the new password and inserts it into the user as a new password
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>userEmail</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>newPassword</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="api_service_resetPass.service.js.html">api/service/resetPass.service.js</a>, <a href="api_service_resetPass.service.js.html#line59">line 59</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    0 on failure, 1 on success
+</div>
+
+
+
+    
+
+
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id="updatePassword"><span class="type-signature"></span>updatePassword<span class="signature">(userEmail, newPassword)</span><span class="type-signature"></span></h4>
+    
+
+    
+    <p class="summary">Method to update user password</p>
+    
+
+
+
+<div class="description">
+    This method takes in the user's email and a new password. The new password string has already been checked to ensure 
+that the user entered it twice and it matched. It checks to ensure that the password is a valid string, then attempts to find the 
+user through their email. Assuming that passes, it encrypts the new password and inserts it into the user as a new password
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>userEmail</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>newPassword</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="api_service_resetPass.service.js.html">api/service/resetPass.service.js</a>, <a href="api_service_resetPass.service.js.html#line17">line 17</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    0 on failure, 1 on success
+</div>
+
+
+
+    
+
+
+
+
+
+        
+    
+
+    
+
+    
+</article>
+
+</section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="ExpressLoader.html">ExpressLoader</a></li></ul><h3>Global</h3><ul><li><a href="global.html#administratorSchema">administratorSchema</a></li><li><a href="global.html#cancelCurrentRequest">cancelCurrentRequest</a></li><li><a href="global.html#checkAccessAuthorized">checkAccessAuthorized</a></li><li><a href="global.html#checkAccessToken">checkAccessToken</a></li><li><a href="global.html#checkAdminAlreadyLoggedIn">checkAdminAlreadyLoggedIn</a></li><li><a href="global.html#checkEmployeeAccessToken">checkEmployeeAccessToken</a></li><li><a href="global.html#checkMayAccessAdminPage">checkMayAccessAdminPage</a></li><li><a href="global.html#checkMayAccessPractitionerPage">checkMayAccessPractitionerPage</a></li><li><a href="global.html#checkPatientAlreadyLoggedIn">checkPatientAlreadyLoggedIn</a></li><li><a href="global.html#checkPractitionerAlreadyLoggedIn">checkPractitionerAlreadyLoggedIn</a></li><li><a href="global.html#completeCurrentRequest">completeCurrentRequest</a></li><li><a href="global.html#DBConnect">DBConnect</a></li><li><a href="global.html#generateAccessToken">generateAccessToken</a></li><li><a href="global.html#generateEmployeeAccessToken">generateEmployeeAccessToken</a></li><li><a href="global.html#generateEmployeeRefreshToken">generateEmployeeRefreshToken</a></li><li><a href="global.html#generateRefreshToken">generateRefreshToken</a></li><li><a href="global.html#getHospitalList">getHospitalList</a></li><li><a href="global.html#getHospitalWaitList">getHospitalWaitList</a></li><li><a href="global.html#invalidateEmployeeRefToken">invalidateEmployeeRefToken</a></li><li><a href="global.html#invalidateRefToken">invalidateRefToken</a></li><li><a href="global.html#logAdministratorIn">logAdministratorIn</a></li><li><a href="global.html#logPractitionerIn">logPractitionerIn</a></li><li><a href="global.html#logUserIn">logUserIn</a></li><li><a href="global.html#refreshAccessToken">refreshAccessToken</a></li><li><a href="global.html#refreshEmployeeAccessToken">refreshEmployeeAccessToken</a></li><li><a href="global.html#registerAdministrator">registerAdministrator</a></li><li><a href="global.html#registerPractitioner">registerPractitioner</a></li><li><a href="global.html#registerUser">registerUser</a></li><li><a href="global.html#RunApp">RunApp</a></li><li><a href="global.html#sendEmailAlt">sendEmailAlt</a></li><li><a href="global.html#updateEmployeePassword">updateEmployeePassword</a></li><li><a href="global.html#updatePassword">updatePassword</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.10</a> on Thu Apr 14 2022 16:08:58 GMT-0600 (Mountain Daylight Time)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

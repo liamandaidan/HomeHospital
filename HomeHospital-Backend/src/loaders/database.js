@@ -3,6 +3,13 @@ import ENV from '../configure/configure.js'
 import refreshTokensSchema from '../models/refreshTokens.Schema.js'
 
 // Function used to connect to the Database
+/**
+ * @function
+ * @summary Starts up the DB
+ * 
+ * @description Starts the DB and prints out a message to let the user know it was successful, or informs them on an error and safely
+ * closes the DB connection. 
+ */
 const DBConnect = async () => {
 	try {
 		// Connect to the database with the connection string from the .env file

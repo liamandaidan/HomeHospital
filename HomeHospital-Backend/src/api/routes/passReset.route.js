@@ -10,14 +10,6 @@ const clientURL = 'http://localhost:3000/reset'
 
 const route = express.Router()
 
-/**
- * @route
- * @url /api/forget
- * @summary Route for resetting password, patient only
- * 
- * @description This route performs the dual function of confirming the user's email and sending a reset email, and again when the 
- * user has entered and confirmed a new password, at which point it changes that user's password.
- */
 route.post('/', async (req, res) => {
 	const { email, token, newPass, newPassConfirm } = req.body
 

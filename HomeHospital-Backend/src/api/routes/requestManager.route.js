@@ -8,7 +8,6 @@ import {
 
 const route = express.Router()
 
-//
 route.post('/completeRequest', async (req, res) => {
 	const { patientId } = req.body
 	console.log("This is the" + patientId)
@@ -48,7 +47,6 @@ route.get('/hospitalWaitList/:hospitalId', async (req, res) => {
 		res.status(400).send({ message: 'Error getting hospital wait list' })
 	}
 })
-
 
 route.get('/patientInfo/:patientId', async (req, res) => {
 	// return the current users request

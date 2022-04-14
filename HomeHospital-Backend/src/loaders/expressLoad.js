@@ -4,6 +4,12 @@ import routes from '../api/API.js'
 import cookieParser from 'cookie-parser'
 
 
+/**
+ * @class ExpressLoader 
+ * @description When this class is created, it sets up the express app by registering all of the necessary
+ * middleware, registering the routers used for API routes and catches any requests and get sent but do not have a route to handle them.
+ * Takes in an express app as argument.
+ */
 class ExpressLoader {
 	constructor(app) {
 		// use cors
