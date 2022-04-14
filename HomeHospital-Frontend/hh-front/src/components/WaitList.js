@@ -23,22 +23,22 @@ function WaitList() {
       axios
         .get("http://localhost:4000/api/visitRequest/currentRequest")
         .then((response) => {
-          console.log("in the current request");
+          // console.log("in the current request");
           setRequestValue(response.data);
           setSpinner(false);
-          console.log(response.data);
+          // console.log(response.data);
         })
         .catch((err) => {
           console.log(err);
         });
     } else {
-      console.log(requestIdValue);
+      // console.log(requestIdValue);
       axios
         .get(
           `http://localhost:4000/api/visitRequest/targetRequest/${requestIdValue}`
         )
         .then((response) => {
-          console.log("in the existing request");
+          // console.log("in the existing request");
           setIsCurrent(false);
           setRequestValue(response.data.request);
           setSpinner(false);
@@ -94,15 +94,13 @@ function WaitList() {
             >
               Cancel Request
             </Button>
-            <div>
-              <Button
-                variant="link"
-                className="cancel-lnk"
-                onClick={props.onHide}
-              >
-                Go Back
-              </Button>
-            </div>
+            <Button
+              variant="link"
+              className="cancel-lnk"
+              onClick={props.onHide}
+            >
+              Go Back
+            </Button>
           </Modal.Footer>
         </Modal>
       </>
@@ -112,6 +110,13 @@ function WaitList() {
   return (
     <div className="mt-5">
       {isCurrent && <h4>Current Waitlist</h4>}
+      {spinner && (
+        <div className="spinner-div text-center">
+          <Spinner animation="border" role="status">
+            <span className="visually-hidden">Loading...</span>
+          </Spinner>
+        </div>
+      )}
       {!isCurrent && <h4>Past Request</h4>}
       <Table striped bordered hover>
         <thead>
@@ -134,14 +139,8 @@ function WaitList() {
             </tr>
           )}
         </thead>
+
         <tbody>
-          {spinner && (
-            <div className="spinner-div text-center">
-              <Spinner animation="border" role="status">
-                <span className="visually-hidden">Loading...</span>
-              </Spinner>
-            </div>
-          )}
           {isCurrent && !spinner && (
             <tr className="text-center">
               <td>{requestValue._id}</td>

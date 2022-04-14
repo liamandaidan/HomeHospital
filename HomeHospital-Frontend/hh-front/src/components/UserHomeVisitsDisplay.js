@@ -48,7 +48,7 @@ function UserHomeVisitsDisplay() {
         // console.log(response.data.request);
         if (response.status === 200) {
           console.log("200 Success!");
-          console.log(response.data);
+          // console.log(response.data);
           setVisitList(response.data);
           setSpinner(false);
         }
@@ -69,7 +69,7 @@ function UserHomeVisitsDisplay() {
         // console.log(response.data.request);
         if (response.status === 200) {
           console.log("200 Success!");
-          console.log(response.data);
+          // console.log(response.data);
           setCurrentList(response.data);
           setCurrentSpinner(false);
           setReqButton(false);

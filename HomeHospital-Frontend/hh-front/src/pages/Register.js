@@ -53,7 +53,6 @@ function Register() {
             </Col>
           </Row>
         </div>
-        {/* </div> */}
       </Row>
     </Row>
   );

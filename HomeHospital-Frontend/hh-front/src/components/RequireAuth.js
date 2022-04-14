@@ -16,7 +16,7 @@ function RequireAuth({ children }) {
 
   useEffect(() => {
     // const timer = setTimeout(() => {
-    console.log(children);
+    // console.log(children);
     makePatientRequest();
     // }, 500);
   }, []);
@@ -35,7 +35,7 @@ function RequireAuth({ children }) {
       });
   };
 
-  console.log("Authed: " + authed);
+  // console.log("Authed: " + authed);
 
   if (authed === undefined || authed === null) {
     return (
