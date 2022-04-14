@@ -41,7 +41,7 @@ export const completeCurrentRequest = async (patientId) => {
 			await visitRequestModel.findByIdAndDelete(patient.currentRequest)
 			
 			// Remove the visit request and move it into history
-			hospital.completeRequest(patient.currentRequest)
+			hospital.removeRequest(patient.currentRequest)
 			patient.completeRequest()
 
 			// Save these new object states.
@@ -84,7 +84,7 @@ export const cancelCurrentRequest = async (patientId) => {
 			)
 
 			// Remove the references to the visit request from the patient and the hospital.
-			hospital.cancelRequest(patient.currentRequest)
+			hospital.removeRequest(patient.currentRequest)
 			patient.cancelRequest()
 
 			hospital.save()
