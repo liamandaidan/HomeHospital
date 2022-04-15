@@ -16,7 +16,7 @@ import { HomeHospitalContext } from "./HomeHospitalContext";
 axios.defaults.withCredentials = true;
 /**
  * Symptoms form where the patient is able to enter a list of symptoms
- * and assign a severity. They will also be able to add any additional information in the 
+ * and assign a severity. They will also be able to add any additional information in the
  * text area
  * @returns symptoms input form component
  * @author Robyn Balanag
@@ -36,10 +36,10 @@ function SymptomsForm() {
       severity: "",
     },
   ]);
- /**
-  * Add a new symptom as long as the prvious symptom fields arent empty
-  * @param {*} index of the current symptom
-  */
+  /**
+   * Add a new symptom as long as the prvious symptom fields arent empty
+   * @param {*} index of the current symptom
+   */
   const handleSymptomsAdd = (index) => {
     if (
       symptomsList[index].description !== "" &&
@@ -90,8 +90,8 @@ function SymptomsForm() {
     setSymptomsList(list);
   };
   /**
-   * Takes the current list of symptoms and additional information 
-   * and check if the values are valid. If they are, it will prompt 
+   * Takes the current list of symptoms and additional information
+   * and check if the values are valid. If they are, it will prompt
    * the alert modal to show
    */
   const handleSubmit = () => {
@@ -107,8 +107,8 @@ function SymptomsForm() {
     }
   };
   /**
-   * Take the hospitalID from the previous hospital select page as well 
-   *  as the symptoms list and additional information and will send it to the 
+   * Take the hospitalID from the previous hospital select page as well
+   *  as the symptoms list and additional information and will send it to the
    *  backend to be created in the database
    */
   const handleFormSubmit = () => {
@@ -120,18 +120,18 @@ function SymptomsForm() {
         additionalInfo: additionalInfo,
       })
       .then((response) => {
-        console.log(response);
+        // console.log(response);
         setRequestSuccessValue(true);
       })
       .catch((err) => {
-        console.log(err);
+        //  console.log(err);
       });
     setNewRequestValue(true);
-    console.log("the form has been sent to backoffice!");
+    // console.log("the form has been sent to backoffice!");
     navigate("/home");
   };
   /**
-   * Alert the patient once they entered all their symptoms. 
+   * Alert the patient once they entered all their symptoms.
    * @param {*} props symptoms information
    * @returns alert modal asking patient to confirm request
    */
@@ -151,18 +151,15 @@ function SymptomsForm() {
           </Modal.Body>
           <Modal.Footer className="modal-footer">
             <div>
-            <Button
-              className="ack-btn"
-              onClick={handleFormSubmit}
-              variant="primary"
-            >
-              I Acknowledge
-            </Button><br />
-              <a
-                variant="link"
-                className="cancel-lnk"
-                onClick={props.onHide}
+              <Button
+                className="ack-btn"
+                onClick={handleFormSubmit}
+                variant="primary"
               >
+                I Acknowledge
+              </Button>
+              <br />
+              <a variant="link" className="cancel-lnk" onClick={props.onHide}>
                 cancel request
               </a>
             </div>
