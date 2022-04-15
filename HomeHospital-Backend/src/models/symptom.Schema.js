@@ -3,24 +3,24 @@ import mongoose from 'mongoose'
 /**
  * @constructor symptom
  * @summary creates a new symptom
- * 
- * @description takes in input for the description and severity of a new symptom, 
+ *
+ * @description takes in input for the description and severity of a new symptom,
  * validates it, and creates it.
  */
 const symptomSchema = new mongoose.Schema({
 	description: {
 		type: String,
-		minlength:[1,'Minimum Length for Description is 1'],
-		maxlength: [280,'Maximum Length for Description is 280'], // tweet length
-		required: [true,'Description can not be empty'],
+		minlength: [1, 'Minimum Length for Description is 1'],
+		maxlength: [280, 'Maximum Length for Description is 280'], // tweet length
+		required: [true, 'Description can not be empty'],
 	},
 	severity: {
 		type: Number,
-		min: [1,'Minimum Severity Level is 1'],
-		max: [5,'Maximum Severity Level is 5'],
-		required: [true,'Please enter a Severity level']
-		},
+		min: [1, 'Minimum Severity Level is 1'],
+		max: [5, 'Maximum Severity Level is 5'],
+		required: [true, 'Please enter a Severity level'],
+	},
 	_id: false,
-}) 
+})
 
-export default symptomSchema;
+export default symptomSchema

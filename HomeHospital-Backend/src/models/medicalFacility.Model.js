@@ -5,7 +5,7 @@ import validator from 'validator'
 /**
  * @constructor medicalFacility
  * @summary creates a new medical facility
- * 
+ *
  * @description takes in input to create a new medical facility
  */
 const medicalFacility = new mongoose.Schema({
@@ -15,7 +15,7 @@ const medicalFacility = new mongoose.Schema({
 	},
 	address: {
 		type: addressSchema,
-		required: [true,'An Address is required'],
+		required: [true, 'An Address is required'],
 	},
 	latitude: {
 		type: Number,
@@ -28,10 +28,10 @@ const medicalFacility = new mongoose.Schema({
 	phoneNumber: {
 		type: String,
 		default: null,
-		validate:[
-			{			
-			validator: (value) => validator.isMobilePhone(value, ['en-CA']),	
-			msg: 'Please Enter A Canadian Number',	
+		validate: [
+			{
+				validator: (value) => validator.isMobilePhone(value, ['en-CA']),
+				msg: 'Please Enter A Canadian Number',
 			},
 		],
 	},
@@ -41,7 +41,7 @@ const medicalFacility = new mongoose.Schema({
 	},
 	hospitalDesc: {
 		type: String,
-		maxlength: [100,'Maximum Length is 100'],
+		maxlength: [100, 'Maximum Length is 100'],
 		defult: null,
 	},
 	practitioners: {
@@ -81,14 +81,13 @@ medicalFacility.methods.dequeue = async function () {
 			throw new Error('No Requests in the Hospital WaitList')
 		}
 	} catch (error) {
-		console.log(error.message)
+		console.log(`${new Date()}n\tError:  ${error.message}`)
 	}
 }
 
-
 /**
  * @function
- * @summary removes request 
+ * @summary removes request
  * @description removes request from the waitlist, complete request from arbitrary position
  * @param {String} requestId
  * @returns {any}
@@ -96,12 +95,11 @@ medicalFacility.methods.dequeue = async function () {
 medicalFacility.methods.removeRequest = async function (requestId) {
 	try {
 		const index = this.findIndexInWaitList(requestId)
-		console.log(index)
-		if(index > -1) {
+		if (index > -1) {
 			this.waitList.splice(index, 1)
 		}
 	} catch (error) {
-		console.log(error.message)
+		console.log(`${new Date()}n\tError:  ${error.message}`)
 	}
 }
 
@@ -122,9 +120,9 @@ medicalFacility.methods.findIndexInWaitList = function (requestId) {
 			}
 		}
 		// These are not the droids you're looking for...return -1 to indicate not found.
-		return -1;
+		return -1
 	} catch (error) {
-		console.log(error.message)
+		console.log(`${new Date()}n\tError:  ${error.message}`)
 	}
 }
 
@@ -140,18 +138,17 @@ medicalFacility.methods.moveWaitListPosition = function (requestId, position) {
 	try {
 		if (position >= 0 && position < this.waitList.length) {
 			const index = this.findIndexInWaitList(requestId)
-			if(index > -1) {
+			if (index > -1) {
 				// remove from current waitList Position
 				this.waitList.splice(index, 1)
 				// inserting into new waitList Position
 				this.waitList.splice(position, 0, requestId)
 			}
-
 		} else {
 			throw new Error('Position outside of Index range')
 		}
 	} catch (error) {
-		console.log(error.message)
+		console.log(`${new Date()}n\tError:  ${error.message}`)
 	}
 }
 

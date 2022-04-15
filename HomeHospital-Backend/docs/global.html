@@ -145,7 +145,7 @@ represent the waitlist of the hospital. Array can be empty if there are no reque
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="api_service_request.service.js.html">api/service/request.service.js</a>, <a href="api_service_request.service.js.html#line113">line 113</a>
+        <a href="api_service_request.service.js.html">api/service/request.service.js</a>, <a href="api_service_request.service.js.html#line117">line 117</a>
     </li></ul></dd>
     
 
@@ -212,7 +212,7 @@ If any checks fail, it returns false.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="api_service_register.service.js.html">api/service/register.service.js</a>, <a href="api_service_register.service.js.html#line277">line 277</a>
+        <a href="api_service_register.service.js.html">api/service/register.service.js</a>, <a href="api_service_register.service.js.html#line268">line 268</a>
     </li></ul></dd>
     
 
@@ -282,7 +282,7 @@ This adminId is checked against the database before the registration is allowed 
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="api_service_register.service.js.html">api/service/register.service.js</a>, <a href="api_service_register.service.js.html#line159">line 159</a>
+        <a href="api_service_register.service.js.html">api/service/register.service.js</a>, <a href="api_service_register.service.js.html#line154">line 154</a>
     </li></ul></dd>
     
 
@@ -387,7 +387,7 @@ If any checks fail, it returns false.
 
 
 <div class="description">
-    Takes in a patient id, checks for an active request and if so deletes that request. 
+    Takes in a patient id, checks for an active request and if so deletes that request.
 Also removes references to the request from the hospital and patient documents.
 </div>
 
@@ -481,7 +481,7 @@ Also removes references to the request from the hospital and patient documents.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="api_service_request.service.js.html">api/service/request.service.js</a>, <a href="api_service_request.service.js.html#line74">line 74</a>
+        <a href="api_service_request.service.js.html">api/service/request.service.js</a>, <a href="api_service_request.service.js.html#line75">line 75</a>
     </li></ul></dd>
     
 
@@ -622,7 +622,7 @@ have access to
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="api_service_token.service.js.html">api/service/token.service.js</a>, <a href="api_service_token.service.js.html#line264">line 264</a>
+        <a href="api_service_token.service.js.html">api/service/token.service.js</a>, <a href="api_service_token.service.js.html#line265">line 265</a>
     </li></ul></dd>
     
 
@@ -690,14 +690,14 @@ have access to
 
 
 <div class="description">
-    This middleware is used to check the validity of an access token. First we collect the access and refresh tokens from both 
-the header and from cookies. If any are missing, we return a 401 error. If all exist, we check to make sure that both sets of 
-tokens match each other (access token from cookie matches access token from header, etc). Next, we attempt to verify the access 
-token. If it has been modified, or is expired, it will fail. If it succeeds, we call the function to check to ensure that the 
-access token belongs to a user type authorized to view a patient page. On failure, we attempt to refresh it using the refreshToken. 
-The refreshAccessToken method returns a promise. If the promise resolves, it will resolve to either a new access token, or null. 
-If null, then the user is logged out, and an unauthorized status is returned. If the promise resolves with a new access token, 
-then new cookies are generated with the access and refresh tokens, and both tokens are sent in the response, and the request is 
+    This middleware is used to check the validity of an access token. First we collect the access and refresh tokens from both
+the header and from cookies. If any are missing, we return a 401 error. If all exist, we check to make sure that both sets of
+tokens match each other (access token from cookie matches access token from header, etc). Next, we attempt to verify the access
+token. If it has been modified, or is expired, it will fail. If it succeeds, we call the function to check to ensure that the
+access token belongs to a user type authorized to view a patient page. On failure, we attempt to refresh it using the refreshToken.
+The refreshAccessToken method returns a promise. If the promise resolves, it will resolve to either a new access token, or null.
+If null, then the user is logged out, and an unauthorized status is returned. If the promise resolves with a new access token,
+then new cookies are generated with the access and refresh tokens, and both tokens are sent in the response, and the request is
 allowed to proceed.
 </div>
 
@@ -837,7 +837,7 @@ allowed to proceed.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="api_service_token.service.js.html">api/service/token.service.js</a>, <a href="api_service_token.service.js.html#line92">line 92</a>
+        <a href="api_service_token.service.js.html">api/service/token.service.js</a>, <a href="api_service_token.service.js.html#line90">line 90</a>
     </li></ul></dd>
     
 
@@ -894,10 +894,10 @@ if one was generated
 
 
 <div class="description">
-    The method is called when the user attempts to log in. It checks if there is a refresh token held by the user's browser. 
-If there is, this is checked against the collection of logged in users AND against the collection of valid users for the email held 
-inside the token. If the token is valid, and the user is already logged in, their email is returned. If they are not logged in, null 
-is returned. And if the token is invalid in any way, an error is thrown and the string "bad token" is returned. The calling function 
+    The method is called when the user attempts to log in. It checks if there is a refresh token held by the user's browser.
+If there is, this is checked against the collection of logged in users AND against the collection of valid users for the email held
+inside the token. If the token is valid, and the user is already logged in, their email is returned. If they are not logged in, null
+is returned. And if the token is invalid in any way, an error is thrown and the string "bad token" is returned. The calling function
 checks for the return and responds accordingly.
 </div>
 
@@ -991,7 +991,7 @@ checks for the return and responds accordingly.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="api_service_login.service.js.html">api/service/login.service.js</a>, <a href="api_service_login.service.js.html#line272">line 272</a>
+        <a href="api_service_login.service.js.html">api/service/login.service.js</a>, <a href="api_service_login.service.js.html#line281">line 281</a>
     </li></ul></dd>
     
 
@@ -1193,7 +1193,7 @@ allowed to proceed.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="api_service_employee.token.service.js.html">api/service/employee.token.service.js</a>, <a href="api_service_employee.token.service.js.html#line103">line 103</a>
+        <a href="api_service_employee.token.service.js.html">api/service/employee.token.service.js</a>, <a href="api_service_employee.token.service.js.html#line101">line 101</a>
     </li></ul></dd>
     
 
@@ -1249,7 +1249,7 @@ allowed to proceed.
 
 
 <div class="description">
-    Check applied to pages that only an administrator has authorization to access. It is called after the user is 
+    Check applied to pages that only an administrator has authorization to access. It is called after the user is
 already authenticated as a valid user, and simply checks the type of user before allowing them to proceed, or turning them away.
 </div>
 
@@ -1389,7 +1389,7 @@ already authenticated as a valid user, and simply checks the type of user before
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="api_service_authorization.service.js.html">api/service/authorization.service.js</a>, <a href="api_service_authorization.service.js.html#line15">line 15</a>
+        <a href="api_service_authorization.service.js.html">api/service/authorization.service.js</a>, <a href="api_service_authorization.service.js.html#line13">line 13</a>
     </li></ul></dd>
     
 
@@ -1445,7 +1445,7 @@ already authenticated as a valid user, and simply checks the type of user before
 
 
 <div class="description">
-    Check applied to pages that only a practitioner has authorization to access. It is called after the user is 
+    Check applied to pages that only a practitioner has authorization to access. It is called after the user is
 already authenticated as a valid user, and simply checks the type of user before allowing them to proceed, or turning them away.
 </div>
 
@@ -1585,7 +1585,7 @@ already authenticated as a valid user, and simply checks the type of user before
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="api_service_authorization.service.js.html">api/service/authorization.service.js</a>, <a href="api_service_authorization.service.js.html#line43">line 43</a>
+        <a href="api_service_authorization.service.js.html">api/service/authorization.service.js</a>, <a href="api_service_authorization.service.js.html#line38">line 38</a>
     </li></ul></dd>
     
 
@@ -1641,10 +1641,10 @@ already authenticated as a valid user, and simply checks the type of user before
 
 
 <div class="description">
-    The method is called when the user attempts to log in. It checks if there is a refresh token held by the user's browser. 
-If there is, this is checked against the collection of logged in users AND against the collection of valid users for the email held 
-inside the token. If the token is valid, and the user is already logged in, their email is returned. If they are not logged in, null 
-is returned. And if the token is invalid in any way, an error is thrown and the string "bad token" is returned. The calling function 
+    The method is called when the user attempts to log in. It checks if there is a refresh token held by the user's browser.
+If there is, this is checked against the collection of logged in users AND against the collection of valid users for the email held
+inside the token. If the token is valid, and the user is already logged in, their email is returned. If they are not logged in, null
+is returned. And if the token is invalid in any way, an error is thrown and the string "bad token" is returned. The calling function
 checks for the return and responds accordingly.
 </div>
 
@@ -1738,7 +1738,7 @@ checks for the return and responds accordingly.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="api_service_login.service.js.html">api/service/login.service.js</a>, <a href="api_service_login.service.js.html#line208">line 208</a>
+        <a href="api_service_login.service.js.html">api/service/login.service.js</a>, <a href="api_service_login.service.js.html#line203">line 203</a>
     </li></ul></dd>
     
 
@@ -1794,10 +1794,10 @@ checks for the return and responds accordingly.
 
 
 <div class="description">
-    The method is called when the user attempts to log in. It checks if there is a refresh token held by the user's browser. 
-If there is, this is checked against the collection of logged in users AND against the collection of valid users for the email held 
-inside the token. If the token is valid, and the user is already logged in, their email is returned. If they are not logged in, null 
-is returned. And if the token is invalid in any way, an error is thrown and the string "bad token" is returned. The calling function 
+    The method is called when the user attempts to log in. It checks if there is a refresh token held by the user's browser.
+If there is, this is checked against the collection of logged in users AND against the collection of valid users for the email held
+inside the token. If the token is valid, and the user is already logged in, their email is returned. If they are not logged in, null
+is returned. And if the token is invalid in any way, an error is thrown and the string "bad token" is returned. The calling function
 checks for the return and responds accordingly.
 </div>
 
@@ -1891,7 +1891,7 @@ checks for the return and responds accordingly.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="api_service_login.service.js.html">api/service/login.service.js</a>, <a href="api_service_login.service.js.html#line240">line 240</a>
+        <a href="api_service_login.service.js.html">api/service/login.service.js</a>, <a href="api_service_login.service.js.html#line242">line 242</a>
     </li></ul></dd>
     
 
@@ -1947,8 +1947,8 @@ checks for the return and responds accordingly.
 
 
 <div class="description">
-    Takes in the id of a patient with an active visit request, moves that request to the 
-completed requests collection (history). Also removes all references to that request from the hospital 
+    Takes in the id of a patient with an active visit request, moves that request to the
+completed requests collection (history). Also removes all references to that request from the hospital
 and patient documents.
 </div>
 
@@ -2179,7 +2179,7 @@ closes the DB connection.
 
 
 <div class="description">
-    This method generates an access token. It is called as middleware whenever a user attempts to log in. It calls the method 
+    This method generates an access token. It is called as middleware whenever a user attempts to log in. It calls the method
 to generate a refresh token as well, so there should always be both together.
 </div>
 
@@ -2319,7 +2319,7 @@ to generate a refresh token as well, so there should always be both together.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="api_service_token.service.js.html">api/service/token.service.js</a>, <a href="api_service_token.service.js.html#line24">line 24</a>
+        <a href="api_service_token.service.js.html">api/service/token.service.js</a>, <a href="api_service_token.service.js.html#line22">line 22</a>
     </li></ul></dd>
     
 
@@ -2656,7 +2656,7 @@ a new non-expiring token with the email as the payload for storage in the login 
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="api_service_employee.token.service.js.html">api/service/employee.token.service.js</a>, <a href="api_service_employee.token.service.js.html#line76">line 76</a>
+        <a href="api_service_employee.token.service.js.html">api/service/employee.token.service.js</a>, <a href="api_service_employee.token.service.js.html#line74">line 74</a>
     </li></ul></dd>
     
 
@@ -2818,7 +2818,7 @@ a new non-expiring token with the email as the payload for storage in the login 
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="api_service_token.service.js.html">api/service/token.service.js</a>, <a href="api_service_token.service.js.html#line53">line 53</a>
+        <a href="api_service_token.service.js.html">api/service/token.service.js</a>, <a href="api_service_token.service.js.html#line51">line 51</a>
     </li></ul></dd>
     
 
@@ -3161,7 +3161,7 @@ backstopped in the logout route, which also clears the cookies containing the us
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="api_service_employee.token.service.js.html">api/service/employee.token.service.js</a>, <a href="api_service_employee.token.service.js.html#line281">line 281</a>
+        <a href="api_service_employee.token.service.js.html">api/service/employee.token.service.js</a>, <a href="api_service_employee.token.service.js.html#line265">line 265</a>
     </li></ul></dd>
     
 
@@ -3347,7 +3347,7 @@ backstopped in the logout route, which also clears the cookies containing the us
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="api_service_token.service.js.html">api/service/token.service.js</a>, <a href="api_service_token.service.js.html#line221">line 221</a>
+        <a href="api_service_token.service.js.html">api/service/token.service.js</a>, <a href="api_service_token.service.js.html#line225">line 225</a>
     </li></ul></dd>
     
 
@@ -3393,12 +3393,12 @@ backstopped in the logout route, which also clears the cookies containing the us
 
 
 <div class="description">
-    The user's email and password are taken in and checked for null or blank values. Then 
-the administrator database is checked for a user matching the provided email. Emails must be unique within a user 
-database, so this will return either one user, or null. A null return means the email didn't match, and the user is 
-denied access. If a matching user is found, the provided password is compared to the stored password. Assuming 
-that matches as well, another method call is made to check if they are already logged in (allowing a dual login 
-would present problems at logout). If they are, then the rest of the routing is cancelled with a return, which 
+    The user's email and password are taken in and checked for null or blank values. Then
+the administrator database is checked for a user matching the provided email. Emails must be unique within a user
+database, so this will return either one user, or null. A null return means the email didn't match, and the user is
+denied access. If a matching user is found, the provided password is compared to the stored password. Assuming
+that matches as well, another method call is made to check if they are already logged in (allowing a dual login
+would present problems at logout). If they are, then the rest of the routing is cancelled with a return, which
 allows the user to be taken to an authorized page. If not, then the route continues to the next middleware.
 </div>
 
@@ -3538,7 +3538,7 @@ allows the user to be taken to an authorized page. If not, then the route contin
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="api_service_login.service.js.html">api/service/login.service.js</a>, <a href="api_service_login.service.js.html#line90">line 90</a>
+        <a href="api_service_login.service.js.html">api/service/login.service.js</a>, <a href="api_service_login.service.js.html#line87">line 87</a>
     </li></ul></dd>
     
 
@@ -3594,12 +3594,12 @@ allows the user to be taken to an authorized page. If not, then the route contin
 
 
 <div class="description">
-    The user's email and password are taken in and checked for null or blank values. Then 
-the practitioner database is checked for a user matching the provided email. Emails must be unique within a user database, 
-so this will return either one user, or null. A null return means the email didn't match, and the user is 
-denied access. If a matching user is found, the provided password is compared to the stored password. Assuming 
-that matches as well, another method call is made to check if they are already logged in (allowing a dual login 
-would present problems at logout). If they are, then the rest of the routing is cancelled with a return, which 
+    The user's email and password are taken in and checked for null or blank values. Then
+the practitioner database is checked for a user matching the provided email. Emails must be unique within a user database,
+so this will return either one user, or null. A null return means the email didn't match, and the user is
+denied access. If a matching user is found, the provided password is compared to the stored password. Assuming
+that matches as well, another method call is made to check if they are already logged in (allowing a dual login
+would present problems at logout). If they are, then the rest of the routing is cancelled with a return, which
 allows the user to be taken to an authorized page. If not, then the route continues to the next middleware.
 </div>
 
@@ -3739,7 +3739,7 @@ allows the user to be taken to an authorized page. If not, then the route contin
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="api_service_login.service.js.html">api/service/login.service.js</a>, <a href="api_service_login.service.js.html#line146">line 146</a>
+        <a href="api_service_login.service.js.html">api/service/login.service.js</a>, <a href="api_service_login.service.js.html#line143">line 143</a>
     </li></ul></dd>
     
 
@@ -3795,12 +3795,12 @@ allows the user to be taken to an authorized page. If not, then the route contin
 
 
 <div class="description">
-    The user's email and password are taken in and checked for null or blank values. Then 
-the patient database is checked for a user matching the provided email. Emails must be unique within a user database, 
-so this will return either one user, or null. A null return means the email didn't match, and the user is 
-denied access. If a matching user is found, the provided password is compared to the stored password. Assuming 
-that matches as well, another method call is made to check if they are already logged in (allowing a dual login 
-would present problems at logout). If they are, then the rest of the routing is cancelled with a return, which 
+    The user's email and password are taken in and checked for null or blank values. Then
+the patient database is checked for a user matching the provided email. Emails must be unique within a user database,
+so this will return either one user, or null. A null return means the email didn't match, and the user is
+denied access. If a matching user is found, the provided password is compared to the stored password. Assuming
+that matches as well, another method call is made to check if they are already logged in (allowing a dual login
+would present problems at logout). If they are, then the rest of the routing is cancelled with a return, which
 allows the user to be taken to an authorized page. If not, then the route continues to the next middleware.
 </div>
 
@@ -4115,7 +4115,7 @@ with that token. An error with the query will reject the promise.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="api_service_token.service.js.html">api/service/token.service.js</a>, <a href="api_service_token.service.js.html#line174">line 174</a>
+        <a href="api_service_token.service.js.html">api/service/token.service.js</a>, <a href="api_service_token.service.js.html#line179">line 179</a>
     </li></ul></dd>
     
 
@@ -4291,7 +4291,7 @@ with the query will reject the promise.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="api_service_employee.token.service.js.html">api/service/employee.token.service.js</a>, <a href="api_service_employee.token.service.js.html#line193">line 193</a>
+        <a href="api_service_employee.token.service.js.html">api/service/employee.token.service.js</a>, <a href="api_service_employee.token.service.js.html#line195">line 195</a>
     </li></ul></dd>
     
 
@@ -4438,7 +4438,7 @@ run repeatedly on a set interval.
 
 
 <div class="description">
-    This method is called from passReset.route.js. It is passed an email and subject line, and an object payload containing a url and the name of 
+    This method is called from passReset.route.js. It is passed an email and subject line, and an object payload containing a url and the name of
 the recipient. The method assembles the email using these components and then sends it.
 </div>
 
@@ -4634,8 +4634,8 @@ the recipient. The method assembles the email using these components and then se
 
 
 <div class="description">
-    This method can only be called by an administrator. It takes in the user's email and a new password. It checks 
-to ensure that the password is a valid string, then attempts to find the user through their email. Assuming that passes, 
+    This method can only be called by an administrator. It takes in the user's email and a new password. It checks
+to ensure that the password is a valid string, then attempts to find the user through their email. Assuming that passes,
 it encrypts the new password and inserts it into the user as a new password
 </div>
 
@@ -4752,7 +4752,7 @@ it encrypts the new password and inserts it into the user as a new password
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="api_service_resetPass.service.js.html">api/service/resetPass.service.js</a>, <a href="api_service_resetPass.service.js.html#line59">line 59</a>
+        <a href="api_service_resetPass.service.js.html">api/service/resetPass.service.js</a>, <a href="api_service_resetPass.service.js.html#line57">line 57</a>
     </li></ul></dd>
     
 
@@ -4808,8 +4808,8 @@ it encrypts the new password and inserts it into the user as a new password
 
 
 <div class="description">
-    This method takes in the user's email and a new password. The new password string has already been checked to ensure 
-that the user entered it twice and it matched. It checks to ensure that the password is a valid string, then attempts to find the 
+    This method takes in the user's email and a new password. The new password string has already been checked to ensure
+that the user entered it twice and it matched. It checks to ensure that the password is a valid string, then attempts to find the
 user through their email. Assuming that passes, it encrypts the new password and inserts it into the user as a new password
 </div>
 
@@ -4988,7 +4988,7 @@ user through their email. Assuming that passes, it encrypts the new password and
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.10</a> on Fri Apr 15 2022 15:48:05 GMT-0600 (Mountain Daylight Time)
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.10</a> on Fri Apr 15 2022 16:36:02 GMT-0600 (Mountain Daylight Time)
 </footer>
 
 <script> prettyPrint(); </script>

@@ -5,8 +5,8 @@ import validator from 'validator'
 /**
  * @constructor people
  * @summary creates a new person
- * 
- * @description takes in input, validates it, and creates a new person 
+ *
+ * @description takes in input, validates it, and creates a new person
  * to be used with admin patient, practitioner.
  */
 const peopleSchema = new mongoose.Schema({

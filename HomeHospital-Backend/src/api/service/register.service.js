@@ -24,7 +24,7 @@ const regStatus = {
 export const registerUser = async (req) => {
 	try {
 		const { genSalt, hash } = bcrypt
-		console.log(whitelist_string)
+
 		// Destructure values from client request
 		const {
 			firstName,
@@ -63,7 +63,6 @@ export const registerUser = async (req) => {
 			valsFromBody.includes(null) ||
 			valsFromBody.includes('')
 		) {
-			console.log('Detected a missing field in registerUser')
 			return (regStatus.status = false)
 		}
 
@@ -77,8 +76,6 @@ export const registerUser = async (req) => {
 		const sanitizedVals = []
 		valsFromBody.forEach((element) => {
 			if (valsFromBody[2] === element || valsFromBody[3] === element) {
-				console.log('Found email or password')
-				console.log(element)
 				sanitizedVals.push(element)
 				return
 			}
@@ -96,8 +93,6 @@ export const registerUser = async (req) => {
 		const result = await PatientModel.exists({ email: sanitizedVals[2] })
 		// If they exist return an error status code
 		if (result?._id) {
-			console.log('User already exists!')
-			console.log('user Id: ' + result?._id)
 			return (regStatus.status = false)
 		}
 
@@ -137,7 +132,7 @@ export const registerUser = async (req) => {
 
 		return regStatus
 	} catch (error) {
-		console.log(error.message)
+		console.log(`${new Date()}n\tError:  ${error.message}`)
 		return null
 	}
 }
@@ -186,7 +181,6 @@ export const registerPractitioner = async (req) => {
 			return (regStatus.status = false)
 		}
 		const adminId = payload.adminId
-		console.log(adminId)
 		const validAdmin = await AdministratorModel.exists({ adminId: adminId })
 		if (!adminId || !validAdmin) {
 			console.log(
@@ -195,7 +189,6 @@ export const registerPractitioner = async (req) => {
 			return (regStatus.status = false)
 		}
 	} else {
-		console.log('Access token not present')
 		return (regStatus.status = false)
 	}
 
@@ -226,8 +219,6 @@ export const registerPractitioner = async (req) => {
 	const result = await PractitionerModel.exists({ practitionerId })
 	// If they exist return an error status code
 	if (result?._id) {
-		console.log('User already exists!')
-		console.log('user Id: ' + result?._id)
 		return (regStatus.status = false)
 	}
 
@@ -305,24 +296,20 @@ export const registerAdministrator = async (req) => {
 		permissionLevel,
 		phoneNumber,
 	]
-	console.log('adminId Type: ' + typeof adminId)
-	console.log('permission Type: ' + typeof permissionLevel)
+
 	if (
 		valsFromBody.includes(undefined) ||
 		valsFromBody.includes(null) ||
 		valsFromBody.includes('')
 	) {
-		console.log('Detected a missing field in registerPractitioner')
 		return (regStatus.status = false)
 	}
 
 	// check if administrator exists
 	const result = await AdministratorModel.exists({ adminId: adminId })
-	console.log('Check exist result is: ' + result)
+
 	// If they exist return an error status code
 	if (result?._id) {
-		console.log('User already exists!')
-		console.log('Admin already exists: ' + result?._id)
 		return (regStatus.status = false)
 	}
 
@@ -352,7 +339,7 @@ export const registerAdministrator = async (req) => {
 		})
 		newAdministrator.save()
 	} catch (err) {
-		console.log('Error was: ' + err)
+		console.log(`${new Date()}n\tError:  ${err.message}`)
 		return (regStatus.status = false)
 	}
 

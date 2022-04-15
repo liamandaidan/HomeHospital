@@ -9,30 +9,30 @@ route.post('/', async (req, res) => {
 	try {
 		const result = await registerAdministrator(req)
 
-		if(result == -1) {
-			console.log("registerAdministrator returned -1");
+		if (result == -1) {
 			res.status(422).send({
 				status: 'Error',
-				message: 'Something went wrong with the registration, please try again.',
+				message:
+					'Something went wrong with the registration, please try again.',
 			})
 			return
 		}
 
 		if (!result.status) {
-			//console.log('Error: Administrator already exists')
 			res.status(422).send({
 				status: 'Error',
-				message: 'Something went wrong with the registration, please try again.',
+				message:
+					'Something went wrong with the registration, please try again.',
 			})
 			return
 		}
 
 		if (result?.user) {
 			console.log('Registration Successful')
-			res.send({message: 'Admin Registered'})
+			res.send({ message: 'Admin Registered' })
 		}
 	} catch (e) {
-		console.error(e.message)
+		console.error(`${new Date()}n\tError:  ${e.message}`)
 		res.status(406).send('Request Failed')
 	}
 })

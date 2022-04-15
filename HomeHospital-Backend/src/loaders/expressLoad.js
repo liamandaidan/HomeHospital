@@ -3,9 +3,8 @@ import cors from 'cors'
 import routes from '../api/API.js'
 import cookieParser from 'cookie-parser'
 
-
 /**
- * @class ExpressLoader 
+ * @class ExpressLoader
  * @description When this class is created, it sets up the express app by registering all of the necessary
  * middleware, registering the routers used for API routes and catches any requests and get sent but do not have a route to handle them.
  * Takes in an express app as argument.
@@ -31,14 +30,14 @@ class ExpressLoader {
 		app.use((err, req, res, next) => {
 			if (err) {
 				console.log('error was caught!')
-				console.log(err)
+				console.log(`${new Date()}n\tError:  ${err.message}`)
 				res.status(404).send()
 			}
 		})
 
 		// Handle all unregistered HTTP request routes
 		app.all('*', (req, res) => {
-			res.status(404).send({ message: 'Invalid route' })
+			res.status(404).send({ message: 'Invalid route ' })
 		})
 	}
 }

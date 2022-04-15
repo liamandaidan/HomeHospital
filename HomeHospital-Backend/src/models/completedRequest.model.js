@@ -5,7 +5,7 @@ import VisitRequest from './visitRequest.Model.js'
  * @constructor completedRequest
  * @summary creates a completed request
  * @description takes a visit request and turns it into a completed request
- * 
+ *
  */
 const completedRequest = new mongoose.Schema(
 	{

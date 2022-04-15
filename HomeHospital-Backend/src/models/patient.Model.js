@@ -2,12 +2,11 @@ import mongoose from 'mongoose'
 import peopleSchema from './people.Schema.js'
 import validator from 'validator'
 
-
 /**
  * @constructor patient
  * @summary Creates a patient
- * 
- * @description Takes in input from the user, for the required fields, 
+ *
+ * @description Takes in input from the user, for the required fields,
  * validates it, then creates a new patient.
  */
 const patientSchema = new mongoose.Schema({
@@ -35,7 +34,7 @@ const patientSchema = new mongoose.Schema({
 	},
 	dateOfBirth: {
 		type: Date,
-		max:[Date.now(), 'Please enter a valid Date, not in the future'],
+		max: [Date.now(), 'Please enter a valid Date, not in the future'],
 		required: [true, 'Please enter your Date of Birth'],
 		validate: [validator.isDate, 'This amazingly was not a date'],
 	},
@@ -76,10 +75,10 @@ const patientSchema = new mongoose.Schema({
 /**
  * @function
  * @summary Adds the new request to the Patients currentRequest spot
- * 
- * @description A Function that first makes sure there isn't already an 
- * active request, then creates a new one for the Patient. 
- * 
+ *
+ * @description A Function that first makes sure there isn't already an
+ * active request, then creates a new one for the Patient.
+ *
  * @param {String} requestId
  * @param {String} requestHospitalId
  * @returns {any}
@@ -103,18 +102,17 @@ patientSchema.methods.newRequest = function (requestId, requestHospitalId) {
 			}
 		}
 	} catch (error) {
-		console.log(error.message)
+		console.log(`${new Date()}n\tError:  ${error.message}`)
 	}
 }
-
 
 /**
  * @function
  * @summary moves current request to past request
- * @description checks if patient has a request to move to be completed, 
+ * @description checks if patient has a request to move to be completed,
  * then moves the current request from the patients current request spot
  * and puts it in the list of past requests
- * 
+ *
  * @returns {any}
  */
 patientSchema.methods.completeRequest = function () {
@@ -127,17 +125,15 @@ patientSchema.methods.completeRequest = function () {
 			throw new Error('Patient has no request to move to be completed')
 		}
 	} catch (error) {
-		console.log('completed Request from patient model')
-		console.log(error.message)
+		console.log(`${new Date()}n\tError:  ${error.message}`)
 	}
 }
 
-
 /**
  * @function
- * @summary Cancel the current request 
+ * @summary Cancel the current request
  * Adds the new request to the Patients currentRequest spot
- * 
+ *
  * @description Checks to see if the patient has an active request to be canceled
  * then cancels the request by turning it Null
  * @returns void
@@ -151,17 +147,17 @@ patientSchema.methods.cancelRequest = function () {
 			throw new Error('Patient Does not have an active request to cancel')
 		}
 	} catch (error) {
-		console.log(error.message)
+		console.log(`${new Date()}n\tError:  ${error.message}`)
 	}
 }
 
 /**
  * @function
  * @summary gets patient request info
- * 
- * @description Gets Details about the patient request to be displayed 
+ *
+ * @description Gets Details about the patient request to be displayed
  * on the site and returns them to the front end
- * 
+ *
  * @returns {any}
  */
 patientSchema.methods.getPatientRequestInfo = function () {
@@ -177,7 +173,7 @@ patientSchema.methods.getPatientRequestInfo = function () {
 /**
  * @function
  * @summary gets patient info
- * @description Gets Details about the patient to be displayed 
+ * @description Gets Details about the patient to be displayed
  * on the site and returns them to the front end
  * @returns {any}
  */
@@ -189,14 +185,14 @@ patientSchema.methods.getPatientInfo = function () {
 		id: this._id,
 		email: this.email,
 		gender: this.gender,
-		dateOfBirth: this.dateOfBirth
+		dateOfBirth: this.dateOfBirth,
 	}
 }
 
 /**
  * @function
  * @summary gets admin info
- * @description Gets Details about the admin to be displayed 
+ * @description Gets Details about the admin to be displayed
  * on the site and returns them to the front end
  * @returns {any}
  */
@@ -205,27 +201,27 @@ patientSchema.methods.getInfoForAdmin = function () {
 		firstName: this.user.firstName,
 		lastName: this.user.lastName,
 		email: this.email,
-		_id: this.id
+		_id: this.id,
 	}
 }
 
 /**
  * @function
  * @summary modifies patient info
- * @description Gets new Details about the patient 
+ * @description Gets new Details about the patient
  * and modifies old patient info
  * @param {String} patientInfo
  * @returns {any}
  */
 patientSchema.methods.modifyPatient = function (patientInfo) {
-	this.user.firstName 	= patientInfo.user.firstName
-	this.user.lastName 		= patientInfo.user.lastName
-	this.user.address 		= patientInfo.user.address
-	this.user.phoneNumber 	= patientInfo.user.phoneNumber
-	this.email 				= patientInfo.email
-	this.emergencyContact 	= patientInfo.emergencyContact
-	this.gender 			= patientInfo.gender
-	this.HCnumber 			= patientInfo.HCnumber
+	this.user.firstName = patientInfo.user.firstName
+	this.user.lastName = patientInfo.user.lastName
+	this.user.address = patientInfo.user.address
+	this.user.phoneNumber = patientInfo.user.phoneNumber
+	this.email = patientInfo.email
+	this.emergencyContact = patientInfo.emergencyContact
+	this.gender = patientInfo.gender
+	this.HCnumber = patientInfo.HCnumber
 }
 
 export default mongoose.model('Patient', patientSchema)
