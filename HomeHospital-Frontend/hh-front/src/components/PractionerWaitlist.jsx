@@ -15,7 +15,7 @@ axios.defaults.withCredentials = true;
  */
 export default function PractionerWaitlist({ childToParent, refresh, cancelToast }) {
   //useContext here
-  const { _id, additionalInfo, symptomsInfo, hidden, patientList, requestList } =
+  const { _id, additionalInfo, symptomsInfo, hidden } =
     useContext(PractitionerContext);
 
   //useContext patient id
@@ -31,9 +31,7 @@ export default function PractionerWaitlist({ childToParent, refresh, cancelToast
   //patient id and setId used in check in button
   const [id, setId] = useState("");
 
-  const [practPatientInfo, setPractPatientInfo] = patientList;
-  const [oldResponse, setOldResponse] = requestList;
-  const [checkList, setCheckList] = useState();
+  const [practPatientInfo, setPractPatientInfo] = useState([]);
 
   const [selectedUsername, setSelectedUsername] = useState("");
   const [hospitalSelected, setHospitalSelected] = useState("none");
@@ -55,7 +53,7 @@ export default function PractionerWaitlist({ childToParent, refresh, cancelToast
     );
   };
 
-  function getList() {
+  async function getList() {
     //This if statement will be used to halt the call until a hospital has been selected.
     if (!(hospitalSelected === "none")) {
       /**
@@ -69,7 +67,13 @@ export default function PractionerWaitlist({ childToParent, refresh, cancelToast
             }
             if (response.data !== null && response.data !== undefined) {
               setPractPatientInfo(response.data);
-              window.localStorage.setItem('newList', response.data.length)
+              window.localStorage.setItem('newList', response.data.length);
+              if(window.localStorage.getItem('callback') === undefined || window.localStorage.getItem('callback') === null ) {
+                console.log("in the call back");
+                window.localStorage.setItem('oldList', response.data.length)
+                window.localStorage.setItem('checkedIn', '1');
+                window.localStorage.setItem('callback', 1);
+              }
             } else {
               console.log("COOL");
               refresh("DATA IS INVALID");
@@ -90,31 +94,35 @@ export default function PractionerWaitlist({ childToParent, refresh, cancelToast
    *change and set timer.
    */
   useEffect(() => {
+    console.log(hospitalSelected)
+    console.log(isCheckedIn)
+    if (!(hospitalSelected === "none") || window.localStorage.getItem('oldList') !== null || window.localStorage.getItem('oldList') !== undefined) {
     getList()
-    window.localStorage.setItem('checkedIn', false);
-    window.localStorage.setItem('oldList', window.localStorage.getItem('newList'))
     const interval = setInterval(() => {
-      if(JSON.parse(window.localStorage.getItem('checkedIn'))) {
+      if(window.localStorage.getItem('checkedIn') === '2') {
         console.log("in the myStopFunction")
         myStopFunction()
       }   
       getList();
-      if(window.localStorage.getItem('newList') > window.localStorage.getItem('oldList') && !JSON.parse(window.localStorage.getItem('checkedIn'))) {
+      if(window.localStorage.getItem('newList') > window.localStorage.getItem('oldList') && window.localStorage.getItem('checkedIn') === '1') {
         window.localStorage.setItem('oldList', window.localStorage.getItem('newList'))
         refresh('New Request has been Submitted!');
-      } else if (window.localStorage.getItem('newList') < window.localStorage.getItem('oldList') && !JSON.parse(window.localStorage.getItem('checkedIn'))) {
+      } else if (window.localStorage.getItem('callback') === 'null') {
+        console.log('callback is null')
+      }
+      else if (window.localStorage.getItem('newList') < window.localStorage.getItem('oldList') && window.localStorage.getItem('checkedIn') === '1') {
         window.localStorage.setItem('oldList', window.localStorage.getItem('newList'))
         cancelToast('Request has been Cancelled!');
       } else {
         console.log("no change!");
-        // window.localStorage.setItem('checkedIn', false);
       }
     }, 500);
     
     function myStopFunction() {
       clearInterval(interval);
     }
-    
+    return () => clearInterval(interval);
+  }
   }, [url, isCheckedIn]);
 
   
@@ -161,7 +169,7 @@ export default function PractionerWaitlist({ childToParent, refresh, cancelToast
    * @param {event} e the value passed from button press
    */
   const handleCheckIn = (e) => {
-    window.localStorage.setItem('checkedIn', true);
+    window.localStorage.setItem('checkedIn', '2');
     // console.log("this is the id of the user to check in: " + e);
     {
       practPatientInfo.map((data) => {
@@ -181,7 +189,6 @@ export default function PractionerWaitlist({ childToParent, refresh, cancelToast
    * @function confirmCheckIn check in the user once confirmed
    */
   const confirmCheckIn = () => {
-    window.localStorage.setItem('checkedIn', true);
     const checkInRoute =
       "http://localhost:4000/api/requestManager/completeRequest/";
     axios
@@ -193,6 +200,8 @@ export default function PractionerWaitlist({ childToParent, refresh, cancelToast
         setModalState(false);
         setIsCheckedIn(true);
         childToParent("null");
+        window.localStorage.setItem('checkedIn', '1');
+        window.localStorage.setItem('callback', 'null');
       });
   };
 

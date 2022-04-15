@@ -8,8 +8,6 @@ export const PractitionerProvider = (props) => {
   const [additionalInfo, setAdditIonalInfo] = useState();
   const [symptomsInfo, setSymptomsInfo] = useState([]);
   const [hidden, setHidden] = useState(true);
-  const [patientList, setPatientList] = useState([]);
-  const [requestList, setRequestList] = useState([]);
 
   return (
     <PractitionerContext.Provider
@@ -18,8 +16,6 @@ export const PractitionerProvider = (props) => {
         additionalInfo: [additionalInfo, setAdditIonalInfo],
         symptomsInfo: [symptomsInfo, setSymptomsInfo],
         hidden: [hidden, setHidden],
-        patientList: [patientList, setPatientList],
-        requestList: [requestList, setRequestList],
       }}
     >
       {props.children}

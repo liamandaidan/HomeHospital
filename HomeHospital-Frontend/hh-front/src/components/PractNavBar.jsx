@@ -22,6 +22,7 @@ function PractNavBar() {
       .post("http://localhost:4000/api/logout")
       .then((response) => {
         deleteAllCookies();
+        localStorage.clear();
         navigate("/login-practitioner");
       })
       .catch((err) => {
