@@ -7,8 +7,8 @@ import validator from 'validator'
  * @constructor patient
  * @summary Creates a patient
  * 
- * @description Takes in input from the user, validates it, 
- * then creates a new patient.
+ * @description Takes in input from the user, for the required fields, 
+ * validates it, then creates a new patient.
  */
 const patientSchema = new mongoose.Schema({
 	email: {
@@ -80,8 +80,8 @@ const patientSchema = new mongoose.Schema({
  * @description A Function that first makes sure there isn't already an 
  * active request, then creates a new one for the Patient. 
  * 
- * @param {any} requestId
- * @param {any} requestHospitalId
+ * @param {ObjectId} requestId
+ * @param {ObjectId} requestHospitalId
  * @returns {any}
  */
 patientSchema.methods.newRequest = function (requestId, requestHospitalId) {
@@ -109,7 +109,10 @@ patientSchema.methods.newRequest = function (requestId, requestHospitalId) {
 
 
 /**
- * moves the current request from the patients current request spot
+ * @function
+ * @summary moves current request to past request
+ * @description checks if patient has a request to move to be completed, 
+ * then moves the current request from the patients current request spot
  * and puts it in the list of past requests
  * 
  * @returns {any}
@@ -131,10 +134,12 @@ patientSchema.methods.completeRequest = function () {
 
 
 /**
+ * @function
  * @summary Cancel the current request 
  * Adds the new request to the Patients currentRequest spot
  * 
- * @description 
+ * @description Checks to see if the patient has an active request to be canceled
+ * then cancels the request by turning it Null
  * @returns {any}
  */
 patientSchema.methods.cancelRequest = function () {
@@ -151,6 +156,7 @@ patientSchema.methods.cancelRequest = function () {
 }
 
 /**
+ * @function
  * @summary Gets Details about the patient to be displayed 
  * on the site and returns them to the front end
  * 
@@ -168,6 +174,9 @@ patientSchema.methods.getPatientRequestInfo = function () {
 }
 
 /**
+ * @function
+ * @summary
+ * @description
  * Description
  * @returns {any}
  */
@@ -184,6 +193,9 @@ patientSchema.methods.getPatientInfo = function () {
 }
 
 /**
+ * @function
+ * @summary
+ * @description
  * Description
  * @returns {any}
  */
@@ -197,6 +209,9 @@ patientSchema.methods.getInfoForAdmin = function () {
 }
 
 /**
+ * @function
+ * @summary
+ * @description
  * Description
  * @param {any} patientInfo
  * @returns {any}

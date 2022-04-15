@@ -44,7 +44,8 @@ const administratorSchema = new mongoose.Schema({
 
 /**
  * @function
- * Description
+ * @summary gets admin info
+ * @description gets admin info
  * @returns {any}
  */
 administratorSchema.methods.getAdminInfo = function () {
@@ -58,7 +59,8 @@ administratorSchema.methods.getAdminInfo = function () {
 
 /**
  * @function
- * Description
+ * @summary modifies admin info
+ * @description modifies admin info
  * @param {any} adminInfo
  * @returns {any}
  */
