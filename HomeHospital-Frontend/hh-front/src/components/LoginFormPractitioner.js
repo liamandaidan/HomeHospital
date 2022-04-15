@@ -15,7 +15,11 @@ import axios from "axios";
 import { PractitionerContext } from "./PractitionerContext";
 
 axios.defaults.withCredentials = true;
-
+/**
+ * @name LoginFormPractitioner
+ * @summary this will cover the summary of all things related to login for a practitioner
+ * @returns html component
+ */
 function LoginFormPractitioner() {
   let navigate = useNavigate();
 
@@ -74,35 +78,18 @@ function LoginFormPractitioner() {
         password: password,
       })
       .then((response) => {
-        console.log("You have logged in successfully");
-        console.log(response);
+       // console.log("You have logged in successfully");
+       // console.log(response);
         setFirstNameValue(response.data.practitionerDetails.firstName);
         setLastNameValue(response.data.practitionerDetails.lastName);
         setRoleNameValue(response.data.practitionerDetails.role);
         navigate("/practitioner");
       })
       .catch((err) => {
-        console.log(err);
+        //console.log(err);
         handleShow();
       });
   };
-  /**
-   * The main feature of this is to provide login utility.
-   * This will need to be changed if a practioner account differs from a patient. Right now they are the same.
-   */
-  // useEffect(() => {
-  //   axios
-  //     .post("http://localhost:4000/api/users/PatientInfoVisitRequest", {
-  //       withCredentials: true,
-  //     })
-  //     .then((response) => {
-  //       setLoggedIn(true);
-  //       navigate("/practitioner");
-  //     })
-  //     .catch((err) => {
-  //       setLoggedIn(false);
-  //     });
-  // }, [loggedIn]);
 
   /**
    * This will handle errors
@@ -137,16 +124,6 @@ function LoginFormPractitioner() {
       setValidForm(true);
     }
   }, [validEmail, validPassword]);
-
-  // if (loggedIn === undefined || loggedIn === null) {
-  //   return (
-  //     <div className={`${classes.spinner} text-center`}>
-  //       <Spinner animation="border" role="status">
-  //         <span className="visually-hidden">Loading...</span>
-  //       </Spinner>
-  //     </div>
-  //   );
-  // }
 
   return (
     <React.Fragment>
