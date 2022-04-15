@@ -4,6 +4,11 @@ import { Button, Modal, Spinner, Table } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import { HomeHospitalContext } from "./HomeHospitalContext";
 
+/**
+ * @name WaitList
+ * @summary waitlist functionality and logic
+ * @returns html component
+ */
 function WaitList() {
   const { requestId, isCurrentRequest, requestButtonOn, cancelSuccess } =
     useContext(HomeHospitalContext);
@@ -29,7 +34,7 @@ function WaitList() {
           // console.log(response.data);
         })
         .catch((err) => {
-          console.log(err);
+          //console.log(err);
         });
     } else {
       // console.log(requestIdValue);
@@ -44,15 +49,19 @@ function WaitList() {
           setSpinner(false);
         })
         .catch((err) => {
-          console.log(err);
+          //console.log(err);
         });
     }
   }, []);
-
+  /**
+   * @function handleCurrentRequest set modal for cancel request
+   */
   function handleCancelRequest() {
     setModalState(true);
   }
-
+  /**
+   * @function cancelRequest used to send a cancel request to backend and reset hooks
+   */
   function cancelRequest() {
     axios
       .delete("http://localhost:4000/api/visitRequest/cancel", {
@@ -68,7 +77,7 @@ function WaitList() {
         }
       })
       .catch((err) => {
-        console.log(err);
+        // console.log(err);
       });
   }
 

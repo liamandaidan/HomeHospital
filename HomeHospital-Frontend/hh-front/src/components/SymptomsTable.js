@@ -26,13 +26,13 @@ function SymptomsTable() {
       axios
         .get("http://localhost:4000/api/visitRequest/currentRequest")
         .then((response) => {
-          console.log(response);
+          //console.log(response);
           setSymptomsList(response.data.symptoms);
           setLatitudeValue(response.data.latitude);
           setLongitudeValue(response.data.longitude);
         })
         .catch((err) => {
-          console.log(err);
+          //console.log(err);
         });
     } else {
       axios
@@ -40,13 +40,13 @@ function SymptomsTable() {
           `http://localhost:4000/api/visitRequest/targetRequest/${requestIdValue}`
         )
         .then((response) => {
-          console.log(response);
+          //console.log(response);
           setSymptomsList(response.data.request.symptoms);
           setLatitudeValue(response.data.request.latitude);
           setLongitudeValue(response.data.request.longitude);
         })
         .catch((err) => {
-          console.log(err);
+          //console.log(err);
         });
     }
   }, []);
