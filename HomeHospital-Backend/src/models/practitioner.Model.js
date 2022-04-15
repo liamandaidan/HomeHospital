@@ -47,7 +47,7 @@ const practitionerSchema = new mongoose.Schema({
 /**
  * @function
  * @summary gets practitioner info
- * @description 
+ * @description fills in practitioner info
  * @returns {any} 
  */
 practitionerSchema.methods.getPractitionerInfo = function () {

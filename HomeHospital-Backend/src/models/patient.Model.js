@@ -157,10 +157,11 @@ patientSchema.methods.cancelRequest = function () {
 
 /**
  * @function
- * @summary Gets Details about the patient to be displayed 
+ * @summary gets patient request info
+ * 
+ * @description Gets Details about the patient request to be displayed 
  * on the site and returns them to the front end
  * 
- * @description 
  * @returns {any}
  */
 patientSchema.methods.getPatientRequestInfo = function () {
@@ -175,9 +176,9 @@ patientSchema.methods.getPatientRequestInfo = function () {
 
 /**
  * @function
- * @summary
- * @description
- * Description
+ * @summary gets patient info
+ * @description Gets Details about the patient to be displayed 
+ * on the site and returns them to the front end
  * @returns {any}
  */
 patientSchema.methods.getPatientInfo = function () {
@@ -194,9 +195,9 @@ patientSchema.methods.getPatientInfo = function () {
 
 /**
  * @function
- * @summary
- * @description
- * Description
+ * @summary gets admin info
+ * @description Gets Details about the admin to be displayed 
+ * on the site and returns them to the front end
  * @returns {any}
  */
 patientSchema.methods.getInfoForAdmin = function () {
@@ -210,9 +211,8 @@ patientSchema.methods.getInfoForAdmin = function () {
 
 /**
  * @function
- * @summary
- * @description
- * Description
+ * @summary modifies patient info
+ * @description Gets new Details about the patient and modifies old patient info
  * @param {any} patientInfo
  * @returns {any}
  */
