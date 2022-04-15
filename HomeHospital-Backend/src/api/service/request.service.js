@@ -2,16 +2,29 @@ import CompletedRequestModel from '../../models/completedRequest.model.js'
 import patientModel from '../../models/patient.Model.js'
 import visitRequestModel from '../../models/visitRequest.Model.js'
 import hospitalModel from '../../models/medicalFacility.Model.js'
+import { whitelist_string } from '../../configure/configure.js'
+import validator from 'validator'
 
-// Takes in a requestId, moves the request Object from the vistitRequest collection in the database
-// and shifts it into the completedRequests collection in the database
-// this is a function that will be called BY THE PRACTITIONER
+/**
+ * @function
+ * @summary Completes a patients active visit request moving it to history. Activated by the Practitioner.
+ *
+ * @description Takes in the id of a patient with an active visit request, moves that request to the
+ * completed requests collection (history). Also removes all references to that request from the hospital
+ * and patient documents.
+ *
+ * @param {String} patientId The ID of a patient with an active visit request.
+ */
 export const completeCurrentRequest = async (patientId) => {
 	try {
-		const patient = await patientModel.findById(patientId)
+		const sanitizedPatientId = validator.whitelist(
+			patientId,
+			whitelist_string
+		)
+
+		const patient = await patientModel.findById(sanitizedPatientId)
 
 		if (patient.currentRequest && patient.currentHospital) {
-
 			// Get the visit request and create a completed request from it.
 			const visitRequest = await visitRequestModel.findById(
 				patient.currentRequest
@@ -29,9 +42,9 @@ export const completeCurrentRequest = async (patientId) => {
 
 			//Finally delete the visit request and save the completed request.
 			await visitRequestModel.findByIdAndDelete(patient.currentRequest)
-			
+
 			// Remove the visit request and move it into history
-			hospital.completeRequest(patient.currentRequest)
+			hospital.removeRequest(patient.currentRequest)
 			patient.completeRequest()
 
 			// Save these new object states.
@@ -41,21 +54,32 @@ export const completeCurrentRequest = async (patientId) => {
 
 			return true
 		} else {
-			console.log('in the else')
 			throw new Error('patient does not possess current request')
 		}
 	} catch (error) {
-		console.error('Error: ' + error.message)
+		console.error(`${new Date()}n\tError:  ${error.message}`)
 		return false
 	}
 }
 
-// This takes in a requestId and deletes the request from the visitRequest collection
-//TODO: This still needs to remove the request from the Patients list/hospital list
-//This can be called by the PATIENT OR THE PRACTITIONER
+/**
+ * @function
+ * @summary Cancels a patients request deleting it from the database.
+ *
+ * @description Takes in a patient id, checks for an active request and if so deletes that request.
+ * Also removes references to the request from the hospital and patient documents.
+ *
+ * @param {String} patientId ID of the patient that is having the request cancelled.
+ *
+ */
 export const cancelCurrentRequest = async (patientId) => {
 	try {
-		const patient = await patientModel.findById(patientId)
+		const sanitizedPatientId = validator.whitelist(
+			patientId,
+			whitelist_string
+		)
+
+		const patient = await patientModel.findById(sanitizedPatientId)
 		if (patient.currentRequest && patient.currentHospital) {
 			// Delete the visit request
 			await visitRequestModel.findByIdAndDelete(patient.currentRequest)
@@ -65,7 +89,7 @@ export const cancelCurrentRequest = async (patientId) => {
 			)
 
 			// Remove the references to the visit request from the patient and the hospital.
-			hospital.cancelRequest(patient.currentRequest)
+			hospital.removeRequest(patient.currentRequest)
 			patient.cancelRequest()
 
 			hospital.save()
@@ -76,26 +100,39 @@ export const cancelCurrentRequest = async (patientId) => {
 			throw new Error('patient does not possess current request')
 		}
 	} catch (error) {
-		console.log('Error: ' + error.message)
+		console.log(`${new Date()}n\tError:  ${error.message}`)
 		return false
 	}
 }
 
+/**
+ * @summary Returns the waitlist of visit request IDs from the desired Hospital
+ *
+ * @description Needs a valid hospital ID. If the ID is valid it will return an array of request IDs that
+ * represent the waitlist of the hospital. Array can be empty if there are no requests.
+ *
+ * @param {String} hospitalId The ID of the hospital that we need the waitlist from.
+ * @returns {String[]} The waitlist of request IDs for the hospital
+ */
 export const getHospitalWaitList = async (hospitalId) => {
-	
 	try {
-		const hospital = await hospitalModel.findById(hospitalId)
-		// console.log(hospital)
+		const sanitizedHospitalId = validator.whitelist(
+			hospitalId,
+			whitelist_string
+		)
 
-		if(!hospital){
+		const hospital = await hospitalModel.findById(sanitizedHospitalId)
+
+		if (!hospital) {
 			throw new Error('Hospital Not found.')
 		}
 		const { waitList } = hospital
-		const visitRequests = await visitRequestModel.find({ '_id': { $in: waitList }})
-		console.log(visitRequests)
+		const visitRequests = await visitRequestModel.find({
+			_id: { $in: waitList },
+		})
 
 		return visitRequests
-	} catch(error) {
-		console.error(error.message)
+	} catch (error) {
+		console.error(`${new Date()}n\tError:  ${error.message}`)
 	}
 }

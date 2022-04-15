@@ -36,7 +36,8 @@ route.post('/newFacility', checkMayAccessAdminPage, async (req, res) => {
 		valsFromBody.includes('')
 	) {
 		console.log(
-			'Detected a missing field in registering new medical facility'
+			new Date() +
+				' Detected a missing field in registering new medical facility'
 		)
 		res.status(400).send({ message: 'Error' })
 	}
@@ -48,7 +49,10 @@ route.post('/newFacility', checkMayAccessAdminPage, async (req, res) => {
 		})
 
 		if (result?._id) {
-			console.log('Hospital All Ready exists!!')
+			console.log(
+				'Hospital All Ready exists!! Tried to register a hospital that already exists ' +
+					new Date()
+			)
 			res.status(400).send({ message: 'Error' })
 
 			return
@@ -66,9 +70,9 @@ route.post('/newFacility', checkMayAccessAdminPage, async (req, res) => {
 			phoneNumber: phoneNumber,
 		})
 		facility.save()
-		console.log('hospital created: ' + facility)
 		res.status(201).send({ message: 'Hospital Created' })
 	} catch (error) {
+		console.log(`${new Date()}n\tError:  ${error.message}`)
 		res.status(400).send({ message: 'Error' })
 	}
 })
@@ -80,7 +84,7 @@ route.get('/viewFacilities', checkAccessToken, async (req, res) => {
 	return
 })
 
-// get the list from the pracitioner view
+// get the list from the practitioner view
 route.get(
 	'/viewFacilitiesPractitioner',
 	checkEmployeeAccessToken,

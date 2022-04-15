@@ -9,8 +9,6 @@ route.post('/', logAdministratorIn, generateEmployeeAccessToken, (req, res) => {
 	// attaches JWT token values to the request
 	const accessT = req.tokens.accessT
 	const refreshT = req.tokens.refreshT
-	// console.log('accessT: ' + accessT)
-	// console.log('refreshT: ' + refreshT)
 	res.status(201).json({
 		message: 'Login successful',
 		adminId: req.adminId,

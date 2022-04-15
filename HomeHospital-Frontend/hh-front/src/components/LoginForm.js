@@ -14,7 +14,12 @@ import classes from "./LoginForm.module.css";
 import axios from "axios";
 
 axios.defaults.withCredentials = true;
-
+/**
+ * @name LoginForm Component
+ * @summary The LoginForm component authenticates the login credentials
+ * validates the email address and throws any errors.
+ * @author Lance Gee
+ */
 function LoginForm() {
   let navigate = useNavigate();
 

@@ -1,4 +1,9 @@
 import MedicalFacility from '../../models/medicalFacility.Model.js'
+/**
+ * @function
+ * @summary Gets a list of all of the medical facilities.
+ * @param {*} res
+ */
 export const getHospitalList = async (res) => {
 	try {
 		// Fetch the list of hospitals from the database without the list of practitioners or V number
@@ -10,14 +15,13 @@ export const getHospitalList = async (res) => {
 			})
 			.exec()
 
-		// console.log(hospitalList)
 		// Sent the user an array of objects containing the hospitals and info
 		res.status(200).send({
 			message: 'Successful Request',
 			hospitalList: hospitalList,
 		})
 	} catch (error) {
-		console.log(error)
+		console.log(`${new Date()}n\tError:  ${error.message}`)
 		res.status(400).send({ message: 'Error in the request' })
 	}
 }

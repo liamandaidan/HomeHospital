@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from "react";
-import Table from "react-bootstrap/table";
+import Table from "react-bootstrap/Table";
 import axios from "axios";
 import Button from "react-bootstrap/Button";
 import { HomeHospitalContext } from "./HomeHospitalContext";

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import {
   Navbar,
   Container,
@@ -10,9 +10,15 @@ import classes from "./UserNavBar.module.css";
 import avatar from "../images/img_avatar.png";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { PractitionerContext } from "./PractitionerContext";
 
 function PractNavBar() {
   let navigate = useNavigate();
+
+  const { firstName, lastName, roleName } = useContext(PractitionerContext);
+  const [firstNameValue, setfirstNameValue] = firstName;
+  const [lastNameValue, setLastNameValue] = lastName;
+  const [roleNameValue, setRoleNameValue] = roleName;
 
   /**
    * This is where the logout function will be handled.
@@ -58,7 +64,8 @@ function PractNavBar() {
           ></Nav>
           <div className="d-flex">
             <img src={avatar} alt="avatar" className={classes.avatar} />
-            <h6 className="me-3 mt-2 ps-2">Username</h6>
+            <p className={classes.role}>{roleNameValue}</p>
+            <h6 className="me-3 mt-2 ps-2">{firstNameValue} {lastNameValue}</h6>
             <DropdownButton
               variant="btn-outline-light"
               title={

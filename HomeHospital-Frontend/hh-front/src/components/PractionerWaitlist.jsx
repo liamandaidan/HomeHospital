@@ -179,7 +179,6 @@ export default function PractionerWaitlist({ childToParent, refresh, cancelToast
             data.patientFirstName + " " + data.patientLastName
           );
           setModalState(true);
-          //setUrl("http://localhost:4000/api/requestManager/hospitalWaitList/");
         }
       });
     }
@@ -230,9 +229,6 @@ export default function PractionerWaitlist({ childToParent, refresh, cancelToast
           <td>{data.patientFirstName}</td>
           <td>{data.patientLastName}</td>
           <td>
-            {/*Select button grabs data from the route in the useEffect so that
-             * it can be stored in useContext look at check data function
-             */}
             <Button
               value={data.patient}
               onClick={() => checkData(data)}
@@ -242,7 +238,6 @@ export default function PractionerWaitlist({ childToParent, refresh, cancelToast
             </Button>
           </td>
           <td>
-            {/*Passes patientId to the left component PractitionerPatientInfo.js*/}
             <Button
               onClick={(e) => handleCheckIn(data.patient)}
               className="checkInBtn"
@@ -286,8 +281,6 @@ export default function PractionerWaitlist({ childToParent, refresh, cancelToast
       <div className="alert alert-info" hidden={!flag}>
         There is no current data for this hospital.
       </div>
-
-      {/*Alert modal for when a practitioner checks in a patient. Currently hidden*/}
       <AlertModal show={modalState} onHide={() => setModalState(false)} />
     </div>
   );

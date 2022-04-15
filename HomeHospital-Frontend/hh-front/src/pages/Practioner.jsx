@@ -6,6 +6,12 @@ import PractionerWaitlist from "../components/PractionerWaitlist.jsx";
 import PractitionerPatientInfo from "../components/PractitionerPatientInfo.js";
 import { PractitionerContext } from "../components/PractitionerContext.js";
 import { ToastContainer, toast } from "react-toastify";
+/**
+ * @name practitioner 
+ * @summary This function is used to represent the page belonging to practitioner.
+ * @author Ridge Banez, Liam McLaughlin
+ * @returns practioner page
+ */
 export default function Practioner() {
   // useContext
   const { _id } = useContext(PractitionerContext);
@@ -14,18 +20,22 @@ export default function Practioner() {
   const [patientData, setPatientData] = _id;
   const [refreshMsg, setRefreshMsg] = useState("null");
   /**
-   * This will update our parent class(Practioner) with recent info.
-   * @param {*} childData the ID of a patient passed in from child.
+   * @function childToParent This will update our parent class(Practioner) with recent info.
+   * @param {string} childData the ID of a patient passed in from child.
    */
   const childToParent = (childData) => {
-    //alert("This is id num: "+childData);
-    if(childData == "null"){
+    //When a patient is checked in, childData is set to null. We can use this
+    //to display our toast.
+    if (childData === "null") {
       notify("User has been checked in.");
     }
-    
+
     setPatientData(childData);
   };
-
+  /**
+   * @function refresh This function will update refresh hook passed in from another component. When it does so it will send a notify toast letting the user know that the table was just updated with the newest result.
+   * @param {string} childData the message to be passed in.
+   */
   const refresh = (childData) => {
     setRefreshMsg(childData);
     notify(childData);
@@ -59,7 +69,9 @@ export default function Practioner() {
       progress: undefined,
     });
   }
-
+  /**
+   * @summary Html components returned to user.
+   */
   return (
     <div>
       <ToastContainer

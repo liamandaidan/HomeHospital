@@ -10,7 +10,6 @@ route.post('/', async (req, res) => {
 		const result = await registerUser(req)
 
 		if (result == -1) {
-			console.log('registerUser returned -1')
 			res.status(422).send({
 				status: 'Error',
 				message:
@@ -31,11 +30,11 @@ route.post('/', async (req, res) => {
 
 		if (result?.user) {
 			console.log('Registration Successful')
-			res.send(result.user)
+			res.send({ message: 'Patient Registered' })
 		}
 	} catch (e) {
-		console.error(e.message)
-		res.status(406).send({ message: 'Request Failed' })
+		console.error(`${new Date()}n\tError:  ${e.message}`)
+		res.status(406).send({ message: e.message })
 	}
 })
 

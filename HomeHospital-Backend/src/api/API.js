@@ -12,7 +12,10 @@ import empReset from './routes/passReset.employee.route.js'
 import facilityActions from './routes/medicalFacility.route.js'
 import { checkAccessToken } from './service/token.service.js'
 import { checkEmployeeAccessToken } from './service/employee.token.service.js'
-import { checkMayAccessAdminPage, checkMayAccessPractitionerPage} from './service/authorization.service.js'
+import {
+	checkMayAccessAdminPage,
+	checkMayAccessPractitionerPage,
+} from './service/authorization.service.js'
 import users from './routes/users.route.js'
 import requestActions from './routes/request.route.js'
 import requestManager from './routes/requestManager.route.js'
@@ -35,7 +38,7 @@ app.use('/testP', test)
 app.use('/register', register)
 app.use('/registerP', checkMayAccessAdminPage)
 app.use('/registerP', registerP)
-app.use('/registerA',checkMayAccessAdminPage, registerA)
+app.use('/registerA', checkMayAccessAdminPage, registerA)
 // Patient login
 app.use('/login', login)
 //practitioner/admin login
@@ -43,7 +46,7 @@ app.use('/loginP', loginP)
 app.use('/loginA', loginA)
 // lout works for all users
 app.use('/logout', logout)
-// 
+//
 app.use('/forget', reset)
 
 // Add a facility, view list of all facilities
@@ -59,12 +62,22 @@ app.use('/visitRequest', requestActions)
 
 // add routes for 'manageRequests'
 // put middleware to check for practitioner
-app.use('/requestManager', checkEmployeeAccessToken, checkMayAccessPractitionerPage, requestManager)
+app.use(
+	'/requestManager',
+	checkEmployeeAccessToken,
+	checkMayAccessPractitionerPage,
+	requestManager
+)
 
 // admin functions
 app.use('/admin', checkMayAccessAdminPage, adminFunctions)
 //route for admins to reset passwords
-app.use('/admin/password', checkEmployeeAccessToken, checkMayAccessAdminPage, empReset)
+app.use(
+	'/admin/password',
+	checkEmployeeAccessToken,
+	checkMayAccessAdminPage,
+	empReset
+)
 
 // exports the router application
 export default app

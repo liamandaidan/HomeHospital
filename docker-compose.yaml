@@ -1,0 +1,14 @@
+version: '3'
+services:
+  server:
+    restart: always
+    build: ./HomeHospital-Backend
+    container_name: node-server
+    ports:
+      - 4000:4000
+  frontend:
+    restart: always
+    build: ./HomeHospital-Frontend/hh-front/
+    container_name: react-app
+    ports:
+      - 80:3000

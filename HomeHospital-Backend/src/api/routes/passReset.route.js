@@ -10,15 +10,13 @@ const clientURL = 'http://localhost:3000/reset'
 
 const route = express.Router()
 
-//route for when the user clicks to reset their password
 route.post('/', async (req, res) => {
 	const { email, token, newPass, newPassConfirm } = req.body
 
-	console.log('Got email: ' + email)
 	if (email) {
 		if (typeof email != 'string') {
 			res.status(406).send({ message: 'Password update failed' })
-            return
+			return
 		}
 		if (newPass && newPassConfirm) {
 			//these parameters will only exist if user has entered a new password and confirmed
@@ -32,13 +30,9 @@ route.post('/', async (req, res) => {
 				return
 			}
 			let tokenEmail = jwt.verify(token, resetKey)
-			console.log('tokenEmail is: ' + tokenEmail.email)
 			if (tokenEmail.email === email) {
-				console.log(
-					'Emails match!' + tokenEmail.email + ' and ' + email
-				)
 				const updateResult = await updatePassword(email, newPass)
-				console.log('Result: ' + updateResult)
+
 				if (updateResult === 1) {
 					res.status(201).send({
 						message: 'Password successfully updated',
@@ -48,22 +42,18 @@ route.post('/', async (req, res) => {
 					return
 				}
 			} else {
-				console.log("they don't match")
 				res.status(406).send({ message: 'Password update failed' })
 				return
 			}
 		} else {
 			try {
 				const patient = await PatientModel.findOne({ email: email })
-				console.log('Return from DB is: ' + patient)
+
 				if (patient != null) {
 					const resettoken = jwt.sign({ email: email }, resetKey, {
 						expiresIn: '24h',
 					}) //verify should return the email
-					console.log('Token is: ' + resettoken)
 					const link = `${clientURL}?uemail=${email}&tokenstring=${resettoken}`
-					console.log('Link is: ' + link)
-					console.log('Name is: ' + patient.user.firstName)
 					sendEmailAlt(email, 'Password Reset Request', {
 						name: patient.user.firstName,
 						link: link,
@@ -71,7 +61,7 @@ route.post('/', async (req, res) => {
 					res.status(201).send({ message: 'Send mail complete' })
 				}
 			} catch (e) {
-				console.error(e.message)
+				console.error(`${new Date()}n\tError:  ${e.message}`)
 				res.status(406).send('Request Failed')
 				return
 			}
@@ -80,15 +70,6 @@ route.post('/', async (req, res) => {
 		res.status(401).send('Information is required')
 		return
 	}
-})
-
-route.get('/', (req, res, next) => {
-	let name = req.query.uemail
-	let tokenstring = req.query.tokenstring
-	console.log('Successfully reached route')
-	console.log('Name: ' + name)
-	console.log('Tokenstring: ' + tokenstring)
-	res.status(201)
 })
 
 export default route

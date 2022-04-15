@@ -14,6 +14,11 @@ import { HomeHospitalContext } from "./HomeHospitalContext";
 
 axios.defaults.withCredentials = true;
 
+/**
+ * @name UserNavBar Component
+ * @summary The UserNavBar component is the main navigation bar for patients
+ * @author Lance Gee
+ */
 function UserNavBar() {
   let navigate = useNavigate();
   const { requestButtonOn } = useContext(HomeHospitalContext);
@@ -41,6 +46,9 @@ function UserNavBar() {
     navigate("/");
   };
 
+  /**
+   * @function deletes all cookies on the browser
+   */
   function deleteAllCookies() {
     const cookies = document.cookie.split(";");
 
@@ -52,6 +60,9 @@ function UserNavBar() {
     }
   }
 
+  /**
+   * @function handleLogout logout the patient from application
+   */
   const handleLogout = () => {
     axios
       .post("http://localhost:4000/api/logout")
@@ -65,6 +76,9 @@ function UserNavBar() {
       });
   };
 
+  /**
+   * @function currentRequest calls api endpoint to get current request
+   */
   function currentRequest() {
     axios
       .get("http://localhost:4000/api/visitRequest/currentRequest", {
@@ -83,6 +97,9 @@ function UserNavBar() {
       });
   }
 
+  /**
+   * @function patientInfo calls api endpoint to get patient info
+   */
   function patientInfo() {
     axios
       .post("http://localhost:4000/api/users/PatientInfoVisitRequest", {
