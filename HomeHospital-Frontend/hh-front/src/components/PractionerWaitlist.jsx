@@ -68,7 +68,7 @@ export default function PractionerWaitlist({ childToParent, refresh, cancelToast
             if (response.data !== null && response.data !== undefined) {
               setPractPatientInfo(response.data);
               window.localStorage.setItem('newList', response.data.length);
-              if(window.localStorage.getItem('callback') === undefined || window.localStorage.getItem('callback') === null ) {
+              if(window.localStorage.getItem('callback') === undefined || window.localStorage.getItem('callback') === null || window.localStorage.getItem('callback') === 'null') {
                 console.log("in the call back");
                 window.localStorage.setItem('oldList', response.data.length)
                 window.localStorage.setItem('checkedIn', '1');
