@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Source: api/service/authorization.service.js</title>
+    <title>JSDoc: Source: models/address.Schema.js</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,7 +17,7 @@
 
 <div id="main">
 
-    <h1 class="page-title">Source: api/service/authorization.service.js</h1>
+    <h1 class="page-title">Source: models/address.Schema.js</h1>
 
     
 
@@ -26,65 +26,57 @@
     
     <section>
         <article>
-            <pre class="prettyprint source linenums"><code>import jwt from 'jsonwebtoken'
-
-
-
-/**
- * @function
- * @summary authorization check for admin-only pages
- * @description Check applied to pages that only an administrator has authorization to access. It is called after the user is 
- * already authenticated as a valid user, and simply checks the type of user before allowing them to proceed, or turning them away. 
- * @param {request} req 
- * @param {response} res 
- * @param {next} next 
- * @returns error message if no access token is present
- */
-export const checkMayAccessAdminPage = async (req, res, next) => {
-    let codedAccessToken = req.cookies['accessTokenCookie']
-    if(!codedAccessToken) {
-        console.log("No access token present");
-        res.status(401).send({ message: 'Authorization Failed' })
-        return
-    }
-    const accessToken = jwt.decode(codedAccessToken);
-    const adminId = accessToken.adminId
-    if(adminId) {
-        console.log("User is an admin, they may proceed");
-        next()
-    } else {
-        console.log("User is not an admin, they may not proceed");
-        res.status(401).json({ message: 'Authorization Failed' })
-    }
-}
+            <pre class="prettyprint source linenums"><code>import mongoose from 'mongoose'
+import validator from 'validator'
 
 /**
- * @function
- * @summary authorization check for practitioner-only pages
- * @description Check applied to pages that only a practitioner has authorization to access. It is called after the user is 
- * already authenticated as a valid user, and simply checks the type of user before allowing them to proceed, or turning them away. 
- * @param {request} req 
- * @param {response} res 
- * @param {next} next 
- * @returns error message if no access token is present
+ * @constructor address
+ * @summary Creates an address
+ * 
+ * @description Takes in input from user, or from scraper, 
+ * validates it, then creates a new address.
  */
-export const checkMayAccessPractitionerPage = async (req, res, next) => {
-    let codedAccessToken = req.cookies['accessTokenCookie']
-    if(!codedAccessToken) {
-        console.log("No access token present");
-        res.status(401).send({ message: 'Authorization Failed' })
-        return;
-    }
-    const accessToken = jwt.decode(codedAccessToken);
-    const practitionerId = accessToken.practitionerId
-    if(practitionerId) {
-        console.log("User is a practitioner, they may proceed");
-        next()
-    } else {
-        console.log("User is not a practitioner, they may not proceed");
-        res.status(401).send({ message: 'Authorization Failed' })
-    }
-}
+const addressSchema = new mongoose.Schema({
+	streetAddress: {
+		type: String,
+		required: [true, 'Please enter a Street Address'], 
+		maxlength: [50, 'Please Keep the Address under 50 characters']
+	},
+	cityName: {
+		type: String,
+		required: [true, 'Please enter a City'], 
+		minlength: [2, 'Minimum City Length is 2 characters'],
+		maxlength: [40, 'Maximum City Length is 40 Characters'],
+		validate:[validator.isAlpha, 'Please enter a Valid City, Letters Only']
+	},
+	provName: {
+		type: String,
+		maxlength: [3,'Maximum length for Province Name is 3'],
+		required: [true, 'Please Enter a Province Name'], 
+		uppercase: true,
+		validate:[validator.isAlpha, 'Please enter a Province, Letters Only']
+	},
+	postalCode: {
+		type: String,
+		required: [true, 'Please enter a Postal Code'],
+		minlength: [6,'Minimum Postal Code Length is 6  characters'],
+		maxlength:  [6,'Maximum Postal Code Length is 6  characters'],
+		validate: [
+			{
+			validator: (value) => validator.isPostalCode(value, ['CA']),	
+			msg: 'Invalid postal Code.',	
+			},
+		]
+	},
+	country: {
+		type: String,
+		default: 'Canada',
+		required: [true,'Please Enter a Country']
+	},
+	_id: false,
+})
+
+export default addressSchema
 </code></pre>
         </article>
     </section>

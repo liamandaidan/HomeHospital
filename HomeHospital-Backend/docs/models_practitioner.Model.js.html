@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Source: api/service/authorization.service.js</title>
+    <title>JSDoc: Source: models/practitioner.Model.js</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,7 +17,7 @@
 
 <div id="main">
 
-    <h1 class="page-title">Source: api/service/authorization.service.js</h1>
+    <h1 class="page-title">Source: models/practitioner.Model.js</h1>
 
     
 
@@ -26,65 +26,86 @@
     
     <section>
         <article>
-            <pre class="prettyprint source linenums"><code>import jwt from 'jsonwebtoken'
+            <pre class="prettyprint source linenums"><code>import mongoose from 'mongoose'
+import peopleSchema from './people.Schema.js'
+import validator from 'validator'
 
-
+/**
+ * @constructor practitioner
+ * @summary Creates a practitioner
+ * 
+ * @description Takes in input from the user, validates it, 
+ * then creates a new practitioner.
+ */
+const practitionerSchema = new mongoose.Schema({
+	practitionerId: {
+		type: Number,
+		required: [true, 'You must enter a Practitioner ID'],
+		//validate:[validator.isAlphanumeric, 'Please enter a Number'],
+	},
+	role: {
+		type: String,
+		enum: ['Doctor', 'Nurse', 'Clerk'],
+		required: [true, 'A valid Role must be assigned'],
+	},
+	email: {
+		type: String,
+		minlength: [8, 'Minimum Email Length is 8'],
+		required: [true, 'Please enter an Email'],
+		lowercase: true,
+		unique: [true, 'This Email is already in use'],
+		validate: [validator.isEmail, 'Please enter a Valid Email'],
+	},
+	password: {
+		type: String,
+		required: [true, 'Please enter a Password'],
+		minlength: [10, 'Password must be at least a length of 10'],
+		//validate:[isStrongPassword, 'This password is weaksauce bruh, take it to the gym n strengthen it up'],
+	},
+	user: {
+		type: peopleSchema,
+	},
+	facilityId: {
+		type: mongoose.Schema.Types.ObjectId,
+		ref: 'MedicalFacility',
+		required: [true, 'A valid Medical Facility is needed'],
+	},
+})
 
 /**
  * @function
- * @summary authorization check for admin-only pages
- * @description Check applied to pages that only an administrator has authorization to access. It is called after the user is 
- * already authenticated as a valid user, and simply checks the type of user before allowing them to proceed, or turning them away. 
- * @param {request} req 
- * @param {response} res 
- * @param {next} next 
- * @returns error message if no access token is present
+ * @summary gets practitioner info
+ * @description fills in practitioner info
+ * @returns {any} 
  */
-export const checkMayAccessAdminPage = async (req, res, next) => {
-    let codedAccessToken = req.cookies['accessTokenCookie']
-    if(!codedAccessToken) {
-        console.log("No access token present");
-        res.status(401).send({ message: 'Authorization Failed' })
-        return
-    }
-    const accessToken = jwt.decode(codedAccessToken);
-    const adminId = accessToken.adminId
-    if(adminId) {
-        console.log("User is an admin, they may proceed");
-        next()
-    } else {
-        console.log("User is not an admin, they may not proceed");
-        res.status(401).json({ message: 'Authorization Failed' })
-    }
+practitionerSchema.methods.getPractitionerInfo = function () {
+	return {
+		user: this.user,
+		id: this._id,
+		email: this.email,
+		role: this.role,
+		facilityId: this.facilityId
+	}
 }
 
 /**
  * @function
- * @summary authorization check for practitioner-only pages
- * @description Check applied to pages that only a practitioner has authorization to access. It is called after the user is 
- * already authenticated as a valid user, and simply checks the type of user before allowing them to proceed, or turning them away. 
- * @param {request} req 
- * @param {response} res 
- * @param {next} next 
- * @returns error message if no access token is present
+ * @summary modifies the practitioner 
+ * @description takes input to modify a practitioners information
+ * @param {String} practitionerInfo
+ * @returns {any}
  */
-export const checkMayAccessPractitionerPage = async (req, res, next) => {
-    let codedAccessToken = req.cookies['accessTokenCookie']
-    if(!codedAccessToken) {
-        console.log("No access token present");
-        res.status(401).send({ message: 'Authorization Failed' })
-        return;
-    }
-    const accessToken = jwt.decode(codedAccessToken);
-    const practitionerId = accessToken.practitionerId
-    if(practitionerId) {
-        console.log("User is a practitioner, they may proceed");
-        next()
-    } else {
-        console.log("User is not a practitioner, they may not proceed");
-        res.status(401).send({ message: 'Authorization Failed' })
-    }
+practitionerSchema.methods.modifyPractitioner = function (practitionerInfo) {
+	this.user.firstName 	= practitionerInfo.user.firstName
+	this.user.lastName 		= practitionerInfo.user.lastName
+	this.user.address 		= practitionerInfo.user.address
+	this.user.phoneNumber 	= practitionerInfo.user.phoneNumber
+	this.email 				= practitionerInfo.email
+	this.role 				= practitionerInfo.role
+	this.facilityId 		= practitionerInfo.facilityId
 }
+
+export default mongoose.model('Practitioner', practitionerSchema)
 </code></pre>
         </article>
     </section>

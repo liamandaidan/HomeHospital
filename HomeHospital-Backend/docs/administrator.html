@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Source: api/service/authorization.service.js</title>
+    <title>JSDoc: Class: administrator</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,77 +17,145 @@
 
 <div id="main">
 
-    <h1 class="page-title">Source: api/service/authorization.service.js</h1>
+    <h1 class="page-title">Class: administrator</h1>
 
     
 
 
 
+
+<section>
+
+<header>
     
-    <section>
-        <article>
-            <pre class="prettyprint source linenums"><code>import jwt from 'jsonwebtoken'
+        <h2><span class="attribs"><span class="type-signature"></span></span>administrator<span class="signature">()</span><span class="type-signature"></span></h2>
+        
+    
+</header>
+
+<article>
+    <div class="container-overview">
+    
+        
+
+    
+
+    
+    <h4 class="name" id="administrator"><span class="type-signature"></span>new administrator<span class="signature">()</span><span class="type-signature"></span></h4>
+    
+
+    
+    <p class="summary">Creates a new administrator</p>
+    
 
 
 
-/**
- * @function
- * @summary authorization check for admin-only pages
- * @description Check applied to pages that only an administrator has authorization to access. It is called after the user is 
- * already authenticated as a valid user, and simply checks the type of user before allowing them to proceed, or turning them away. 
- * @param {request} req 
- * @param {response} res 
- * @param {next} next 
- * @returns error message if no access token is present
- */
-export const checkMayAccessAdminPage = async (req, res, next) => {
-    let codedAccessToken = req.cookies['accessTokenCookie']
-    if(!codedAccessToken) {
-        console.log("No access token present");
-        res.status(401).send({ message: 'Authorization Failed' })
-        return
-    }
-    const accessToken = jwt.decode(codedAccessToken);
-    const adminId = accessToken.adminId
-    if(adminId) {
-        console.log("User is an admin, they may proceed");
-        next()
-    } else {
-        console.log("User is not an admin, they may not proceed");
-        res.status(401).json({ message: 'Authorization Failed' })
-    }
-}
+<div class="description">
+    Takes in input to create a new Administrator 
+with varying levels of privilege
 
-/**
- * @function
- * @summary authorization check for practitioner-only pages
- * @description Check applied to pages that only a practitioner has authorization to access. It is called after the user is 
- * already authenticated as a valid user, and simply checks the type of user before allowing them to proceed, or turning them away. 
- * @param {request} req 
- * @param {response} res 
- * @param {next} next 
- * @returns error message if no access token is present
- */
-export const checkMayAccessPractitionerPage = async (req, res, next) => {
-    let codedAccessToken = req.cookies['accessTokenCookie']
-    if(!codedAccessToken) {
-        console.log("No access token present");
-        res.status(401).send({ message: 'Authorization Failed' })
-        return;
-    }
-    const accessToken = jwt.decode(codedAccessToken);
-    const practitionerId = accessToken.practitionerId
-    if(practitionerId) {
-        console.log("User is a practitioner, they may proceed");
-        next()
-    } else {
-        console.log("User is not a practitioner, they may not proceed");
-        res.status(401).send({ message: 'Authorization Failed' })
-    }
-}
-</code></pre>
-        </article>
-    </section>
+Admin Levels
+ 3 = senior admin, can affect any admin/practitioner/patient
+ 2 = admin, can affect practitioner/patient
+ 1 = jr admin, can affect patient
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="models_administrator.Model.js.html">models/administrator.Model.js</a>, <a href="models_administrator.Model.js.html#line4">line 4</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    
+    </div>
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</article>
+
+</section>
 
 
 

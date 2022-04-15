@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: models/patient.Model.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: models/patient.Model.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>import mongoose from 'mongoose'
+import peopleSchema from './people.Schema.js'
+import validator from 'validator'
+
+
+/**
+ * @constructor patient
+ * @summary Creates a patient
+ * 
+ * @description Takes in input from the user, for the required fields, 
+ * validates it, then creates a new patient.
+ */
+const patientSchema = new mongoose.Schema({
+	email: {
+		type: String,
+		minlength: [8, 'Minimum Email Length is 8'],
+		required: [true, 'Please enter an Email'],
+		lowercase: true,
+		unique: [true, 'This Email is already in use'],
+		validate: [validator.isEmail, 'Please enter a Valid Email'],
+	},
+	password: {
+		type: String,
+		required: [true, 'Please enter a Password'],
+		minlength: [10, 'Password must be at least a length of 10'],
+	},
+	HCnumber: {
+		type: String,
+		required: [true, 'Please enter a Health Care Number'],
+		unique: [true, 'This Health Care Number is already in use'],
+	},
+	gender: {
+		type: String,
+		required: [true, 'Please Enter your Gender'],
+	},
+	dateOfBirth: {
+		type: Date,
+		max:[Date.now(), 'Please enter a valid Date, not in the future'],
+		required: [true, 'Please enter your Date of Birth'],
+		validate: [validator.isDate, 'This amazingly was not a date'],
+	},
+	user: {
+		type: peopleSchema,
+	},
+	emergencyContact: {
+		firstName: {
+			type: String,
+			default: null,
+		},
+		lastName: {
+			type: String,
+			default: null,
+		},
+		phoneNumber: {
+			type: String,
+			default: null,
+		},
+	},
+	currentHospital: {
+		type: mongoose.Schema.Types.ObjectId,
+		ref: 'MedicalFacility',
+		default: null,
+	},
+	currentRequest: {
+		type: mongoose.Schema.Types.ObjectId,
+		ref: 'VisitRequest',
+		default: null,
+	},
+	pastRequests: {
+		type: [mongoose.Schema.Types.ObjectId],
+		ref: 'CompletedRequest',
+		default: null,
+	},
+})
+
+/**
+ * @function
+ * @summary Adds the new request to the Patients currentRequest spot
+ * 
+ * @description A Function that first makes sure there isn't already an 
+ * active request, then creates a new one for the Patient. 
+ * 
+ * @param {String} requestId
+ * @param {String} requestHospitalId
+ * @returns {any}
+ */
+patientSchema.methods.newRequest = function (requestId, requestHospitalId) {
+	try {
+		if (this.currentRequest != null) {
+			throw new Error('Patient already has an active request!!')
+		} else {
+			if (
+				mongoose.Types.ObjectId.isValid(requestId) &amp;&amp;
+				mongoose.Types.ObjectId.isValid(requestHospitalId)
+			) {
+				this.currentRequest = requestId
+				this.currentHospital = requestHospitalId
+				return
+			} else {
+				throw new Error(
+					'Invalid RequestId or HospitalId for the patients new Request'
+				)
+			}
+		}
+	} catch (error) {
+		console.log(error.message)
+	}
+}
+
+
+/**
+ * @function
+ * @summary moves current request to past request
+ * @description checks if patient has a request to move to be completed, 
+ * then moves the current request from the patients current request spot
+ * and puts it in the list of past requests
+ * 
+ * @returns {any}
+ */
+patientSchema.methods.completeRequest = function () {
+	try {
+		if (this.currentRequest) {
+			this.pastRequests.push(this.currentRequest)
+			this.currentRequest = null
+			this.currentHospital = null
+		} else {
+			throw new Error('Patient has no request to move to be completed')
+		}
+	} catch (error) {
+		console.log('completed Request from patient model')
+		console.log(error.message)
+	}
+}
+
+
+/**
+ * @function
+ * @summary Cancel the current request 
+ * Adds the new request to the Patients currentRequest spot
+ * 
+ * @description Checks to see if the patient has an active request to be canceled
+ * then cancels the request by turning it Null
+ * @returns void
+ */
+patientSchema.methods.cancelRequest = function () {
+	try {
+		if (this.currentRequest) {
+			this.currentRequest = null
+			this.currentHospital = null
+		} else {
+			throw new Error('Patient Does not have an active request to cancel')
+		}
+	} catch (error) {
+		console.log(error.message)
+	}
+}
+
+/**
+ * @function
+ * @summary gets patient request info
+ * 
+ * @description Gets Details about the patient request to be displayed 
+ * on the site and returns them to the front end
+ * 
+ * @returns {any}
+ */
+patientSchema.methods.getPatientRequestInfo = function () {
+	return {
+		user: this.user,
+		HCnumber: this.HCnumber,
+		emergencyContact: this.emergencyContact,
+		id: this._id,
+		email: this.email,
+	}
+}
+
+/**
+ * @function
+ * @summary gets patient info
+ * @description Gets Details about the patient to be displayed 
+ * on the site and returns them to the front end
+ * @returns {any}
+ */
+patientSchema.methods.getPatientInfo = function () {
+	return {
+		user: this.user,
+		HCnumber: this.HCnumber,
+		emergencyContact: this.emergencyContact,
+		id: this._id,
+		email: this.email,
+		gender: this.gender,
+		dateOfBirth: this.dateOfBirth
+	}
+}
+
+/**
+ * @function
+ * @summary gets admin info
+ * @description Gets Details about the admin to be displayed 
+ * on the site and returns them to the front end
+ * @returns {any}
+ */
+patientSchema.methods.getInfoForAdmin = function () {
+	return {
+		firstName: this.user.firstName,
+		lastName: this.user.lastName,
+		email: this.email,
+		_id: this.id
+	}
+}
+
+/**
+ * @function
+ * @summary modifies patient info
+ * @description Gets new Details about the patient 
+ * and modifies old patient info
+ * @param {String} patientInfo
+ * @returns {any}
+ */
+patientSchema.methods.modifyPatient = function (patientInfo) {
+	this.user.firstName 	= patientInfo.user.firstName
+	this.user.lastName 		= patientInfo.user.lastName
+	this.user.address 		= patientInfo.user.address
+	this.user.phoneNumber 	= patientInfo.user.phoneNumber
+	this.email 				= patientInfo.email
+	this.emergencyContact 	= patientInfo.emergencyContact
+	this.gender 			= patientInfo.gender
+	this.HCnumber 			= patientInfo.HCnumber
+}
+
+export default mongoose.model('Patient', patientSchema)</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="address.html">address</a></li><li><a href="administrator.html">administrator</a></li><li><a href="completedRequest.html">completedRequest</a></li><li><a href="ExpressLoader.html">ExpressLoader</a></li><li><a href="medicalFacility.html">medicalFacility</a></li><li><a href="patient.html">patient</a></li><li><a href="people.html">people</a></li><li><a href="practitioner.html">practitioner</a></li><li><a href="refresh.html">refresh</a></li><li><a href="symptom.html">symptom</a></li><li><a href="visitRequest.html">visitRequest</a></li><li><a href="vitals.html">vitals</a></li></ul><h3>Global</h3><ul><li><a href="global.html#cancelCurrentRequest">cancelCurrentRequest</a></li><li><a href="global.html#checkAccessAuthorized">checkAccessAuthorized</a></li><li><a href="global.html#checkAccessToken">checkAccessToken</a></li><li><a href="global.html#checkAdminAlreadyLoggedIn">checkAdminAlreadyLoggedIn</a></li><li><a href="global.html#checkEmployeeAccessToken">checkEmployeeAccessToken</a></li><li><a href="global.html#checkMayAccessAdminPage">checkMayAccessAdminPage</a></li><li><a href="global.html#checkMayAccessPractitionerPage">checkMayAccessPractitionerPage</a></li><li><a href="global.html#checkPatientAlreadyLoggedIn">checkPatientAlreadyLoggedIn</a></li><li><a href="global.html#checkPractitionerAlreadyLoggedIn">checkPractitionerAlreadyLoggedIn</a></li><li><a href="global.html#completeCurrentRequest">completeCurrentRequest</a></li><li><a href="global.html#DBConnect">DBConnect</a></li><li><a href="global.html#generateAccessToken">generateAccessToken</a></li><li><a href="global.html#generateEmployeeAccessToken">generateEmployeeAccessToken</a></li><li><a href="global.html#generateEmployeeRefreshToken">generateEmployeeRefreshToken</a></li><li><a href="global.html#generateRefreshToken">generateRefreshToken</a></li><li><a href="global.html#getHospitalList">getHospitalList</a></li><li><a href="global.html#getHospitalWaitList">getHospitalWaitList</a></li><li><a href="global.html#invalidateEmployeeRefToken">invalidateEmployeeRefToken</a></li><li><a href="global.html#invalidateRefToken">invalidateRefToken</a></li><li><a href="global.html#logAdministratorIn">logAdministratorIn</a></li><li><a href="global.html#logPractitionerIn">logPractitionerIn</a></li><li><a href="global.html#logUserIn">logUserIn</a></li><li><a href="global.html#refreshAccessToken">refreshAccessToken</a></li><li><a href="global.html#refreshEmployeeAccessToken">refreshEmployeeAccessToken</a></li><li><a href="global.html#registerAdministrator">registerAdministrator</a></li><li><a href="global.html#registerPractitioner">registerPractitioner</a></li><li><a href="global.html#registerUser">registerUser</a></li><li><a href="global.html#RunApp">RunApp</a></li><li><a href="global.html#sendEmailAlt">sendEmailAlt</a></li><li><a href="global.html#updateEmployeePassword">updateEmployeePassword</a></li><li><a href="global.html#updatePassword">updatePassword</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.10</a> on Fri Apr 15 2022 15:48:05 GMT-0600 (Mountain Daylight Time)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>
