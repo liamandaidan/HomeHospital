@@ -57,11 +57,11 @@ function ManageAdmin() {
     axios
       .get("http://localhost:4000/api/admin/adminList")
       .then((response) => {
-        console.log(response);
+        //console.log(response);
         setAdminList(response.data);
       })
       .catch((err) => {
-        console.log(err);
+       // console.log(err);
       });
   }, []);
   /**
@@ -107,11 +107,11 @@ function ManageAdmin() {
     axios
     .get("http://localhost:4000/api/admin/adminList")
     .then((response) => {
-      console.log(response);
+      //console.log(response);
       setAdminList(response.data);
     })
     .catch((err) => {
-      console.log(err);
+      //console.log(err);
     });
   }
   /**
@@ -150,7 +150,7 @@ function ManageAdmin() {
   const handleDelete = (e) => {
     {
       adminLlist.map((admin) => {
-        console.log("this is the admin " + admin._id)
+        //console.log("this is the admin " + admin._id)
         if (admin.adminId === e) {
           setSelectedUser(admin._id);
           setSelectedUserName(admin.user.firstName);
@@ -174,7 +174,7 @@ function ManageAdmin() {
       loadAdmins();
     })
     .catch((err) => {
-      console.log(err);
+     // console.log(err);
     })
 
     setModalState(false)
@@ -228,13 +228,13 @@ function ManageAdmin() {
           permissionLevel: values.permission,
         })
         .then((response) => {
-          console.log(response);
+          //console.log(response);
           setCreateDisplay(false);
           setUserDisplay(true);
           loadAdmins();
         })
         .catch((err) => {
-          console.log(err);
+          //console.log(err);
         });
     } else{
       executeScroll()
@@ -270,7 +270,7 @@ function ManageAdmin() {
       loadAdmins();
     })
     .catch((err) => {
-      console.log(err);
+      //console.log(err);
     })
 
     setEditDisplay(false);
