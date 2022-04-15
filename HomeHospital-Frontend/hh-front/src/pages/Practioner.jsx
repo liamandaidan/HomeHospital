@@ -31,11 +31,28 @@ export default function Practioner() {
     notify(childData);
   }
 
+  const cancelToast = (childData) => {
+    setRefreshMsg(childData);
+    cancel(childData);
+  }
+
   function notify(msg) {
     toast.success(msg, {
       position: "top-center",
-      autoClose: 1000,
-      hideProgressBar: true,
+      autoClose: 5000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: false,
+      draggable: true,
+      progress: undefined,
+    });
+  }
+
+  function cancel(msg) {
+    toast.warn(msg, {
+      position: "top-center",
+      autoClose: 5000,
+      hideProgressBar: false,
       closeOnClick: true,
       pauseOnHover: false,
       draggable: true,
@@ -47,7 +64,7 @@ export default function Practioner() {
     <div>
       <ToastContainer
         position="top-center"
-        autoClose={3000}
+        autoClose={5000}
         hideProgressBar={true}
         newestOnTop={false}
         closeOnClick
@@ -79,7 +96,7 @@ export default function Practioner() {
                   <p className="pd">Current Waitlist</p>
                 </Row>
                 <Row>
-                  <PractionerWaitlist refresh={refresh} childToParent={childToParent} />
+                  <PractionerWaitlist refresh={refresh} childToParent={childToParent} cancelToast={cancelToast}/>
                 </Row>
               </div>
             </Col>

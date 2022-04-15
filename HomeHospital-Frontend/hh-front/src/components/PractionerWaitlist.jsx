@@ -13,9 +13,9 @@ axios.defaults.withCredentials = true;
  * @author Liam McLaughlin, Ridge Banez
  * @returns html component
  */
-export default function PractionerWaitlist({ childToParent, refresh }) {
+export default function PractionerWaitlist({ childToParent, refresh, cancelToast }) {
   //useContext here
-  const { _id, additionalInfo, symptomsInfo, hidden } =
+  const { _id, additionalInfo, symptomsInfo, hidden, patientList, requestList } =
     useContext(PractitionerContext);
 
   //useContext patient id
@@ -31,7 +31,10 @@ export default function PractionerWaitlist({ childToParent, refresh }) {
   //patient id and setId used in check in button
   const [id, setId] = useState("");
 
-  const [practPatientInfo, setPractPatientInfo] = useState([]);
+  const [practPatientInfo, setPractPatientInfo] = patientList;
+  const [oldResponse, setOldResponse] = requestList;
+  const [checkList, setCheckList] = useState();
+
   const [selectedUsername, setSelectedUsername] = useState("");
   const [hospitalSelected, setHospitalSelected] = useState("none");
   const [url, setUrl] = useState(
@@ -51,17 +54,13 @@ export default function PractionerWaitlist({ childToParent, refresh }) {
       "http://localhost:4000/api/requestManager/hospitalWaitList/" + childData
     );
   };
-  /**
-   *@function useEffect This will be in control of the state of practitioner list. Here we will force updates on url
-   *change and set timer.
-   */
-  useEffect(() => {
+
+  function getList() {
     //This if statement will be used to halt the call until a hospital has been selected.
     if (!(hospitalSelected === "none")) {
       /**
        * @function callUpdate This will force an update when called.
        */
-      const callUpdate = () => {
         axios
           .get(url)
           .then((response) => {
@@ -69,31 +68,56 @@ export default function PractionerWaitlist({ childToParent, refresh }) {
               setIsCheckedIn(false);
             }
             if (response.data !== null && response.data !== undefined) {
-              console.log(response.data);
               setPractPatientInfo(response.data);
+              window.localStorage.setItem('newList', response.data.length)
             } else {
               console.log("COOL");
               refresh("DATA IS INVALID");
             }
-
             setFlag(false);
+
           })
           .catch((err) => {
             console.log("No patient data at this time");
+            setPractPatientInfo([]);
             setFlag(true);
           });
       };
-      //we call here when URL is updated.
-      callUpdate();
-      //here we call for a refresh every 60sec
-      const interval = setInterval(() => {
-        refresh("Table requests updated");
-        //this is called every 60 sec
-        callUpdate();
-      }, 60000);
-      return () => clearInterval(interval);
+  }
+
+  /**
+   *@function useEffect This will be in control of the state of practitioner list. Here we will force updates on url
+   *change and set timer.
+   */
+  useEffect(() => {
+    getList()
+    window.localStorage.setItem('checkedIn', false);
+    window.localStorage.setItem('oldList', window.localStorage.getItem('newList'))
+    const interval = setInterval(() => {
+      if(JSON.parse(window.localStorage.getItem('checkedIn'))) {
+        console.log("in the myStopFunction")
+        myStopFunction()
+      }   
+      getList();
+      if(window.localStorage.getItem('newList') > window.localStorage.getItem('oldList') && !JSON.parse(window.localStorage.getItem('checkedIn'))) {
+        window.localStorage.setItem('oldList', window.localStorage.getItem('newList'))
+        refresh('New Request has been Submitted!');
+      } else if (window.localStorage.getItem('newList') < window.localStorage.getItem('oldList') && !JSON.parse(window.localStorage.getItem('checkedIn'))) {
+        window.localStorage.setItem('oldList', window.localStorage.getItem('newList'))
+        cancelToast('Request has been Cancelled!');
+      } else {
+        console.log("no change!");
+        // window.localStorage.setItem('checkedIn', false);
+      }
+    }, 500);
+    
+    function myStopFunction() {
+      clearInterval(interval);
     }
+    
   }, [url, isCheckedIn]);
+
+  
 
   /**
    * @function AlertModel when practitioner request to check in a user
@@ -137,6 +161,7 @@ export default function PractionerWaitlist({ childToParent, refresh }) {
    * @param {event} e the value passed from button press
    */
   const handleCheckIn = (e) => {
+    window.localStorage.setItem('checkedIn', true);
     // console.log("this is the id of the user to check in: " + e);
     {
       practPatientInfo.map((data) => {
@@ -156,6 +181,7 @@ export default function PractionerWaitlist({ childToParent, refresh }) {
    * @function confirmCheckIn check in the user once confirmed
    */
   const confirmCheckIn = () => {
+    window.localStorage.setItem('checkedIn', true);
     const checkInRoute =
       "http://localhost:4000/api/requestManager/completeRequest/";
     axios
