@@ -4,9 +4,9 @@ import Users from "../data/users.json";
 import { AdminContext } from "./AdminContext";
 import axios from "axios";
 /**
- * Display the Patient component where the user will be able to delete a selected patient. 
+ * Display the Patient component where the user will be able to delete a selected patient.
  * @returns list of patients
- * @author Robyn Balanag 
+ * @author Robyn Balanag
  */
 function ManagePatient() {
   const [modalState, setModalState] = useState(false);
@@ -23,11 +23,11 @@ function ManagePatient() {
     axios
       .get("http://localhost:4000/api/admin/patientList")
       .then((response) => {
-        console.log(response);
+        // console.log(response);
         setPatientList(response.data);
       })
       .catch((err) => {
-        console.log(err);
+        // console.log(err);
       });
   }, []);
   /**
@@ -36,14 +36,14 @@ function ManagePatient() {
    */
   const loadPatients = () => {
     axios
-    .get("http://localhost:4000/api/admin/patientList")
-    .then((response) => {
-      setPatientList(response.data);
-    })
-    .catch((err) => {
-      console.log(err);
-    });
-  }
+      .get("http://localhost:4000/api/admin/patientList")
+      .then((response) => {
+        setPatientList(response.data);
+      })
+      .catch((err) => {
+        //console.log(err);
+      });
+  };
   /**
    * Alert model that will be displayed when a user is selected to be deleted. The user
    * must confirm before proceeding
@@ -79,7 +79,7 @@ function ManagePatient() {
       </>
     );
   };
-/**
+  /**
    * Set the selected admin as the selected user to delete
    * @param {*} e admin id that will be deleted
    */
@@ -95,27 +95,25 @@ function ManagePatient() {
     }
   };
   /**
-    * Once the user has confirmed they want to delete the admin from the
-    * modal, the admin's id will be sent to the database to be deleted
-    */
+   * Once the user has confirmed they want to delete the admin from the
+   * modal, the admin's id will be sent to the database to be deleted
+   */
   const confirmDelete = () => {
     const deleteRoute = "http://localhost:4000/api/admin/patient/";
 
     axios
-    .delete( deleteRoute + selectedUser, {
-      withCredentials: true,
-      // patientId: selectedUser,
-    })
-    .then((response) => {
-      loadPatients();
-    })
-    .catch((err) => {
-      console.log(err);
-    })
+      .delete(deleteRoute + selectedUser, {
+        withCredentials: true,
+        // patientId: selectedUser,
+      })
+      .then((response) => {
+        loadPatients();
+      })
+      .catch((err) => {
+        //console.log(err);
+      });
 
     setModalState(false);
-    
-
   };
   /**
    * Hide the list of users
@@ -124,7 +122,6 @@ function ManagePatient() {
     setUserType("");
   };
 
-  
   return (
     <>
       <div className="admin-main-div">

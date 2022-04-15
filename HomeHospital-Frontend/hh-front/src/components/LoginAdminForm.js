@@ -72,11 +72,11 @@ function LoginAdminForm() {
         password: password,
       })
       .then((response) => {
-        console.log("You have logged in successfully");
+       // console.log("You have logged in successfully");
         navigate("/admin");
       })
       .catch((err) => {
-        console.log(err);
+       // console.log(err);
         handleShow();
       });
   };
