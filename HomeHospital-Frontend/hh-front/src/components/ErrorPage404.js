@@ -3,6 +3,11 @@ import "../styles/ErrorPageStyle.css";
 import errorpageimg from "../images/404Picture.jpg";
 import { Container, Row, Col } from "react-bootstrap";
 
+/**
+ * JSX for error 404 page.
+ * @author Ridge Banez
+ * @returns HTML page.
+ */
 function ErrorPage404() {
   return (
     <Container>

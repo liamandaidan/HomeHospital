@@ -3,37 +3,53 @@ import { Table, Modal, Button, Form, ListGroup } from "react-bootstrap";
 import Users from "../data/users.json";
 import { AdminContext } from "./AdminContext";
 import axios from "axios";
-
+/**
+ * Display the Patient component where the user will be able to delete a selected patient.
+ * @returns list of patients
+ * @author Robyn Balanag
+ */
 function ManagePatient() {
   const [modalState, setModalState] = useState(false);
   const [selectedUser, setSelectedUser] = useState("");
   const [selectedUserName, setSelectedUserName] = useState("");
-
   const [patientList, setPatientList] = useState([]);
-
-  //get all info from the context
   const { menuSelection, userTypeSelection } = useContext(AdminContext);
-
-  //get the menu selection from context
   const [menuChoice, setMenuChoice] = menuSelection;
-
-  //get the user type that was select
   const [userType, setUserType] = userTypeSelection;
-
-  // load all users
+  /**
+   * Load all patient from the database and set to an array of patients
+   */
   useEffect(() => {
     axios
       .get("http://localhost:4000/api/admin/patientList")
       .then((response) => {
-        console.log(response);
+        // console.log(response);
         setPatientList(response.data);
       })
       .catch((err) => {
-        console.log(err);
+        // console.log(err);
       });
   }, []);
-
-  //alert model when admin request to delete a user
+  /**
+   * Reload the list of patients if any changes were made
+   * and set to an array of patients
+   */
+  const loadPatients = () => {
+    axios
+      .get("http://localhost:4000/api/admin/patientList")
+      .then((response) => {
+        setPatientList(response.data);
+      })
+      .catch((err) => {
+        //console.log(err);
+      });
+  };
+  /**
+   * Alert model that will be displayed when a user is selected to be deleted. The user
+   * must confirm before proceeding
+   * @param {*} props user information
+   * @returns alert modal when the user is selected to be deleted from the database
+   */
   const AlertModal = (props) => {
     return (
       <>
@@ -63,11 +79,11 @@ function ManagePatient() {
       </>
     );
   };
-
-  //this will be called once the user selects delete beside the patient
+  /**
+   * Set the selected admin as the selected user to delete
+   * @param {*} e admin id that will be deleted
+   */
   const handleDelete = (e) => {
-    console.log("this is the id of the user to delete: " + e);
-
     {
       patientList.map((patient) => {
         if (patient._id === e) {
@@ -78,33 +94,34 @@ function ManagePatient() {
       });
     }
   };
-
-  //delete the patient once confirmed
+  /**
+   * Once the user has confirmed they want to delete the admin from the
+   * modal, the admin's id will be sent to the database to be deleted
+   */
   const confirmDelete = () => {
     const deleteRoute = "http://localhost:4000/api/admin/patient/";
 
     axios
-    .delete( deleteRoute + selectedUser, {
-      withCredentials: true,
-      // patientId: selectedUser,
-    })
-    .then((response) => {
-      console.log({selectedUserName} + "has been deleted");
-    })
-    .catch((err) => {
-      console.log(err);
-    })
+      .delete(deleteRoute + selectedUser, {
+        withCredentials: true,
+        // patientId: selectedUser,
+      })
+      .then((response) => {
+        loadPatients();
+      })
+      .catch((err) => {
+        //console.log(err);
+      });
 
     setModalState(false);
-    
-
   };
-
+  /**
+   * Hide the list of users
+   */
   const closeWindow = () => {
     setUserType("");
   };
 
-  //this component will show if the userType select is equal to patient
   return (
     <>
       <div className="admin-main-div">

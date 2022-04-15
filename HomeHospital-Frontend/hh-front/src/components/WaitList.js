@@ -4,6 +4,11 @@ import { Button, Modal, Spinner, Table } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import { HomeHospitalContext } from "./HomeHospitalContext";
 
+/**
+ * @name WaitList
+ * @summary waitlist functionality and logic
+ * @returns html component
+ */
 function WaitList() {
   const { requestId, isCurrentRequest, requestButtonOn, cancelSuccess } =
     useContext(HomeHospitalContext);
@@ -23,36 +28,40 @@ function WaitList() {
       axios
         .get("http://localhost:4000/api/visitRequest/currentRequest")
         .then((response) => {
-          console.log("in the current request");
+          // console.log("in the current request");
           setRequestValue(response.data);
           setSpinner(false);
-          console.log(response.data);
+          // console.log(response.data);
         })
         .catch((err) => {
-          console.log(err);
+          //console.log(err);
         });
     } else {
-      console.log(requestIdValue);
+      // console.log(requestIdValue);
       axios
         .get(
           `http://localhost:4000/api/visitRequest/targetRequest/${requestIdValue}`
         )
         .then((response) => {
-          console.log("in the existing request");
+          // console.log("in the existing request");
           setIsCurrent(false);
           setRequestValue(response.data.request);
           setSpinner(false);
         })
         .catch((err) => {
-          console.log(err);
+          //console.log(err);
         });
     }
   }, []);
-
+  /**
+   * @function handleCurrentRequest set modal for cancel request
+   */
   function handleCancelRequest() {
     setModalState(true);
   }
-
+  /**
+   * @function cancelRequest used to send a cancel request to backend and reset hooks
+   */
   function cancelRequest() {
     axios
       .delete("http://localhost:4000/api/visitRequest/cancel", {
@@ -68,7 +77,7 @@ function WaitList() {
         }
       })
       .catch((err) => {
-        console.log(err);
+        // console.log(err);
       });
   }
 
@@ -94,15 +103,13 @@ function WaitList() {
             >
               Cancel Request
             </Button>
-            <div>
-              <Button
-                variant="link"
-                className="cancel-lnk"
-                onClick={props.onHide}
-              >
-                Go Back
-              </Button>
-            </div>
+            <Button
+              variant="link"
+              className="cancel-lnk"
+              onClick={props.onHide}
+            >
+              Go Back
+            </Button>
           </Modal.Footer>
         </Modal>
       </>
@@ -112,6 +119,13 @@ function WaitList() {
   return (
     <div className="mt-5">
       {isCurrent && <h4>Current Waitlist</h4>}
+      {spinner && (
+        <div className="spinner-div text-center">
+          <Spinner animation="border" role="status">
+            <span className="visually-hidden">Loading...</span>
+          </Spinner>
+        </div>
+      )}
       {!isCurrent && <h4>Past Request</h4>}
       <Table striped bordered hover>
         <thead>
@@ -134,14 +148,8 @@ function WaitList() {
             </tr>
           )}
         </thead>
+
         <tbody>
-          {spinner && (
-            <div className="spinner-div text-center">
-              <Spinner animation="border" role="status">
-                <span className="visually-hidden">Loading...</span>
-              </Spinner>
-            </div>
-          )}
           {isCurrent && !spinner && (
             <tr className="text-center">
               <td>{requestValue._id}</td>

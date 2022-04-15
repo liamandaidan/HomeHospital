@@ -1,13 +1,5 @@
 import React, { useEffect, useState } from "react";
-import {
-  Button,
-  Col,
-  Container,
-  Form,
-  Modal,
-  Row,
-  Spinner,
-} from "react-bootstrap";
+import { Button, Col, Container, Modal, Row, Spinner } from "react-bootstrap";
 import { Link, useNavigate } from "react-router-dom";
 import logo from "../images/heartbeat_logo_long.png";
 import classes from "./LoginForm.module.css";
@@ -54,11 +46,11 @@ function LoginForm() {
         password: password,
       })
       .then((response) => {
-        console.log("You have logged in successfully");
+        // console.log("You have logged in successfully");
         navigate("/home");
       })
       .catch((err) => {
-        console.log(err);
+        //console.log(err);
         handleShow();
       });
   };
@@ -200,34 +192,6 @@ function LoginForm() {
                 </Col>
               </Row>
             </div>
-
-            {/* 
-            //PREVIOUS (sorry lance we can add this back later if we use it's functionality)
-            <Row>
-              <Col>
-                 <Form.Check
-                  className={`mt-3 ${classes.smallFont}`}
-                  type="switch"
-                  id="custom-switch"
-                  label="Remember Me"
-                /> 
-              </Col>
-              <Col className={`ms-5 mt-3 ${classes.smallFont}`}>
-                <Link className={classes.teal} to="/forget">
-                  Forgot Password
-                </Link>
-                <div style={{ paddingTop: "5px" }}>
-                  <Link className={classes.teal} to="/">
-                    Cancel
-                  </Link>
-                </div>
-              </Col>
-            </Row>
-            <Row>
-              <Col className={`${classes.smallFont}`}>
-                <Link to="/register">Register</Link>
-              </Col>
-            </Row> */}
           </div>
         </div>
       </Container>

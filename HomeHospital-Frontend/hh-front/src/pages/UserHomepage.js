@@ -14,7 +14,11 @@ import "../styles/UserHomepage.css";
 import { HomeHospitalContext } from "../components/HomeHospitalContext";
 import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
-
+/**
+ * @name UserHomepage
+ * @summary this handles user home page and all functions todo with it.
+ * @returns html component
+ */
 function UserHomepage() {
   const navigate = useNavigate();
 
@@ -27,7 +31,6 @@ function UserHomepage() {
   const [cancelSuccessValue, setCancelSuccessValue] = cancelSuccess;
 
   useEffect(() => {
-    console.log(cancelSuccessValue);
     if (cancelSuccessValue) {
       cancelNotify();
       setCancelSuccessValue(false);
@@ -39,7 +42,9 @@ function UserHomepage() {
     setRequestSuccessValue(false);
   }
 
-  // Request success Toast
+  /**
+   * @function notify this function will be used to send a toast to the user.
+   */
   function notify() {
     toast.success("Request Successfully Submitted", {
       position: "top-center",
@@ -52,7 +57,9 @@ function UserHomepage() {
     });
   }
 
-  // Cancel success Toast
+  /**
+   * @function cancelNotify Cancel success Toast
+   */
   function cancelNotify() {
     toast.warn("Request Has Been Successfully Cancelled", {
       position: "top-center",
@@ -64,12 +71,16 @@ function UserHomepage() {
       progress: undefined,
     });
   }
-
+  /**
+   * @function createNewRequest create a new request to hospital with /hospital
+   */
   const createNewRequest = () => {
     setNewRequestValue(false);
     navigate("/hospitals");
   };
-
+  /**
+   * @function currentRequest get the current request
+   */
   function currentRequest() {
     axios
       .get("http://localhost:4000/api/visitRequest/currentRequest", {
@@ -80,7 +91,6 @@ function UserHomepage() {
       })
       .catch((err) => {
         setCurrentRequestExist(true);
-        console.log(err);
       });
   }
 

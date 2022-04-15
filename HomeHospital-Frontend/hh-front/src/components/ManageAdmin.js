@@ -1,20 +1,24 @@
-import React, { useEffect, useState, useContext } from "react";
+import React, { useEffect, useState, useContext, useRef } from "react";
 import {
   Table,
   Modal,
   Button,
   Form,
-  ListGroup,
   FloatingLabel,
 } from "react-bootstrap";
-import Users from "../data/practitioners.json";
 import { AdminContext } from "./AdminContext";
 import axios from "axios";
 import useAdminForm from "./useAdminForm"
 import validateAdmin from "./validateAdminInfo"
 
 axios.defaults.withCredentials = true;
-
+/**
+ * Display the administrator component where the user will be able to 
+ * edit, delete and create a new admin. 
+ * @returns list of admins, edit screen with user information, new admin 
+ *          creation form.  
+ * @author Robyn Balanag
+ */
 function ManageAdmin() {
   const [modalState, setModalState] = useState(false);
   const [selectedUser, setSelectedUser] = useState("");
@@ -23,22 +27,16 @@ function ManageAdmin() {
   const [userDisplay, setUserDisplay] = useState(true);
   const [createDisplay, setCreateDisplay] = useState(false);
   const [displayUserType, setDisplayUserType] = useState(true);
-
   const [adminLlist, setAdminList] = useState([]);
-
-  //get all info from the context
   const { userTypeSelection, confirmCreate } = useContext(AdminContext);
-
-  //get the user type that was select
   const [userType, setUserType] = userTypeSelection;
-
   const [confirm, setConfirm] = confirmCreate;
-
-  //selected user details to edit
+ /**
+  * Admin information
+  */
   const [id, setId] = useState("");
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
-  // const [password, setPassword] = useState("");
   const [email, setEmail] = useState("");
   const [address, setAddress] = useState("");
   const [city, setCity] = useState("");
@@ -47,40 +45,31 @@ function ManageAdmin() {
   const [phoneNum, setPhoneNum] = useState("");
   const [adminId, setAdminId] = useState("");
   const [permissionLevel, setPermissionLevel] = useState("");
-
-  //information for new user
-  // const [new_firstName, setNewFirstName] = useState("");
-  // const [new_lastName, setNewLastName] = useState("");
-  // const [new_password, setNewPassword] = useState("");
-  // const [new_email, setNewEmail] = useState("");
-  // const [new_address, setNewAddress] = useState("");
-  // const [new_city, setNewCity] = useState("");
-  // const [new_prov, setNewProv] = useState("");
-  // const [new_postalCode, setNewPostalCode] = useState("");
-  // const [new_phoneNum, setNewPhoneNum] = useState("");
-  // const [new_adminId, setNewAdminId] = useState("");
-  // const [new_permission, setNewPermission] = useState("");
-
-  //trying something!! 
+  /**
+   * Import to validate user input to create a new admin
+   */
   const { handleChange, values, handleCancel, handleSubmit, errors } = useAdminForm(validateAdmin);
-
-  console.log("this many errors left: " + errors.length)
-
-
-  //load all admins
+  /**
+   * Load lists of administrators from the database
+   * and set to an array of patients
+   */
   useEffect(() => {
     axios
       .get("http://localhost:4000/api/admin/adminList")
       .then((response) => {
-        console.log(response);
+        //console.log(response);
         setAdminList(response.data);
       })
       .catch((err) => {
-        console.log(err);
+       // console.log(err);
       });
   }, []);
-
-  //alert model when admin request to delete a user
+  /**
+   * Alert model that will be displayed when a user is selected to be deleted. The user
+   * must confirm before proceeding
+   * @param {*} props user information
+   * @returns alert modal when the user is selected to be deleted from the database
+   */
   const AlertModal = (props) => {
     return (
       <>
@@ -110,7 +99,26 @@ function ManageAdmin() {
       </>
     );
   };
-
+  /**
+   * Reaload list of administrators once a change has been made
+   * and set to an array of admins
+   */
+  const loadAdmins = () => {
+    axios
+    .get("http://localhost:4000/api/admin/adminList")
+    .then((response) => {
+      //console.log(response);
+      setAdminList(response.data);
+    })
+    .catch((err) => {
+      //console.log(err);
+    });
+  }
+  /**
+   * Set the selected admin's details to display in the edit form. Then will display
+   * the edit form and hide the list of admins
+   * @param {*} e admin id that has been selected to edit
+   */
   const selectEdit = (e) => {
     setUserDisplay(false);
     setEditDisplay(true);
@@ -135,13 +143,14 @@ function ManageAdmin() {
       });
     }
   };
-
-  //this will be called once the user selects delete beside the practitioner
+  /**
+   * Set the selected admin as the selected user to delete
+   * @param {*} e admin id that will be deleted
+   */
   const handleDelete = (e) => {
-    console.log("We made it into the handle delete!" + e)
     {
       adminLlist.map((admin) => {
-        console.log("this is the admin " + admin._id)
+        //console.log("this is the admin " + admin._id)
         if (admin.adminId === e) {
           setSelectedUser(admin._id);
           setSelectedUserName(admin.user.firstName);
@@ -150,8 +159,10 @@ function ManageAdmin() {
       });
     }
   };
-
-  //delete the user once confirmed
+  /**
+    * Once the user has confirmed they want to delete the admin from the
+    * modal, the admin's id will be sent to the database to be deleted
+    */
   const confirmDelete = () => {
     const deleteRoute = "http://localhost:4000/api/admin/admin/";
 
@@ -160,17 +171,20 @@ function ManageAdmin() {
       withCredentials: true,
     })
     .then((response) => {
-      alert({ selectedUser } + " has been deleted!");
+      loadAdmins();
     })
     .catch((err) => {
-      console.log(err);
+     // console.log(err);
     })
 
     setModalState(false)
   };
-
-  //show list of admins when you close the edit window
-  const showUserList = (e) => {
+  /**
+   * Once the user has canceled from the create admin form, it will reset the 
+   * selected admin's information and close the edit form to display the 
+   * list of admins
+   */
+  const showUserList = () => {
     
     handleCancel();
 
@@ -178,44 +192,24 @@ function ManageAdmin() {
     setEditDisplay(false);
     setUserDisplay(true);
   };
-
-  //show create form for new practitioner
+  /**
+   * Diplay the create admin form and hide all other windows
+   */
   const showCreate = () => {
     setCreateDisplay(true);
     setUserDisplay(false);
     setEditDisplay(false);
   };
-
-  //creates a new preactitioner and sends to the back end
-  // const createUser = () => {
-  //   axios
-  //     .post("http://localhost:4000/api/registerA/", {
-  //       withCredentials: true,
-  //       firstName: new_firstName,
-  //       lastName: new_lastName,
-  //       password: new_password,
-  //       email: new_email,
-  //       streetAddress: new_address,
-  //       cityName: new_city,
-  //       provName: new_prov,
-  //       postalCode: new_postalCode,
-  //       phoneNumber: new_phoneNum,
-  //       adminId: new_adminId,
-  //       permissionLevel: new_permission,
-  //     })
-  //     .then((response) => {
-  //       console.log(response);
-  //     })
-  //     .catch((err) => {
-  //       console.log(err);
-  //     });
-  //   alert("We created a new admin!");
-  //   setCreateDisplay(false);
-  //   setUserDisplay(true);
-  // };
-
-
-  //this will check if there are no errors in the form, if no errors remain the form will be submitted
+  /**
+   * Create a ref so when the user submits a form with errors they 
+   * will be take back to the top of the form
+   */
+  const myRef = useRef(null)
+  const executeScroll = () => myRef.current.scrollIntoView()  
+  /**
+   * Check the list of errors within the form, is there are no more 
+   * errors, it will send a request to create a new administrator
+   */
   useEffect(() => {
     if(Object.keys(errors).length === 0 ) {
         axios
@@ -234,22 +228,25 @@ function ManageAdmin() {
           permissionLevel: values.permission,
         })
         .then((response) => {
-          console.log(response);
+          //console.log(response);
           setCreateDisplay(false);
           setUserDisplay(true);
-
+          loadAdmins();
         })
         .catch((err) => {
-          console.log(err);
+          //console.log(err);
         });
+    } else{
+      executeScroll()
     }
 }, [errors])
-  
+  /**
+   * Once the user has made changes to the admin details, they will confirm the
+   * changes and the information will get updated in the database. If it is 
+   * successfull, they will be taken back to the list of admins
+   * @param {*} idToChange admin id that is edited 
+   */
   const confirmChanges = (idToChange) => {
-
-    console.log(idToChange);
-    console.log(firstName);
-
     axios
     .post("http://localhost:4000/api/admin/modifyAdmin", {
       withCredentials: true,
@@ -270,10 +267,10 @@ function ManageAdmin() {
       email: email,
     })
     .then((response) => {
-      alert({ selectedUser } + "has been changed!");
+      loadAdmins();
     })
     .catch((err) => {
-      console.log(err);
+      //console.log(err);
     })
 
     setEditDisplay(false);
@@ -281,11 +278,6 @@ function ManageAdmin() {
 
   }
 
-
-  //this component will show if the userType select is equal to practitioner
-  //editDisplay - edit window for the selected user
-  //userDisplay - shows all the practitioners
-  //createDisplay - create window for a new practitioner
   return (
     <>
       <div className="admin-main-div">
@@ -312,7 +304,7 @@ function ManageAdmin() {
                         onChange={(e) => setPermissionLevel(e.target.value)}
                         size="sm"
                       >
-                        <option select>{permissionLevel}</option>
+                        <option defaultValue>{permissionLevel}</option>
                         <option value="1">1</option>
                         <option value="2">2</option>
                         <option value="3">3</option>
@@ -328,6 +320,7 @@ function ManageAdmin() {
                         value={firstName}
                         onChange={(e) => setFirstName(e.target.value)}
                         size="sm"
+                        maxLength={15}
                       />
                     </FloatingLabel>
                     <FloatingLabel
@@ -339,6 +332,7 @@ function ManageAdmin() {
                         value={lastName}
                         onChange={(e) => setLastName(e.target.value)}
                         size="sm"
+                        maxLength={15}
                       />
                     </FloatingLabel>
                     <FloatingLabel
@@ -372,6 +366,7 @@ function ManageAdmin() {
                         value={address}
                         onChange={(e) => setAddress(e.target.value)}
                         size="sm"
+                        maxLength={30}
                       />
                     </FloatingLabel>
                     <FloatingLabel
@@ -496,6 +491,7 @@ function ManageAdmin() {
                         size="sm"
                         aria-describedby="permissionsHelp"
                         name="adminId"
+                        ref={myRef}
                       />
                       <Form.Text id="permissionsHelp" muted>
                         The admin identification is a 7 digit number
@@ -531,6 +527,7 @@ function ManageAdmin() {
                         name="firstName"
                         placeholder="John"
                         size="sm"
+                        maxLength={25}
                       />
                     </FloatingLabel>
                     {errors.firstName && <p>{errors.firstName}</p>}
@@ -545,6 +542,7 @@ function ManageAdmin() {
                         name="lastName"
                         placeholder="Smith"
                         size="sm"
+                        maxLength={25}
                       />
                     </FloatingLabel>
                     {errors.lastName && <p>{errors.lastName}</p>}
@@ -587,6 +585,7 @@ function ManageAdmin() {
                         onChange={handleChange}
                         name="address"
                         size="sm"
+                        maxLength={50}
                       />
                     </FloatingLabel>
                     {errors.address && <p>{errors.address}</p>}
@@ -602,6 +601,7 @@ function ManageAdmin() {
                         onChange={handleChange}
                         name="city"
                         size="sm"
+                        maxLength={25}
                       />
                     </FloatingLabel>
                     {errors.city && <p>{errors.city}</p>}

@@ -5,21 +5,27 @@ import BreadcrumbNav from "../components/BreadcrumbNav.js";
 import logo from "../images/heartbeat.png";
 import UserNavBar from "../components/UserNavBar";
 import ProgressBar from "react-bootstrap/ProgressBar";
-
 import Container from "react-bootstrap/Container";
 import Col from "react-bootstrap/Col";
 import Row from "react-bootstrap/Row";
-
 import "bootstrap/dist/css/bootstrap.min.css";
 import "../styles/main.css";
 import { HomeHospitalContext } from "../components/HomeHospitalContext.js";
 import { useNavigate } from "react-router-dom";
-
+/**
+ * Symptoms page that is displayed after a patient has created a new request
+ * and has selected a hospital
+ * @returns symptoms page with SymptomsForm component
+ * @author Robyn Balanag
+ */
 function SymptomsPage() {
   const navigate = useNavigate();
   const { requestButtonOn } = useContext(HomeHospitalContext);
   const [isThereCurrentRequest, setIsThereCurrentRequest] = requestButtonOn;
-
+  /**
+   * Checks if there is a current request, if so, the user will be redirected
+   * to the homepage
+   */
   useEffect(() => {
     if (!isThereCurrentRequest) {
       navigate("/home");

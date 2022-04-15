@@ -14,32 +14,32 @@ import "../styles/SymptomForm.css";
 import { HomeHospitalContext } from "./HomeHospitalContext";
 
 axios.defaults.withCredentials = true;
-
+/**
+ * Symptoms form where the patient is able to enter a list of symptoms
+ * and assign a severity. They will also be able to add any additional information in the
+ * text area
+ * @returns symptoms input form component
+ * @author Robyn Balanag
+ */
 function SymptomsForm() {
   const [additionalInfo, setAdditionalInfo] = useState("");
   const [modalState, setModalState] = useState(false);
   const [isValid, setIsValid] = useState(true);
-
   const { _id, newRequest, requestSuccess } = useContext(HomeHospitalContext);
   const [hospitalID] = _id;
   const [newRequestValue, setNewRequestValue] = newRequest;
   const [requestSuccessValue, setRequestSuccessValue] = requestSuccess;
-
   const navigate = useNavigate();
-
-  console.log("this is the hospital ID: " + hospitalID);
-
   const [symptomsList, setSymptomsList] = useState([
     {
       description: "",
       severity: "",
     },
   ]);
-
-  console.log(symptomsList);
-  console.log(additionalInfo);
-
-  //this function will be add a new symptom field as long as the previous fields have been filled.
+  /**
+   * Add a new symptom as long as the prvious symptom fields arent empty
+   * @param {*} index of the current symptom
+   */
   const handleSymptomsAdd = (index) => {
     if (
       symptomsList[index].description !== "" &&
@@ -54,18 +54,22 @@ function SymptomsForm() {
       ]);
     } else {
       setIsValid(false);
-      // alert(
-      //   "Please enter all details before added a new symptom. Thank you :) "
-      // );
     }
   };
-
+  /**
+   * Removed the selected symptom
+   * @param {*} index selected symptom
+   */
   const handleSymptomsRemove = (index) => {
     const list = [...symptomsList];
     list.splice(index, 1);
     setSymptomsList(list);
   };
-
+  /**
+   * Updates the list of symptoms
+   * @param {*} e name and values of the current symptom
+   * @param {*} index of the current symptom
+   */
   const handleSymptomsChange = (e, index) => {
     const { name, value } = e.target;
 
@@ -73,7 +77,11 @@ function SymptomsForm() {
     list[index][name] = value;
     setSymptomsList(list);
   };
-
+  /**
+   * Updates the severity
+   * @param {*} e name and value of the severity
+   * @param {*} index of the current saverity
+   */
   const handleSeverityChange = (e, index) => {
     const { name, value } = e.target;
 
@@ -81,11 +89,13 @@ function SymptomsForm() {
     list[index][name] = value;
     setSymptomsList(list);
   };
-
+  /**
+   * Takes the current list of symptoms and additional information
+   * and check if the values are valid. If they are, it will prompt
+   * the alert modal to show
+   */
   const handleSubmit = () => {
     const list = [...symptomsList];
-
-    console.log("this is the last value " + list[list.length - 1].description);
 
     if (
       list[list.length - 1].description !== "" &&
@@ -96,7 +106,11 @@ function SymptomsForm() {
       setIsValid(false);
     }
   };
-
+  /**
+   * Take the hospitalID from the previous hospital select page as well
+   *  as the symptoms list and additional information and will send it to the
+   *  backend to be created in the database
+   */
   const handleFormSubmit = () => {
     axios
       .post("http://localhost:4000/api/visitRequest/newRequest", {
@@ -106,17 +120,21 @@ function SymptomsForm() {
         additionalInfo: additionalInfo,
       })
       .then((response) => {
-        console.log(response);
+        // console.log(response);
         setRequestSuccessValue(true);
       })
       .catch((err) => {
-        console.log(err);
+        //  console.log(err);
       });
     setNewRequestValue(true);
-    console.log("the form has been sent to backoffice!");
+    // console.log("the form has been sent to backoffice!");
     navigate("/home");
   };
-
+  /**
+   * Alert the patient once they entered all their symptoms.
+   * @param {*} props symptoms information
+   * @returns alert modal asking patient to confirm request
+   */
   const AlertModal = (props) => {
     return (
       <>
@@ -133,18 +151,15 @@ function SymptomsForm() {
           </Modal.Body>
           <Modal.Footer className="modal-footer">
             <div>
-            <Button
-              className="ack-btn"
-              onClick={handleFormSubmit}
-              variant="primary"
-            >
-              I Acknowledge
-            </Button><br />
-              <a
-                variant="link"
-                className="cancel-lnk"
-                onClick={props.onHide}
+              <Button
+                className="ack-btn"
+                onClick={handleFormSubmit}
+                variant="primary"
               >
+                I Acknowledge
+              </Button>
+              <br />
+              <a variant="link" className="cancel-lnk" onClick={props.onHide}>
                 cancel request
               </a>
             </div>

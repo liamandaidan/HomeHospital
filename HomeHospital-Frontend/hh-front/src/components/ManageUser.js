@@ -1,90 +1,76 @@
 import React, { useEffect, useState, useContext } from "react";
 import { ListGroup, ListGroupItem } from "react-bootstrap";
 import { AdminContext } from "./AdminContext";
-import axios from "axios";
 import ManagePractitioner from "../components/ManagePractitioner";
 import ManagePatient from "../components/ManagePatient";
 import ManageAdmin from "../components/ManageAdmin";
-
+/**
+ * Will display a submenu of users that the administrator will be able to select from.
+ * Depending on their option, the component will change and display the selected user type info.
+ * @returns submenu component of current users: patients, administrators, and practitioners
+ * @author Robyn Balanag
+ */
 function ManageUser() {
-
   const [displayUserType, setDisplayUserType] = useState(true);
-
-  const { menuSelection, userTypeSelection } = useContext(AdminContext);
-
-  // console.log("this is from the context: " + userTypeSelection);
+  const { menuSelection, userTypeSelection, closeWindows } =
+    useContext(AdminContext);
   const [menuChoice, setMenuChoice] = menuSelection;
   const [userType, setUserType] = userTypeSelection;
-
-
-  //load all users
-  //   useEffect(() => {
-  //     axios
-  //       .get("http://localhost:4000/api/users/PatientInfoVisitRequest")
-  //       .then((response) => {
-  //           console.log(response);
-
-  //       })
-  //       .catch((err) => {
-  //         console.log(err);
-  //       });
-  //   }, []);
-
-  //push updated user information
-  // useEffect(() => {
-  //   axios
-  //     .post("http://localhost:4000/api/users/PatientInfoVisitRequest", {
-  //       id,
-  //       type,
-  //       firstName,
-  //       lastName,
-  //       phoneNum,
-  //       address,
-  //       city,
-  //       postalCode,
-  //       aHCNum,
-  //       emergName,
-  //       emergNum
-  //     })
-  //     .then((response) => {
-  //         console.log(response);
-  //     })
-  //     .catch((err) => {
-  //       console.log(err);
-  //     });
-  // }, []);
-
-  //closes the window displaying user
+  const [close, setClose] = closeWindows;
+  /**
+   * Hides the submenu of users and brings the user back to the admin
+   * landing page
+   */
   const closeUserWindow = () => {
     setUserType("");
     setDisplayUserType(true);
   };
-
-  //closes the manage user view
+  /**
+   * Hides the manage user window from the back button
+   */
   const closeManageUserWindow = () => {
     setMenuChoice("");
   };
-
-  //shows list of practitioners when selected
+  /**
+   * Sets the user type to a practitioner and displays the
+   * managePractitioner component
+   */
   const showPractitioners = () => {
     setUserType("Practitioner");
     // console.log("this is the user type: " + userType);
     setDisplayUserType(false);
+    setClose(false);
   };
-
-  //shows list of patients when slected
+  /**
+   * Sets the user type to a patient and displays the
+   * managePatient component
+   */
   const showPatients = () => {
     setUserType("Patient");
     // console.log("this is the user type: " + userType);
     setDisplayUserType(false);
+    setClose(false);
   };
-
-  //show list of administrators
+  /**
+   * Sets the user type to a admin and displays the
+   * manageAdmin component
+   */
   const showAdmins = () => {
     setUserType("Admin");
     // console.log("this is the user type: " + userType);
     setDisplayUserType(false);
+    setClose(false);
   };
+  /**
+   * takes the user back to the landing page if they select
+   * 'manage user' from the main menu
+   */
+  useEffect(() => {
+    if (close) {
+      setUserType("");
+      closeUserWindow();
+    }
+  }, [close]);
 
   return (
     <>
@@ -92,11 +78,11 @@ function ManageUser() {
         <div className="admin-main-div">
           {displayUserType && (
             <>
-            <div className="header-1">
-              <div>
-                <h2>Manage Users</h2>
+              <div className="header-1">
+                <div>
+                  <h2>Manage Users</h2>
+                </div>
               </div>
-            </div>
               <div className="userDisplay-div">
                 <ListGroup>
                   <ListGroup.Item action onClick={showPatients}>
@@ -134,7 +120,7 @@ function ManageUser() {
             )}
             {userType === "Admin" && (
               <>
-              <ManageAdmin />
+                <ManageAdmin />
                 <div className="footer-2">
                   <a onClick={closeUserWindow}>&lt; Back to users</a>
                 </div>

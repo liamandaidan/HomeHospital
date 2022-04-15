@@ -11,7 +11,11 @@ import { HomeHospitalContext } from "./HomeHospitalContext";
 import { Button, Modal, Spinner } from "react-bootstrap";
 
 axios.defaults.withCredentials = true;
-
+/**
+ * @name UserHomeVisitsDisplay
+ * @summary Handles all user home display and associated functions
+ * @returns html component
+ */
 function UserHomeVisitsDisplay() {
   const navigate = useNavigate();
 
@@ -39,6 +43,9 @@ function UserHomeVisitsDisplay() {
   const [noCurrent, setNoCurrent] = useState(false);
   const [modalState, setModalState] = useState(false);
 
+  /**
+   * @function pastRequest This will handle all functions associated with past requests.
+   */
   function pastRequest() {
     axios
       .get("http://localhost:4000/api/visitRequest/allRequests", {
@@ -47,8 +54,8 @@ function UserHomeVisitsDisplay() {
       .then((response) => {
         // console.log(response.data.request);
         if (response.status === 200) {
-          console.log("200 Success!");
-          console.log(response.data);
+          // console.log("200 Success!");
+          // console.log(response.data);
           setVisitList(response.data);
           setSpinner(false);
         }
@@ -56,10 +63,11 @@ function UserHomeVisitsDisplay() {
       .catch((err) => {
         setNoRequest(true);
         setSpinner(false);
-        console.log(err);
       });
   }
-
+  /**
+   * @function currentRequest This will handle all functionality of getting a current request.
+   */
   function currentRequest() {
     axios
       .get("http://localhost:4000/api/visitRequest/currentRequest", {
@@ -68,8 +76,8 @@ function UserHomeVisitsDisplay() {
       .then((response) => {
         // console.log(response.data.request);
         if (response.status === 200) {
-          console.log("200 Success!");
-          console.log(response.data);
+          // console.log("200 Success!");
+          // console.log(response.data);
           setCurrentList(response.data);
           setCurrentSpinner(false);
           setReqButton(false);
@@ -79,7 +87,7 @@ function UserHomeVisitsDisplay() {
         setNoCurrent(true);
         setCurrentSpinner(false);
         setReqButton(true);
-        console.log(err);
+        //console.log(err);
       });
   }
 
@@ -94,7 +102,10 @@ function UserHomeVisitsDisplay() {
       pastRequest();
     }
   }, []);
-
+  /**
+   * @function handleCurrentRequest This will handle all current requets and setting our hooks
+   * @param {string} request The id of request to process
+   */
   function handleCurrentRequest(request) {
     setIsCurrent(true);
     setRequestIdValue(request._id);
@@ -102,18 +113,25 @@ function UserHomeVisitsDisplay() {
     setReqButton(false);
     navigate(`/request/${request._id}`);
   }
-
+  /**
+   * @function handlePastRequest This will handle all the past requests and setting our hooks
+   * @param {string} request the id of the request to process
+   */
   function handlePastRequest(request) {
     setIsCurrent(false);
     setRequestIdValue(request);
     setNewRequestValue(false);
     navigate(`/request/${request}`);
   }
-
+  /**
+   * @function handleCancelRequest this will handle the cancelation of a request.
+   */
   function handleCancelRequest() {
     setModalState(true);
   }
-
+  /**
+   * @function cancelRequest This will cancel a request by sending out a request.
+   */
   function cancelRequest() {
     axios
       .delete("http://localhost:4000/api/visitRequest/cancel", {
@@ -131,7 +149,7 @@ function UserHomeVisitsDisplay() {
       .catch((err) => {
         setNoCurrent(true);
         setCurrentSpinner(false);
-        console.log(err);
+        //console.log(err);
       });
   }
 
@@ -145,7 +163,11 @@ function UserHomeVisitsDisplay() {
       currentRequest();
     }
   }, []);
-
+  /**
+   * @function AlertModal handles alert notification to users.
+   * @param {} props
+   * @returns html component
+   */
   const AlertModal = (props) => {
     return (
       <>

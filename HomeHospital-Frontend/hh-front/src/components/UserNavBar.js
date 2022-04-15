@@ -34,16 +34,8 @@ function UserNavBar() {
     navigate("/home");
   };
 
-  const onHospital = () => {
-    navigate("/hospitals");
-  };
-
   const onEdit = () => {
     navigate("/editprofile");
-  };
-
-  const handleOnLanding = () => {
-    navigate("/");
   };
 
   /**
@@ -71,7 +63,6 @@ function UserNavBar() {
         navigate("/");
       })
       .catch((err) => {
-        console.log(err);
         navigate("/");
       });
   };
@@ -87,14 +78,11 @@ function UserNavBar() {
       .then((response) => {
         if (response.status === 200) {
           setCurrentRequestExist(false);
-          console.log(response);
         } else {
           setCurrentRequestExist(false);
         }
       })
-      .catch((err) => {
-        console.log(err);
-      });
+      .catch((err) => {});
   }
 
   /**
@@ -107,7 +95,7 @@ function UserNavBar() {
       })
       .then((response) => {
         if (response.status === 200) {
-          console.log(response.data.data.user.firstName);
+          // console.log(response.data.data.user.firstName);
           setUserName(
             response.data.data.user.firstName +
               " " +
@@ -115,9 +103,7 @@ function UserNavBar() {
           );
         }
       })
-      .catch((err) => {
-        console.log(err);
-      });
+      .catch((err) => {});
   }
 
   useEffect(() => {
@@ -128,7 +114,7 @@ function UserNavBar() {
   return (
     <Navbar bg="light" expand="lg">
       <Container fluid>
-        <Navbar.Brand className={classes.title} onClick={handleOnLanding}>
+        <Navbar.Brand className={classes.title} onClick={handleHome}>
           HomeHospital<span>Patient</span>
         </Navbar.Brand>
         <Navbar.Toggle aria-controls="navbarScroll" />
@@ -170,10 +156,6 @@ function UserNavBar() {
               <Dropdown.Item href="#" onClick={onEdit}>
                 Edit Profile
               </Dropdown.Item>
-              {/* <Dropdown.Item href="#" onClick={onHospital}>
-                Hospitals
-              </Dropdown.Item> */}
-              {/* <Dropdown.Item href="#">Notifications</Dropdown.Item> */}
               <Dropdown.Divider />
               <Dropdown.Item
                 href="#"
