@@ -69,17 +69,16 @@ export default function PractionerWaitlist({ childToParent, refresh }) {
               setIsCheckedIn(false);
             }
             if (response.data !== null && response.data !== undefined) {
-              console.log(response.data);
+             // console.log(response.data);
               setPractPatientInfo(response.data);
             } else {
-              console.log("COOL");
               refresh("DATA IS INVALID");
             }
 
             setFlag(false);
           })
           .catch((err) => {
-            console.log("No patient data at this time");
+           // console.log("No patient data at this time");
             setFlag(true);
           });
       };
