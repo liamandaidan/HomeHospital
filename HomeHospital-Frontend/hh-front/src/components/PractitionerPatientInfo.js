@@ -9,16 +9,25 @@ import "../styles/PractionerStyles.css";
 import axios from "axios";
 import { PractitionerContext } from "./PractitionerContext";
 
+/**
+ * @name PractitionerPatientInfo
+ * @summary This is the left component of the practitioner page, displays patient details practitioner, clears the details, also hides component
+ * @param {string} patientDataGiven this is the patientID being received.
+ * @author Ridge Banez,Liam McLaughlin
+ * @returns Jsx component
+ */
 function PractitionerPatientInfo({ patientDataGiven }) {
   //useContext here
   const { _id, additionalInfo, symptomsInfo, hidden } =
     useContext(PractitionerContext);
 
-  //grab states for useContext grabs data from other route in PractitionerWaitlist.jsx for additional info, symptoms and id.
+  //grab states for useContext grabs data from other route in PractitionerWaitlist.jsx for additional info, symptoms, id, and hidden.
   const [patientAdditionalInfo, setPatientAdditionalInfo] = additionalInfo;
   const [patientId] = _id;
   const [symptomDetails, setSymptomDetails] = symptomsInfo;
   const [checkIn, setCheckedIn] = useState(patientDataGiven);
+  const [hiddenDetail, setHiddenDetail] = hidden;
+
   //empty states for patientInfo route data in the useEffect
   const [patientInfo, setPatientInfo] = useState({
     HCnumber: "",
@@ -40,6 +49,10 @@ function PractitionerPatientInfo({ patientDataGiven }) {
     },
   });
 
+  /**
+   * @function useEffect this clears the left component when user gets checked in also goes back to hiding
+   * component.
+   */
   useEffect(() => {
     //don't create a request until patientId is defined
     const clearInfo = () => {
@@ -96,7 +109,7 @@ function PractitionerPatientInfo({ patientDataGiven }) {
     }
   }, [patientId, checkIn]);
 
-  const [hiddenDetail, setHiddenDetail] = hidden;
+  
 
   return (
     <>

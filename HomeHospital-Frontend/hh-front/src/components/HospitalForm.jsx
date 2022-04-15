@@ -13,6 +13,7 @@ function SelectHospital() {
   //useContext here
   const { _id, longitude, latitude } = useContext(HomeHospitalContext);
 
+  //useState for empty array, used for grabbing and setting data from backend
   const [posts, setPosts] = useState([]);
 
   //grab the states of use context for the _id
@@ -22,6 +23,10 @@ function SelectHospital() {
 
   let navigate = useNavigate();
 
+  /**
+   * Axios.get grabs data from backend through route
+   * @returns data for hospitals from backend
+   */
   useEffect(() => {
     Axios.get("http://localhost:4000/api/medicalFacility/viewFacilities").then(
       (response) => {
