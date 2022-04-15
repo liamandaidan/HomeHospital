@@ -80,8 +80,8 @@ const patientSchema = new mongoose.Schema({
  * @description A Function that first makes sure there isn't already an 
  * active request, then creates a new one for the Patient. 
  * 
- * @param {ObjectId} requestId
- * @param {ObjectId} requestHospitalId
+ * @param {String} requestId
+ * @param {String} requestHospitalId
  * @returns {any}
  */
 patientSchema.methods.newRequest = function (requestId, requestHospitalId) {
@@ -140,7 +140,7 @@ patientSchema.methods.completeRequest = function () {
  * 
  * @description Checks to see if the patient has an active request to be canceled
  * then cancels the request by turning it Null
- * @returns {any}
+ * @returns void
  */
 patientSchema.methods.cancelRequest = function () {
 	try {
@@ -212,8 +212,9 @@ patientSchema.methods.getInfoForAdmin = function () {
 /**
  * @function
  * @summary modifies patient info
- * @description Gets new Details about the patient and modifies old patient info
- * @param {any} patientInfo
+ * @description Gets new Details about the patient 
+ * and modifies old patient info
+ * @param {String} patientInfo
  * @returns {any}
  */
 patientSchema.methods.modifyPatient = function (patientInfo) {

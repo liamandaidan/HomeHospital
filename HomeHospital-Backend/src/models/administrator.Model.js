@@ -61,7 +61,7 @@ administratorSchema.methods.getAdminInfo = function () {
  * @function
  * @summary modifies admin info
  * @description modifies admin info
- * @param {any} adminInfo
+ * @param {String} adminInfo
  * @returns {any}
  */
 administratorSchema.methods.modifyAdmin = function (adminInfo) {

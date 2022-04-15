@@ -64,7 +64,7 @@ practitionerSchema.methods.getPractitionerInfo = function () {
  * @function
  * @summary modifies the practitioner 
  * @description takes input to modify a practitioners information
- * @param {any} practitionerInfo
+ * @param {String} practitionerInfo
  * @returns {any}
  */
 practitionerSchema.methods.modifyPractitioner = function (practitionerInfo) {

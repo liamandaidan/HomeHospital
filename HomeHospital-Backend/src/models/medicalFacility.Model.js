@@ -60,7 +60,7 @@ const medicalFacility = new mongoose.Schema({
  * @function
  * @summary enqueue
  * @description adds patient to the waitlist queue
- * @param {any} requestId
+ * @param {String} requestId
  * @returns {any}
  */
 medicalFacility.methods.enqueue = function (requestId) {
@@ -85,12 +85,12 @@ medicalFacility.methods.dequeue = async function () {
 	}
 }
 
-// complete request from arbitrary position
+
 /**
  * @function
  * @summary removes request 
- * @description removes request from the waitlist
- * @param {any} requestId
+ * @description removes request from the waitlist, complete request from arbitrary position
+ * @param {String} requestId
  * @returns {any}
  */
 medicalFacility.methods.removeRequest = async function (requestId) {
@@ -109,7 +109,7 @@ medicalFacility.methods.removeRequest = async function (requestId) {
  * @function
  * @summary finds index
  * @description find index of visit request in the waitList queue
- * @param {any} requestId
+ * @param {String} requestId
  * @returns {any}
  */
 medicalFacility.methods.findIndexInWaitList = function (requestId) {
@@ -132,8 +132,8 @@ medicalFacility.methods.findIndexInWaitList = function (requestId) {
  * @function
  * @summary moves request
  * @description moves request within the waitlist queue
- * @param {any} requestId
- * @param {any} position
+ * @param {String} requestId
+ * @param {Int} position
  * @returns {any}
  */
 medicalFacility.methods.moveWaitListPosition = function (requestId, position) {
