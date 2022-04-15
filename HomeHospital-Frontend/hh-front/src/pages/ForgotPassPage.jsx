@@ -52,13 +52,13 @@ export default function ForgotPassPage() {
       email: email,
     })
       .then((response) => {
-        console.log("Sent a email request through");
+        //console.log("Sent a email request through");
         //redirect to the alert page
         navigate("/fa");
       })
       .catch((err) => {
         //incase some unknown error occurs
-        console.log("Error! + " + err);
+        //console.log("Error! + " + err);
       });
     navigate("/fa");
   }
@@ -82,7 +82,7 @@ export default function ForgotPassPage() {
         <div className="med" />
         <div className="leftBtm">
           <Form>
-            <Form.Group className="mb-3" controlId="formBasicEmail">
+            <Form.Group className="mb-3" >
               <Row>
                 <Form.Label className="fp">Forgot Password?</Form.Label>
               </Row>

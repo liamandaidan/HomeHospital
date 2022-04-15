@@ -47,13 +47,13 @@ export default function ResetForgotPass() {
       newPassConfirm: verifyPassword,
     })
       .then((response) => {
-        console.log("Sent a password request through");
+        //console.log("Sent a password request through");
         //redirect to the alert page
         navigate("/login");
       })
       .catch((err) => {
         //incase some unknown error occurs
-        alert("Error! + " + err);
+        //alert("Error! + " + err);
       });
   }
 
@@ -74,7 +74,7 @@ export default function ResetForgotPass() {
         <div className="med" />
         <div className="leftBtm">
           <Form>
-            <Form.Group className="mb-3" controlId="formBasicEmail">
+            <Form.Group className="mb-3">
               <Row>
                 <Form.Label className="fp">Reset Password</Form.Label>
               </Row>
