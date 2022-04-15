@@ -2,6 +2,13 @@ import mongoose from 'mongoose'
 import peopleSchema from './people.Schema.js'
 import validator from 'validator'
 
+/**
+ * @constructor practitioner
+ * @summary Creates a practitioner
+ * 
+ * @description Takes in input from the user, validates it, 
+ * then creates a new practitioner.
+ */
 const practitionerSchema = new mongoose.Schema({
 	practitionerId: {
 		type: Number,
@@ -37,6 +44,12 @@ const practitionerSchema = new mongoose.Schema({
 	},
 })
 
+/**
+ * @function
+ * @summary gets practitioner info
+ * @description fills in practitioner info
+ * @returns {any} 
+ */
 practitionerSchema.methods.getPractitionerInfo = function () {
 	return {
 		user: this.user,
@@ -47,6 +60,13 @@ practitionerSchema.methods.getPractitionerInfo = function () {
 	}
 }
 
+/**
+ * @function
+ * @summary modifies the practitioner 
+ * @description takes input to modify a practitioners information
+ * @param {String} practitionerInfo
+ * @returns {any}
+ */
 practitionerSchema.methods.modifyPractitioner = function (practitionerInfo) {
 	this.user.firstName 	= practitionerInfo.user.firstName
 	this.user.lastName 		= practitionerInfo.user.lastName

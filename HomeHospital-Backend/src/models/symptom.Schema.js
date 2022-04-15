@@ -1,5 +1,12 @@
 import mongoose from 'mongoose'
 
+/**
+ * @constructor symptom
+ * @summary creates a new symptom
+ * 
+ * @description takes in input for the description and severity of a new symptom, 
+ * validates it, and creates it.
+ */
 const symptomSchema = new mongoose.Schema({
 	description: {
 		type: String,

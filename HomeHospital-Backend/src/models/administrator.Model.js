@@ -1,6 +1,14 @@
 import mongoose from 'mongoose'
 import peopleSchema from './people.Schema.js'
+
 /**
+ * @constructor administrator
+ * 
+ * @summary  Creates a new administrator
+ * 
+ * @description Takes in input to create a new Administrator 
+ * with varying levels of privilege
+ * 
  * Admin Levels
  *  3 = senior admin, can affect any admin/practitioner/patient
  *  2 = admin, can affect practitioner/patient
@@ -34,6 +42,12 @@ const administratorSchema = new mongoose.Schema({
 	},
 })
 
+/**
+ * @function
+ * @summary gets admin info
+ * @description gets admin info
+ * @returns {any}
+ */
 administratorSchema.methods.getAdminInfo = function () {
 	return {
 		user: this.user,
@@ -43,6 +57,13 @@ administratorSchema.methods.getAdminInfo = function () {
 	}
 }
 
+/**
+ * @function
+ * @summary modifies admin info
+ * @description modifies admin info
+ * @param {String} adminInfo
+ * @returns {any}
+ */
 administratorSchema.methods.modifyAdmin = function (adminInfo) {
 	this.user.firstName 	= adminInfo.user.firstName
 	this.user.lastName 		= adminInfo.user.lastName

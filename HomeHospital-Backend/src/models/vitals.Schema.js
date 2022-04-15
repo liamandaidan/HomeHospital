@@ -1,5 +1,12 @@
 import mongoose from 'mongoose'
 
+
+/**
+ * @constructor vitals
+ * @summary the vitals schema
+ * 
+ * @description creates a vitals object to be used with patient
+ */
 const vitalsSchema = new mongoose.Schema({
 	BloodPressure: Number,
 	Temperature: Number,
