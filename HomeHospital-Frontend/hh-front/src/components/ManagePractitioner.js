@@ -427,7 +427,7 @@ function ManagePractitioner() {
                         {hospitals.hospitalList?.map((hospital, index) => {
                           {
                             hospital._id === facilityId && (
-                              <option defaultChecked>
+                              <option key={index} defaultChecked>
                                 {hospital.hospitalName}
                               </option>
                             );
