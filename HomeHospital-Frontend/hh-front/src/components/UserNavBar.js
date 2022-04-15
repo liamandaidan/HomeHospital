@@ -63,7 +63,6 @@ function UserNavBar() {
         navigate("/");
       })
       .catch((err) => {
-        console.log(err);
         navigate("/");
       });
   };
@@ -79,14 +78,11 @@ function UserNavBar() {
       .then((response) => {
         if (response.status === 200) {
           setCurrentRequestExist(false);
-          // console.log(response);
         } else {
           setCurrentRequestExist(false);
         }
       })
-      .catch((err) => {
-        console.log(err);
-      });
+      .catch((err) => {});
   }
 
   /**
@@ -107,9 +103,7 @@ function UserNavBar() {
           );
         }
       })
-      .catch((err) => {
-        console.log(err);
-      });
+      .catch((err) => {});
   }
 
   useEffect(() => {
