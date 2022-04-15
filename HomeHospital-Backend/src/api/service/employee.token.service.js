@@ -16,11 +16,11 @@ const EMPLOYEE_REFRESH_KEY = ENV.EMPLOYEEREFRESHTOKEN_SECRET
 /**
  * @function
  * @summary Generate access and refresh tokens for practitioners and admins
- * 
+ *
  * @description This method generates an access token. Every login attempt will have an email, but an administrator logging in will have an adminId, whereas a
  * practitioner logging in will have a practitionerId. We try to get both, and see which one returns an actual value to figure out which
  * type of user is logging in, then add that to the access token payload
- * 
+ *
  * @param {request} req
  * @param {response} res
  * @param {next} next
@@ -30,8 +30,6 @@ export const generateEmployeeAccessToken = (req, res, next) => {
 	const user = req.body //get the users email as a unique identifier
 	const isAnAdmin = req.adminId
 	const isAPractitioner = req.practitionerId
-	console.log('isAnAdmin in generate: ' + isAnAdmin)
-	console.log('isAPractitioner in generate: ' + isAPractitioner)
 	let accessToken
 	if (isAnAdmin) {
 		accessToken = jwt.sign(
@@ -66,10 +64,10 @@ export const generateEmployeeAccessToken = (req, res, next) => {
 /**
  * @function
  * @summary Generate refresh token for employee
- * 
+ *
  * @description This method is called by the generateEmployeeAccessToken method. It is passed the employee's email and simply returns
  * a new non-expiring token with the email as the payload for storage in the login database
- * 
+ *
  * @param {string} email
  * @returns {string} a refreshToken string
  */
@@ -85,8 +83,8 @@ MUST BE ROUTED THROUGH THIS MIDDLEWARE BEFORE BEING ALLOWED TO PROCEED
 
 /**
  * @function
- * @summary
- * 
+ * @summary Checks the employees access token
+ *
  * @description This middleware is used to check the validity of an access token. First we collect the access and refresh tokens from both
  * the header and from cookies. If any are missing, we return a 401 error. If all exist, we check to make sure that both sets of
  * tokens match each other (access token from cookie matches access token from header, etc). Next, we attempt to verify the access
@@ -119,26 +117,23 @@ export const checkEmployeeAccessToken = async (req, res, next) => {
 
 			const isAnAdmin = validAccessToken?.adminId
 			const isAPractitioner = validAccessToken?.practitionerId
-			console.log('validAccessToken is: ' + validAccessToken)
 			if (isAnAdmin) {
 				req.adminId = validAccessToken.adminId
-				console.log('User is an administrator')
 			} else if (isAPractitioner) {
 				req.practitionerId = validAccessToken.practitionerId
-				console.log('User is a practitioner')
 			} else {
-				console.log('User does not exist in the system')
 				return res.status(401).json({ message: 'Verification Failed' })
 			}
 			next()
 		} catch (err) {
-			console.log(err)
+			console.log(`${new Date()}n\tError:  ${err.message}`)
 			if (err.name == 'TokenExpiredError') {
 				refreshEmployeeAccessToken(refreshToken, accessToken).then(
 					(newAccessToken) => {
 						if (newAccessToken) {
 							// Get the patientId from the new access token and attach it to the request
-							const { adminId, practitionerId } = jwt.decode(newAccessToken)
+							const { adminId, practitionerId } =
+								jwt.decode(newAccessToken)
 							if (adminId) {
 								req.adminId = adminId
 							} else if (practitionerId) {
@@ -150,8 +145,16 @@ export const checkEmployeeAccessToken = async (req, res, next) => {
 							}
 							res.locals.accessT = newAccessToken //res.locals is an object that carries on through all middleware
 							res.locals.refreshT = refreshToken
-							res.cookie('accessTokenCookie',newAccessToken,accessOptions)
-							res.cookie('refreshTokenCookie',refreshToken,refreshOptions)
+							res.cookie(
+								'accessTokenCookie',
+								newAccessToken,
+								accessOptions
+							)
+							res.cookie(
+								'refreshTokenCookie',
+								refreshToken,
+								refreshOptions
+							)
 							next()
 						} else {
 							res.status(401).json({
@@ -165,13 +168,12 @@ export const checkEmployeeAccessToken = async (req, res, next) => {
 				console.log(
 					'Someone fiddled with the access token. No soup for you!'
 				)
-				console.log(err)
+				console.log(`${new Date()}n\tError:  ${err.message}`)
 				res.status(401).send({ message: 'Authorization Failed' })
 				return
 			}
 		}
 	} else {
-		console.log("One or more tokens wasn't present")
 		res.status(401).json({ message: 'Authorization Failed' })
 		return
 	}
@@ -180,7 +182,7 @@ export const checkEmployeeAccessToken = async (req, res, next) => {
 /**
  * @function
  * @summary Refresh the employee access token
- * 
+ *
  * @description In this method, we are passed a refreshToken. This method returns a Promise. The promise will resolve upon successful execution of the mongoose
  * query to find the refresh token in the database. If the refresh token cannot be found in the DB, the query returns a null value. We resolve the
  * promise with null. If the token is found, we verify its validity. If that passes as well, we perform a check to see if the user is an administrator
@@ -210,14 +212,7 @@ const refreshEmployeeAccessToken = (refreshToken, oldAccessToken) => {
 								const isAnAdmin = oldPayload.adminId
 								const isAPractitioner =
 									oldPayload.practitionerId
-								console.log('oldPayload is: ' + oldPayload)
-								console.log(
-									'oldPayload adminId is: ' + isAnAdmin
-								)
-								console.log(
-									'oldPayload practitionerNum is: ' +
-										isAPractitioner
-								)
+
 								if (isAnAdmin) {
 									newAccessToken = jwt.sign(
 										{
@@ -226,10 +221,6 @@ const refreshEmployeeAccessToken = (refreshToken, oldAccessToken) => {
 										},
 										EMPLOYEE_ACCESS_KEY,
 										{ expiresIn: '5m' }
-									)
-									console.log(
-										'User is an administrator, adminId is ' +
-											oldPayload.adminId
 									)
 								} else if (isAPractitioner) {
 									const iDNum = oldPayload.practitionerId
@@ -242,14 +233,7 @@ const refreshEmployeeAccessToken = (refreshToken, oldAccessToken) => {
 										EMPLOYEE_ACCESS_KEY,
 										{ expiresIn: '30s' }
 									)
-									console.log(
-										'User is a practitioner, practitionerId is ' +
-											oldPayload.practitionerId
-									)
 								} else {
-									console.log(
-										'Refresh failed on old access token decode'
-									)
 									reject()
 								}
 								resolve(newAccessToken)
@@ -262,7 +246,7 @@ const refreshEmployeeAccessToken = (refreshToken, oldAccessToken) => {
 				}
 			})
 			.catch((err) => {
-				console.log(err)
+				console.log(`${new Date()}n\tError:  ${err.message}`)
 				reject()
 			})
 	})
@@ -271,12 +255,12 @@ const refreshEmployeeAccessToken = (refreshToken, oldAccessToken) => {
 /**
  * @function
  * @summary Logout method
- * 
+ *
  * @description This method invalidates a user by removing their refresh token from the database, effectively 'logging out' that user. This functionality is
  * backstopped in the logout route, which also clears the cookies containing the user's tokens.
- * @param {request} req 
- * @param {response} res 
- * @param {next} next 
+ * @param {request} req
+ * @param {response} res
+ * @param {next} next
  */
 export const invalidateEmployeeRefToken = (req, res, next) => {
 	const token = req.cookies['accessTokenCookie']
@@ -286,7 +270,6 @@ export const invalidateEmployeeRefToken = (req, res, next) => {
 		RefToken.findOneAndDelete({ token: refToken })
 			.exec()
 			.then((deleted) => {
-				console.log('Successfully deleted: ' + deleted)
 				next()
 			})
 			.catch((err) => {
@@ -298,12 +281,10 @@ export const invalidateEmployeeRefToken = (req, res, next) => {
 		RefToken.findOneAndDelete({ token: refToken })
 			.exec()
 			.then((deleted) => {
-				console.log('Successfully deleted: ' + deleted)
-				console.log("Note, one of the tokens wasn't present")
 				next()
 			})
 			.catch((err) => {
-				console.log("Refresh token wasn't present: " + err)
+				console.log(`${new Date()}n\tError:  ${err.message}`)
 				return res.status(401).json({
 					message: 'Something weird happened on logout attempt',
 				})

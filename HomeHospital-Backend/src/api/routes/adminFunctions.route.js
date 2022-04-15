@@ -1,6 +1,7 @@
 import express from 'express'
 import administratorModel from '../../models/administrator.Model.js'
 import patientModel from '../../models/patient.Model.js'
+import completedRequestModel from '../../models/completedRequest.model.js'
 import practitionerModel from '../../models/practitioner.Model.js'
 import mongoose from 'mongoose'
 
@@ -11,11 +12,11 @@ route.get('/userCount', async (req, res) => {
 		res.status(200).send({
 			patients: await patientModel.count(),
 			practitioners: await practitionerModel.count(),
-			admins: await administratorModel.count()
+			admins: await administratorModel.count(),
 		})
-	} catch(error) {
-		console.error('Error: ' + errror.message)
-		res.status(406).send({message: 'Get Count Failed'})
+	} catch (error) {
+		console.error(`${new Date()}n\tError:  ${error.message}`)
+		res.status(406).send({ message: 'Get Count Failed' })
 	}
 })
 
@@ -33,7 +34,7 @@ route.get('/patientList', async (req, res) => {
 		})
 		res.status(200).send(patientList)
 	} catch (error) {
-		console.log(error.message)
+		console.log(`${new Date()}n\tError:  ${error.message}`)
 		res.status(404).send({ message: 'Error finding patients' })
 	}
 })
@@ -48,9 +49,9 @@ route.get('/practitionerList', async (req, res) => {
 		if (practitioners.length <= 0) {
 			res.status(406).send({ message: 'No practitioners found' })
 		}
-		console.log('List of practitioners retrieved and sent.')
 		res.status(201).send(practitioners)
 	} catch (err) {
+		console.log(`${new Date()}n\tError:  ${err.message}`)
 		res.status(404).send({ message: 'Error in retrieving records' })
 	}
 })
@@ -61,104 +62,111 @@ route.get('/adminList', async (req, res) => {
 			password: 0,
 			__v: 0,
 		})
-		console.log('List of Admins retrieved and sent.')
 		res.status(200).send(adminList)
 	} catch (error) {
-		console.log(error.message)
+		console.log(`${new Date()}n\tError:  ${error.message}`)
 		res.status(400).send({ message: 'Error retrieving Admin List' })
 	}
 })
 
-
 route.get('/patientInfo/:patientId', async (req, res) => {
 	try {
-		const { patientId } = req.params;
-		if (!mongoose.Types.ObjectId.isValid(patientId))
-		{
-			throw new Error("Patient Id is not valid or doesnt exist!")			
+		const { patientId } = req.params
+		if (!mongoose.Types.ObjectId.isValid(patientId)) {
+			throw new Error("Patient Id is not valid or doesn't exist!")
 		}
 
 		const patient = await patientModel.findById(patientId)
 		res.status(200).send(patient.getInfoForAdmin())
 	} catch (error) {
-		console.error("Error: " + error.message)
-		res.status(400).send( {message: "Patient Id is not valid or doesnt exist!"} )
+		console.error(`${new Date()}n\tError:  ${error.message}`)
+		res.status(400).send({
+			message: "Patient Id is not valid or doesn't exist!",
+		})
 	}
 })
 
 route.get('/practitionerInfo/:practitionerId', async (req, res) => {
-	const { practitionerId } = req.params;
+	const { practitionerId } = req.params
 
 	try {
-		if(mongoose.Types.ObjectId.isValid(practitionerId) && 
-			await practitionerModel.exists({_id: practitionerId})) {
-
-			const practitioner = await practitionerModel.findById(practitionerId);		
+		if (
+			mongoose.Types.ObjectId.isValid(practitionerId) &&
+			(await practitionerModel.exists({ _id: practitionerId }))
+		) {
+			const practitioner = await practitionerModel.findById(
+				practitionerId
+			)
 			res.status(200).send(practitioner.getPractitionerInfo())
 		} else {
-			throw new Error("Invalid PractionerId!")
+			throw new Error('Invalid PractitionerId!')
 		}
-	}catch(error) {
-		console.error('Error: ' + error.message)
-		res.status(406).send({message: "Failed to edit Practioner!"})
+	} catch (error) {
+		console.error(`${new Date()}n\tError:  ${error.message}`)
+		res.status(406).send({ message: 'Failed to edit Practitioner!' })
 	}
 })
 
 route.post('/modifyPractitioner', async (req, res) => {
-	const practitionerInfo = req.body;
+	const practitionerInfo = req.body
 
 	try {
-		if(mongoose.Types.ObjectId.isValid(practitionerInfo.id) && 
-			await practitionerModel.exists({_id: practitionerInfo.id})) {
-
-			const practitioner = await practitionerModel.findById(practitionerInfo.id);
+		if (
+			mongoose.Types.ObjectId.isValid(practitionerInfo.id) &&
+			(await practitionerModel.exists({ _id: practitionerInfo.id }))
+		) {
+			const practitioner = await practitionerModel.findById(
+				practitionerInfo.id
+			)
 			practitioner.modifyPractitioner(practitionerInfo)
 			await practitioner.save()
-			res.status(200).send({message: "Edit Complete!"})
+			res.status(200).send({ message: 'Edit Complete!' })
 		} else {
-			throw new Error("Invalid PractionerId!")
+			throw new Error('Invalid PractitionerId!')
 		}
-	}catch(error) {
-		console.error('Error: ' + error.message)
-		res.status(406).send({message: "Failed to edit Practioner!"})
+	} catch (error) {
+		console.error(`${new Date()}n\tError:  ${error.message}`)
+		res.status(406).send({ message: 'Failed to edit Practitioner!' })
 	}
 })
 
 route.get('/adminInfo/:adminId', async (req, res) => {
-	const { adminId } = req.params;
+	const { adminId } = req.params
 
 	try {
-		if(mongoose.Types.ObjectId.isValid(adminId) && 
-			await administratorModel.exists({_id: adminId})) {
-
-			const admin = await administratorModel.findById(adminId);		
+		if (
+			mongoose.Types.ObjectId.isValid(adminId) &&
+			(await administratorModel.exists({ _id: adminId }))
+		) {
+			const admin = await administratorModel.findById(adminId)
 			res.status(200).send(admin.getAdminInfo())
 		} else {
-			throw new Error("Invalid PractionerId!")
+			throw new Error('Invalid PractionerId!')
 		}
-	}catch(error) {
+	} catch (error) {
 		console.error('Error: ' + error.message)
-		res.status(406).send({message: "Failed to get admin!"})
+		res.status(406).send({ message: 'Failed to get admin!' })
 	}
 })
 
 route.post('/modifyAdmin', async (req, res) => {
-	const adminInfo = req.body;
+	const adminInfo = req.body
 
 	try {
-		if(mongoose.Types.ObjectId.isValid(adminInfo.id) && 
-			await administratorModel.exists({_id: adminInfo.id})) {
-
-			const admin = await administratorModel.findById(adminInfo.id);
+		if (
+			mongoose.Types.ObjectId.isValid(adminInfo.id) &&
+			(await administratorModel.exists({ _id: adminInfo.id }))
+		) {
+			const admin = await administratorModel.findById(adminInfo.id)
 			admin.modifyAdmin(adminInfo)
 			await admin.save()
-			res.status(200).send({message: "Edit Complete!"})
+			res.status(200).send({ message: 'Edit Complete!' })
 		} else {
-			throw new Error("Invalid adminId!")
+			throw new Error('Invalid adminId!')
 		}
-	}catch(error) {
+	} catch (error) {
 		console.error('Error: ' + error.message)
-		res.status(406).send({message: "Failed to edit admin!"})
+		res.status(406).send({ message: 'Failed to edit admin!' })
 	}
 })
 
@@ -166,16 +174,42 @@ route.post('/modifyAdmin', async (req, res) => {
 route.delete('/patient/:patientId', async (req, res) => {
 	try {
 		const { patientId } = req.params
-		console.log(patientId)
 		const validId = mongoose.Types.ObjectId.isValid(patientId)
 		if (validId) {
+			const patient = await patientModel.findById(patientId)
+
+			if (patient.currentRequest) {
+				res.status(400).send({
+					message: 'Cannot delete patient with active request',
+				})
+				return
+			}
+
+			// Delete Requests
+			await completedRequestModel.deleteMany({
+				'request.patient': patientId,
+			})
+
+			// Finally delete the patient and send a response.
+			const firstName = patient.firstName
+			const lastName = patient.lastName
+			const _id = patient._id
 			await patientModel.findByIdAndDelete(patientId)
-			res.status(200).send({message: "Patient Deleted!"})
+
+			console.log(
+				'Deleted the patient ' +
+					firstName +
+					' ' +
+					lastName +
+					' id:' +
+					_id
+			)
+			res.status(200).send({ message: 'Patient Deleted!' })
 		} else {
 			throw new Error('There was an error deleting the patient')
 		}
 	} catch (error) {
-		console.log(error.message)
+		console.log(`${new Date()}n\tError:  ${error.message}`)
 		res.status(400).send({ message: 'Error deleting the patient.' })
 	}
 })
@@ -188,12 +222,12 @@ route.delete('/practitioner/:practitionerId', async (req, res) => {
 		const validId = mongoose.Types.ObjectId.isValid(practitionerId)
 		if (validId) {
 			await practitionerModel.findByIdAndDelete(practitionerId)
-			res.status(200).send({message: "Practitoner Deleted!"})
+			res.status(200).send({ message: 'Practitioner Deleted!' })
 		} else {
 			throw new Error('There was an error deleting the practitioner')
 		}
 	} catch (error) {
-		console.log(error.message)
+		console.log(`${new Date()}n\tError:  ${error.message}`)
 		res.status(400).send({ message: 'Error deleting the practitioner.' })
 	}
 })
@@ -205,12 +239,12 @@ route.delete('/admin/:adminId', async (req, res) => {
 		const validId = mongoose.Types.ObjectId.isValid(adminId)
 		if (validId) {
 			await administratorModel.findByIdAndDelete(adminId)
-			res.status(200).send({message: "Admin Deleted!"})
+			res.status(200).send({ message: 'Admin Deleted!' })
 		} else {
 			throw new Error('There was an error deleting the admin')
 		}
 	} catch (error) {
-		console.log(error.message)
+		console.log(`${new Date()}n\tError:  ${error.message}`)
 		res.status(400).send({
 			message: 'Error deleting the admin.',
 		})

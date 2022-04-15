@@ -4,11 +4,18 @@ import vitalsSchema from './vitals.Schema.js'
 import symptomSchema from './symptom.Schema.js'
 import validator from 'validator'
 
+/**
+ * @constructor visitRequest
+ * @summary creates a new visit resquest
+ *
+ * @description taking info from address, vitals, symptoms schemas.
+ * It creates a new visit request.
+ */
 const visitRequestSchema = new mongoose.Schema({
 	requestHospitalId: {
 		type: mongoose.Schema.Types.ObjectId,
 		ref: 'MedicalFacility',
-		required: [true, 'A facility is Needed']
+		required: [true, 'A facility is Needed'],
 	},
 	requestHospitalName: {
 		type: String,
@@ -25,17 +32,17 @@ const visitRequestSchema = new mongoose.Schema({
 	patient: {
 		type: mongoose.Schema.Types.ObjectId,
 		ref: 'Patient',
-		required: [true, 'Patient is Required']
+		required: [true, 'Patient is Required'],
 	},
 	patientFirstName: {
 		type: String,
 		required: [true, 'Patients First Name is Required'],
-		validate:[validator.isAlpha, 'Only Letters allowed'],
+		validate: [validator.isAlpha, 'Only Letters allowed'],
 	},
 	patientLastName: {
 		type: String,
 		required: [true, 'Patients Last Name is Required'],
-		validate:[validator.isAlpha, 'Only Letters allowed'],
+		validate: [validator.isAlpha, 'Only Letters allowed'],
 	},
 	symptoms: {
 		type: [symptomSchema],

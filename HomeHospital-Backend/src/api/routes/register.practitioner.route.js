@@ -10,7 +10,6 @@ route.post('/', async (req, res) => {
 		const result = await registerPractitioner(req)
 
 		if (result == -1) {
-			console.log('registerPractitioner returned -1')
 			res.status(422).send({
 				status: 'Error',
 				message:
@@ -20,7 +19,6 @@ route.post('/', async (req, res) => {
 		}
 
 		if (!result.status) {
-			//console.log('Error: Practitioner already exists')
 			res.status(422).send({
 				status: 'Error',
 				message:
@@ -31,10 +29,10 @@ route.post('/', async (req, res) => {
 
 		if (result?.user) {
 			console.log('Registration Successful')
-			res.send(result.user)
+			res.send({ message: 'Practitioner Registered' })
 		}
 	} catch (e) {
-		console.error(e.message)
+		console.error(`${new Date()}n\tError:  ${e.message}`)
 		res.status(406).send('Request Failed')
 	}
 })
