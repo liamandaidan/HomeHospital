@@ -4,13 +4,17 @@ import Axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { HomeHospitalContext } from "./HomeHospitalContext";
 import "../styles/HospitalSelectionStyles.css";
-
+/**
+ * @name SelectHospital
+ * @summary this will cover the selection of the hospital to a user request.
+ * @returns html component
+ */
 function SelectHospital() {
   //useContext here
   const { _id, longitude, latitude } = useContext(HomeHospitalContext);
 
   const [posts, setPosts] = useState([]);
-  
+
   //grab the states of use context for the _id
   const [_idValue, set_idValue] = _id;
   const [longitudeValue, setLongitudeValue] = longitude;
@@ -21,20 +25,23 @@ function SelectHospital() {
   useEffect(() => {
     Axios.get("http://localhost:4000/api/medicalFacility/viewFacilities").then(
       (response) => {
-        console.log(response.data);
         setPosts(response.data);
       }
     );
   }, []);
-
+  /**
+   * @function test used to navigate to symptoms
+   * @param {event} e event to be passed in from component.
+   */
   function test(e) {
     navigate("/symptoms");
   }
-
+  /**
+   * @function cancelRequest used to cancel requests
+   */
   const cancelRequest = () => {
-    console.log("hospitalID: " + _idValue)
     navigate("/home");
-  }
+  };
   return (
     <>
       <Container className="hospitalList-container">
@@ -49,35 +56,37 @@ function SelectHospital() {
         <Row>
           <div className="hospitalCards-div">
             {posts.hospitalList?.map((post, index) => (
-                <Card
-                  style={{ width: "35rem" }}
-                  className="text-center"
-                  key={index}
-                >
-                  <Card.Body className="card-contents">
-                    <Card.Title>{post.hospitalName}</Card.Title>
-                    <Card.Subtitle>
-                      {post.address.streetAddress}, {post.address.cityName}
-                    </Card.Subtitle>
-					<Card.Text className="card-text">{post.phoneNumber}</Card.Text>
-                    <Card.Text className="card-text"><strong>{post.waitTime}</strong></Card.Text>
-                    <Form key={post._id}>
-                      <Button
-                    id="btn"
-                    className="selectHospital-btn"
-                    onClick={() => {
-                      set_idValue(post._id)
-                      setLatitudeValue(post.latitude)
-                      setLongitudeValue(post.longitude)
-                    }
-                  }
-                  >
-                    Select hospital
-                  </Button>
+              <Card
+                style={{ width: "35rem" }}
+                className="text-center"
+                key={index}
+              >
+                <Card.Body className="card-contents">
+                  <Card.Title>{post.hospitalName}</Card.Title>
+                  <Card.Subtitle>
+                    {post.address.streetAddress}, {post.address.cityName}
+                  </Card.Subtitle>
+                  <Card.Text className="card-text">
+                    {post.phoneNumber}
+                  </Card.Text>
+                  <Card.Text className="card-text">
+                    <strong>{post.waitTime}</strong>
+                  </Card.Text>
+                  <Form key={post._id}>
+                    <Button
+                      id="btn"
+                      className="selectHospital-btn"
+                      onClick={() => {
+                        set_idValue(post._id);
+                        setLatitudeValue(post.latitude);
+                        setLongitudeValue(post.longitude);
+                      }}
+                    >
+                      Select hospital
+                    </Button>
                   </Form>
-                  </Card.Body>
-                </Card>
-
+                </Card.Body>
+              </Card>
             ))}
           </div>
           <div className="submit-btn-div">
@@ -85,7 +94,9 @@ function SelectHospital() {
               Submit hospital
             </Button>
             <div className="cancel-link-div">
-              <Button variant="link" onClick={cancelRequest}>Cancel request</Button>
+              <Button variant="link" onClick={cancelRequest}>
+                Cancel request
+              </Button>
             </div>
           </div>
         </Row>
