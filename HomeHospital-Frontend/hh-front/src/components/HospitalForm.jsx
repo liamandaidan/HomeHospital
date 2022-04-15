@@ -7,6 +7,7 @@ import "../styles/HospitalSelectionStyles.css";
 /**
  * @name SelectHospital
  * @summary this will cover the selection of the hospital to a user request.
+ * @author Ridge Banez, Liam McLaughlin
  * @returns html component
  */
 function SelectHospital() {
