@@ -38,7 +38,7 @@ route.get('/hospitalWaitList/:hospitalId', async (req, res) => {
 			)
 		}
 	} catch (error) {
-		console.log(`${new Date()}n\tError:  ${error.message}`)
+		console.log(`${new Date()}\tError:  ${error.message}`)
 		res.status(400).send({ message: 'Error getting hospital wait list' })
 	}
 })
@@ -66,7 +66,7 @@ route.get('/patientInfo/:patientId', async (req, res) => {
 			throw new Error('Invalid mongo object Id')
 		}
 	} catch (error) {
-		console.log(`${new Date()}n\tError:  ${error.message}`)
+		console.log(`${new Date()}\tError:  ${error.message}`)
 		res.status(400).send({ message: 'Bad request' })
 	}
 })

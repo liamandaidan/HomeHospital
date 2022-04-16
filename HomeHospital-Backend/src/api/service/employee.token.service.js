@@ -126,7 +126,7 @@ export const checkEmployeeAccessToken = async (req, res, next) => {
 			}
 			next()
 		} catch (err) {
-			console.log(`${new Date()}n\tError:  ${err.message}`)
+			console.log(`${new Date()}\tError:  ${err.message}`)
 			if (err.name == 'TokenExpiredError') {
 				refreshEmployeeAccessToken(refreshToken, accessToken).then(
 					(newAccessToken) => {
@@ -168,7 +168,7 @@ export const checkEmployeeAccessToken = async (req, res, next) => {
 				console.log(
 					'Someone fiddled with the access token. No soup for you!'
 				)
-				console.log(`${new Date()}n\tError:  ${err.message}`)
+				console.log(`${new Date()}\tError:  ${err.message}`)
 				res.status(401).send({ message: 'Authorization Failed' })
 				return
 			}
@@ -246,7 +246,7 @@ const refreshEmployeeAccessToken = (refreshToken, oldAccessToken) => {
 				}
 			})
 			.catch((err) => {
-				console.log(`${new Date()}n\tError:  ${err.message}`)
+				console.log(`${new Date()}\tError:  ${err.message}`)
 				reject()
 			})
 	})
@@ -284,7 +284,7 @@ export const invalidateEmployeeRefToken = (req, res, next) => {
 				next()
 			})
 			.catch((err) => {
-				console.log(`${new Date()}n\tError:  ${err.message}`)
+				console.log(`${new Date()}\tError:  ${err.message}`)
 				return res.status(401).json({
 					message: 'Something weird happened on logout attempt',
 				})

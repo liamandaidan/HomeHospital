@@ -148,7 +148,7 @@ export const checkAccessToken = async (req, res, next) => {
 						}
 					)
 				} else {
-					console.log(`${new Date()}n\tError:  ${err.message}`)
+					console.log(`${new Date()}\tError:  ${err.message}`)
 					res.status(401).send({ message: 'Authorization Failed' })
 					return
 				}
@@ -158,7 +158,7 @@ export const checkAccessToken = async (req, res, next) => {
 			return
 		}
 	} catch (error) {
-		console.log(`${new Date()}n\tError:  ${error.message}`)
+		console.log(`${new Date()}\tError:  ${error.message}`)
 		res.status(400).send({ message: 'Error' })
 		return
 	}
@@ -206,7 +206,7 @@ const refreshAccessToken = (refreshToken, oldAccessToken) => {
 				}
 			})
 			.catch((err) => {
-				console.log(`${new Date()}n\tError:  ${err.message}`)
+				console.log(`${new Date()}\tError:  ${err.message}`)
 				reject()
 			})
 	})
@@ -244,7 +244,7 @@ export const invalidateRefToken = (req, res, next) => {
 				next()
 			})
 			.catch((err) => {
-				console.log(`${new Date()}n\tError:  ${err.message}`)
+				console.log(`${new Date()}\tError:  ${err.message}`)
 				return res.status(401).json({
 					message: 'Something weird happened on logout attempt',
 				})

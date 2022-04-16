@@ -19,7 +19,7 @@ const DBConnect = async () => {
 		// Clear out old Ref tokens When the server starts
 		await refreshTokensSchema.find().deleteMany()
 	} catch (error) {
-		console.log(`${new Date()}n\tError:  ${error.message}`)
+		console.log(`${new Date()}\tError:  ${error.message}`)
 		console.error(
 			`THE DB FAILED 🤯 :\n.\n..\n...\n....\n.....\nPlease Check Your DB Connection... \n${error.message}`
 		)

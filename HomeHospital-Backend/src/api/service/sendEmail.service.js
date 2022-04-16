@@ -39,14 +39,14 @@ const sendEmailAlt = async (email, subject, payload) => {
 		// Send email
 		transporter.sendMail(options, (err, success) => {
 			if (err) {
-				console.log(`${new Date()}n\tError:  ${err.message}`)
+				console.log(`${new Date()}\tError:  ${err.message}`)
 				return err
 			} else {
 				return res.status(200).json({ success: true })
 			}
 		})
 	} catch (error) {
-		console.log(`${new Date()}n\tError:  ${error.message}`)
+		console.log(`${new Date()}\tError:  ${error.message}`)
 		return error
 	}
 }

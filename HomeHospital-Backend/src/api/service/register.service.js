@@ -132,7 +132,7 @@ export const registerUser = async (req) => {
 
 		return regStatus
 	} catch (error) {
-		console.log(`${new Date()}n\tError:  ${error.message}`)
+		console.log(`${new Date()}\tError:  ${error.message}`)
 		return null
 	}
 }
@@ -339,7 +339,7 @@ export const registerAdministrator = async (req) => {
 		})
 		newAdministrator.save()
 	} catch (err) {
-		console.log(`${new Date()}n\tError:  ${err.message}`)
+		console.log(`${new Date()}\tError:  ${err.message}`)
 		return (regStatus.status = false)
 	}
 

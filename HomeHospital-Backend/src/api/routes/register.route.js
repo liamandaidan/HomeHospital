@@ -33,7 +33,7 @@ route.post('/', async (req, res) => {
 			res.send({ message: 'Patient Registered' })
 		}
 	} catch (e) {
-		console.error(`${new Date()}n\tError:  ${e.message}`)
+		console.error(`${new Date()}\tError:  ${e.message}`)
 		res.status(406).send({ message: e.message })
 	}
 })

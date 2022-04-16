@@ -72,7 +72,7 @@ route.post('/newFacility', checkMayAccessAdminPage, async (req, res) => {
 		facility.save()
 		res.status(201).send({ message: 'Hospital Created' })
 	} catch (error) {
-		console.log(`${new Date()}n\tError:  ${error.message}`)
+		console.log(`${new Date()}\tError:  ${error.message}`)
 		res.status(400).send({ message: 'Error' })
 	}
 })

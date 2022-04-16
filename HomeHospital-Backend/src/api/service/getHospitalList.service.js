@@ -21,7 +21,7 @@ export const getHospitalList = async (res) => {
 			hospitalList: hospitalList,
 		})
 	} catch (error) {
-		console.log(`${new Date()}n\tError:  ${error.message}`)
+		console.log(`${new Date()}\tError:  ${error.message}`)
 		res.status(400).send({ message: 'Error in the request' })
 	}
 }

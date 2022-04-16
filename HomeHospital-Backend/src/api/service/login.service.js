@@ -221,7 +221,7 @@ const checkPatientAlreadyLoggedIn = async (req) => {
 			}
 		} catch (err) {
 			//they gave us a bad token
-			console.log(`${new Date()}n\tError:  ${err.message}`)
+			console.log(`${new Date()}\tError:  ${err.message}`)
 			return 'bad token'
 		}
 	}
@@ -260,7 +260,7 @@ const checkPractitionerAlreadyLoggedIn = async (req) => {
 			}
 		} catch (err) {
 			//they gave us a bad token
-			console.log(`${new Date()}n\tError:  ${err.message}`)
+			console.log(`${new Date()}\tError:  ${err.message}`)
 			return 'bad token'
 		}
 	}
@@ -299,7 +299,7 @@ const checkAdminAlreadyLoggedIn = async (req) => {
 			}
 		} catch (err) {
 			//they gave us a bad token
-			;`${new Date()}n\tError:  ${err.message}`
+			;`${new Date()}\tError:  ${err.message}`
 			return 'bad token'
 		}
 	}

@@ -32,7 +32,7 @@ route.post('/', async (req, res) => {
 			res.send({ message: 'Admin Registered' })
 		}
 	} catch (e) {
-		console.error(`${new Date()}n\tError:  ${e.message}`)
+		console.error(`${new Date()}\tError:  ${e.message}`)
 		res.status(406).send('Request Failed')
 	}
 })

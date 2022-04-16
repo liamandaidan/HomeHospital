@@ -19,7 +19,7 @@ route.get('/patientInfo', async (req, res) => {
 			throw new Error('Invalid PatientId!')
 		}
 	} catch (error) {
-		console.error(`${new Date()}n\tError:  ${error.message}`)
+		console.error(`${new Date()}\tError:  ${error.message}`)
 		res.status(406).send({ message: 'Failed to get patient info!' })
 	}
 })
@@ -41,7 +41,7 @@ route.post('/modifyPatientInfo', async (req, res) => {
 			throw new Error('Invalid PatientId!')
 		}
 	} catch (error) {
-		console.error(`${new Date()}n\tError:  ${error.message}`)
+		console.error(`${new Date()}\tError:  ${error.message}`)
 		res.status(406).send({ message: 'Failed to edit patient!' })
 	}
 })
@@ -65,7 +65,7 @@ route.post('/PatientInfoVisitRequest', async (req, res) => {
 			}
 		}
 	} catch (error) {
-		console.error(`${new Date()}n\tError:  ${error.message}`)
+		console.error(`${new Date()}\tError:  ${error.message}`)
 		res.status(406).send({
 			status: 'Error',
 			message: 'Cannot find patient',

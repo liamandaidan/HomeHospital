@@ -11,7 +11,7 @@ const app = express()
 try {
 	await RunApp(app)
 } catch (error) {
-	console.error(`${new Date()}n\tError:  ${error.message}`)
+	console.error(`${new Date()}\tError:  ${error.message}`)
 	console.log('A Major error happened and the Server Stopped!')
 	process.exit(1)
 }

@@ -100,7 +100,7 @@ route.post('/newRequest', async (req, res) => {
 
 				res.send({ message: 'Request entered', RequestId: request._id })
 			} catch (error) {
-				console.log(`${new Date()}n\tError:  ${error.message}`)
+				console.log(`${new Date()}\tError:  ${error.message}`)
 				res.status(400).send({ message: 'Error' })
 			}
 		} else {
@@ -142,7 +142,7 @@ route.get('/currentRequest', async (req, res) => {
 			throw new Error('Invalid User Id')
 		}
 	} catch (error) {
-		console.log(`${new Date()}n\tError:  ${error.message}`)
+		console.log(`${new Date()}\tError:  ${error.message}`)
 		res.status(400).send({ message: 'Bad request' })
 	}
 })
@@ -180,7 +180,7 @@ route.get('/allRequests', async (req, res) => {
 			throw new Error('Invalid mongo object Id')
 		}
 	} catch (error) {
-		console.log(`${new Date()}n\tError:  ${error.message}`)
+		console.log(`${new Date()}\tError:  ${error.message}`)
 		res.status(400).send({ message: 'Bad request' })
 	}
 })
@@ -208,7 +208,7 @@ route.get('/targetRequest/:requestId', async (req, res) => {
 			throw new Error('Invalid Request Id')
 		}
 	} catch (error) {
-		console.log(`${new Date()}n\tError:  ${error.message}`)
+		console.log(`${new Date()}\tError:  ${error.message}`)
 		res.status(400).send({ message: 'Bad request' })
 	}
 })
@@ -227,7 +227,7 @@ route.delete('/cancel', async (req, res) => {
 			res.status(400).send({ message: 'Cancel not processed' })
 		}
 	} catch (error) {
-		console.error(`${new Date()}n\tError:  ${error.message}`)
+		console.error(`${new Date()}\tError:  ${error.message}`)
 		res.status(400).send({ message: 'Cancel Request Error' })
 	}
 })
