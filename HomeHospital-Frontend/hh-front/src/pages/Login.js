@@ -8,6 +8,13 @@ import { HomeHospitalContext } from "../components/HomeHospitalContext";
 
 axios.defaults.withCredentials = true;
 
+/**
+ * @name Login Page
+ * @summary This is the login page that will be displayed with the user
+ * tries to login into the application
+ * @author Lance Gee
+ * @returns rendered login component to user.
+ */
 function Login() {
   // useContext to get new Request value
   const { regSuccess } = useContext(HomeHospitalContext);

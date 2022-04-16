@@ -24,6 +24,13 @@ import AdminLogin from "./pages/AdminLogin.js";
 import { PractitionerProvider } from "./components/PractitionerContext";
 import EditProfile from "./pages/EditProfile";
 
+/**
+ * @name App
+ * @summary This file is where all the routing of the frontend
+ * application happens. As well as all context API.
+ * @author Lance Gee
+ * @returns rendered application.
+ */
 function App() {
   useEffect(() => {
     document.title = "HomeHospital";

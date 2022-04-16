@@ -5,6 +5,14 @@ import classes from "./LandingPage.module.css";
 import landingImage from "../images/landingImage.png";
 import { useNavigate } from "react-router-dom";
 
+/**
+ * @name LandingPage Component
+ * @summary The LandingPage component is the main landing page
+ * when a user first comes into the application. They can register or login
+ * to the application.
+ * @author Lance Gee
+ */
+
 function LandingPage() {
   const navigate = useNavigate();
 

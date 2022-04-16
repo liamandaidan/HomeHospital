@@ -5,6 +5,13 @@ import backgroundLogin from "../images/bg.png";
 import leftImage from "../images/waitingRoom3.png";
 import classes from "./Register.module.css";
 
+/**
+ * @name Register Page
+ * @summary This page is rendered when a user clicks on the registration button
+ * the patient will be able to register to access the application.
+ * @author Lance Gee
+ * @returns rendered registration form component to user.
+ */
 function Register() {
   return (
     <Row
