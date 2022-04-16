@@ -8,7 +8,15 @@ import Container from "react-bootstrap/Container";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "../styles/main.css";
 import icon from "../images/heartbeat.png";
-
+/**
+ * @name Navigation Bar
+ * @summary This is a component navigation bar at the top of the patient page.
+ * contains code for the nav bar.
+ * @author 
+ * @returns patient navigation bar that displays links for returning to the patient home page
+ * take them to make a new visit request, and clicking on the cogwheel will allow users to edit profile info,
+ * view past visit requests, settings, and logout
+ */
 function Navigation() {
   return (
     <>

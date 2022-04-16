@@ -3,6 +3,14 @@ import Modal from "react-bootstrap/Modal";
 import Button from "react-bootstrap/Button";
 import "../styles/modal.css";
 
+/**
+ * @name Alert Modal for patients
+ * @summary This modal pops up and alerts users with a disclaimer before they continue submitting
+ * their hospital visit request
+ * @author Robyn Balanag
+ * @returns Alert modal in the middle of the page informing users with a disclaimer can Acknowledge and continue or
+ * cancel hospital visit request.
+ */
 function AlertModal(props) {
   return (
     <>

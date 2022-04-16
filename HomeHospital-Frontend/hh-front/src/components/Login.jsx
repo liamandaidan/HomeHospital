@@ -1,6 +1,11 @@
 import React, { useState } from "react";
 import { Form, Button, Col, Row, Container } from "react-bootstrap";
 
+/**
+ * @name Login change
+ * @summary component for changing login username and password for patients
+ * @author
+ */
 function Login({ addForms }) {
   //2 pass state
   const submitForm = (event) => {
