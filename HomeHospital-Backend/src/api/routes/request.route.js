@@ -164,7 +164,6 @@ route.get('/allRequests', async (req, res) => {
 			const patient = await patientModel.findById(sanitizedPatientId)
 
 			if (patient.pastRequests.length == 0) {
-				console.log('No registered requests')
 				res.status(404).send({ message: 'No Current requests' })
 			} else {
 				// for each requestId attached to the patient, loop through and query all requests, attach to an array,
