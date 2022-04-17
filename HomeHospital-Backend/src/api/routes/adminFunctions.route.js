@@ -15,7 +15,7 @@ route.get('/userCount', async (req, res) => {
 			admins: await administratorModel.count(),
 		})
 	} catch (error) {
-		console.error(`${new Date()}n\tError:  ${error.message}`)
+		console.error(`${new Date()}\tError:  ${error.message}`)
 		res.status(406).send({ message: 'Get Count Failed' })
 	}
 })
@@ -34,7 +34,7 @@ route.get('/patientList', async (req, res) => {
 		})
 		res.status(200).send(patientList)
 	} catch (error) {
-		console.log(`${new Date()}n\tError:  ${error.message}`)
+		console.log(`${new Date()}\tError:  ${error.message}`)
 		res.status(404).send({ message: 'Error finding patients' })
 	}
 })
@@ -51,7 +51,7 @@ route.get('/practitionerList', async (req, res) => {
 		}
 		res.status(201).send(practitioners)
 	} catch (err) {
-		console.log(`${new Date()}n\tError:  ${err.message}`)
+		console.log(`${new Date()}\tError:  ${err.message}`)
 		res.status(404).send({ message: 'Error in retrieving records' })
 	}
 })
@@ -64,7 +64,7 @@ route.get('/adminList', async (req, res) => {
 		})
 		res.status(200).send(adminList)
 	} catch (error) {
-		console.log(`${new Date()}n\tError:  ${error.message}`)
+		console.log(`${new Date()}\tError:  ${error.message}`)
 		res.status(400).send({ message: 'Error retrieving Admin List' })
 	}
 })
@@ -79,7 +79,7 @@ route.get('/patientInfo/:patientId', async (req, res) => {
 		const patient = await patientModel.findById(patientId)
 		res.status(200).send(patient.getInfoForAdmin())
 	} catch (error) {
-		console.error(`${new Date()}n\tError:  ${error.message}`)
+		console.error(`${new Date()}\tError:  ${error.message}`)
 		res.status(400).send({
 			message: "Patient Id is not valid or doesn't exist!",
 		})
@@ -102,7 +102,7 @@ route.get('/practitionerInfo/:practitionerId', async (req, res) => {
 			throw new Error('Invalid PractitionerId!')
 		}
 	} catch (error) {
-		console.error(`${new Date()}n\tError:  ${error.message}`)
+		console.error(`${new Date()}\tError:  ${error.message}`)
 		res.status(406).send({ message: 'Failed to edit Practitioner!' })
 	}
 })
@@ -125,7 +125,7 @@ route.post('/modifyPractitioner', async (req, res) => {
 			throw new Error('Invalid PractitionerId!')
 		}
 	} catch (error) {
-		console.error(`${new Date()}n\tError:  ${error.message}`)
+		console.error(`${new Date()}\tError:  ${error.message}`)
 		res.status(406).send({ message: 'Failed to edit Practitioner!' })
 	}
 })
@@ -209,7 +209,7 @@ route.delete('/patient/:patientId', async (req, res) => {
 			throw new Error('There was an error deleting the patient')
 		}
 	} catch (error) {
-		console.log(`${new Date()}n\tError:  ${error.message}`)
+		console.log(`${new Date()}\tError:  ${error.message}`)
 		res.status(400).send({ message: 'Error deleting the patient.' })
 	}
 })
@@ -227,7 +227,7 @@ route.delete('/practitioner/:practitionerId', async (req, res) => {
 			throw new Error('There was an error deleting the practitioner')
 		}
 	} catch (error) {
-		console.log(`${new Date()}n\tError:  ${error.message}`)
+		console.log(`${new Date()}\tError:  ${error.message}`)
 		res.status(400).send({ message: 'Error deleting the practitioner.' })
 	}
 })
@@ -244,7 +244,7 @@ route.delete('/admin/:adminId', async (req, res) => {
 			throw new Error('There was an error deleting the admin')
 		}
 	} catch (error) {
-		console.log(`${new Date()}n\tError:  ${error.message}`)
+		console.log(`${new Date()}\tError:  ${error.message}`)
 		res.status(400).send({
 			message: 'Error deleting the admin.',
 		})

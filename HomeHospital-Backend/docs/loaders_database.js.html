@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="utf-8">
     <title>JSDoc: Source: loaders/database.js</title>
@@ -15,18 +16,18 @@
 
 <body>
 
-<div id="main">
+    <div id="main">
 
-    <h1 class="page-title">Source: loaders/database.js</h1>
-
-    
+        <h1 class="page-title">Source: loaders/database.js</h1>
 
 
 
-    
-    <section>
-        <article>
-            <pre class="prettyprint source linenums"><code>import mongoose from 'mongoose'
+
+
+
+        <section>
+            <article>
+                <pre class="prettyprint source linenums"><code>import mongoose from 'mongoose'
 import ENV from '../configure/configure.js'
 import refreshTokensSchema from '../models/refreshTokens.Schema.js'
 
@@ -47,7 +48,7 @@ const DBConnect = async () => {
 		// Clear out old Ref tokens When the server starts
 		await refreshTokensSchema.find().deleteMany()
 	} catch (error) {
-		console.log(`${new Date()}n\tError:  ${error.message}`)
+		console.log(`${new Date()}\tError:  ${error.message}`)
 		console.error(
 			`THE DB FAILED 🤯 :\n.\n..\n...\n....\n.....\nPlease Check Your DB Connection... \n${error.message}`
 		)
@@ -59,25 +60,76 @@ const DBConnect = async () => {
 
 export default DBConnect
 </code></pre>
-        </article>
-    </section>
+            </article>
+        </section>
 
 
 
 
-</div>
+    </div>
 
-<nav>
-    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="address.html">address</a></li><li><a href="administrator.html">administrator</a></li><li><a href="completedRequest.html">completedRequest</a></li><li><a href="ExpressLoader.html">ExpressLoader</a></li><li><a href="medicalFacility.html">medicalFacility</a></li><li><a href="patient.html">patient</a></li><li><a href="people.html">people</a></li><li><a href="practitioner.html">practitioner</a></li><li><a href="refresh.html">refresh</a></li><li><a href="symptom.html">symptom</a></li><li><a href="visitRequest.html">visitRequest</a></li><li><a href="vitals.html">vitals</a></li></ul><h3>Global</h3><ul><li><a href="global.html#cancelCurrentRequest">cancelCurrentRequest</a></li><li><a href="global.html#checkAccessAuthorized">checkAccessAuthorized</a></li><li><a href="global.html#checkAccessToken">checkAccessToken</a></li><li><a href="global.html#checkAdminAlreadyLoggedIn">checkAdminAlreadyLoggedIn</a></li><li><a href="global.html#checkEmployeeAccessToken">checkEmployeeAccessToken</a></li><li><a href="global.html#checkMayAccessAdminPage">checkMayAccessAdminPage</a></li><li><a href="global.html#checkMayAccessPractitionerPage">checkMayAccessPractitionerPage</a></li><li><a href="global.html#checkPatientAlreadyLoggedIn">checkPatientAlreadyLoggedIn</a></li><li><a href="global.html#checkPractitionerAlreadyLoggedIn">checkPractitionerAlreadyLoggedIn</a></li><li><a href="global.html#completeCurrentRequest">completeCurrentRequest</a></li><li><a href="global.html#DBConnect">DBConnect</a></li><li><a href="global.html#generateAccessToken">generateAccessToken</a></li><li><a href="global.html#generateEmployeeAccessToken">generateEmployeeAccessToken</a></li><li><a href="global.html#generateEmployeeRefreshToken">generateEmployeeRefreshToken</a></li><li><a href="global.html#generateRefreshToken">generateRefreshToken</a></li><li><a href="global.html#getHospitalList">getHospitalList</a></li><li><a href="global.html#getHospitalWaitList">getHospitalWaitList</a></li><li><a href="global.html#invalidateEmployeeRefToken">invalidateEmployeeRefToken</a></li><li><a href="global.html#invalidateRefToken">invalidateRefToken</a></li><li><a href="global.html#logAdministratorIn">logAdministratorIn</a></li><li><a href="global.html#logPractitionerIn">logPractitionerIn</a></li><li><a href="global.html#logUserIn">logUserIn</a></li><li><a href="global.html#refreshAccessToken">refreshAccessToken</a></li><li><a href="global.html#refreshEmployeeAccessToken">refreshEmployeeAccessToken</a></li><li><a href="global.html#registerAdministrator">registerAdministrator</a></li><li><a href="global.html#registerPractitioner">registerPractitioner</a></li><li><a href="global.html#registerUser">registerUser</a></li><li><a href="global.html#RunApp">RunApp</a></li><li><a href="global.html#sendEmailAlt">sendEmailAlt</a></li><li><a href="global.html#updateEmployeePassword">updateEmployeePassword</a></li><li><a href="global.html#updatePassword">updatePassword</a></li></ul>
-</nav>
+    <nav>
+        <h2><a href="index.html">Home</a></h2>
+        <h3>Classes</h3>
+        <ul>
+            <li><a href="address.html">address</a></li>
+            <li><a href="administrator.html">administrator</a></li>
+            <li><a href="completedRequest.html">completedRequest</a></li>
+            <li><a href="ExpressLoader.html">ExpressLoader</a></li>
+            <li><a href="medicalFacility.html">medicalFacility</a></li>
+            <li><a href="patient.html">patient</a></li>
+            <li><a href="people.html">people</a></li>
+            <li><a href="practitioner.html">practitioner</a></li>
+            <li><a href="refresh.html">refresh</a></li>
+            <li><a href="symptom.html">symptom</a></li>
+            <li><a href="visitRequest.html">visitRequest</a></li>
+            <li><a href="vitals.html">vitals</a></li>
+        </ul>
+        <h3>Global</h3>
+        <ul>
+            <li><a href="global.html#cancelCurrentRequest">cancelCurrentRequest</a></li>
+            <li><a href="global.html#checkAccessAuthorized">checkAccessAuthorized</a></li>
+            <li><a href="global.html#checkAccessToken">checkAccessToken</a></li>
+            <li><a href="global.html#checkAdminAlreadyLoggedIn">checkAdminAlreadyLoggedIn</a></li>
+            <li><a href="global.html#checkEmployeeAccessToken">checkEmployeeAccessToken</a></li>
+            <li><a href="global.html#checkMayAccessAdminPage">checkMayAccessAdminPage</a></li>
+            <li><a href="global.html#checkMayAccessPractitionerPage">checkMayAccessPractitionerPage</a></li>
+            <li><a href="global.html#checkPatientAlreadyLoggedIn">checkPatientAlreadyLoggedIn</a></li>
+            <li><a href="global.html#checkPractitionerAlreadyLoggedIn">checkPractitionerAlreadyLoggedIn</a></li>
+            <li><a href="global.html#completeCurrentRequest">completeCurrentRequest</a></li>
+            <li><a href="global.html#DBConnect">DBConnect</a></li>
+            <li><a href="global.html#generateAccessToken">generateAccessToken</a></li>
+            <li><a href="global.html#generateEmployeeAccessToken">generateEmployeeAccessToken</a></li>
+            <li><a href="global.html#generateEmployeeRefreshToken">generateEmployeeRefreshToken</a></li>
+            <li><a href="global.html#generateRefreshToken">generateRefreshToken</a></li>
+            <li><a href="global.html#getHospitalList">getHospitalList</a></li>
+            <li><a href="global.html#getHospitalWaitList">getHospitalWaitList</a></li>
+            <li><a href="global.html#invalidateEmployeeRefToken">invalidateEmployeeRefToken</a></li>
+            <li><a href="global.html#invalidateRefToken">invalidateRefToken</a></li>
+            <li><a href="global.html#logAdministratorIn">logAdministratorIn</a></li>
+            <li><a href="global.html#logPractitionerIn">logPractitionerIn</a></li>
+            <li><a href="global.html#logUserIn">logUserIn</a></li>
+            <li><a href="global.html#refreshAccessToken">refreshAccessToken</a></li>
+            <li><a href="global.html#refreshEmployeeAccessToken">refreshEmployeeAccessToken</a></li>
+            <li><a href="global.html#registerAdministrator">registerAdministrator</a></li>
+            <li><a href="global.html#registerPractitioner">registerPractitioner</a></li>
+            <li><a href="global.html#registerUser">registerUser</a></li>
+            <li><a href="global.html#RunApp">RunApp</a></li>
+            <li><a href="global.html#sendEmailAlt">sendEmailAlt</a></li>
+            <li><a href="global.html#updateEmployeePassword">updateEmployeePassword</a></li>
+            <li><a href="global.html#updatePassword">updatePassword</a></li>
+        </ul>
+    </nav>
 
-<br class="clear">
+    <br class="clear">
 
-<footer>
-    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.10</a> on Fri Apr 15 2022 16:36:02 GMT-0600 (Mountain Daylight Time)
-</footer>
+    <footer>
+        Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.10</a> on Fri Apr 15 2022 16:36:02
+        GMT-0600 (Mountain Daylight Time)
+    </footer>
 
-<script> prettyPrint(); </script>
-<script src="scripts/linenumber.js"> </script>
+    <script> prettyPrint(); </script>
+    <script src="scripts/linenumber.js"> </script>
 </body>
+
 </html>

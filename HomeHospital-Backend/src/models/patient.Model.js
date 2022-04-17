@@ -102,7 +102,7 @@ patientSchema.methods.newRequest = function (requestId, requestHospitalId) {
 			}
 		}
 	} catch (error) {
-		console.log(`${new Date()}n\tError:  ${error.message}`)
+		console.log(`${new Date()}\tError:  ${error.message}`)
 	}
 }
 
@@ -125,7 +125,7 @@ patientSchema.methods.completeRequest = function () {
 			throw new Error('Patient has no request to move to be completed')
 		}
 	} catch (error) {
-		console.log(`${new Date()}n\tError:  ${error.message}`)
+		console.log(`${new Date()}\tError:  ${error.message}`)
 	}
 }
 
@@ -147,7 +147,7 @@ patientSchema.methods.cancelRequest = function () {
 			throw new Error('Patient Does not have an active request to cancel')
 		}
 	} catch (error) {
-		console.log(`${new Date()}n\tError:  ${error.message}`)
+		console.log(`${new Date()}\tError:  ${error.message}`)
 	}
 }
 

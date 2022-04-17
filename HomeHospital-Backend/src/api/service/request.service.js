@@ -57,7 +57,7 @@ export const completeCurrentRequest = async (patientId) => {
 			throw new Error('patient does not possess current request')
 		}
 	} catch (error) {
-		console.error(`${new Date()}n\tError:  ${error.message}`)
+		console.error(`${new Date()}\tError:  ${error.message}`)
 		return false
 	}
 }
@@ -100,7 +100,7 @@ export const cancelCurrentRequest = async (patientId) => {
 			throw new Error('patient does not possess current request')
 		}
 	} catch (error) {
-		console.log(`${new Date()}n\tError:  ${error.message}`)
+		console.log(`${new Date()}\tError:  ${error.message}`)
 		return false
 	}
 }
@@ -133,6 +133,6 @@ export const getHospitalWaitList = async (hospitalId) => {
 
 		return visitRequests
 	} catch (error) {
-		console.error(`${new Date()}n\tError:  ${error.message}`)
+		console.error(`${new Date()}\tError:  ${error.message}`)
 	}
 }

@@ -30,7 +30,7 @@ class ExpressLoader {
 		app.use((err, req, res, next) => {
 			if (err) {
 				console.log('error was caught!')
-				console.log(`${new Date()}n\tError:  ${err.message}`)
+				console.log(`${new Date()}\tError:  ${err.message}`)
 				res.status(404).send()
 			}
 		})

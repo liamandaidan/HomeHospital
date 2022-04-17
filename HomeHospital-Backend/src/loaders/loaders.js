@@ -12,7 +12,7 @@ const RunApp = async (app) => {
 		await DBConnect()
 		new ExpressLoader(app)
 	} catch (error) {
-		console.error(`${new Date()}n\tError:  ${error.message}`)
+		console.error(`${new Date()}\tError:  ${error.message}`)
 	}
 }
 

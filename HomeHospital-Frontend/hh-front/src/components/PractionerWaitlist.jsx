@@ -13,7 +13,7 @@ axios.defaults.withCredentials = true;
  * @author Liam McLaughlin, Ridge Banez
  * @returns html component
  */
-export default function PractionerWaitlist({ childToParent, refresh }) {
+export default function PractionerWaitlist({ childToParent, refresh, cancelToast }) {
   //useContext here
   const { _id, additionalInfo, symptomsInfo, hidden } =
     useContext(PractitionerContext);
@@ -32,6 +32,7 @@ export default function PractionerWaitlist({ childToParent, refresh }) {
   const [id, setId] = useState("");
 
   const [practPatientInfo, setPractPatientInfo] = useState([]);
+
   const [selectedUsername, setSelectedUsername] = useState("");
   const [hospitalSelected, setHospitalSelected] = useState("none");
   const [url, setUrl] = useState(
@@ -51,17 +52,13 @@ export default function PractionerWaitlist({ childToParent, refresh }) {
       "http://localhost:4000/api/requestManager/hospitalWaitList/" + childData
     );
   };
-  /**
-   *@function useEffect This will be in control of the state of practitioner list. Here we will force updates on url
-   *change and set timer.
-   */
-  useEffect(() => {
+
+  async function getList() {
     //This if statement will be used to halt the call until a hospital has been selected.
     if (!(hospitalSelected === "none")) {
       /**
        * @function callUpdate This will force an update when called.
        */
-      const callUpdate = () => {
         axios
           .get(url)
           .then((response) => {
@@ -69,30 +66,65 @@ export default function PractionerWaitlist({ childToParent, refresh }) {
               setIsCheckedIn(false);
             }
             if (response.data !== null && response.data !== undefined) {
-             // console.log(response.data);
               setPractPatientInfo(response.data);
+              window.localStorage.setItem('newList', response.data.length);
+              if(window.localStorage.getItem('callback') === undefined || window.localStorage.getItem('callback') === null || window.localStorage.getItem('callback') === 'null') {
+                console.log("in the call back");
+                window.localStorage.setItem('oldList', response.data.length)
+                window.localStorage.setItem('checkedIn', '1');
+                window.localStorage.setItem('callback', 1);
+              }
             } else {
               refresh("DATA IS INVALID");
             }
-
             setFlag(false);
+
           })
           .catch((err) => {
-           // console.log("No patient data at this time");
+            console.log("No patient data at this time");
+            setPractPatientInfo([]);
             setFlag(true);
           });
       };
-      //we call here when URL is updated.
-      callUpdate();
-      //here we call for a refresh every 60sec
-      const interval = setInterval(() => {
-        refresh("Table requests updated");
-        //this is called every 60 sec
-        callUpdate();
-      }, 60000);
-      return () => clearInterval(interval);
+  }
+
+  /**
+   *@function useEffect This will be in control of the state of practitioner list. Here we will force updates on url
+   *change and set timer.
+   */
+  useEffect(() => {
+    console.log(hospitalSelected)
+    console.log(isCheckedIn)
+    if (!(hospitalSelected === "none") || window.localStorage.getItem('oldList') !== null || window.localStorage.getItem('oldList') !== undefined) {
+    getList()
+    const interval = setInterval(() => {
+      if(window.localStorage.getItem('checkedIn') === '2') {
+        console.log("in the myStopFunction")
+        myStopFunction()
+      }   
+      getList();
+      if(window.localStorage.getItem('newList') > window.localStorage.getItem('oldList') && window.localStorage.getItem('checkedIn') === '1') {
+        window.localStorage.setItem('oldList', window.localStorage.getItem('newList'))
+        refresh('New Request has been Submitted!');
+      } else if (window.localStorage.getItem('callback') === 'null') {
+        console.log('callback is null')
+      }
+      else if (window.localStorage.getItem('newList') < window.localStorage.getItem('oldList') && window.localStorage.getItem('checkedIn') === '1') {
+        window.localStorage.setItem('oldList', window.localStorage.getItem('newList'))
+        cancelToast('Request has been Cancelled!');
+      } else {
+        console.log("no change!");
+      }
+    }, 500);
+    
+    function myStopFunction() {
+      clearInterval(interval);
     }
+    return () => clearInterval(interval);
+  }
   }, [url, isCheckedIn]);
+
+  
 
   /**
    * @function AlertModel when practitioner request to check in a user
@@ -136,6 +168,7 @@ export default function PractionerWaitlist({ childToParent, refresh }) {
    * @param {event} e the value passed from button press
    */
   const handleCheckIn = (e) => {
+    window.localStorage.setItem('checkedIn', '2');
     // console.log("this is the id of the user to check in: " + e);
     {
       practPatientInfo.map((data) => {
@@ -166,6 +199,8 @@ export default function PractionerWaitlist({ childToParent, refresh }) {
         setModalState(false);
         setIsCheckedIn(true);
         childToParent("null");
+        window.localStorage.setItem('checkedIn', '1');
+        window.localStorage.setItem('callback', 'null');
       });
   };
 

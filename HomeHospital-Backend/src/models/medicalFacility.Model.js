@@ -81,7 +81,7 @@ medicalFacility.methods.dequeue = async function () {
 			throw new Error('No Requests in the Hospital WaitList')
 		}
 	} catch (error) {
-		console.log(`${new Date()}n\tError:  ${error.message}`)
+		console.log(`${new Date()}\tError:  ${error.message}`)
 	}
 }
 
@@ -99,7 +99,7 @@ medicalFacility.methods.removeRequest = async function (requestId) {
 			this.waitList.splice(index, 1)
 		}
 	} catch (error) {
-		console.log(`${new Date()}n\tError:  ${error.message}`)
+		console.log(`${new Date()}\tError:  ${error.message}`)
 	}
 }
 
@@ -122,7 +122,7 @@ medicalFacility.methods.findIndexInWaitList = function (requestId) {
 		// These are not the droids you're looking for...return -1 to indicate not found.
 		return -1
 	} catch (error) {
-		console.log(`${new Date()}n\tError:  ${error.message}`)
+		console.log(`${new Date()}\tError:  ${error.message}`)
 	}
 }
 
@@ -148,7 +148,7 @@ medicalFacility.methods.moveWaitListPosition = function (requestId, position) {
 			throw new Error('Position outside of Index range')
 		}
 	} catch (error) {
-		console.log(`${new Date()}n\tError:  ${error.message}`)
+		console.log(`${new Date()}\tError:  ${error.message}`)
 	}
 }
 

@@ -6,6 +6,13 @@ import UserNavBar from "../components/UserNavBar";
 import WaitList from "../components/WaitList";
 import SymptomsTable from "../components/SymptomsTable";
 
+/**
+ * @name Request Page
+ * @summary This page is rendered when a user clicks on the request button
+ * the patient will be able to see either their current request or past requests.
+ * @author Lance Gee
+ * @returns rendered request component to user.
+ */
 function Request() {
   return (
     <React.Fragment>

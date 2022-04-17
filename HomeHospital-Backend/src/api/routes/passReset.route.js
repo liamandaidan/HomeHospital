@@ -61,7 +61,7 @@ route.post('/', async (req, res) => {
 					res.status(201).send({ message: 'Send mail complete' })
 				}
 			} catch (e) {
-				console.error(`${new Date()}n\tError:  ${e.message}`)
+				console.error(`${new Date()}\tError:  ${e.message}`)
 				res.status(406).send('Request Failed')
 				return
 			}
