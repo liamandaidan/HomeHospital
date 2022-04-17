@@ -8,7 +8,11 @@ import { HomeHospitalContext } from "../components/HomeHospitalContext";
 import LoginFormPractitioner from "../components/LoginFormPractitioner";
 
 axios.defaults.withCredentials = true;
-
+/**
+ * @name Practitioner Login page 
+ * @summary create a login form for the practitioner
+ * @returns login page for the practitioner 
+ */
 function LoginPractitioner() {
 
 

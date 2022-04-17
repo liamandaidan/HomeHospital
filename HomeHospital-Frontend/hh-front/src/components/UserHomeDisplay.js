@@ -9,13 +9,20 @@ import profile from "../images/profilepicture.png";
 import "../styles/UserHomepage.css";
 
 axios.defaults.withCredentials = true;
-
+/**
+ * @name User homepage display
+ * @summary Displays the user information on the homepage 
+ * @returns conponent containing user profile picture and name 
+ * @author Robyn Balanag
+ */
 function UserHomeDisplay() {
   moment.locale("en");
 
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
-
+/**
+ * Retrives data form the back end and assigns user information to variables
+ */
   useEffect(() => {
     axios
       .post("http://localhost:4000/api/users/PatientInfoVisitRequest", {

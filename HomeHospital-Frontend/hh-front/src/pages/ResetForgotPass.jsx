@@ -6,17 +6,21 @@ import "../styles/forgotpass.css";
 import logo1 from "../images/hb1.png";
 import logo2 from "../images/hb2.png";
 import Axios from "axios";
+/**
+ * @name Reset password form
+ * @summary Creates a form where the user will enter their details to reset their password
+ * @returns reset password form componenet
+ * @author Liam Mclaughlin
+ */
 export default function ResetForgotPass() {
-  //create some hooks and nav
   let navigate = useNavigate();
   let url = window.location.href;
   let [val1, val2] = url.split("?uemail=")[1].split("&tokenstring=");
-  //password var
+
   const [password, setPassword] = useState("");
   const [verifyPassword, setVerifyPassword] = useState("");
-  //if password is valid
-  const [validPassword, setValidPassword] = useState(false);
 
+  const [validPassword, setValidPassword] = useState(false);
   /**
    * This function will serve to sanitize the password data, and compare the two inputs
    */
@@ -47,13 +51,10 @@ export default function ResetForgotPass() {
       newPassConfirm: verifyPassword,
     })
       .then((response) => {
-        //console.log("Sent a password request through");
-        //redirect to the alert page
         navigate("/login");
       })
       .catch((err) => {
-        //incase some unknown error occurs
-        //alert("Error! + " + err);
+
       });
   }
 
@@ -105,15 +106,6 @@ export default function ResetForgotPass() {
                 </div>
               </Row>
             </Form.Group>
-
-            {/* <Alert varient="" hidden={validPassword}>
-                <Alert.Heading>Forgot Password</Alert.Heading>
-                <p>
-                  If the provided email exists an email will be sent to the
-                  address.
-                </p>
-              </Alert> */}
-
             <Button
               className="btnSpace"
               variant="primary"

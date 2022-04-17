@@ -11,7 +11,11 @@ import avatar from "../images/img_avatar.png";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { PractitionerContext } from "./PractitionerContext";
-
+/**
+ * @name Practioner Navigation Page 
+ * @summary Creates a navigation bar for the practitioner pages 
+ * @returns practitioner navigation component 
+ */
 function PractNavBar() {
   let navigate = useNavigate();
 
