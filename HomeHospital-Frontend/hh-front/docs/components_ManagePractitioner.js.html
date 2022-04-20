@@ -1,0 +1,834 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: components/ManagePractitioner.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: components/ManagePractitioner.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>import React, { useEffect, useState, useContext, useRef } from "react";
+import { Table, Modal, Button, Form, FloatingLabel } from "react-bootstrap";
+import { AdminContext } from "./AdminContext";
+import axios from "axios";
+import usePracForm from "./usePracForm";
+import validate from "./validatePracInfo";
+
+axios.defaults.withCredentials = true;
+/**
+ * Display the practitioner component where the user will be able to
+ * edit, delete and create a new pracitioner.
+ * @returns list of practitioners, edit screen with user information, new admin
+ *          creation form.
+ * @author Robyn Balanag
+ */
+function ManagePractitioner() {
+  const [modalState, setModalState] = useState(false);
+  const [selectedUser, setSelectedUser] = useState("");
+  const [selectedUserName, setSelectedUserName] = useState("");
+  const [editDisplay, setEditDisplay] = useState(false);
+  const [userDisplay, setUserDisplay] = useState(true);
+  const [createDisplay, setCreateDisplay] = useState(false);
+  const [practitionerList, setPractitionerList] = useState([]);
+  /**
+   * Practitioner information
+   */
+  const [id, setId] = useState("");
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
+  const [password, setPasword] = useState("");
+  const [email, setEmail] = useState("");
+  const [address, setAddress] = useState("");
+  const [city, setCity] = useState("");
+  const [prov, setProv] = useState("");
+  const [postalCode, setPostalCode] = useState("");
+  const [phoneNum, setPhoneNum] = useState("");
+  const [role, setRole] = useState("");
+  const [facilityId, setFacilityId] = useState("");
+  const [practitionerId, setPractitionerId] = useState("");
+  const [hospitals, setHospitals] = useState([]);
+  /**
+   * Import to validate user input to create a new admin
+   */
+  const { handleChange, values, handleCancel, handleSubmit, errors } =
+    usePracForm(validate);
+  /**
+   * Load lists of practitioners from the database
+   * and set to an array of practitioners
+   */
+  useEffect(() => {
+    axios
+      .get("http://localhost:4000/api/admin/practitionerList")
+      .then((response) => {
+        //console.log(response);
+        setPractitionerList(response.data);
+      })
+      .catch((err) => {
+        //console.log(err);
+      });
+  }, []);
+  /**
+   * Load lists of hospitals from the database
+   * and set to an array of hospitals
+   */
+  useEffect(() => {
+    axios
+      .get("http://localhost:4000/api/medicalFacility/viewFacilitiesAdmin")
+      .then((response) => {
+        //console.log("these are the hospitals: " + response.data.hospitalList);
+        setHospitals(response.data);
+      })
+      .catch((err) => {
+        // console.log(err);
+      });
+  }, []);
+  /**
+   * Reaload list of practitioners once a change has been made
+   * and set to an array of practitioners
+   */
+  const loadPracs = () => {
+    axios
+      .get("http://localhost:4000/api/admin/practitionerList")
+      .then((response) => {
+        // console.log(response);
+        setPractitionerList(response.data);
+      })
+      .catch((err) => {
+        // console.log(err);
+      });
+  };
+  /**
+   * Alert model that will be displayed when a user is selected to be deleted. The user
+   * must confirm before proceeding
+   * @param {*} props user information
+   * @returns alert modal when the user is selected to be deleted from the database
+   */
+  const AlertModal = (props) => {
+    return (
+      &lt;>
+        &lt;Modal {...props} centered>
+          &lt;Modal.Header className="modal-title">
+            &lt;Modal.Title>Attention!&lt;/Modal.Title>
+          &lt;/Modal.Header>
+          &lt;Modal.Body className="modal-content">
+            &lt;label>Are you sure you want to delete {selectedUserName} ?&lt;/label>
+          &lt;/Modal.Body>
+          &lt;Modal.Footer className="modal-footer">
+            &lt;div className="confirm-btn-div">
+              &lt;Button
+                className="ack-btn"
+                variant="primary"
+                onClick={confirmDelete}
+              >
+                Confirm Delete
+              &lt;/Button>
+              &lt;br />
+              &lt;a className="cancel-lnk" onClick={props.onHide}>
+                cancel
+              &lt;/a>
+            &lt;/div>
+          &lt;/Modal.Footer>
+        &lt;/Modal>
+      &lt;/>
+    );
+  };
+  /**
+   * Set the selected admin's details to display in the edit form. Then will display
+   * the edit form and hide the list of admins
+   * @param {*} e practitioner id that has been selected to edit
+   */
+  const selectEdit = (e) => {
+    setUserDisplay(false);
+    setEditDisplay(true);
+    setCreateDisplay(false);
+
+    {
+      practitionerList.map((prac) => {
+        //  console.log(prac._id);
+        if (prac._id === e) {
+          setId(prac._id);
+          setRole(prac.role);
+          setFirstName(prac.user.firstName);
+          setLastName(prac.user.lastName);
+          setPasword(prac.password);
+          setEmail(prac.email);
+          setPhoneNum(prac.user.phoneNumber);
+          setAddress(prac.user.address.streetAddress);
+          setCity(prac.user.address.cityName);
+          setProv(prac.user.address.provName);
+          setPostalCode(prac.user.address.postalCode);
+          setPractitionerId(prac.practitionerId);
+          setFacilityId(prac.facilityId);
+        }
+      });
+    }
+  };
+  /**
+   * Set the selected admin as the selected user to delete
+   * @param {*} e practitioner id that will be deleted
+   */
+  const handleDelete = (e) => {
+    {
+      practitionerList.map((prac) => {
+        if (prac._id === e) {
+          setSelectedUser(prac._id);
+          setSelectedUserName(prac.user.firstName);
+          setModalState(true);
+        }
+      });
+    }
+  };
+  /**
+   * Once the user has confirmed they want to delete the practitioner from the
+   * modal, the practitioner's id will be sent to the database to be deleted
+   */
+  const confirmDelete = () => {
+    const deleteRoute = "http://localhost:4000/api/admin/practitioner/";
+
+    axios
+      .delete(deleteRoute + selectedUser, {
+        withCredentials: true,
+      })
+      .then((response) => {
+        loadPracs();
+      })
+      .catch((err) => {
+        //  console.log(err);
+      });
+
+    setModalState(false);
+  };
+  /**
+   * Once the user has made changes to the admin details, they will confirm the
+   * changes and the information will get updated in the database. If it is
+   * successfull, they will be taken back to the list of admins
+   * @param {*} idToChange admin id that is edited
+   */
+  const confirmChanges = (idToChange) => {
+    axios
+      .post("http://localhost:4000/api/admin/modifyPractitioner", {
+        withCredentials: true,
+        id: id,
+        practitionerId: practitionerId,
+        role: role,
+        user: {
+          firstName: firstName,
+          lastName: lastName,
+          address: {
+            streetAddress: address,
+            cityName: city,
+            provName: prov,
+            postalCode: postalCode,
+          },
+          phoneNumber: phoneNum,
+        },
+        email: email,
+        facilityId: facilityId,
+      })
+      .then((response) => {
+        loadPracs();
+      })
+      .catch((err) => {
+        //  console.log(err);
+      });
+
+    setEditDisplay(false);
+    setUserDisplay(true);
+  };
+  /**
+   * Once the user has canceled from the create practitioner form, it will reset the
+   * selected practitioner's information and close the edit form to display the
+   * list of practitioners
+   */
+  const showUserList = () => {
+    handleCancel();
+
+    setCreateDisplay(false);
+    setEditDisplay(false);
+    setUserDisplay(true);
+  };
+  /**
+   * Diplay the create practitioner form and hide all other windows
+   */
+  const showCreate = () => {
+    setCreateDisplay(true);
+    setUserDisplay(false);
+    setEditDisplay(false);
+  };
+  /**
+   * Create a ref so when the user submits a form with errors they
+   * will be take back to the top of the form
+   */
+  const myRef = useRef(null);
+  const executeScroll = () => myRef.current.scrollIntoView();
+  /**
+   * Check the list of errors within the form, is there are no more
+   * errors, it will send a request to create a new practitioner
+   */
+  useEffect(() => {
+    if (Object.keys(errors).length === 0) {
+      axios
+        .post("http://localhost:4000/api/registerP/", {
+          withCredentials: true,
+          firstName: values.firstName,
+          lastName: values.lastName,
+          password: values.password,
+          email: values.email,
+          streetAddress: values.address,
+          cityName: values.city,
+          provName: values.province,
+          postalCode: values.postalCode,
+          phoneNumber: values.phoneNum,
+          practitionerId: values.practitionerId,
+          role: values.role,
+          facilityId: values.facilityId,
+        })
+        .then((response) => {
+          //  console.log(response);
+          setCreateDisplay(false);
+          setUserDisplay(true);
+          loadPracs();
+        })
+        .catch((err) => {
+          //  console.log(err);
+        });
+    } else {
+      executeScroll();
+    }
+  }, [errors]);
+
+  return (
+    &lt;>
+      &lt;div className="admin-main-div">
+        &lt;div className="header-1">
+          &lt;div>
+            &lt;h2>Manage Practitioners&lt;/h2>
+          &lt;/div>
+        &lt;/div>
+        &lt;div className="userDisplay-div">
+          {editDisplay &amp;&amp; (
+            &lt;>
+              &lt;div className="editUser-div">
+                &lt;h3>User ID: {practitionerId} &lt;/h3>
+                &lt;br />
+                &lt;Form>
+                  &lt;Form.Group>
+                    &lt;FloatingLabel
+                      label="Role"
+                      controlId="floatingInput"
+                      className="mb-3"
+                    >
+                      &lt;Form.Select
+                        value={role}
+                        onChange={(e) => setRole(e.target.value)}
+                        size="sm"
+                      >
+                        {" "}
+                        &lt;option defaultValue>{role}&lt;/option>
+                        {role === "Nurse" ? (
+                          &lt;>
+                            &lt;option>Doctor&lt;/option>
+                          &lt;/>
+                        ) : (
+                          &lt;>
+                            &lt;option>Nurse&lt;/option>
+                          &lt;/>
+                        )}
+                      &lt;/Form.Select>
+                    &lt;/FloatingLabel>
+                    &lt;FloatingLabel
+                      label="First Name"
+                      controlId="floatingInput"
+                      className="mb-3"
+                    >
+                      &lt;Form.Control
+                        value={firstName}
+                        onChange={(e) => setFirstName(e.target.value)}
+                        size="sm"
+                      />
+                    &lt;/FloatingLabel>
+                    &lt;FloatingLabel
+                      label="Last Name"
+                      controlId="floatingInput"
+                      className="mb-3"
+                    >
+                      &lt;Form.Control
+                        value={lastName}
+                        onChange={(e) => setLastName(e.target.value)}
+                        size="sm"
+                      />
+                    &lt;/FloatingLabel>
+                    &lt;FloatingLabel
+                      label="Email Address"
+                      controlId="floatingInput"
+                      className="mb-3"
+                    >
+                      &lt;Form.Control
+                        value={email}
+                        onChange={(e) => setEmail(e.target.value)}
+                        size="sm"
+                      />
+                    &lt;/FloatingLabel>
+                    &lt;FloatingLabel
+                      label="Phone Number"
+                      controlId="floatingInput"
+                      className="mb-3"
+                    >
+                      &lt;Form.Control
+                        value={phoneNum}
+                        onChange={(e) => setPhoneNum(e.target.value)}
+                        size="sm"
+                      />
+                    &lt;/FloatingLabel>
+                    &lt;FloatingLabel
+                      label="Street Address"
+                      controlId="floatingInput"
+                      className="mb-3"
+                    >
+                      &lt;Form.Control
+                        value={address}
+                        onChange={(e) => setAddress(e.target.value)}
+                        size="sm"
+                      />
+                    &lt;/FloatingLabel>
+                    &lt;FloatingLabel
+                      label="City"
+                      controlId="floatingInput"
+                      className="mb-3"
+                    >
+                      &lt;Form.Control
+                        value={city}
+                        onChange={(e) => setCity(e.target.value)}
+                        size="sm"
+                      />
+                    &lt;/FloatingLabel>
+                    &lt;FloatingLabel
+                      label="Province"
+                      controlId="floatingInput"
+                      className="mb-3"
+                    >
+                      &lt;Form.Control
+                        value={prov}
+                        onChange={(e) => setProv(e.target.value)}
+                        size="sm"
+                      />
+                    &lt;/FloatingLabel>
+                    &lt;FloatingLabel
+                      label="Postal Code"
+                      controlId="floatingInput"
+                      className="mb-3"
+                    >
+                      &lt;Form.Control
+                        value={postalCode}
+                        onChange={(e) => setPostalCode(e.target.value)}
+                        size="sm"
+                      />
+                    &lt;/FloatingLabel>
+                    &lt;FloatingLabel
+                      label="Facility"
+                      controlId="floatingInput"
+                      className="mb-3"
+                    >
+                      &lt;Form.Select
+                        value={facilityId}
+                        onChange={(e) => setFacilityId(e.target.value)}
+                      >
+                        {hospitals.hospitalList?.map((hospital, index) => {
+                          {
+                            hospital._id === facilityId &amp;&amp; (
+                              &lt;option key={index} defaultChecked>
+                                {hospital.hospitalName}
+                              &lt;/option>
+                            );
+                          }
+                          return (
+                            &lt;>
+                              &lt;option key={index} value={hospital._id}>
+                                {hospital.hospitalName}
+                              &lt;/option>
+                            &lt;/>
+                          );
+                        })}
+                      &lt;/Form.Select>
+                    &lt;/FloatingLabel>
+                  &lt;/Form.Group>
+                  &lt;div className="grid-div">
+                    &lt;div className="item-1">
+                      &lt;a
+                        className="delete-link"
+                        onClick={(e) => handleDelete(id)}
+                      >
+                        Delete User
+                      &lt;/a>
+                    &lt;/div>
+                    &lt;div className="confirmChange-div item-2">
+                      &lt;Button
+                        className="change-btn"
+                        onClick={(e) => confirmChanges(id)}
+                      >
+                        Confirm changes
+                      &lt;/Button>
+                      &lt;br />
+                      &lt;a className="admin-link" onClick={showUserList}>
+                        Cancel
+                      &lt;/a>
+                    &lt;/div>
+                  &lt;/div>
+                &lt;/Form>
+              &lt;/div>
+            &lt;/>
+          )}
+          {userDisplay &amp;&amp; (
+            &lt;>
+              &lt;div className="userDisplay-table">
+                &lt;Table>
+                  &lt;thead>
+                    &lt;tr>
+                      &lt;th>#&lt;/th>
+                      &lt;th>First Name&lt;/th>
+                      &lt;th>Last Name&lt;/th>
+                    &lt;/tr>
+                  &lt;/thead>
+                  &lt;tbody>
+                    {practitionerList.map((prac, index) => {
+                      return (
+                        &lt;tr
+                          className="table-row"
+                          key={prac._id}
+                          value={prac._id}
+                        >
+                          &lt;td>{index + 1}&lt;/td>
+                          &lt;td>{prac.user.firstName}&lt;/td>
+                          &lt;td>{prac.user.lastName}&lt;/td>
+                          &lt;td>
+                            &lt;a
+                              className="admin-link"
+                              onClick={(e) => selectEdit(prac._id)}
+                            >
+                              Edit
+                            &lt;/a>
+                          &lt;/td>
+                          &lt;td>
+                            &lt;a
+                              className="admin-link"
+                              onClick={(e) => handleDelete(prac._id)}
+                            >
+                              Delete
+                            &lt;/a>
+                          &lt;/td>
+                        &lt;/tr>
+                      );
+                    })}
+                  &lt;/tbody>
+                &lt;/Table>
+              &lt;/div>
+              &lt;div className="footer-1">
+                &lt;Button className="createNewUser-btn" onClick={showCreate}>
+                  Create new practitioner
+                &lt;/Button>
+              &lt;/div>
+            &lt;/>
+          )}
+          {createDisplay &amp;&amp; (
+            &lt;>
+              &lt;div className="createUser-div">
+                &lt;Form onSubmit={handleSubmit} id="createUserForm">
+                  &lt;Form.Group>
+                    &lt;FloatingLabel
+                      label="Role"
+                      controlId="floatingInput"
+                      className="mb-3"
+                    >
+                      &lt;Form.Select
+                        defaultValue={values.role}
+                        onChange={handleChange}
+                        size="sm"
+                        name="role"
+                        ref={myRef}
+                      >
+                        &lt;option>Please select a role&lt;/option>
+                        &lt;option value="Doctor">Doctor&lt;/option>
+                        &lt;option value="Nurse">Nurse&lt;/option>
+                        &lt;option value="Clerk">Clerk&lt;/option>
+                      &lt;/Form.Select>
+                    &lt;/FloatingLabel>
+                    {errors.role &amp;&amp; &lt;p>{errors.role}&lt;/p>}
+                    &lt;FloatingLabel
+                      label="Practitioner Id"
+                      controlId="floatingInput idHelp"
+                      className="mb-3"
+                    >
+                      &lt;Form.Control
+                        defaultValue={values.practitionerId}
+                        onChange={handleChange}
+                        placeholder="12345678"
+                        size="sm"
+                        min={7}
+                        name="practitionerId"
+                      />
+                      &lt;Form.Text id="idHelp" muted>
+                        The practitioner identification is a 7 digit number
+                      &lt;/Form.Text>
+                    &lt;/FloatingLabel>
+                    {errors.practitionerId &amp;&amp; &lt;p>{errors.practitionerId}&lt;/p>}
+
+                    &lt;FloatingLabel
+                      label="First Name"
+                      controlId="floatingInput"
+                      className="mb-3"
+                    >
+                      &lt;Form.Control
+                        defaultValue={values.firstName}
+                        onChange={handleChange}
+                        placeholder="John"
+                        size="sm"
+                        name="firstName"
+                        maxLength={15}
+                      />
+                    &lt;/FloatingLabel>
+                    {errors.firstName &amp;&amp; &lt;p>{errors.firstName}&lt;/p>}
+
+                    &lt;FloatingLabel
+                      label="Last Name"
+                      controlId="floatingInput"
+                      className="mb-3"
+                    >
+                      &lt;Form.Control
+                        defaultValue={values.lastName}
+                        onChange={handleChange}
+                        placeholder="Smith"
+                        size="sm"
+                        name="lastName"
+                        maxLength={15}
+                      />
+                    &lt;/FloatingLabel>
+                    {errors.lastName &amp;&amp; &lt;p>{errors.lastName}&lt;/p>}
+
+                    &lt;FloatingLabel
+                      label="Email Address"
+                      controlId="floatingInput"
+                      className="mb-3"
+                    >
+                      &lt;Form.Control
+                        defaultValue={values.email}
+                        onChange={handleChange}
+                        placeholder="smith@email.com"
+                        size="sm"
+                        name="email"
+                      />
+                    &lt;/FloatingLabel>
+                    {errors.email &amp;&amp; &lt;p>{errors.email}&lt;/p>}
+
+                    &lt;FloatingLabel
+                      label="Phone Number"
+                      controlId="floatingInput"
+                      className="mb-3"
+                    >
+                      &lt;Form.Control
+                        defaultValue={values.phoneNum}
+                        onChange={handleChange}
+                        placeholder="123-456-1234"
+                        size="sm"
+                        name="phoneNum"
+                      />
+                    &lt;/FloatingLabel>
+                    {errors.phoneNum &amp;&amp; &lt;p>{errors.phoneNum}&lt;/p>}
+
+                    &lt;FloatingLabel
+                      label="Street Address"
+                      controlId="floatingInput"
+                      className="mb-3"
+                    >
+                      &lt;Form.Control
+                        defaultValue={values.address}
+                        onChange={handleChange}
+                        placeholder="123 Street"
+                        size="sm"
+                        name="address"
+                      />
+                    &lt;/FloatingLabel>
+                    {errors.address &amp;&amp; &lt;p>{errors.address}&lt;/p>}
+
+                    &lt;FloatingLabel
+                      label="City"
+                      controlId="floatingInput"
+                      className="mb-3"
+                    >
+                      &lt;Form.Control
+                        defaultValue={values.city}
+                        onChange={handleChange}
+                        placeholder="City name"
+                        size="sm"
+                        name="city"
+                        maxLength={25}
+                      />
+                    &lt;/FloatingLabel>
+                    {errors.city &amp;&amp; &lt;p>{errors.city}&lt;/p>}
+
+                    &lt;FloatingLabel
+                      label="Province"
+                      controlId="floatingInput"
+                      className="mb-3"
+                    >
+                      &lt;Form.Select
+                        name="province"
+                        defaultValue={values.province}
+                        onChange={handleChange}
+                      >
+                        &lt;option>Please select province&lt;/option>
+                        &lt;option value="AB">AB&lt;/option>
+                        &lt;option value="BC">BC&lt;/option>
+                        &lt;option value="NB">NB&lt;/option>
+                        &lt;option value="NL">NL&lt;/option>
+                        &lt;option value="NT">NT&lt;/option>
+                        &lt;option value="NS">NS&lt;/option>
+                        &lt;option value="NU">NU&lt;/option>
+                        &lt;option value="ON">ON&lt;/option>
+                        &lt;option value="PE">PE&lt;/option>
+                        &lt;option value="QC">QC&lt;/option>
+                        &lt;option value="SK">SK&lt;/option>
+                        &lt;option value="YT">YT&lt;/option>
+                      &lt;/Form.Select>
+                    &lt;/FloatingLabel>
+                    {errors.province &amp;&amp; &lt;p>{errors.province}&lt;/p>}
+
+                    &lt;FloatingLabel
+                      label="Postal Code"
+                      controlId="floatingInput"
+                      className="mb-3"
+                    >
+                      &lt;Form.Control
+                        defaultValue={values.postalCode}
+                        onChange={handleChange}
+                        placeholder="L9L9L9"
+                        size="sm"
+                        name="postalCode"
+                      />
+                    &lt;/FloatingLabel>
+                    {errors.postalCode &amp;&amp; &lt;p>{errors.postalCode}&lt;/p>}
+
+                    &lt;FloatingLabel
+                      label="Facility"
+                      controlId="floatingInput"
+                      className="mb-3"
+                    >
+                      &lt;Form.Select
+                        defaultValue={values.facilityId}
+                        onChange={handleChange}
+                        name="facilityId"
+                      >
+                        &lt;option>Please select a hospital&lt;/option>
+                        {hospitals.hospitalList?.map((hospital, index) => {
+                          return (
+                            &lt;option key={index} value={hospital._id}>
+                              {hospital.hospitalName}
+                            &lt;/option>
+                          );
+                        })}
+                      &lt;/Form.Select>
+                    &lt;/FloatingLabel>
+                    {errors.facilityId &amp;&amp; &lt;p>{errors.facilityId}&lt;/p>}
+
+                    &lt;FloatingLabel
+                      label="Password"
+                      controlId="floatingInput"
+                      className="mb-3"
+                    >
+                      &lt;Form.Control
+                        defaultValue={values.password}
+                        onChange={handleChange}
+                        placeholder="Minimum 10 characters"
+                        size="sm"
+                        name="password"
+                        type="password"
+                      />
+                    &lt;/FloatingLabel>
+                    {errors.password &amp;&amp; &lt;p>{errors.password}&lt;/p>}
+
+                    &lt;FloatingLabel
+                      label="Confirm Password"
+                      controlId="floatingInput"
+                      className="mb-3"
+                    >
+                      &lt;Form.Control
+                        defaultValue={values.confirmPassword}
+                        onChange={handleChange}
+                        placeholder="Minimum 10 characters"
+                        size="sm"
+                        aria-describedby="passwordHelp"
+                        name="confirmPassword"
+                        type="password"
+                      />
+                      &lt;Form.Text id="passwordHelp" muted>
+                        Your password must be 8-20 characters long, contain
+                        letters and numbers, and must not contain spaces,
+                        special characters, or emoji.
+                      &lt;/Form.Text>
+                    &lt;/FloatingLabel>
+                    {errors.confirmPassword &amp;&amp; &lt;p>{errors.confirmPassword}&lt;/p>}
+                  &lt;/Form.Group>
+                  &lt;div className="grid-div">
+                    &lt;div className="confirmChange-div item-2">
+                      &lt;Button className="confirmChange-btn" type="submit">
+                        Submit
+                      &lt;/Button>
+                      &lt;br />
+                      &lt;a className="admin-link" onClick={showUserList}>
+                        Cancel
+                      &lt;/a>
+                    &lt;/div>
+                  &lt;/div>
+                &lt;/Form>
+              &lt;/div>
+            &lt;/>
+          )}
+        &lt;/div>
+      &lt;/div>
+      &lt;AlertModal show={modalState} onHide={() => setModalState(false)} />
+    &lt;/>
+  );
+}
+
+export default ManagePractitioner;
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="module.exports_module.exports.html">exports</a></li></ul><h3>Global</h3><ul><li><a href="global.html#Admin">Admin</a></li><li><a href="global.html#AdminLanding">AdminLanding</a></li><li><a href="global.html#AdminLogin">AdminLogin</a></li><li><a href="global.html#AdminMenu">AdminMenu</a></li><li><a href="global.html#AdminNav">AdminNav</a></li><li><a href="global.html#AdminProvidercomponent">AdminProvider component</a></li><li><a href="global.html#AlertModalhandlesalertnotificationtousers.">AlertModal handles alert notification to users.</a></li><li><a href="global.html#AlertModelwhenpractitionerrequesttocheckinauser">AlertModel when practitioner request to check in a user</a></li><li><a href="global.html#App">App</a></li><li><a href="global.html#backFuncOnClickthisfunctionwillnavtheuserbacktotheloginpage.">backFunc On Click this function will nav the user back to the login page.</a></li><li><a href="global.html#callUpdateThiswillforceanupdatewhencalled.">callUpdate This will force an update when called.</a></li><li><a href="global.html#cancelNotifyCancelsuccessToast">cancelNotify Cancel success Toast</a></li><li><a href="global.html#cancelRequestThiswillcancelarequestbysendingoutarequest.">cancelRequest This will cancel a request by sending out a request.</a></li><li><a href="global.html#cancelRequestusedtocancelrequests">cancelRequest used to cancel requests</a></li><li><a href="global.html#cancelRequestusedtosendacancelrequesttobackendandresethooks">cancelRequest used to send a cancel request to backend and reset hooks</a></li><li><a href="global.html#checkDatasendsdatafromthisroutetotheleftsidecomponent">checkData sends data from this route to the left side component</a></li><li><a href="global.html#childToParentThiswillupdateourparentclass(Practioner)withrecentinfo.">childToParent This will update our parent class(Practioner) with recent info.</a></li><li><a href="global.html#confirmCheckIncheckintheuseronceconfirmed">confirmCheckIn check in the user once confirmed</a></li><li><a href="global.html#createNewRequestcreateanewrequesttohospitalwith/hospital">createNewRequest create a new request to hospital with /hospital</a></li><li><a href="global.html#currentRequestcallsapiendpointtogetcurrentrequest">currentRequest calls api endpoint to get current request</a></li><li><a href="global.html#currentRequestgetthecurrentrequest">currentRequest get the current request</a></li><li><a href="global.html#currentRequestThiswillhandleallfunctionalityofgettingacurrentrequest.">currentRequest This will handle all functionality of getting a current request.</a></li><li><a href="global.html#deletesallcookiesonthebrowser">deletes all cookies on the browser</a></li><li><a href="global.html#DisplayTableRowsThiswillbeusedtorendertablerowsbasedoffofadummyjsonfileicreated">DisplayTableRows This will be used to render table rows based off of a dummy json file i created</a></li><li><a href="global.html#EditProfile">EditProfile</a></li><li><a href="global.html#ErrorPage404">ErrorPage404</a></li><li><a href="global.html#ForgotPass">ForgotPass</a></li><li><a href="global.html#ForgotPassPage">ForgotPassPage</a></li><li><a href="global.html#getLocation-retrievesthepatientsgeolocationfromthebrowser">getLocation - retrieves the patients geolocation from the browser</a></li><li><a href="global.html#getOptionsHerewegeneratealistofallhospitalsandassoicateanamevaluepairwitheach.">getOptions Here we generate a list of all hospitals and assoicate a name value pair with each.</a></li><li><a href="global.html#handleCancelRequestthiswillhandlethecancelationofarequest.">handleCancelRequest this will handle the cancelation of a request.</a></li><li><a href="global.html#handleCurrentRequestsetmodalforcancelrequest">handleCurrentRequest set modal for cancel request</a></li><li><a href="global.html#handleCurrentRequestThiswillhandleallcurrentrequetsandsettingourhooks">handleCurrentRequest This will handle all current requets and setting our hooks</a></li><li><a href="global.html#handleLogoutlogoutthepatientfromapplication">handleLogout logout the patient from application</a></li><li><a href="global.html#handleOnHomeThiswillnavigatetheuserbacktohome">handleOnHome This will navigate the user back to home</a></li><li><a href="global.html#handlePastRequestThiswillhandleallthepastrequestsandsettingourhooks">handlePastRequest This will handle all the past requests and setting our hooks</a></li><li><a href="global.html#handleSelectOnuserselectwewillsetState">handleSelect On user select we will setState</a></li><li><a href="global.html#HHGoogleMapComponent">HHGoogleMap Component</a></li><li><a href="global.html#HomePage">Home Page</a></li><li><a href="global.html#HomeHospitalProviderComponent">HomeHospitalProvider Component</a></li><li><a href="global.html#HospitalSelectionForm">HospitalSelectionForm</a></li><li><a href="global.html#HospitalSelectionPage">HospitalSelectionPage</a></li><li><a href="global.html#LandingPageComponent">LandingPage Component</a></li><li><a href="global.html#LoginPage">Login Page</a></li><li><a href="global.html#LoginAdminForm">LoginAdminForm</a></li><li><a href="global.html#LoginFormComponent">LoginForm Component</a></li><li><a href="global.html#LoginFormPractitioner">LoginFormPractitioner</a></li><li><a href="global.html#ManageAdmin">ManageAdmin</a></li><li><a href="global.html#ManagePatient">ManagePatient</a></li><li><a href="global.html#ManagePractitioner">ManagePractitioner</a></li><li><a href="global.html#ManageUser">ManageUser</a></li><li><a href="global.html#MapComponent">Map Component</a></li><li><a href="global.html#notifythisfunctionwillbeusedtosendatoasttotheuser.">notify this function will be used to send a toast to the user.</a></li><li><a href="global.html#notifyThisfunctionwillnotifythepractitionerthataneventhasoccurred.">notify This function will notify the practitioner that an event has occurred.</a></li><li><a href="global.html#pastRequestThiswillhandleallfunctionsassociatedwithpastrequests.">pastRequest This will handle all functions associated with past requests.</a></li><li><a href="global.html#PatientInfo">PatientInfo</a></li><li><a href="global.html#patientInfocallsapiendpointtogetpatientinfo">patientInfo calls api endpoint to get patient info</a></li><li><a href="global.html#practitioner">practitioner</a></li><li><a href="global.html#PractitionerPatientInfo">PractitionerPatientInfo</a></li><li><a href="global.html#PractitionerProvider">PractitionerProvider</a></li><li><a href="global.html#PractitionerSelect">PractitionerSelect</a></li><li><a href="global.html#PractitionerWaitlist">PractitionerWaitlist</a></li><li><a href="global.html#RegisterPage">Register Page</a></li><li><a href="global.html#RegistrationFormComponent">RegistrationForm Component</a></li><li><a href="global.html#renderThisclasswillbeusedreturnthealertnotifyingusertochecktheiremail.">render This class will be used return the alert notifying user to check their email.</a></li><li><a href="global.html#RequestPage">Request Page</a></li><li><a href="global.html#RequireAuthComponent">RequireAuth Component</a></li><li><a href="global.html#SelectHospital">SelectHospital</a></li><li><a href="global.html#SymptomsForm">SymptomsForm</a></li><li><a href="global.html#SymptomsPage">SymptomsPage</a></li><li><a href="global.html#SymptomsTable">SymptomsTable</a></li><li><a href="global.html#testusedtonavigatetosymptoms">test used to navigate to symptoms</a></li><li><a href="global.html#updateHospitalStateHerewhenaselectcomponentisupdatedwewillupdateoururltoreflectthechanges.">updateHospitalState Here when a select component is updated we will update our url to reflect the changes.</a></li><li><a href="global.html#useAdminForm">useAdminForm</a></li><li><a href="global.html#useEffectthisclearstheleftcomponentwhenusergetscheckedinalsogoesbacktohidingcomponent.">useEffect this clears the left component when user gets checked in also goes back to hidingcomponent.</a></li><li><a href="global.html#useEffectThiswillbeincontrolofthestateofpractitionerlist.Herewewillforceupdatesonurlchangeandsettimer.">useEffect This will be in control of the state of practitioner list. Here we will force updates on urlchange and set timer.</a></li><li><a href="global.html#usePracForm">usePracForm</a></li><li><a href="global.html#UserHomepage">UserHomepage</a></li><li><a href="global.html#UserHomeVisitsDisplay">UserHomeVisitsDisplay</a></li><li><a href="global.html#UserNavBarComponent">UserNavBar Component</a></li><li><a href="global.html#validateEmailThisfunctionwillprovidevalidationofemailtoensurethatdataiscorrect.Thehtmlalsovalidates,butthisissafestpractice!">validateEmail This function will provide validation of email to ensure that data is correct.The html also validates, but this is safest practice!</a></li><li><a href="global.html#WaitList">WaitList</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.10</a> on Tue Apr 19 2022 21:37:19 GMT-0600 (Mountain Daylight Time)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

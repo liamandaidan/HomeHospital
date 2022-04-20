@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: components/SymptomsTable.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: components/SymptomsTable.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>import React, { useContext, useEffect, useState } from "react";
+import Table from "react-bootstrap/Table";
+import axios from "axios";
+import { HomeHospitalContext } from "./HomeHospitalContext";
+/**
+ * Table of symptoms from the current request or past requests the user
+ * has selected from their homepage
+ * @return a table with symptoms entered in the current request
+ * @author Lance Gee and Robyn Balanag
+ */
+function SymptomsTable() {
+  const { requestId, isCurrentRequest, longitude, latitude } =
+    useContext(HomeHospitalContext);
+  const [requestIdValue, setRequestIdValue] = requestId;
+  const [isCurrent, setIsCurrent] = isCurrentRequest;
+  const [longitudeValue, setLongitudeValue] = longitude;
+  const [latitudeValue, setLatitudeValue] = latitude;
+  const [symptomsList, setSymptomsList] = useState([]);
+  /**
+   * Retreive current request details from the database and assign list of symptoms
+   * to an array to display in the table. If there is no current request, it will send 
+   * the request id to retrive previous request details
+   */
+  useEffect(() => {
+    if (isCurrent) {
+      axios
+        .get("http://localhost:4000/api/visitRequest/currentRequest")
+        .then((response) => {
+          //console.log(response);
+          setSymptomsList(response.data.symptoms);
+          setLatitudeValue(response.data.latitude);
+          setLongitudeValue(response.data.longitude);
+        })
+        .catch((err) => {
+          //console.log(err);
+        });
+    } else {
+      axios
+        .get(
+          `http://localhost:4000/api/visitRequest/targetRequest/${requestIdValue}`
+        )
+        .then((response) => {
+          //console.log(response);
+          setSymptomsList(response.data.request.symptoms);
+          setLatitudeValue(response.data.request.latitude);
+          setLongitudeValue(response.data.request.longitude);
+        })
+        .catch((err) => {
+          //console.log(err);
+        });
+    }
+  }, []);
+
+  return (
+    &lt;>
+      {isCurrent &amp;&amp; &lt;h4>Current Symptoms&lt;/h4>}
+      {!isCurrent &amp;&amp; &lt;h4>Past Symptoms&lt;/h4>}
+      &lt;Table striped bordered hover>
+        &lt;thead>
+          &lt;tr>
+            &lt;th>#&lt;/th>
+            &lt;th>Symptoms&lt;/th>
+          &lt;/tr>
+        &lt;/thead>
+        &lt;tbody>
+          {symptomsList.map((symptom, index) => (
+            &lt;tr key={index}>
+              &lt;td>{index + 1}&lt;/td>
+              &lt;td>{symptom.description}&lt;/td>
+            &lt;/tr>
+          ))}
+        &lt;/tbody>
+      &lt;/Table>
+    &lt;/>
+  );
+}
+
+export default SymptomsTable;
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="module.exports_module.exports.html">exports</a></li></ul><h3>Global</h3><ul><li><a href="global.html#Admin">Admin</a></li><li><a href="global.html#AdminLanding">AdminLanding</a></li><li><a href="global.html#AdminLogin">AdminLogin</a></li><li><a href="global.html#AdminMenu">AdminMenu</a></li><li><a href="global.html#AdminNav">AdminNav</a></li><li><a href="global.html#AdminProvidercomponent">AdminProvider component</a></li><li><a href="global.html#AlertModalhandlesalertnotificationtousers.">AlertModal handles alert notification to users.</a></li><li><a href="global.html#AlertModelwhenpractitionerrequesttocheckinauser">AlertModel when practitioner request to check in a user</a></li><li><a href="global.html#App">App</a></li><li><a href="global.html#backFuncOnClickthisfunctionwillnavtheuserbacktotheloginpage.">backFunc On Click this function will nav the user back to the login page.</a></li><li><a href="global.html#callUpdateThiswillforceanupdatewhencalled.">callUpdate This will force an update when called.</a></li><li><a href="global.html#cancelNotifyCancelsuccessToast">cancelNotify Cancel success Toast</a></li><li><a href="global.html#cancelRequestThiswillcancelarequestbysendingoutarequest.">cancelRequest This will cancel a request by sending out a request.</a></li><li><a href="global.html#cancelRequestusedtocancelrequests">cancelRequest used to cancel requests</a></li><li><a href="global.html#cancelRequestusedtosendacancelrequesttobackendandresethooks">cancelRequest used to send a cancel request to backend and reset hooks</a></li><li><a href="global.html#checkDatasendsdatafromthisroutetotheleftsidecomponent">checkData sends data from this route to the left side component</a></li><li><a href="global.html#childToParentThiswillupdateourparentclass(Practioner)withrecentinfo.">childToParent This will update our parent class(Practioner) with recent info.</a></li><li><a href="global.html#confirmCheckIncheckintheuseronceconfirmed">confirmCheckIn check in the user once confirmed</a></li><li><a href="global.html#createNewRequestcreateanewrequesttohospitalwith/hospital">createNewRequest create a new request to hospital with /hospital</a></li><li><a href="global.html#currentRequestcallsapiendpointtogetcurrentrequest">currentRequest calls api endpoint to get current request</a></li><li><a href="global.html#currentRequestgetthecurrentrequest">currentRequest get the current request</a></li><li><a href="global.html#currentRequestThiswillhandleallfunctionalityofgettingacurrentrequest.">currentRequest This will handle all functionality of getting a current request.</a></li><li><a href="global.html#deletesallcookiesonthebrowser">deletes all cookies on the browser</a></li><li><a href="global.html#DisplayTableRowsThiswillbeusedtorendertablerowsbasedoffofadummyjsonfileicreated">DisplayTableRows This will be used to render table rows based off of a dummy json file i created</a></li><li><a href="global.html#EditProfile">EditProfile</a></li><li><a href="global.html#ErrorPage404">ErrorPage404</a></li><li><a href="global.html#ForgotPass">ForgotPass</a></li><li><a href="global.html#ForgotPassPage">ForgotPassPage</a></li><li><a href="global.html#getLocation-retrievesthepatientsgeolocationfromthebrowser">getLocation - retrieves the patients geolocation from the browser</a></li><li><a href="global.html#getOptionsHerewegeneratealistofallhospitalsandassoicateanamevaluepairwitheach.">getOptions Here we generate a list of all hospitals and assoicate a name value pair with each.</a></li><li><a href="global.html#handleCancelRequestthiswillhandlethecancelationofarequest.">handleCancelRequest this will handle the cancelation of a request.</a></li><li><a href="global.html#handleCurrentRequestsetmodalforcancelrequest">handleCurrentRequest set modal for cancel request</a></li><li><a href="global.html#handleCurrentRequestThiswillhandleallcurrentrequetsandsettingourhooks">handleCurrentRequest This will handle all current requets and setting our hooks</a></li><li><a href="global.html#handleLogoutlogoutthepatientfromapplication">handleLogout logout the patient from application</a></li><li><a href="global.html#handleOnHomeThiswillnavigatetheuserbacktohome">handleOnHome This will navigate the user back to home</a></li><li><a href="global.html#handlePastRequestThiswillhandleallthepastrequestsandsettingourhooks">handlePastRequest This will handle all the past requests and setting our hooks</a></li><li><a href="global.html#handleSelectOnuserselectwewillsetState">handleSelect On user select we will setState</a></li><li><a href="global.html#HHGoogleMapComponent">HHGoogleMap Component</a></li><li><a href="global.html#HomePage">Home Page</a></li><li><a href="global.html#HomeHospitalProviderComponent">HomeHospitalProvider Component</a></li><li><a href="global.html#HospitalSelectionForm">HospitalSelectionForm</a></li><li><a href="global.html#HospitalSelectionPage">HospitalSelectionPage</a></li><li><a href="global.html#LandingPageComponent">LandingPage Component</a></li><li><a href="global.html#LoginPage">Login Page</a></li><li><a href="global.html#LoginAdminForm">LoginAdminForm</a></li><li><a href="global.html#LoginFormComponent">LoginForm Component</a></li><li><a href="global.html#LoginFormPractitioner">LoginFormPractitioner</a></li><li><a href="global.html#ManageAdmin">ManageAdmin</a></li><li><a href="global.html#ManagePatient">ManagePatient</a></li><li><a href="global.html#ManagePractitioner">ManagePractitioner</a></li><li><a href="global.html#ManageUser">ManageUser</a></li><li><a href="global.html#MapComponent">Map Component</a></li><li><a href="global.html#notifythisfunctionwillbeusedtosendatoasttotheuser.">notify this function will be used to send a toast to the user.</a></li><li><a href="global.html#notifyThisfunctionwillnotifythepractitionerthataneventhasoccurred.">notify This function will notify the practitioner that an event has occurred.</a></li><li><a href="global.html#pastRequestThiswillhandleallfunctionsassociatedwithpastrequests.">pastRequest This will handle all functions associated with past requests.</a></li><li><a href="global.html#PatientInfo">PatientInfo</a></li><li><a href="global.html#patientInfocallsapiendpointtogetpatientinfo">patientInfo calls api endpoint to get patient info</a></li><li><a href="global.html#practitioner">practitioner</a></li><li><a href="global.html#PractitionerPatientInfo">PractitionerPatientInfo</a></li><li><a href="global.html#PractitionerProvider">PractitionerProvider</a></li><li><a href="global.html#PractitionerSelect">PractitionerSelect</a></li><li><a href="global.html#PractitionerWaitlist">PractitionerWaitlist</a></li><li><a href="global.html#RegisterPage">Register Page</a></li><li><a href="global.html#RegistrationFormComponent">RegistrationForm Component</a></li><li><a href="global.html#renderThisclasswillbeusedreturnthealertnotifyingusertochecktheiremail.">render This class will be used return the alert notifying user to check their email.</a></li><li><a href="global.html#RequestPage">Request Page</a></li><li><a href="global.html#RequireAuthComponent">RequireAuth Component</a></li><li><a href="global.html#SelectHospital">SelectHospital</a></li><li><a href="global.html#SymptomsForm">SymptomsForm</a></li><li><a href="global.html#SymptomsPage">SymptomsPage</a></li><li><a href="global.html#SymptomsTable">SymptomsTable</a></li><li><a href="global.html#testusedtonavigatetosymptoms">test used to navigate to symptoms</a></li><li><a href="global.html#updateHospitalStateHerewhenaselectcomponentisupdatedwewillupdateoururltoreflectthechanges.">updateHospitalState Here when a select component is updated we will update our url to reflect the changes.</a></li><li><a href="global.html#useAdminForm">useAdminForm</a></li><li><a href="global.html#useEffectthisclearstheleftcomponentwhenusergetscheckedinalsogoesbacktohidingcomponent.">useEffect this clears the left component when user gets checked in also goes back to hidingcomponent.</a></li><li><a href="global.html#useEffectThiswillbeincontrolofthestateofpractitionerlist.Herewewillforceupdatesonurlchangeandsettimer.">useEffect This will be in control of the state of practitioner list. Here we will force updates on urlchange and set timer.</a></li><li><a href="global.html#usePracForm">usePracForm</a></li><li><a href="global.html#UserHomepage">UserHomepage</a></li><li><a href="global.html#UserHomeVisitsDisplay">UserHomeVisitsDisplay</a></li><li><a href="global.html#UserNavBarComponent">UserNavBar Component</a></li><li><a href="global.html#validateEmailThisfunctionwillprovidevalidationofemailtoensurethatdataiscorrect.Thehtmlalsovalidates,butthisissafestpractice!">validateEmail This function will provide validation of email to ensure that data is correct.The html also validates, but this is safest practice!</a></li><li><a href="global.html#WaitList">WaitList</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.10</a> on Tue Apr 19 2022 21:37:19 GMT-0600 (Mountain Daylight Time)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

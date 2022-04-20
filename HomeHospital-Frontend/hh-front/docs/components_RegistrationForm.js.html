@@ -1,0 +1,845 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: components/RegistrationForm.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: components/RegistrationForm.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>import React, { useState, useEffect, useContext, useRef } from "react";
+import { Button, Container, Row, Col, Form, Alert } from "react-bootstrap";
+import classes from "./RegistrationForm.module.css";
+import { useNavigate } from "react-router-dom";
+import Axios from "axios";
+import { HomeHospitalContext } from "./HomeHospitalContext";
+
+/**
+ * @name RegistrationForm Component
+ * @summary The RegistrationForm component creates a patient
+ * validates all input fields and throws any errors.
+ * @author Lance Gee
+ */
+function RegistrationForm() {
+  let navigate = useNavigate();
+
+  // useContext to get new Request value
+  const { regSuccess } = useContext(HomeHospitalContext);
+  const [regSuccessValue, setRegSuccessValue] = regSuccess;
+
+  // Declare React Variables
+  const [firstNameValue, setFirstNameValue] = useState("");
+  const [lastNameValue, setLastNameValue] = useState("");
+  const [emFirstNameValue, setEmFirstNameValue] = useState("");
+  const [emLastNameValue, setEmLastNameValue] = useState("");
+  const [addressValue, setAddressValue] = useState("");
+  const [cityValue, setCityValue] = useState("");
+  const [provinceValue, setProvinceValue] = useState("AB");
+  const [genderValue, setGenderValue] = useState("male");
+  const [dobValue, setDOBValue] = useState("");
+  const [hcValue, setHCValue] = useState("");
+  const [postalCodeValue, setPostalCodeValue] = useState("");
+  const [phoneValue, setPhoneValue] = useState("");
+  const [emPhoneValue, setEmPhoneValue] = useState("");
+  const [emailValue, setEmailValue] = useState("");
+  const [passwordValue, setPasswordValue] = useState("");
+  const [confirmPasswordValue, setConfirmPasswordValue] = useState("");
+  const [validNameValue, setValidNameValue] = useState(false);
+  const [validAddressValue, setValidAddressValue] = useState(false);
+  const [validCityValue, setValidCityValue] = useState(false);
+  const [validPostalValue, setValidPostalValue] = useState(false);
+  const [validPhoneValue, setValidPhoneValue] = useState(false);
+  const [validEmailValue, setValidEmailValue] = useState(false);
+  const [validHCValue, setValidHCValue] = useState(false);
+  const [validPasswordValue, setValidPasswordValue] = useState(false);
+  const [validClientFormValue, setValidClientFormValue] = useState(false);
+  const [resetAllFormValue] = useState(false);
+  const [show, setShow] = useState(false);
+  const [errorMsg, setErrorMsg] = useState("");
+
+  /**
+   * validating the form if all values are there then set the validClientFormValue to true
+   * @param validNameValue {boolean} - is the name value there
+   * @param validAddressValue {boolean} - is the address value there
+   * @param validCityValue {boolean} - is the city value there
+   * @param validPostalValue {boolean} - is the postal code value there
+   * @param validPhoneValue {boolean} - is the phone number value there
+   * @param validEmailValue {boolean} - is the email value there
+   * @param validPasswordValue {boolean} - is the password value there
+   * @param validHCValue {boolean} - is the healthcare number value there
+   */
+  useEffect(() => {
+    if (
+      validNameValue &amp;&amp;
+      validAddressValue &amp;&amp;
+      validCityValue &amp;&amp;
+      validPostalValue &amp;&amp;
+      validPhoneValue &amp;&amp;
+      validEmailValue &amp;&amp;
+      validPasswordValue &amp;&amp;
+      validHCValue
+    ) {
+      setValidClientFormValue(true);
+    } else {
+      setValidClientFormValue(false);
+    }
+  }, [
+    validNameValue,
+    validHCValue,
+    validAddressValue,
+    validCityValue,
+    validPostalValue,
+    validPhoneValue,
+    validEmailValue,
+    setValidClientFormValue,
+    validClientFormValue,
+    validPasswordValue,
+  ]);
+
+  /**
+   * Reset Form function
+   */
+  useEffect(() => {
+    if (resetAllFormValue) {
+      document.getElementById("clientForm").reset();
+      setLastNameValue("");
+      setFirstNameValue("");
+      setAddressValue("");
+      setPostalCodeValue("");
+      setPhoneValue("");
+      setEmailValue("");
+
+      document.getElementById("clientName").classList.remove("is-valid");
+      document.getElementById("address").classList.remove("is-valid");
+      document.getElementById("postalCode").classList.remove("is-valid");
+      document.getElementById("telephone").classList.remove("is-valid");
+      document.getElementById("email").classList.remove("is-valid");
+      document.getElementById("age").classList.remove("is-valid");
+    }
+  }, [resetAllFormValue]);
+
+  /**
+   * validate first name
+   * @param firstNameValue - first name of patient
+   */
+  function validateFirstName() {
+    const symbols = /[`!@#$%^&amp;*()_+\-=[]{};':"\|,.&lt;>\?~]/;
+    const namePattern = new RegExp(symbols);
+    const isName = isNaN(firstNameValue);
+    if (
+      isName === false ||
+      firstNameValue === "" ||
+      firstNameValue === undefined ||
+      firstNameValue.length &lt; 2 ||
+      firstNameValue.length > 26
+    ) {
+      document.getElementById("clientFirstName").classList.add("is-invalid");
+      document.getElementById("clientFirstName").classList.remove("is-valid");
+      setValidNameValue(false);
+    } else if (namePattern.test(firstNameValue)) {
+      document.getElementById("clientFirstName").classList.add("is-invalid");
+      document.getElementById("clientFirstName").classList.remove("is-valid");
+      setValidNameValue(false);
+    } else {
+      document.getElementById("clientFirstName").classList.add("is-valid");
+      document.getElementById("clientFirstName").classList.remove("is-invalid");
+      setValidNameValue(true);
+    }
+  }
+
+  /**
+   * validate last name
+   * @param lastNameValue - last name of patient
+   */
+  function validateLastName() {
+    const symbols = /[`!@#$%^&amp;*()_+\-=[]{};':"\|,.&lt;>\?~]/;
+    const namePattern = new RegExp(symbols);
+    const isName = isNaN(lastNameValue);
+    if (
+      isName === false ||
+      lastNameValue === "" ||
+      lastNameValue === undefined ||
+      lastNameValue.length &lt; 2 ||
+      lastNameValue.length > 26
+    ) {
+      document.getElementById("clientLastName").classList.add("is-invalid");
+      document.getElementById("clientLastName").classList.remove("is-valid");
+      setValidNameValue(false);
+    } else if (namePattern.test(lastNameValue)) {
+      document.getElementById("clientLastName").classList.add("is-invalid");
+      document.getElementById("clientLastName").classList.remove("is-valid");
+      setValidNameValue(false);
+    } else {
+      document.getElementById("clientLastName").classList.add("is-valid");
+      document.getElementById("clientLastName").classList.remove("is-invalid");
+      setValidNameValue(true);
+    }
+  }
+
+  /**
+   * validate address
+   * @param addressValue - address of patient
+   */
+  function validateAddress() {
+    const pattern = new RegExp("^[a-zA-Z0-9- ]+$");
+    if (addressValue === "" || addressValue === undefined) {
+      document.getElementById("address").classList.add("is-invalid");
+      document.getElementById("address").classList.remove("is-valid");
+      setValidAddressValue(false);
+    } else if (pattern.test(addressValue)) {
+      document.getElementById("address").classList.add("is-valid");
+      document.getElementById("address").classList.remove("is-invalid");
+      setValidAddressValue(true);
+    } else {
+      document.getElementById("address").classList.add("is-invalid");
+      document.getElementById("address").classList.remove("is-valid");
+      setValidAddressValue(false);
+    }
+  }
+
+  /**
+   * validate city
+   * @param cityValue - city of patient
+   */
+  function validateCity() {
+    const pattern = new RegExp("^[a-zA-Z0-9- ]+$");
+    if (cityValue === "" || cityValue === undefined) {
+      document.getElementById("city").classList.add("is-invalid");
+      document.getElementById("city").classList.remove("is-valid");
+      setValidCityValue(false);
+    } else if (pattern.test(cityValue)) {
+      document.getElementById("city").classList.add("is-valid");
+      document.getElementById("city").classList.remove("is-invalid");
+      setValidCityValue(true);
+    } else {
+      document.getElementById("city").classList.add("is-invalid");
+      document.getElementById("city").classList.remove("is-valid");
+      setValidCityValue(false);
+    }
+  }
+
+  /**
+   * validate postal code
+   * @param postalCodeValue - postal code of patient
+   */
+  function validatePostalCode() {
+    const pattern = new RegExp("^[a-zA-Z][0-9][a-zA-Z][0-9][a-zA-Z][0-9]$");
+    if (pattern.test(postalCodeValue)) {
+      document.getElementById("postalCode").classList.add("is-valid");
+      document.getElementById("postalCode").classList.remove("is-invalid");
+      setValidPostalValue(true);
+    } else {
+      document.getElementById("postalCode").classList.add("is-invalid");
+      document.getElementById("postalCode").classList.remove("is-valid");
+      setValidPostalValue(false);
+    }
+  }
+
+  /**
+   * validate phone
+   * @param phoneValue - phone of patient
+   */
+  function validatePhone() {
+    // Regex found here https://stackoverflow.com/questions/9776231/regular-expression-to-validate-us-phone-numbers
+    const pattern = new RegExp("^[0-9]{3}-[0-9]{3}-[0-9]{4}$");
+    if (pattern.test(phoneValue)) {
+      document.getElementById("telephone").classList.add("is-valid");
+      document.getElementById("telephone").classList.remove("is-invalid");
+      setValidPhoneValue(true);
+    } else {
+      document.getElementById("telephone").classList.add("is-invalid");
+      document.getElementById("telephone").classList.remove("is-valid");
+      setValidPhoneValue(false);
+    }
+  }
+
+  /**
+   * validate health care number
+   * @param hcValue - health care number of patient
+   */
+  function validateHCnumber() {
+    const pattern = new RegExp("^[0-9]{4}-[0-9]{5}$");
+    if (pattern.test(hcValue)) {
+      document.getElementById("hcNumber").classList.add("is-valid");
+      document.getElementById("hcNumber").classList.remove("is-invalid");
+      setValidHCValue(true);
+    } else {
+      document.getElementById("hcNumber").classList.add("is-invalid");
+      document.getElementById("hcNumber").classList.remove("is-valid");
+      setValidHCValue(false);
+    }
+  }
+
+  /**
+   * validate email
+   * @param emailValue - email of patient
+   */
+  function validateEmail() {
+    const pattern = new RegExp(
+      "([!#-'*+/-9=?A-Z^-~-]+(.[!#-'*+/-9=?A-Z^-~-]+)*|\"([]!#-[^-~ \t]|(\\[\t -~]))+\")@([!#-'*+/-9=?A-Z^-~-]+(.[!#-'*+/-9=?A-Z^-~-]+)*|[[\t -Z^-~]*])"
+    );
+    if (pattern.test(emailValue)) {
+      document.getElementById("email").classList.add("is-valid");
+      document.getElementById("email").classList.remove("is-invalid");
+      setValidEmailValue(true);
+    } else {
+      document.getElementById("email").classList.add("is-invalid");
+      document.getElementById("email").classList.remove("is-valid");
+      setValidEmailValue(false);
+    }
+  }
+
+  /**
+   * validate password
+   * @param passwordValue - password of patient
+   */
+  function validatePassword() {
+    if (passwordValue.length > 7) {
+      document.getElementById("password").classList.add("is-valid");
+      document.getElementById("password").classList.remove("is-invalid");
+    } else {
+      document.getElementById("password").classList.add("is-invalid");
+      document.getElementById("password").classList.remove("is-valid");
+    }
+  }
+
+  /**
+   * validate password confirmation
+   * @param passwordValue - password confirmation of patient
+   */
+  function confirmPassword() {
+    if (passwordValue === confirmPasswordValue) {
+      document.getElementById("cPassword").classList.add("is-valid");
+      document.getElementById("cPassword").classList.remove("is-invalid");
+      setValidPasswordValue(true);
+    } else {
+      document.getElementById("cPassword").classList.add("is-invalid");
+      document.getElementById("cPassword").classList.remove("is-valid");
+      setValidPasswordValue(false);
+    }
+  }
+
+  //setup myRef to scroll up when alert happens
+  const myRef = useRef(null);
+  const executeScroll = () => myRef.current.scrollIntoView();
+
+  /**
+   * create the patient in the backend
+   */
+  const createUser = () => {
+    Axios.post("http://localhost:4000/api/register", {
+      firstName: firstNameValue,
+      lastName: lastNameValue,
+      streetAddress: addressValue,
+      cityName: cityValue,
+      provName: provinceValue,
+      postalCode: postalCodeValue,
+      phoneNumber: phoneValue,
+      email: emailValue,
+      HCnumber: hcValue,
+      gender: genderValue,
+      dateOfBirth: dobValue,
+      password: passwordValue,
+      contactFirstName: emFirstNameValue,
+      contactLastName: emLastNameValue,
+      contactPhoneNumber: emPhoneValue,
+    })
+      .then((response) => {
+        setRegSuccessValue(true);
+        console.log("Registration Successful");
+        navigate("/login");
+      })
+      .catch((err) => {
+        console.log(err.response.data.message);
+        setShow(true);
+        setErrorMsg(err.response.data.message);
+        executeScroll();
+      });
+  };
+
+  return (
+    &lt;Container style={{ borderRadius: "0px 50px 0px 0px" }}>
+      {show &amp;&amp; (
+        &lt;Row ref={myRef}>
+          &lt;Alert variant="danger" onClose={() => setShow(false)} dismissible>
+            &lt;Alert.Heading>Opps there's an error!&lt;/Alert.Heading>
+            &lt;p>{errorMsg}&lt;/p>
+          &lt;/Alert>
+        &lt;/Row>
+      )}
+      &lt;div>
+        &lt;h3
+          className="text-center mt-4"
+          style={{ color: "#58adaf", textShadow: "1px 1px #C6C6C6" }}
+        >
+          Registration
+        &lt;/h3>
+        &lt;hr />
+        &lt;form id="clientForm" action="">
+          &lt;Row>
+            &lt;Col>
+              &lt;div>
+                &lt;label htmlFor="firstName" className="form-label mt-3 ">
+                  Patient First Name
+                &lt;/label>
+                &lt;input
+                  onBlur={validateFirstName}
+                  type="text"
+                  className={`form-control bg-transparent  shadow-none ${classes.noBorder}`}
+                  id="clientFirstName"
+                  name="clientFirstName"
+                  value={firstNameValue}
+                  onChange={(e) => setFirstNameValue(e.target.value)}
+                  pattern="[A-Za-z- ]+"
+                  required
+                  placeholder="Enter First Your Name"
+                  autoFocus
+                />
+                &lt;div className="valid-feedback">Looks good!&lt;/div>
+                &lt;div className="invalid-feedback">
+                  Please enter a valid First Name, min 2 characters and max 26
+                  characters
+                &lt;/div>
+              &lt;/div>
+            &lt;/Col>
+            &lt;Col>
+              &lt;div>
+                &lt;label htmlFor="lastName" className="form-label mt-3 ">
+                  Patient Last Name
+                &lt;/label>
+                &lt;input
+                  onBlur={validateLastName}
+                  type="text"
+                  className={`form-control bg-transparent  shadow-none ${classes.noBorder}`}
+                  id="clientLastName"
+                  name="clientLastName"
+                  value={lastNameValue}
+                  onChange={(e) => setLastNameValue(e.target.value)}
+                  pattern="[A-Za-z- ]+"
+                  required
+                  placeholder="Enter Your Last Name"
+                />
+                &lt;div className="valid-feedback">Looks good!&lt;/div>
+                &lt;div className="invalid-feedback">
+                  Please enter a valid Last Name, min 2 characters and max 26
+                  characters
+                &lt;/div>
+              &lt;/div>
+            &lt;/Col>
+          &lt;/Row>
+          &lt;Row>
+            &lt;Col>
+              &lt;div>
+                &lt;label htmlFor="address" className="form-label mt-3 ">
+                  House/Apartment# and Street Address
+                &lt;/label>
+                &lt;input
+                  onBlur={validateAddress}
+                  type="text"
+                  className={`form-control bg-transparent  shadow-none ${classes.noBorder}`}
+                  id="address"
+                  name="address"
+                  value={addressValue}
+                  onChange={(e) => setAddressValue(e.target.value)}
+                  pattern="^[a-zA-Z0-9- ]+$"
+                  placeholder="Enter Address"
+                  required
+                />
+                &lt;div className="valid-feedback">Looks good!&lt;/div>
+                &lt;div className="invalid-feedback">
+                  Please enter a valid Address
+                &lt;/div>
+              &lt;/div>
+            &lt;/Col>
+          &lt;/Row>
+          &lt;Row>
+            &lt;Col md={5}>
+              &lt;div>
+                &lt;label htmlFor="City" className="form-label mt-3 ">
+                  City
+                &lt;/label>
+                &lt;input
+                  onBlur={validateCity}
+                  type="text"
+                  className={`form-control bg-transparent  shadow-none ${classes.noBorder}`}
+                  id="city"
+                  name="City"
+                  value={cityValue}
+                  onChange={(e) => setCityValue(e.target.value)}
+                  pattern="^[a-zA-Z]+$"
+                  placeholder="Enter City"
+                  required
+                />
+                &lt;div className="valid-feedback">Looks good!&lt;/div>
+                &lt;div className="invalid-feedback">
+                  Please enter a valid City
+                &lt;/div>
+              &lt;/div>
+            &lt;/Col>
+            &lt;Col md={3}>
+              &lt;div>
+                &lt;label htmlFor="Province" className="form-label mt-3 ">
+                  Province
+                &lt;/label>
+                &lt;Form.Select
+                  aria-label="select province"
+                  id="province"
+                  name="province"
+                  value={provinceValue}
+                  onChange={(e) => setProvinceValue(e.target.value)}
+                  required
+                  className={`bg-transparent  shadow-none ${classes.noBorder}`}
+                >
+                  &lt;option style={{ color: "black" }} value="AB" defaultChecked>
+                    AB
+                  &lt;/option>
+                  &lt;option style={{ color: "black" }} value="BC">
+                    BC
+                  &lt;/option>
+                  &lt;option style={{ color: "black" }} value="NB">
+                    NB
+                  &lt;/option>
+                  &lt;option style={{ color: "black" }} value="NL">
+                    NL
+                  &lt;/option>
+                  &lt;option style={{ color: "black" }} value="NT">
+                    NT
+                  &lt;/option>
+                  &lt;option style={{ color: "black" }} value="NS">
+                    NS
+                  &lt;/option>
+                  &lt;option style={{ color: "black" }} value="NU">
+                    NU
+                  &lt;/option>
+                  &lt;option style={{ color: "black" }} value="ON">
+                    ON
+                  &lt;/option>
+                  &lt;option style={{ color: "black" }} value="PE">
+                    PE
+                  &lt;/option>
+                  &lt;option style={{ color: "black" }} value="QC">
+                    QC
+                  &lt;/option>
+                  &lt;option style={{ color: "black" }} value="SK">
+                    SK
+                  &lt;/option>
+                  &lt;option style={{ color: "black" }} value="YT">
+                    YT
+                  &lt;/option>
+                &lt;/Form.Select>
+              &lt;/div>
+            &lt;/Col>
+            &lt;Col md={4}>
+              &lt;div>
+                &lt;label htmlFor="postalCode" className="form-label mt-3 ">
+                  Postal Code
+                &lt;/label>
+                &lt;input
+                  onBlur={validatePostalCode}
+                  type="text"
+                  className={`form-control bg-transparent  shadow-none ${classes.noBorder}`}
+                  id="postalCode"
+                  name="postalCode"
+                  value={postalCodeValue}
+                  onChange={(e) => setPostalCodeValue(e.target.value)}
+                  placeholder="L9L9L9"
+                  pattern="[a-zA-Z][0-9][a-zA-Z][0-9][a-zA-Z][0-9]"
+                  required
+                />
+                &lt;div className="valid-feedback">Looks good!&lt;/div>
+                &lt;div className="invalid-feedback">
+                  Please enter a valid Postal Code eg. T5T5T5
+                &lt;/div>
+              &lt;/div>
+            &lt;/Col>
+          &lt;/Row>
+          &lt;Row>
+            &lt;Col md={6}>
+              &lt;div>
+                &lt;label htmlFor="gender" className="form-label mt-3 ">
+                  Gender
+                &lt;/label>
+                &lt;Form.Select
+                  aria-label="select gender"
+                  id="gender"
+                  name="gender"
+                  onChange={(e) => setGenderValue(e.target.value)}
+                  required
+                  value={genderValue}
+                  className={`bg-transparent  shadow-none ${classes.noBorder}`}
+                >
+                  &lt;option
+                    style={{ color: "black" }}
+                    value="male"
+                    defaultChecked
+                  >
+                    Male
+                  &lt;/option>
+                  &lt;option style={{ color: "black" }} value="female">
+                    Female
+                  &lt;/option>
+                  &lt;option style={{ color: "black" }} value="other">
+                    Other
+                  &lt;/option>
+                &lt;/Form.Select>
+              &lt;/div>
+            &lt;/Col>
+            &lt;Col md={6}>
+              &lt;div>
+                &lt;label htmlFor="dob" className="form-label mt-3 ">
+                  Date of Birth
+                &lt;/label>
+                &lt;Form.Control
+                  id="dob"
+                  name="dob"
+                  onChange={(e) => setDOBValue(e.target.value)}
+                  required
+                  className={`bg-transparent  shadow-none ${classes.noBorder}`}
+                  type="date"
+                  placeholder="Date of Birth"
+                />
+              &lt;/div>
+            &lt;/Col>
+          &lt;/Row>
+          &lt;Row>
+            &lt;Col>
+              &lt;div>
+                &lt;label htmlFor="telephone" className="form-label mt-3 ">
+                  Telephone
+                &lt;/label>
+                &lt;input
+                  onBlur={validatePhone}
+                  type="text"
+                  className={`form-control bg-transparent  shadow-none ${classes.noBorder}`}
+                  id="telephone"
+                  name="phone"
+                  value={phoneValue}
+                  onChange={(e) => setPhoneValue(e.target.value)}
+                  placeholder="xxx-xxx-xxxx"
+                  pattern="\d{3}[\-]\d{3}[\-]\d{4}"
+                  required
+                />
+                &lt;div className="valid-feedback">Looks good!&lt;/div>
+                &lt;div className="invalid-feedback">
+                  Please enter a valid Phone number eg. xxx-xxx-xxxx
+                &lt;/div>
+              &lt;/div>
+            &lt;/Col>
+            &lt;Col>
+              &lt;div>
+                &lt;label htmlFor="hcNumber" className="form-label mt-3 ">
+                  Healthcare Number
+                &lt;/label>
+                &lt;input
+                  onBlur={validateHCnumber}
+                  type="text"
+                  className={`form-control bg-transparent  shadow-none ${classes.noBorder}`}
+                  id="hcNumber"
+                  name="HC"
+                  value={hcValue}
+                  onChange={(e) => setHCValue(e.target.value)}
+                  placeholder="xxxx-xxxxx"
+                  pattern="\d{4}[\-]\d{5}"
+                  required
+                />
+                &lt;div className="valid-feedback">Looks good!&lt;/div>
+                &lt;div className="invalid-feedback">
+                  Please enter a valid Healthcare number eg. xxxx-xxxxx
+                &lt;/div>
+              &lt;/div>
+            &lt;/Col>
+          &lt;/Row>
+          &lt;Row>
+            &lt;Col>
+              &lt;div>
+                &lt;label htmlFor="firstName" className="form-label mt-3 ">
+                  Emergency Contact First Name
+                &lt;/label>
+                &lt;input
+                  type="text"
+                  className={`form-control bg-transparent  shadow-none ${classes.noBorder}`}
+                  id="emFirstName"
+                  name="emFirstName"
+                  value={emFirstNameValue}
+                  onChange={(e) => setEmFirstNameValue(e.target.value)}
+                  pattern="[A-Za-z- ]+"
+                  placeholder="Emergency Contact First Name"
+                  autoFocus
+                />
+                &lt;p className={classes.optional}>optional&lt;/p>
+              &lt;/div>
+            &lt;/Col>
+            &lt;Col>
+              &lt;div>
+                &lt;label htmlFor="lastName" className="form-label mt-3 ">
+                  Emergency Contact Last Name
+                &lt;/label>
+                &lt;input
+                  type="text"
+                  className={`form-control bg-transparent shadow-none ${classes.noBorder}`}
+                  id="emLastName"
+                  name="emLastName"
+                  value={emLastNameValue}
+                  onChange={(e) => setEmLastNameValue(e.target.value)}
+                  pattern="[A-Za-z]+"
+                  placeholder="Emergency Contact Last Name"
+                />
+                &lt;p className={classes.optional}>optional&lt;/p>
+              &lt;/div>
+            &lt;/Col>
+          &lt;/Row>
+          &lt;Row>
+            &lt;Col>
+              &lt;div style={{ marginTop: "-20px" }}>
+                &lt;label htmlFor="telephone" className="form-label mt-3 ">
+                  Emergency Contact Number
+                &lt;/label>
+                &lt;input
+                  type="text"
+                  className={`form-control bg-transparent  shadow-none ${classes.noBorder}`}
+                  id="emTelephone"
+                  name="emPhone"
+                  value={emPhoneValue}
+                  onChange={(e) => setEmPhoneValue(e.target.value)}
+                  placeholder="xxx-xxx-xxxx"
+                  pattern="\d{3}[\-]\d{3}[\-]\d{4}"
+                />
+                &lt;p className={classes.optional}>optional&lt;/p>
+              &lt;/div>
+            &lt;/Col>
+          &lt;/Row>
+          &lt;div>
+            &lt;label htmlFor="email" className="form-label mt-3 ">
+              Email
+            &lt;/label>
+            &lt;input
+              onBlur={validateEmail}
+              type="text"
+              className={`form-control bg-transparent  shadow-none ${classes.noBorder}`}
+              id="email"
+              name="email"
+              value={emailValue}
+              onChange={(e) => setEmailValue(e.target.value)}
+              placeholder="yourName@gmail.com"
+              pattern="^[a-zA-Z0-9_.-]+@[a-zA-Z]+[\.][a-zA-Z]{2,}$"
+              required
+            />
+            &lt;div className="valid-feedback">Looks good!&lt;/div>
+            &lt;div className="invalid-feedback">
+              Please enter a valid Email eg. John@example.com
+            &lt;/div>
+          &lt;/div>
+          &lt;div>
+            &lt;label htmlFor="password" className="form-label mt-3 ">
+              Password
+            &lt;/label>
+            &lt;input
+              onBlur={validatePassword}
+              type="password"
+              className={`form-control bg-transparent  shadow-none ${classes.noBorder}`}
+              id="password"
+              name="password"
+              value={passwordValue}
+              onChange={(e) => setPasswordValue(e.target.value)}
+              placeholder="Password"
+              minLength={10}
+              required
+            />
+            &lt;div className="valid-feedback">Looks good!&lt;/div>
+            &lt;div className="invalid-feedback">
+              Password must be minimum of 8 characters
+            &lt;/div>
+          &lt;/div>
+          &lt;div>
+            &lt;label htmlFor="cPassword" className="form-label mt-3 ">
+              Confirm Password
+            &lt;/label>
+            &lt;input
+              onBlur={confirmPassword}
+              type="password"
+              className={`form-control bg-transparent  shadow-none ${classes.noBorder}`}
+              id="cPassword"
+              name="cPassword"
+              value={confirmPasswordValue}
+              onChange={(e) => setConfirmPasswordValue(e.target.value)}
+              placeholder="Confirm Password"
+              minLength={10}
+              required
+            />
+            &lt;div className="valid-feedback">Password Match!&lt;/div>
+            &lt;div className="invalid-feedback">Sorry Passwords Do Not Match&lt;/div>
+          &lt;/div>
+          &lt;br />
+          &lt;div className="d-grid gap-2">
+            &lt;Button
+              type="button"
+              disabled={!validClientFormValue}
+              className={classes.registerButton}
+              onClick={createUser}
+            >
+              Register
+            &lt;/Button>
+          &lt;/div>
+          &lt;br />
+          &lt;div className="d-grid gap-2">
+            &lt;Button
+              type="submit"
+              variant="outline-warning"
+              onClick={() => {
+                navigate("/");
+              }}
+            >
+              Cancel
+            &lt;/Button>
+          &lt;/div>
+        &lt;/form>
+      &lt;/div>
+      &lt;br />
+      &lt;br />
+    &lt;/Container>
+  );
+}
+
+export default RegistrationForm;
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="module.exports_module.exports.html">exports</a></li></ul><h3>Global</h3><ul><li><a href="global.html#Admin">Admin</a></li><li><a href="global.html#AdminLanding">AdminLanding</a></li><li><a href="global.html#AdminLogin">AdminLogin</a></li><li><a href="global.html#AdminMenu">AdminMenu</a></li><li><a href="global.html#AdminNav">AdminNav</a></li><li><a href="global.html#AdminProvidercomponent">AdminProvider component</a></li><li><a href="global.html#AlertModalhandlesalertnotificationtousers.">AlertModal handles alert notification to users.</a></li><li><a href="global.html#AlertModelwhenpractitionerrequesttocheckinauser">AlertModel when practitioner request to check in a user</a></li><li><a href="global.html#App">App</a></li><li><a href="global.html#backFuncOnClickthisfunctionwillnavtheuserbacktotheloginpage.">backFunc On Click this function will nav the user back to the login page.</a></li><li><a href="global.html#callUpdateThiswillforceanupdatewhencalled.">callUpdate This will force an update when called.</a></li><li><a href="global.html#cancelNotifyCancelsuccessToast">cancelNotify Cancel success Toast</a></li><li><a href="global.html#cancelRequestThiswillcancelarequestbysendingoutarequest.">cancelRequest This will cancel a request by sending out a request.</a></li><li><a href="global.html#cancelRequestusedtocancelrequests">cancelRequest used to cancel requests</a></li><li><a href="global.html#cancelRequestusedtosendacancelrequesttobackendandresethooks">cancelRequest used to send a cancel request to backend and reset hooks</a></li><li><a href="global.html#checkDatasendsdatafromthisroutetotheleftsidecomponent">checkData sends data from this route to the left side component</a></li><li><a href="global.html#childToParentThiswillupdateourparentclass(Practioner)withrecentinfo.">childToParent This will update our parent class(Practioner) with recent info.</a></li><li><a href="global.html#confirmCheckIncheckintheuseronceconfirmed">confirmCheckIn check in the user once confirmed</a></li><li><a href="global.html#createNewRequestcreateanewrequesttohospitalwith/hospital">createNewRequest create a new request to hospital with /hospital</a></li><li><a href="global.html#currentRequestcallsapiendpointtogetcurrentrequest">currentRequest calls api endpoint to get current request</a></li><li><a href="global.html#currentRequestgetthecurrentrequest">currentRequest get the current request</a></li><li><a href="global.html#currentRequestThiswillhandleallfunctionalityofgettingacurrentrequest.">currentRequest This will handle all functionality of getting a current request.</a></li><li><a href="global.html#deletesallcookiesonthebrowser">deletes all cookies on the browser</a></li><li><a href="global.html#DisplayTableRowsThiswillbeusedtorendertablerowsbasedoffofadummyjsonfileicreated">DisplayTableRows This will be used to render table rows based off of a dummy json file i created</a></li><li><a href="global.html#EditProfile">EditProfile</a></li><li><a href="global.html#ErrorPage404">ErrorPage404</a></li><li><a href="global.html#ForgotPass">ForgotPass</a></li><li><a href="global.html#ForgotPassPage">ForgotPassPage</a></li><li><a href="global.html#getLocation-retrievesthepatientsgeolocationfromthebrowser">getLocation - retrieves the patients geolocation from the browser</a></li><li><a href="global.html#getOptionsHerewegeneratealistofallhospitalsandassoicateanamevaluepairwitheach.">getOptions Here we generate a list of all hospitals and assoicate a name value pair with each.</a></li><li><a href="global.html#handleCancelRequestthiswillhandlethecancelationofarequest.">handleCancelRequest this will handle the cancelation of a request.</a></li><li><a href="global.html#handleCurrentRequestsetmodalforcancelrequest">handleCurrentRequest set modal for cancel request</a></li><li><a href="global.html#handleCurrentRequestThiswillhandleallcurrentrequetsandsettingourhooks">handleCurrentRequest This will handle all current requets and setting our hooks</a></li><li><a href="global.html#handleLogoutlogoutthepatientfromapplication">handleLogout logout the patient from application</a></li><li><a href="global.html#handleOnHomeThiswillnavigatetheuserbacktohome">handleOnHome This will navigate the user back to home</a></li><li><a href="global.html#handlePastRequestThiswillhandleallthepastrequestsandsettingourhooks">handlePastRequest This will handle all the past requests and setting our hooks</a></li><li><a href="global.html#handleSelectOnuserselectwewillsetState">handleSelect On user select we will setState</a></li><li><a href="global.html#HHGoogleMapComponent">HHGoogleMap Component</a></li><li><a href="global.html#HomePage">Home Page</a></li><li><a href="global.html#HomeHospitalProviderComponent">HomeHospitalProvider Component</a></li><li><a href="global.html#HospitalSelectionForm">HospitalSelectionForm</a></li><li><a href="global.html#HospitalSelectionPage">HospitalSelectionPage</a></li><li><a href="global.html#LandingPageComponent">LandingPage Component</a></li><li><a href="global.html#LoginPage">Login Page</a></li><li><a href="global.html#LoginAdminForm">LoginAdminForm</a></li><li><a href="global.html#LoginFormComponent">LoginForm Component</a></li><li><a href="global.html#LoginFormPractitioner">LoginFormPractitioner</a></li><li><a href="global.html#ManageAdmin">ManageAdmin</a></li><li><a href="global.html#ManagePatient">ManagePatient</a></li><li><a href="global.html#ManagePractitioner">ManagePractitioner</a></li><li><a href="global.html#ManageUser">ManageUser</a></li><li><a href="global.html#MapComponent">Map Component</a></li><li><a href="global.html#notifythisfunctionwillbeusedtosendatoasttotheuser.">notify this function will be used to send a toast to the user.</a></li><li><a href="global.html#notifyThisfunctionwillnotifythepractitionerthataneventhasoccurred.">notify This function will notify the practitioner that an event has occurred.</a></li><li><a href="global.html#pastRequestThiswillhandleallfunctionsassociatedwithpastrequests.">pastRequest This will handle all functions associated with past requests.</a></li><li><a href="global.html#PatientInfo">PatientInfo</a></li><li><a href="global.html#patientInfocallsapiendpointtogetpatientinfo">patientInfo calls api endpoint to get patient info</a></li><li><a href="global.html#practitioner">practitioner</a></li><li><a href="global.html#PractitionerPatientInfo">PractitionerPatientInfo</a></li><li><a href="global.html#PractitionerProvider">PractitionerProvider</a></li><li><a href="global.html#PractitionerSelect">PractitionerSelect</a></li><li><a href="global.html#PractitionerWaitlist">PractitionerWaitlist</a></li><li><a href="global.html#RegisterPage">Register Page</a></li><li><a href="global.html#RegistrationFormComponent">RegistrationForm Component</a></li><li><a href="global.html#renderThisclasswillbeusedreturnthealertnotifyingusertochecktheiremail.">render This class will be used return the alert notifying user to check their email.</a></li><li><a href="global.html#RequestPage">Request Page</a></li><li><a href="global.html#RequireAuthComponent">RequireAuth Component</a></li><li><a href="global.html#SelectHospital">SelectHospital</a></li><li><a href="global.html#SymptomsForm">SymptomsForm</a></li><li><a href="global.html#SymptomsPage">SymptomsPage</a></li><li><a href="global.html#SymptomsTable">SymptomsTable</a></li><li><a href="global.html#testusedtonavigatetosymptoms">test used to navigate to symptoms</a></li><li><a href="global.html#updateHospitalStateHerewhenaselectcomponentisupdatedwewillupdateoururltoreflectthechanges.">updateHospitalState Here when a select component is updated we will update our url to reflect the changes.</a></li><li><a href="global.html#useAdminForm">useAdminForm</a></li><li><a href="global.html#useEffectthisclearstheleftcomponentwhenusergetscheckedinalsogoesbacktohidingcomponent.">useEffect this clears the left component when user gets checked in also goes back to hidingcomponent.</a></li><li><a href="global.html#useEffectThiswillbeincontrolofthestateofpractitionerlist.Herewewillforceupdatesonurlchangeandsettimer.">useEffect This will be in control of the state of practitioner list. Here we will force updates on urlchange and set timer.</a></li><li><a href="global.html#usePracForm">usePracForm</a></li><li><a href="global.html#UserHomepage">UserHomepage</a></li><li><a href="global.html#UserHomeVisitsDisplay">UserHomeVisitsDisplay</a></li><li><a href="global.html#UserNavBarComponent">UserNavBar Component</a></li><li><a href="global.html#validateEmailThisfunctionwillprovidevalidationofemailtoensurethatdataiscorrect.Thehtmlalsovalidates,butthisissafestpractice!">validateEmail This function will provide validation of email to ensure that data is correct.The html also validates, but this is safest practice!</a></li><li><a href="global.html#WaitList">WaitList</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.10</a> on Tue Apr 19 2022 21:37:19 GMT-0600 (Mountain Daylight Time)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

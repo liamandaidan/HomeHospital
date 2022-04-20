@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: components/SymptomsForm.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: components/SymptomsForm.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>import React, { useContext, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import Form from "react-bootstrap/Form";
+import Alert from "react-bootstrap/Alert";
+import Col from "react-bootstrap/Col";
+import Row from "react-bootstrap/Row";
+import Button from "react-bootstrap/Button";
+import Container from "react-bootstrap/Container";
+import InputGroup from "react-bootstrap/InputGroup";
+import Modal from "react-bootstrap/Modal";
+import axios from "axios";
+import "bootstrap/dist/css/bootstrap.min.css";
+import "../styles/SymptomForm.css";
+import { HomeHospitalContext } from "./HomeHospitalContext";
+
+axios.defaults.withCredentials = true;
+/**
+ * Symptoms form where the patient is able to enter a list of symptoms
+ * and assign a severity. They will also be able to add any additional information in the
+ * text area
+ * @returns symptoms input form component
+ * @author Robyn Balanag
+ */
+function SymptomsForm() {
+  const [additionalInfo, setAdditionalInfo] = useState("");
+  const [modalState, setModalState] = useState(false);
+  const [isValid, setIsValid] = useState(true);
+  const { _id, newRequest, requestSuccess } = useContext(HomeHospitalContext);
+  const [hospitalID] = _id;
+  const [newRequestValue, setNewRequestValue] = newRequest;
+  const [requestSuccessValue, setRequestSuccessValue] = requestSuccess;
+  const navigate = useNavigate();
+  const [symptomsList, setSymptomsList] = useState([
+    {
+      description: "",
+      severity: "",
+    },
+  ]);
+  /**
+   * Add a new symptom as long as the prvious symptom fields arent empty
+   * @param {*} index of the current symptom
+   */
+  const handleSymptomsAdd = (index) => {
+    if (
+      symptomsList[index].description !== "" &amp;&amp;
+      symptomsList[index].severity !== ""
+    ) {
+      setSymptomsList([
+        ...symptomsList,
+        {
+          description: "",
+          severity: "",
+        },
+      ]);
+    } else {
+      setIsValid(false);
+    }
+  };
+  /**
+   * Removed the selected symptom
+   * @param {*} index selected symptom
+   */
+  const handleSymptomsRemove = (index) => {
+    const list = [...symptomsList];
+    list.splice(index, 1);
+    setSymptomsList(list);
+  };
+  /**
+   * Updates the list of symptoms
+   * @param {*} e name and values of the current symptom
+   * @param {*} index of the current symptom
+   */
+  const handleSymptomsChange = (e, index) => {
+    const { name, value } = e.target;
+
+    const list = [...symptomsList];
+    list[index][name] = value;
+    setSymptomsList(list);
+  };
+  /**
+   * Updates the severity
+   * @param {*} e name and value of the severity
+   * @param {*} index of the current saverity
+   */
+  const handleSeverityChange = (e, index) => {
+    const { name, value } = e.target;
+
+    const list = [...symptomsList];
+    list[index][name] = value;
+    setSymptomsList(list);
+  };
+  /**
+   * Takes the current list of symptoms and additional information
+   * and check if the values are valid. If they are, it will prompt
+   * the alert modal to show
+   */
+  const handleSubmit = () => {
+    const list = [...symptomsList];
+
+    if (
+      list[list.length - 1].description !== "" &amp;&amp;
+      list[list.length - 1].severity !== ""
+    ) {
+      setModalState(true);
+    } else {
+      setIsValid(false);
+    }
+  };
+  /**
+   * Take the hospitalID from the previous hospital select page as well
+   *  as the symptoms list and additional information and will send it to the
+   *  backend to be created in the database
+   */
+  const handleFormSubmit = () => {
+    axios
+      .post("http://localhost:4000/api/visitRequest/newRequest", {
+        withCredentials: true,
+        hospitalId: hospitalID,
+        symptomList: symptomsList,
+        additionalInfo: additionalInfo,
+      })
+      .then((response) => {
+        // console.log(response);
+        setRequestSuccessValue(true);
+      })
+      .catch((err) => {
+        //  console.log(err);
+      });
+    setNewRequestValue(true);
+    // console.log("the form has been sent to backoffice!");
+    navigate("/home");
+  };
+  /**
+   * Alert the patient once they entered all their symptoms.
+   * @param {*} props symptoms information
+   * @returns alert modal asking patient to confirm request
+   */
+  const AlertModal = (props) => {
+    return (
+      &lt;>
+        &lt;Modal {...props} centered>
+          &lt;Modal.Header className="modal-title">
+            &lt;Modal.Title>Attention!&lt;/Modal.Title>
+          &lt;/Modal.Header>
+          &lt;Modal.Body className="modal-content">
+            &lt;p>
+              This will be a disclaimer stating that the information entered is
+              up to patient discretion. If they feel this is an emergency that
+              is in need of urgent care, call 911.
+            &lt;/p>
+          &lt;/Modal.Body>
+          &lt;Modal.Footer className="modal-footer">
+            &lt;div>
+              &lt;Button
+                className="ack-btn"
+                onClick={handleFormSubmit}
+                variant="primary"
+              >
+                I Acknowledge
+              &lt;/Button>
+              &lt;br />
+              &lt;a variant="link" className="cancel-lnk" onClick={props.onHide}>
+                cancel request
+              &lt;/a>
+            &lt;/div>
+          &lt;/Modal.Footer>
+        &lt;/Modal>
+      &lt;/>
+    );
+  };
+
+  return (
+    &lt;>
+      &lt;Container className="symptoms-container">
+        {!isValid &amp;&amp; (
+          &lt;Alert variant="danger" onClose={() => setIsValid(true)} dismissible>
+            &lt;Alert.Heading>
+              Please enter all details before adding a new symptom. Thank you!
+            &lt;/Alert.Heading>
+          &lt;/Alert>
+        )}
+
+        &lt;Row>
+          &lt;div className="title-div">
+            &lt;h2>Enter Symtoms&lt;/h2>
+          &lt;/div>
+        &lt;/Row>
+        &lt;Row>
+          &lt;div className="details-div">
+            Please enter current symptoms along with severity of 1-5
+          &lt;/div>
+        &lt;/Row>
+        &lt;Row>
+          &lt;Col>
+            &lt;Form>
+              {symptomsList.map((singleSymptom, index) => (
+                &lt;div key={index} className="group">
+                  &lt;InputGroup className="symptomGroup">
+                    &lt;Form.Control
+                      type="text"
+                      name="description"
+                      placeholder="Enter Symptom"
+                      value={singleSymptom.service}
+                      onChange={(e) => handleSymptomsChange(e, index)}
+                    />
+                    &lt;Form.Select
+                      name="severity"
+                      onChange={(e) => handleSeverityChange(e, index)}
+                    >
+                      &lt;option defaultChecked>Severity&lt;/option>
+                      &lt;option value="1">1&lt;/option>
+                      &lt;option value="2">2&lt;/option>
+                      &lt;option value="3">3&lt;/option>
+                      &lt;option value="4">4&lt;/option>
+                      &lt;option value="5">5&lt;/option>
+                    &lt;/Form.Select>
+
+                    {symptomsList.length > 1 &amp;&amp; (
+                      &lt;Button
+                        className="remove-btn"
+                        variant="outline-secondary"
+                        onClick={() => handleSymptomsRemove(index)}
+                      >
+                        &lt;span>x&lt;/span>
+                      &lt;/Button>
+                    )}
+                  &lt;/InputGroup>
+                  {symptomsList.length - 1 === index &amp;&amp;
+                    symptomsList.length &lt; 5 &amp;&amp; (
+                      &lt;div className="add-btn-div">
+                        &lt;Button
+                          className="add-btn btn-light"
+                          onClick={() => handleSymptomsAdd(index)}
+                        >
+                          &lt;span>Add Symptom&lt;/span>
+                        &lt;/Button>
+                      &lt;/div>
+                    )}
+                &lt;/div>
+              ))}
+              &lt;div className="additional-info">
+                &lt;Form.Label>Additional Information&lt;/Form.Label>
+                &lt;Form.Control
+                  as="textarea"
+                  rows={3}
+                  onChange={(e) => setAdditionalInfo(e.target.value)}
+                />
+              &lt;/div>
+              &lt;div className="submit-btn-div">
+                &lt;Button className="submit-btn btn-light" onClick={handleSubmit}>
+                  &lt;span>Submit Symptoms&lt;/span>
+                &lt;/Button>
+                &lt;div>
+                  &lt;a href="/hospitals"> &amp;lt; previous step&lt;/a>
+                &lt;/div>
+              &lt;/div>
+            &lt;/Form>
+          &lt;/Col>
+        &lt;/Row>
+      &lt;/Container>
+      &lt;AlertModal show={modalState} onHide={() => setModalState(false)} />
+    &lt;/>
+  );
+}
+
+export default SymptomsForm;
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="module.exports_module.exports.html">exports</a></li></ul><h3>Global</h3><ul><li><a href="global.html#Admin">Admin</a></li><li><a href="global.html#AdminLanding">AdminLanding</a></li><li><a href="global.html#AdminLogin">AdminLogin</a></li><li><a href="global.html#AdminMenu">AdminMenu</a></li><li><a href="global.html#AdminNav">AdminNav</a></li><li><a href="global.html#AdminProvidercomponent">AdminProvider component</a></li><li><a href="global.html#AlertModalhandlesalertnotificationtousers.">AlertModal handles alert notification to users.</a></li><li><a href="global.html#AlertModelwhenpractitionerrequesttocheckinauser">AlertModel when practitioner request to check in a user</a></li><li><a href="global.html#App">App</a></li><li><a href="global.html#backFuncOnClickthisfunctionwillnavtheuserbacktotheloginpage.">backFunc On Click this function will nav the user back to the login page.</a></li><li><a href="global.html#callUpdateThiswillforceanupdatewhencalled.">callUpdate This will force an update when called.</a></li><li><a href="global.html#cancelNotifyCancelsuccessToast">cancelNotify Cancel success Toast</a></li><li><a href="global.html#cancelRequestThiswillcancelarequestbysendingoutarequest.">cancelRequest This will cancel a request by sending out a request.</a></li><li><a href="global.html#cancelRequestusedtocancelrequests">cancelRequest used to cancel requests</a></li><li><a href="global.html#cancelRequestusedtosendacancelrequesttobackendandresethooks">cancelRequest used to send a cancel request to backend and reset hooks</a></li><li><a href="global.html#checkDatasendsdatafromthisroutetotheleftsidecomponent">checkData sends data from this route to the left side component</a></li><li><a href="global.html#childToParentThiswillupdateourparentclass(Practioner)withrecentinfo.">childToParent This will update our parent class(Practioner) with recent info.</a></li><li><a href="global.html#confirmCheckIncheckintheuseronceconfirmed">confirmCheckIn check in the user once confirmed</a></li><li><a href="global.html#createNewRequestcreateanewrequesttohospitalwith/hospital">createNewRequest create a new request to hospital with /hospital</a></li><li><a href="global.html#currentRequestcallsapiendpointtogetcurrentrequest">currentRequest calls api endpoint to get current request</a></li><li><a href="global.html#currentRequestgetthecurrentrequest">currentRequest get the current request</a></li><li><a href="global.html#currentRequestThiswillhandleallfunctionalityofgettingacurrentrequest.">currentRequest This will handle all functionality of getting a current request.</a></li><li><a href="global.html#deletesallcookiesonthebrowser">deletes all cookies on the browser</a></li><li><a href="global.html#DisplayTableRowsThiswillbeusedtorendertablerowsbasedoffofadummyjsonfileicreated">DisplayTableRows This will be used to render table rows based off of a dummy json file i created</a></li><li><a href="global.html#EditProfile">EditProfile</a></li><li><a href="global.html#ErrorPage404">ErrorPage404</a></li><li><a href="global.html#ForgotPass">ForgotPass</a></li><li><a href="global.html#ForgotPassPage">ForgotPassPage</a></li><li><a href="global.html#getLocation-retrievesthepatientsgeolocationfromthebrowser">getLocation - retrieves the patients geolocation from the browser</a></li><li><a href="global.html#getOptionsHerewegeneratealistofallhospitalsandassoicateanamevaluepairwitheach.">getOptions Here we generate a list of all hospitals and assoicate a name value pair with each.</a></li><li><a href="global.html#handleCancelRequestthiswillhandlethecancelationofarequest.">handleCancelRequest this will handle the cancelation of a request.</a></li><li><a href="global.html#handleCurrentRequestsetmodalforcancelrequest">handleCurrentRequest set modal for cancel request</a></li><li><a href="global.html#handleCurrentRequestThiswillhandleallcurrentrequetsandsettingourhooks">handleCurrentRequest This will handle all current requets and setting our hooks</a></li><li><a href="global.html#handleLogoutlogoutthepatientfromapplication">handleLogout logout the patient from application</a></li><li><a href="global.html#handleOnHomeThiswillnavigatetheuserbacktohome">handleOnHome This will navigate the user back to home</a></li><li><a href="global.html#handlePastRequestThiswillhandleallthepastrequestsandsettingourhooks">handlePastRequest This will handle all the past requests and setting our hooks</a></li><li><a href="global.html#handleSelectOnuserselectwewillsetState">handleSelect On user select we will setState</a></li><li><a href="global.html#HHGoogleMapComponent">HHGoogleMap Component</a></li><li><a href="global.html#HomePage">Home Page</a></li><li><a href="global.html#HomeHospitalProviderComponent">HomeHospitalProvider Component</a></li><li><a href="global.html#HospitalSelectionForm">HospitalSelectionForm</a></li><li><a href="global.html#HospitalSelectionPage">HospitalSelectionPage</a></li><li><a href="global.html#LandingPageComponent">LandingPage Component</a></li><li><a href="global.html#LoginPage">Login Page</a></li><li><a href="global.html#LoginAdminForm">LoginAdminForm</a></li><li><a href="global.html#LoginFormComponent">LoginForm Component</a></li><li><a href="global.html#LoginFormPractitioner">LoginFormPractitioner</a></li><li><a href="global.html#ManageAdmin">ManageAdmin</a></li><li><a href="global.html#ManagePatient">ManagePatient</a></li><li><a href="global.html#ManagePractitioner">ManagePractitioner</a></li><li><a href="global.html#ManageUser">ManageUser</a></li><li><a href="global.html#MapComponent">Map Component</a></li><li><a href="global.html#notifythisfunctionwillbeusedtosendatoasttotheuser.">notify this function will be used to send a toast to the user.</a></li><li><a href="global.html#notifyThisfunctionwillnotifythepractitionerthataneventhasoccurred.">notify This function will notify the practitioner that an event has occurred.</a></li><li><a href="global.html#pastRequestThiswillhandleallfunctionsassociatedwithpastrequests.">pastRequest This will handle all functions associated with past requests.</a></li><li><a href="global.html#PatientInfo">PatientInfo</a></li><li><a href="global.html#patientInfocallsapiendpointtogetpatientinfo">patientInfo calls api endpoint to get patient info</a></li><li><a href="global.html#practitioner">practitioner</a></li><li><a href="global.html#PractitionerPatientInfo">PractitionerPatientInfo</a></li><li><a href="global.html#PractitionerProvider">PractitionerProvider</a></li><li><a href="global.html#PractitionerSelect">PractitionerSelect</a></li><li><a href="global.html#PractitionerWaitlist">PractitionerWaitlist</a></li><li><a href="global.html#RegisterPage">Register Page</a></li><li><a href="global.html#RegistrationFormComponent">RegistrationForm Component</a></li><li><a href="global.html#renderThisclasswillbeusedreturnthealertnotifyingusertochecktheiremail.">render This class will be used return the alert notifying user to check their email.</a></li><li><a href="global.html#RequestPage">Request Page</a></li><li><a href="global.html#RequireAuthComponent">RequireAuth Component</a></li><li><a href="global.html#SelectHospital">SelectHospital</a></li><li><a href="global.html#SymptomsForm">SymptomsForm</a></li><li><a href="global.html#SymptomsPage">SymptomsPage</a></li><li><a href="global.html#SymptomsTable">SymptomsTable</a></li><li><a href="global.html#testusedtonavigatetosymptoms">test used to navigate to symptoms</a></li><li><a href="global.html#updateHospitalStateHerewhenaselectcomponentisupdatedwewillupdateoururltoreflectthechanges.">updateHospitalState Here when a select component is updated we will update our url to reflect the changes.</a></li><li><a href="global.html#useAdminForm">useAdminForm</a></li><li><a href="global.html#useEffectthisclearstheleftcomponentwhenusergetscheckedinalsogoesbacktohidingcomponent.">useEffect this clears the left component when user gets checked in also goes back to hidingcomponent.</a></li><li><a href="global.html#useEffectThiswillbeincontrolofthestateofpractitionerlist.Herewewillforceupdatesonurlchangeandsettimer.">useEffect This will be in control of the state of practitioner list. Here we will force updates on urlchange and set timer.</a></li><li><a href="global.html#usePracForm">usePracForm</a></li><li><a href="global.html#UserHomepage">UserHomepage</a></li><li><a href="global.html#UserHomeVisitsDisplay">UserHomeVisitsDisplay</a></li><li><a href="global.html#UserNavBarComponent">UserNavBar Component</a></li><li><a href="global.html#validateEmailThisfunctionwillprovidevalidationofemailtoensurethatdataiscorrect.Thehtmlalsovalidates,butthisissafestpractice!">validateEmail This function will provide validation of email to ensure that data is correct.The html also validates, but this is safest practice!</a></li><li><a href="global.html#WaitList">WaitList</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.10</a> on Tue Apr 19 2022 21:37:19 GMT-0600 (Mountain Daylight Time)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

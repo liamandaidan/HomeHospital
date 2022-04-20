@@ -78,8 +78,8 @@ function LoginFormPractitioner() {
         password: password,
       })
       .then((response) => {
-       // console.log("You have logged in successfully");
-       // console.log(response);
+        // console.log("You have logged in successfully");
+        // console.log(response);
         setFirstNameValue(response.data.practitionerDetails.firstName);
         setLastNameValue(response.data.practitionerDetails.lastName);
         setRoleNameValue(response.data.practitionerDetails.role);
@@ -94,7 +94,7 @@ function LoginFormPractitioner() {
   /**
    * This will handle errors
    * @param {*} props
-   * @returns
+   * @returns void
    */
   function ErrorModal(props) {
     return (

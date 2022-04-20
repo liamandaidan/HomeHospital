@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: components/UserHomeVisitsDisplay.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: components/UserHomeVisitsDisplay.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>import React, { useState, useEffect, useContext } from "react";
+import Row from "react-bootstrap/Row";
+import Col from "react-bootstrap/Col";
+import Container from "react-bootstrap/Container";
+import Table from "react-bootstrap/Table";
+import "../styles/UserHomepage.css";
+import axios from "axios";
+import moment from "moment";
+import { useNavigate } from "react-router-dom";
+import { HomeHospitalContext } from "./HomeHospitalContext";
+import { Button, Modal, Spinner } from "react-bootstrap";
+
+axios.defaults.withCredentials = true;
+/**
+ * @name UserHomeVisitsDisplay
+ * @summary Handles all user home display and associated functions
+ * @returns html component
+ */
+function UserHomeVisitsDisplay() {
+  const navigate = useNavigate();
+
+  // useContext to get new Request value
+  const {
+    newRequest,
+    requestId,
+    isCurrentRequest,
+    requestButtonOn,
+    cancelSuccess,
+  } = useContext(HomeHospitalContext);
+  const [newRequestValue, setNewRequestValue] = newRequest;
+  const [reqButton, setReqButton] = requestButtonOn;
+  const [requestIdValue, setRequestIdValue] = requestId;
+  const [isCurrent, setIsCurrent] = isCurrentRequest;
+  const [cancelSuccessValue, setCancelSuccessValue] = cancelSuccess;
+
+  moment.locale("en");
+
+  const [visitList, setVisitList] = useState([]);
+  const [currentList, setCurrentList] = useState();
+  const [spinner, setSpinner] = useState(true);
+  const [currentSpinner, setCurrentSpinner] = useState(true);
+  const [noRequest, setNoRequest] = useState(false);
+  const [noCurrent, setNoCurrent] = useState(false);
+  const [modalState, setModalState] = useState(false);
+
+  /**
+   * @function pastRequest This will handle all functions associated with past requests.
+   */
+  function pastRequest() {
+    axios
+      .get("http://localhost:4000/api/visitRequest/allRequests", {
+        withCredentials: true,
+      })
+      .then((response) => {
+        // console.log(response.data.request);
+        if (response.status === 200) {
+          // console.log("200 Success!");
+          // console.log(response.data);
+          setVisitList(response.data);
+          setSpinner(false);
+        }
+      })
+      .catch((err) => {
+        setNoRequest(true);
+        setSpinner(false);
+      });
+  }
+  /**
+   * @function currentRequest This will handle all functionality of getting a current request.
+   */
+  function currentRequest() {
+    axios
+      .get("http://localhost:4000/api/visitRequest/currentRequest", {
+        withCredentials: true,
+      })
+      .then((response) => {
+        // console.log(response.data.request);
+        if (response.status === 200) {
+          // console.log("200 Success!");
+          // console.log(response.data);
+          setCurrentList(response.data);
+          setCurrentSpinner(false);
+          setReqButton(false);
+        }
+      })
+      .catch((err) => {
+        setNoCurrent(true);
+        setCurrentSpinner(false);
+        setReqButton(true);
+        //console.log(err);
+      });
+  }
+
+  //import all visits using patient ID
+  useEffect(() => {
+    setSpinner(true);
+    if (newRequestValue) {
+      const timer = setTimeout(() => {
+        pastRequest();
+      }, 500);
+    } else {
+      pastRequest();
+    }
+  }, []);
+  /**
+   * @function handleCurrentRequest This will handle all current requets and setting our hooks
+   * @param {string} request The id of request to process
+   */
+  function handleCurrentRequest(request) {
+    setIsCurrent(true);
+    setRequestIdValue(request._id);
+    setNewRequestValue(false);
+    setReqButton(false);
+    navigate(`/request/${request._id}`);
+  }
+  /**
+   * @function handlePastRequest This will handle all the past requests and setting our hooks
+   * @param {string} request the id of the request to process
+   */
+  function handlePastRequest(request) {
+    setIsCurrent(false);
+    setRequestIdValue(request);
+    setNewRequestValue(false);
+    navigate(`/request/${request}`);
+  }
+  /**
+   * @function handleCancelRequest this will handle the cancelation of a request.
+   */
+  function handleCancelRequest() {
+    setModalState(true);
+  }
+  /**
+   * @function cancelRequest This will cancel a request by sending out a request.
+   */
+  function cancelRequest() {
+    axios
+      .delete("http://localhost:4000/api/visitRequest/cancel", {
+        withCredentials: true,
+      })
+      .then((response) => {
+        if (response.status === 200) {
+          setIsCurrent(false);
+          setNoCurrent(true);
+          setModalState(false);
+          setReqButton(true);
+          setCancelSuccessValue(true);
+        }
+      })
+      .catch((err) => {
+        setNoCurrent(true);
+        setCurrentSpinner(false);
+        //console.log(err);
+      });
+  }
+
+  useEffect(() => {
+    setCurrentSpinner(true);
+    if (newRequestValue) {
+      const timer = setTimeout(() => {
+        currentRequest();
+      }, 500);
+    } else {
+      currentRequest();
+    }
+  }, []);
+  /**
+   * @function AlertModal handles alert notification to users.
+   * @param {} props
+   * @returns html component
+   */
+  const AlertModal = (props) => {
+    return (
+      &lt;>
+        &lt;Modal {...props} centered>
+          &lt;Modal.Header className="modal-title">
+            &lt;Modal.Title>Cancel Request&lt;/Modal.Title>
+          &lt;/Modal.Header>
+          &lt;Modal.Body className="modal-content">
+            &lt;p>
+              Are you sure you want to cancel your request? If you cancel this
+              request you will need to fill out a new request and will lose the
+              current spot that you are in right now!
+            &lt;/p>
+          &lt;/Modal.Body>
+          &lt;Modal.Footer className="modal-footer">
+            &lt;Button
+              className="ack-btn"
+              onClick={() => cancelRequest()}
+              variant="primary"
+            >
+              Cancel Request
+            &lt;/Button>
+            &lt;div>
+              &lt;Button
+                variant="link"
+                className="cancel-lnk"
+                onClick={props.onHide}
+              >
+                Go Back
+              &lt;/Button>
+            &lt;/div>
+          &lt;/Modal.Footer>
+        &lt;/Modal>
+      &lt;/>
+    );
+  };
+
+  return (
+    &lt;>
+      &lt;Container className=".container-visits">
+        &lt;Row className="current">
+          &lt;h2>Current Request&lt;/h2>
+          &lt;Col>
+            {noCurrent &amp;&amp; (
+              &lt;div className="pb-5">
+                &lt;h4>No Current Request Available&lt;/h4>
+              &lt;/div>
+            )}
+            {currentSpinner &amp;&amp; (
+              &lt;div className="spinner-div text-center">
+                &lt;Spinner animation="border" role="status">
+                  &lt;span className="visually-hidden">Loading...&lt;/span>
+                &lt;/Spinner>
+              &lt;/div>
+            )}
+
+            {!currentSpinner &amp;&amp; !noCurrent &amp;&amp; (
+              &lt;Table
+                striped
+                hover
+                responsive
+                className="visit-table table-fixed"
+              >
+                &lt;thead>
+                  &lt;tr>
+                    &lt;th>#&lt;/th>
+                    &lt;th>Date&lt;/th>
+                    &lt;th>Reason&lt;/th>
+                    &lt;th>Location&lt;/th>
+                    &lt;th>Time&lt;/th>
+                    &lt;th className="text-center">Cancel&lt;/th>
+                    &lt;th className="text-center">View&lt;/th>
+                  &lt;/tr>
+                &lt;/thead>
+                &lt;tbody>
+                  &lt;tr>
+                    &lt;td>1&lt;/td>
+                    &lt;td>
+                      {moment(currentList.dateTime).format(
+                        "dddd, MMMM Do YYYY"
+                      )}
+                    &lt;/td>
+                    &lt;td>Emergency Room Visit&lt;/td>
+                    &lt;td>{currentList.requestHospitalName}&lt;/td>
+                    &lt;td>{currentList.waitListTime}&lt;/td>
+                    &lt;td className="text-center">
+                      &lt;Button
+                        variant="link"
+                        className="cancelRequest-btn"
+                        onClick={() => handleCancelRequest()}
+                      >
+                        cancel request
+                      &lt;/Button>
+                    &lt;/td>
+                    &lt;td>
+                      &lt;Button
+                        variant="link"
+                        className="newRequest-btn"
+                        onClick={() => handleCurrentRequest(currentList)}
+                      >
+                        view request
+                      &lt;/Button>
+                    &lt;/td>
+                  &lt;/tr>
+                &lt;/tbody>
+              &lt;/Table>
+            )}
+          &lt;/Col>
+        &lt;/Row>
+
+        &lt;Row>
+          &lt;h2>Past Requests&lt;/h2>
+          &lt;Col>
+            {noRequest &amp;&amp; (
+              &lt;div>
+                &lt;h4>No Past Requests Available&lt;/h4>
+              &lt;/div>
+            )}
+            {spinner &amp;&amp; (
+              &lt;div className="spinner-div text-center">
+                &lt;Spinner animation="border" role="status">
+                  &lt;span className="visually-hidden">Loading...&lt;/span>
+                &lt;/Spinner>
+              &lt;/div>
+            )}
+
+            {!spinner &amp;&amp; !noRequest &amp;&amp; visitList.length > 0 &amp;&amp; (
+              &lt;Table
+                striped
+                hover
+                responsive
+                className="visit-table table-fixed"
+              >
+                &lt;thead>
+                  &lt;tr>
+                    &lt;th>#&lt;/th>
+                    &lt;th>Date&lt;/th>
+                    &lt;th>Reason&lt;/th>
+                    &lt;th>Location&lt;/th>
+                    &lt;th className="text-center">Status&lt;/th>
+                    &lt;th className="text-center">View&lt;/th>
+                  &lt;/tr>
+                &lt;/thead>
+                &lt;tbody>
+                  {visitList.map((visit, index) => (
+                    &lt;tr key={index}>
+                      &lt;td>{index + 1}&lt;/td>
+                      &lt;td>
+                        {moment(visit.request.dateTime).format(
+                          "dddd, MMMM Do YYYY"
+                        )}
+                      &lt;/td>
+                      &lt;td>Emergency Room Visit&lt;/td>
+                      &lt;td>{visit.request.requestHospitalName}&lt;/td>
+                      &lt;td className="text-success text-center">Complete&lt;/td>
+                      &lt;td className="text-center">
+                        &lt;Button
+                          variant="link"
+                          className="newRequest-btn"
+                          onClick={() => handlePastRequest(visit._id)}
+                        >
+                          view request
+                        &lt;/Button>
+                      &lt;/td>
+                    &lt;/tr>
+                  ))}
+                &lt;/tbody>
+              &lt;/Table>
+            )}
+          &lt;/Col>
+        &lt;/Row>
+      &lt;/Container>
+      &lt;AlertModal show={modalState} onHide={() => setModalState(false)} />
+    &lt;/>
+  );
+}
+
+export default UserHomeVisitsDisplay;
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="module.exports_module.exports.html">exports</a></li></ul><h3>Global</h3><ul><li><a href="global.html#Admin">Admin</a></li><li><a href="global.html#AdminLanding">AdminLanding</a></li><li><a href="global.html#AdminLogin">AdminLogin</a></li><li><a href="global.html#AdminMenu">AdminMenu</a></li><li><a href="global.html#AdminNav">AdminNav</a></li><li><a href="global.html#AdminProvidercomponent">AdminProvider component</a></li><li><a href="global.html#AlertModalhandlesalertnotificationtousers.">AlertModal handles alert notification to users.</a></li><li><a href="global.html#AlertModelwhenpractitionerrequesttocheckinauser">AlertModel when practitioner request to check in a user</a></li><li><a href="global.html#App">App</a></li><li><a href="global.html#backFuncOnClickthisfunctionwillnavtheuserbacktotheloginpage.">backFunc On Click this function will nav the user back to the login page.</a></li><li><a href="global.html#callUpdateThiswillforceanupdatewhencalled.">callUpdate This will force an update when called.</a></li><li><a href="global.html#cancelNotifyCancelsuccessToast">cancelNotify Cancel success Toast</a></li><li><a href="global.html#cancelRequestThiswillcancelarequestbysendingoutarequest.">cancelRequest This will cancel a request by sending out a request.</a></li><li><a href="global.html#cancelRequestusedtocancelrequests">cancelRequest used to cancel requests</a></li><li><a href="global.html#cancelRequestusedtosendacancelrequesttobackendandresethooks">cancelRequest used to send a cancel request to backend and reset hooks</a></li><li><a href="global.html#checkDatasendsdatafromthisroutetotheleftsidecomponent">checkData sends data from this route to the left side component</a></li><li><a href="global.html#childToParentThiswillupdateourparentclass(Practioner)withrecentinfo.">childToParent This will update our parent class(Practioner) with recent info.</a></li><li><a href="global.html#confirmCheckIncheckintheuseronceconfirmed">confirmCheckIn check in the user once confirmed</a></li><li><a href="global.html#createNewRequestcreateanewrequesttohospitalwith/hospital">createNewRequest create a new request to hospital with /hospital</a></li><li><a href="global.html#currentRequestcallsapiendpointtogetcurrentrequest">currentRequest calls api endpoint to get current request</a></li><li><a href="global.html#currentRequestgetthecurrentrequest">currentRequest get the current request</a></li><li><a href="global.html#currentRequestThiswillhandleallfunctionalityofgettingacurrentrequest.">currentRequest This will handle all functionality of getting a current request.</a></li><li><a href="global.html#deletesallcookiesonthebrowser">deletes all cookies on the browser</a></li><li><a href="global.html#DisplayTableRowsThiswillbeusedtorendertablerowsbasedoffofadummyjsonfileicreated">DisplayTableRows This will be used to render table rows based off of a dummy json file i created</a></li><li><a href="global.html#EditProfile">EditProfile</a></li><li><a href="global.html#ErrorPage404">ErrorPage404</a></li><li><a href="global.html#ForgotPass">ForgotPass</a></li><li><a href="global.html#ForgotPassPage">ForgotPassPage</a></li><li><a href="global.html#getLocation-retrievesthepatientsgeolocationfromthebrowser">getLocation - retrieves the patients geolocation from the browser</a></li><li><a href="global.html#getOptionsHerewegeneratealistofallhospitalsandassoicateanamevaluepairwitheach.">getOptions Here we generate a list of all hospitals and assoicate a name value pair with each.</a></li><li><a href="global.html#handleCancelRequestthiswillhandlethecancelationofarequest.">handleCancelRequest this will handle the cancelation of a request.</a></li><li><a href="global.html#handleCurrentRequestsetmodalforcancelrequest">handleCurrentRequest set modal for cancel request</a></li><li><a href="global.html#handleCurrentRequestThiswillhandleallcurrentrequetsandsettingourhooks">handleCurrentRequest This will handle all current requets and setting our hooks</a></li><li><a href="global.html#handleLogoutlogoutthepatientfromapplication">handleLogout logout the patient from application</a></li><li><a href="global.html#handleOnHomeThiswillnavigatetheuserbacktohome">handleOnHome This will navigate the user back to home</a></li><li><a href="global.html#handlePastRequestThiswillhandleallthepastrequestsandsettingourhooks">handlePastRequest This will handle all the past requests and setting our hooks</a></li><li><a href="global.html#handleSelectOnuserselectwewillsetState">handleSelect On user select we will setState</a></li><li><a href="global.html#HHGoogleMapComponent">HHGoogleMap Component</a></li><li><a href="global.html#HomePage">Home Page</a></li><li><a href="global.html#HomeHospitalProviderComponent">HomeHospitalProvider Component</a></li><li><a href="global.html#HospitalSelectionForm">HospitalSelectionForm</a></li><li><a href="global.html#HospitalSelectionPage">HospitalSelectionPage</a></li><li><a href="global.html#LandingPageComponent">LandingPage Component</a></li><li><a href="global.html#LoginPage">Login Page</a></li><li><a href="global.html#LoginAdminForm">LoginAdminForm</a></li><li><a href="global.html#LoginFormComponent">LoginForm Component</a></li><li><a href="global.html#LoginFormPractitioner">LoginFormPractitioner</a></li><li><a href="global.html#ManageAdmin">ManageAdmin</a></li><li><a href="global.html#ManagePatient">ManagePatient</a></li><li><a href="global.html#ManagePractitioner">ManagePractitioner</a></li><li><a href="global.html#ManageUser">ManageUser</a></li><li><a href="global.html#MapComponent">Map Component</a></li><li><a href="global.html#notifythisfunctionwillbeusedtosendatoasttotheuser.">notify this function will be used to send a toast to the user.</a></li><li><a href="global.html#notifyThisfunctionwillnotifythepractitionerthataneventhasoccurred.">notify This function will notify the practitioner that an event has occurred.</a></li><li><a href="global.html#pastRequestThiswillhandleallfunctionsassociatedwithpastrequests.">pastRequest This will handle all functions associated with past requests.</a></li><li><a href="global.html#PatientInfo">PatientInfo</a></li><li><a href="global.html#patientInfocallsapiendpointtogetpatientinfo">patientInfo calls api endpoint to get patient info</a></li><li><a href="global.html#practitioner">practitioner</a></li><li><a href="global.html#PractitionerPatientInfo">PractitionerPatientInfo</a></li><li><a href="global.html#PractitionerProvider">PractitionerProvider</a></li><li><a href="global.html#PractitionerSelect">PractitionerSelect</a></li><li><a href="global.html#PractitionerWaitlist">PractitionerWaitlist</a></li><li><a href="global.html#RegisterPage">Register Page</a></li><li><a href="global.html#RegistrationFormComponent">RegistrationForm Component</a></li><li><a href="global.html#renderThisclasswillbeusedreturnthealertnotifyingusertochecktheiremail.">render This class will be used return the alert notifying user to check their email.</a></li><li><a href="global.html#RequestPage">Request Page</a></li><li><a href="global.html#RequireAuthComponent">RequireAuth Component</a></li><li><a href="global.html#SelectHospital">SelectHospital</a></li><li><a href="global.html#SymptomsForm">SymptomsForm</a></li><li><a href="global.html#SymptomsPage">SymptomsPage</a></li><li><a href="global.html#SymptomsTable">SymptomsTable</a></li><li><a href="global.html#testusedtonavigatetosymptoms">test used to navigate to symptoms</a></li><li><a href="global.html#updateHospitalStateHerewhenaselectcomponentisupdatedwewillupdateoururltoreflectthechanges.">updateHospitalState Here when a select component is updated we will update our url to reflect the changes.</a></li><li><a href="global.html#useAdminForm">useAdminForm</a></li><li><a href="global.html#useEffectthisclearstheleftcomponentwhenusergetscheckedinalsogoesbacktohidingcomponent.">useEffect this clears the left component when user gets checked in also goes back to hidingcomponent.</a></li><li><a href="global.html#useEffectThiswillbeincontrolofthestateofpractitionerlist.Herewewillforceupdatesonurlchangeandsettimer.">useEffect This will be in control of the state of practitioner list. Here we will force updates on urlchange and set timer.</a></li><li><a href="global.html#usePracForm">usePracForm</a></li><li><a href="global.html#UserHomepage">UserHomepage</a></li><li><a href="global.html#UserHomeVisitsDisplay">UserHomeVisitsDisplay</a></li><li><a href="global.html#UserNavBarComponent">UserNavBar Component</a></li><li><a href="global.html#validateEmailThisfunctionwillprovidevalidationofemailtoensurethatdataiscorrect.Thehtmlalsovalidates,butthisissafestpractice!">validateEmail This function will provide validation of email to ensure that data is correct.The html also validates, but this is safest practice!</a></li><li><a href="global.html#WaitList">WaitList</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.10</a> on Tue Apr 19 2022 21:37:19 GMT-0600 (Mountain Daylight Time)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>
