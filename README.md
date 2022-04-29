@@ -7,7 +7,7 @@
 <h1>Run Application with Docker</h1>
 Run the following command to run the application locally using docker. If using docker to run the application, you do not need to worry about the install instructions listed below. Docker takes care of packaging all of the dependencies. 
 
-<pre><code>docker-compose up -d -build</code></pre>
+<pre><code>docker-compose up -d --build</code></pre>
 <br>
 
 <h1>Install Instructions </h1>
